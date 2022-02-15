@@ -1,0 +1,26 @@
+.specs__container{
+    padding: 40px;
+    display: inline-block;
+    border-radius: 10px;
+}
+
+.specs__row{
+    display: flex;
+    display:inherit;
+}
+
+.specs__spec__text{
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.specs__description__text{
+    font-size: 20px;
+    font-weight: 300;
+    margin: 5px 5px 5px 5px
+}
+
+.qtracker__popUp__title{
+    margin-top: 40px;
+}

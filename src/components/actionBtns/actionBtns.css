@@ -1,0 +1,21 @@
+.action__btn{
+    margin-right:40px;
+    margin-left:40px;
+    width: 142px;
+    height:38px;
+    background-color: white;
+    border-radius: 10px;
+    font-size: 18px;
+    transition: 0.3s;
+    border: none;
+    font-weight: bold;
+}
+
+.action__btn:hover{
+    background-color: #383838;
+    color: white;
+}
+
+.action__btn:hover:active{
+    background-color: #636161;
+  }

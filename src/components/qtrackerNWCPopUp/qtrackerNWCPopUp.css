@@ -1,0 +1,47 @@
+.qtrackerRequest__container{
+    position: relative;
+    width: 90%;
+    text-align: center;
+    margin-left: 5%;
+}
+
+.qtrackerPopUp__input__text{
+    width: 90%;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+.qtracker__popUp__title{
+    margin-top: 40px;
+}
+
+.qtrackerPopUp__input__file{
+    width: 80%;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+.attach__label{
+    float: left;
+    font-size: 20px;
+    margin-left: 30px;
+}
+
+.tooltip__button{
+    margin-left: 10px;
+    border-radius: 1px 1px 1px 1px;
+    height: 34px;
+    margin-top: -7px;
+}
+
+.projectSelect{
+    font-size: 20px;
+    height: 30px;
+    width: 570px;
+    margin-bottom: 17px;
+    border-radius: 5px 5px 5px 5px;
+}

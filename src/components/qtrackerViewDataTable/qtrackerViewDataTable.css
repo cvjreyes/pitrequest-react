@@ -1,0 +1,36 @@
+.rrr{
+    background-color: #FF3358;
+}
+
+.attach__icon{
+    height: 25px;
+    width: auto;
+    margin-top: 2px;
+}
+
+.filter__input{
+    width: 100%;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+
+.filter__table{
+    position: flex;
+    margin-top: -57px;
+}
+
+.dataTable__header__text{  
+    font-weight : bold;
+    margin : auto;
+    text-align: center;
+  }
+  
+  .dataTable__container{
+    position: relative;
+  }
+  
+  .dataTable__elements{
+    position: absolute;
+    bottom: 25;
+    left: 0;
+  }

@@ -1,0 +1,214 @@
+.isoTrackerLogo__image2{
+    width: 270.57px;
+    height: auto;
+    margin-top: 110px;
+    margin-left: 110px;
+}
+
+.roleSelector__containerF{
+    width: 300px;
+    margin-left: 100px;
+    margin-top: 70px;
+}
+
+.stateTable__containerF{
+    float: left;
+    margin-top: 120px;
+    border-radius: 2em;
+    margin-right: 30.5%;
+}
+
+.isotracker__row{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+
+.isotracker__column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.column1{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.isotracker__table__container{
+    width: 92.5%;
+    margin-left: 100px;
+    margin-top: 20px;
+}
+
+.isotracker__table__navBar__container{
+    background-color: #338DF1;
+    columns: 2;
+    height: 50px;
+    border-radius: 1em 1em 0em 0em;
+}
+
+.isotracker__table__navBar{
+    color:white;
+    border-radius: 1em 1em 0em 0em;
+}
+
+.isotracker__table__trays{
+    width: 20px;
+    height: 400px;
+    border-radius: 0em 0em 0em 1em;
+    border: 1px solid lightgray;
+    top: 0;
+    position: sticky;
+    float: top;
+    padding: 0px 0px 0px 0px;
+}
+
+.isotracker__table__table{
+    border-radius: 0em 0em 0em 1em;
+    border: 1px solid lightgray;
+}
+
+.isotracker__table__trays__group{
+    font-size: 18px;
+    margin-bottom: 4px;
+    padding-left: 4px;
+}
+
+.isotracker__table__tray__and__table__container{
+    border-radius: 0em 0em 1em 1em;
+}
+
+.trays__container{
+    width: 200px;
+    height: 100%;
+    margin-left: 20px;
+    margin-top: 25px;
+    font-weight: bold;
+}
+
+.isotracker__table__table__container{
+    margin: 10px 10px 10px 10px;
+    
+}
+
+.navBar__icon{
+    height: 35px;
+    width: auto;
+    margin-right: -10px;
+    margin-top: 5px;
+    margin-left: 5px
+}
+
+.navBar__button{
+    height: 50px;
+    width: 100px;
+    border: 0;
+    background-color: transparent;
+    margin-left: 10px;
+    border-radius: 1em 1em 1em 1em;
+    transition: 0.3s;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.navBar__button:hover{
+    background-color:#99C6F8;
+}
+
+.navBar__button__text{
+    font-size: 15px;
+    margin-top: 11px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.content{
+    position: fixed;
+    width: 100%;
+    z-index: 9999;
+    background-color: white;
+    height: 100%;
+}
+
+.discipline__title{
+    font-size: 34px;
+    font-weight: 500;
+    color: black;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.alert-shown {
+    opacity: 1;
+    transition: all 250ms linear;
+    position: fixed
+  }
+
+.alert-hidden {
+    opacity: 0;
+    transition: all 250ms linear 4s;
+    position: fixed
+}
+
+.ant-table table { font-size: 18px; }
+
+.alert-error-hidden{
+    opacity: 0;
+    transition: all 250ms linear 5s;
+    position: fixed
+}
+.isocontrol__weigths{
+    height: 50px;
+    width: 500px;
+    border: 0;
+    background-color: transparent;
+    border-radius: 1em 1em 1em 1em;
+    float:right;
+    margin-left:50px;
+}
+
+.isocontrol__lineid__group__button{
+    margin-bottom: 15px;
+    background-color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-top: -25px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.actionBtns__container{
+    height: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Quicksand', sans-serif;
+    margin-top: 40px;
+}
+
+.action__btn{
+    margin-right:40px;
+    margin-left:40px;
+    width: 142px;
+    height:38px;
+    background-color: white;
+    border-radius: 10px;
+    font-size: 18px;
+    transition: 0.3s;
+    border: none;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+}
+
+.action__btn:hover{
+    background-color: #383838;
+    color: white;
+}
+
+.action__btn:hover:active{
+    background-color: #636161;
+  }
+
+  .discplines__table__table{
+    border: 1px solid lightgray;
+    display: block;
+}
