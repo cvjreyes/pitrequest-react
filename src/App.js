@@ -9,7 +9,6 @@ import WelcomeLoginF from './pages/welcomeLoginF/welcomeLoginF';
 import PITRequests from './pages/pitrequests/pitrequests';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PitRequestView from './pages/pitRequestView/pitRequestView';
-
 function App() {
   return (
     <div className="App">

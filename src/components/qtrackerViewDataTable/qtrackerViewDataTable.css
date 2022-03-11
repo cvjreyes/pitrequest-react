@@ -2,6 +2,24 @@
     background-color: #FF3358;
 }
 
+.www{
+  background-color: white;
+}
+
+.yyy{
+  background: #FFCA42;
+  
+}
+
+.ggg{
+  background: #7BD36D;
+}
+
+.bbb{
+  background: #99C6F8;
+  
+}
+
 .attach__icon{
     height: 25px;
     width: auto;
@@ -12,25 +30,32 @@
     width: 100%;
     border: 1px solid lightgrey;
     border-radius: 5px;
+    font-family: 'Quicksand', sans-serif;
+    
 }
 
 .filter__table{
     position: flex;
     margin-top: -57px;
+    font-family: 'Quicksand', sans-serif;
 }
 
 .dataTable__header__text{  
     font-weight : bold;
     margin : auto;
     text-align: center;
+    font-family: 'Quicksand', sans-serif;
   }
   
   .dataTable__container{
     position: relative;
+    font-family: 'Quicksand', sans-serif;
   }
   
   .dataTable__elements{
     position: absolute;
     bottom: 25;
+    font-family: 'Quicksand', sans-serif;
     left: 0;
   }
+  .ant-table table { font-size: 16px !important; }

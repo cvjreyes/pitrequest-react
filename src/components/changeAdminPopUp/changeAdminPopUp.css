@@ -1,0 +1,18 @@
+.popUp__container{
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.popUp__title{
+    margin-top: 20px;
+}
+
+.userSelect{
+    font-size: 20px;
+    margin-right: 15px;
+    height: 30px;
+}
+
+.selector__container{
+    margin-top: 30px;
+}

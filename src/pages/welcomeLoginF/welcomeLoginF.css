@@ -15,8 +15,9 @@
 
 .isoTrackerLogo__image{
     position: absolute;
-    width: 343.57px;
+    width: 390.57px;
     height: auto;
+    left: -20px;
 
     top: -190px;
 }

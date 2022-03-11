@@ -1,0 +1,15 @@
+.dataTable__header__text{  
+    font-weight : bold;
+    margin : auto;
+    text-align: center;
+  }
+  
+  .dataTable__container{
+    position: relative;
+  }
+  
+  .dataTable__elements{
+    position: absolute;
+    bottom: 25;
+    left: 0;
+  }

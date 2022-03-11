@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-awesome-modal';
 import './qtrackerNWCSpecPopUp.css'
-import { Link } from 'react-router-dom';
 
 export default class QtrackerNWCSpecPopUp extends Component {
     constructor(props) {
@@ -65,6 +64,7 @@ export default class QtrackerNWCSpecPopUp extends Component {
                 "Content-Type": "application/pdf"
             }
           }
+          
           fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/existsAttach/"+this.props.incidence_number, options)
           .then(response => response.json())
           .then(json =>{
@@ -74,7 +74,7 @@ export default class QtrackerNWCSpecPopUp extends Component {
                     <p className="specs__spec__text">ATTACH</p>
                 </td>
                 <td style={{border: "0.28px solid #D2D2D2", width:"465px", verticalAlign:"middle", borderRadius:"0px 0px 5px 0px"}}>
-                    <p className="specs__description__text"> <Link onClick={() => this.getAttach(json.filename)}>{json.filename}</Link></p>
+                    <p className="specs__description__text"> <a onClick={() => this.getAttach(json.filename)}>{json.filename}</a></p>
                 </td>              
                 </tr>})
 

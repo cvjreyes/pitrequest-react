@@ -154,7 +154,7 @@ export default class QtrackerNWCPopUp extends Component {
         }
       }
 
-      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjects", options)
+      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsByEmail/"+ secureStorage.getItem("user"), options)
         .then(response => response.json())
         .then(async json => {
           let projects = []

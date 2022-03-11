@@ -21,6 +21,32 @@ import QtrackerRRPopUp from '../qtrackerRRPopUp/qtrackerRRPopUp';
 import QtrackerNRIDSPopUp from '../qtrackerNRIDSPopUp/qtrackerNRIDSPopUp';
 import SvgIcon from '@mui/material/SvgIcon';
 
+const CryptoJS = require("crypto-js");
+const SecureStorage = require("secure-web-storage");
+var SECRET_KEY = 'sanud2ha8shd72h';
+ 
+var secureStorage = new SecureStorage(localStorage, {
+    hash: function hash(key) {
+        key = CryptoJS.SHA256(key, SECRET_KEY);
+ 
+        return key.toString();
+    },
+    encrypt: function encrypt(data) {
+        data = CryptoJS.AES.encrypt(data, SECRET_KEY);
+ 
+        data = data.toString();
+ 
+        return data;
+    },
+    decrypt: function decrypt(data) {
+        data = CryptoJS.AES.decrypt(data, SECRET_KEY);
+ 
+        data = data.toString(CryptoJS.enc.Utf8);
+ 
+        return data;
+    }
+});
+
 function PlusSquare(props) {
   return (
     <SvgIcon width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -116,6 +142,8 @@ export default function MenuListPITList(props) {
     function success(){
       props.success()
     }
+
+    
 
 
   return (

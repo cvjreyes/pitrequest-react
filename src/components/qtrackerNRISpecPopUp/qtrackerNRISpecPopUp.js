@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-awesome-modal';
-import { Link } from 'react-router-dom';
+
 
 export default class QtrackerNRISpecPopUp extends Component {
     constructor(props) {
@@ -73,7 +73,7 @@ export default class QtrackerNRISpecPopUp extends Component {
                     <p className="specs__spec__text">ATTACH</p>
                 </td>
                 <td style={{border: "0.28px solid #D2D2D2", width:"465px", verticalAlign:"middle", borderRadius:"0px 0px 5px 0px"}}>
-                    <p className="specs__description__text"> <Link onClick={() => this.getAttach(json.filename)}>{json.filename}</Link></p>
+                    <p className="specs__description__text"> <a onClick={() => this.getAttach(json.filename)}>{json.filename}</a></p>
                 </td>              
                 </tr>})
 

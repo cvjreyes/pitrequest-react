@@ -1,17 +1,20 @@
 import React, { useState , useEffect} from 'react'
 import NavBar from '../../components/navBar/navBar'
-import CSPTrackerLogo from "../../assets/images/3dquery.svg"
+import PITLogo from "../../assets/images/pitlogo.svg"
 import RoleDropDown from '../../components/roleDropDown/roleDropDown'
 
 import IdleTimer from 'react-idle-timer'
 import {useNavigate} from "react-router";
 import QTrackerViewDataTable from '../../components/qtrackerViewDataTable/qtrackerViewDataTable'
 
+import UsersDataTable from "../../components/usersDataTable/usersDataTable"
 import SaveIcon from "../../assets/images/save.svg"
 import FolderIcon from "../../assets/images/FolderOpen.png"
 import BackIcon from "../../assets/images/back.svg"
+import UsersIcon from "../../assets/images/user.png"
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
+import AddUserPopUp from '../../components/addUserPopUp/addUserPopUp';
 
 import { PieChart, Pie, Tooltip, Cell } from 'recharts';
 import './pitRequestView.css'
@@ -83,10 +86,12 @@ const PitRequestView = () => {
     const [updatedRows, setUpdatedRows] = useState([])
     const [observations, setObservations] = useState()
     const [counter, setCounter] = useState([])
-    const [viewProjects, setViewProjects] = useState(false)
     const [content, setContent] = useState(null)
     const [projectsButton, setProjectsButton] = useState(null)
     const [saveButton, setSaveButton] = useState(null)
+    const [usersButton, setUsersButton] = useState(null)
+    const [addUserButton, setAddUserButton] = useState(null)
+    const [exportReport, setExportReport] = useState(null)
 
     const [updateData, setUpdateData] = useState(false)    
 
@@ -133,9 +138,10 @@ const PitRequestView = () => {
             
         if(secureStorage.getItem("role") === "3D Admin"){
             setSaveBtn(<button className="navBar__button" onClick={()=> saveChanges()}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>)
-
+            setUsersButton(<button className="navBar__button" onClick={()=>setCurrentTab("Users")} style={{width:"100px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Users</p></button>)
         }else{
             setSaveBtn(null)
+            setUsersButton(null)
         }
             
     },[currentRole]);
@@ -162,16 +168,138 @@ const PitRequestView = () => {
     },[updateData])
 
     useEffect(async () =>{
-        if(viewProjects === false){
+        if(currentTab === "View"){
             setSaveButton(<button className="navBar__button" onClick={()=> saveChanges()}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>)
-            setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> editProjects()}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
-            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateData={updateDataMethod.bind(this)} updateStatus={updateStatus.bind(this)}/>)
-        }else{
+            setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("Projects")}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
+            setAddUserButton(null)
+            setExportReport(<button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button>)
+            setUsersButton(<button className="navBar__button" onClick={()=>setCurrentTab("Users")} style={{width:"100px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Users</p></button>)
+            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
+        }else if(currentTab === "Projects"){
             setSaveButton(null)
-            setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> editProjects()}><img src={BackIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Back</p></button>)
+            setExportReport(null)
+            setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("View")}><img src={BackIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Back</p></button>)
+            setUsersButton(null)
+            setAddUserButton(null)
             setContent(<ProjectsExcel/>)
+        }else if(currentTab === "Users"){
+            setExportReport(null)
+            if(secureStorage.getItem("role") === "3D Admin"){
+                setAddUserButton(<AddUserPopUp addUser={addUser.bind(this)}/>)
+            }else{
+                setAddUserButton(null)
+            }
+            setSaveButton(null)
+            setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("View")}><img src={BackIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Back</p></button>)
+            setUsersButton(null)
+            setContent(<UsersDataTable updateData={updateData} deleteUser={deleteUser.bind(this)} submitRoles={submitRoles.bind(this)} submitProjects={submitProjects.bind(this)}/>)
         }
-    }, [viewProjects])
+    }, [currentTab, updateData])
+
+    async function submitRoles(id, roles){
+        
+        localStorage.setItem("update", true)
+
+        const body = {
+            id: id,
+            roles: roles
+        }
+
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        }
+
+        fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/users/manageRoles", options)
+        .then(response => response.json())
+        .then(json =>{
+            if(json.success){
+                
+            }
+        })
+        setUpdateData(!updateData)
+    }
+
+    async function deleteUser(id){
+        
+        localStorage.setItem("update", true)
+
+
+        const options = {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/api/user/"+id, options)
+        .then(response => response.json())
+        .then(json =>{
+            if(json.error){
+                
+            }else{
+
+            }
+        })
+
+       setUpdateData(!updateData)
+
+    }
+
+    async function addUser(username, email, roles){
+        
+        localStorage.setItem("update", true)
+
+        const body = {
+            username: username,
+            email: email,
+            roles: roles
+        }
+
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        }
+
+        fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/createUser", options)
+        .then(response => response.json())
+        .then(json =>{
+            if(json.success){
+            }
+        })
+        setUpdateData(!updateData)
+        
+    }
+
+    async function submitProjects(id, projects){
+        const body ={
+            userid: id,
+            projects: projects
+          }
+      
+          const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+          }
+       
+          fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/updateProjects/", options)
+          .then(response => response.json())
+          .then(json =>{
+            
+          })
+          await setUpdateData(!updateData)
+
+    }
+
 
     function handleOnIdle(){
         const body = {
@@ -193,8 +321,27 @@ const PitRequestView = () => {
         history("/" + process.env.REACT_APP_PROJECT)
     }
 
-    async function updateDataMethod(){
-        setUpdateData(!updateData)
+    async function changeAdmin(admin, incidence_number, type){
+        const body = {
+            admin: admin,
+            incidence_number: incidence_number,
+            type: type,
+            currentAdmin: secureStorage.getItem("user")
+          }
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+          body: JSON.stringify(body)
+        }
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/changeAdmin", options)
+        .then(response => response.json())
+          .then(json =>{
+            if(json.success){
+                setUpdateData(!updateData)
+            }
+          })
     }
 
     async function downloadReport(){
@@ -212,7 +359,7 @@ const PitRequestView = () => {
           var rows = []
           var row = null
             for(let i = 0; i < json.rows.length; i++){
-                row = {incidence_number: json.rows[i].incidence_number, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: json.rows[i].spref, name: null, pipe: null, items: null, scope: null, description: json.rows[i].description}
+                row = {incidence_number: json.rows[i].incidence_number, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: json.rows[i].spref, name: null, pipe: null, items: null, scope: null, description: json.rows[i].description, admin: json.rows[i].admin}
                   
                   if(json.rows[i].status === 0){
                     row.status = "Pending"
@@ -238,7 +385,7 @@ const PitRequestView = () => {
             .then(async json => {
             var row = null
                 for(let i = 0; i < json.rows.length; i++){
-                    row = {incidence_number: json.rows[i].incidence_number, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: json.rows[i].name, pipe: null, items: null, scope: null, description: json.rows[i].description}
+                    row = {incidence_number: json.rows[i].incidence_number, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: json.rows[i].name, pipe: null, items: null, scope: null, description: json.rows[i].description, admin: json.rows[i].admin}
                     
                       if(json.rows[i].status === 0){
                         row.status = "Pending"
@@ -260,7 +407,7 @@ const PitRequestView = () => {
                 .then(async json => {
                 var row = null
                     for(let i = 0; i < json.rows.length; i++){
-                        row = {incidence_number: json.rows[i].incidence_number, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: json.rows[i].pipe, items: null, scope: null, description: json.rows[i].description}
+                        row = {incidence_number: json.rows[i].incidence_number, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: json.rows[i].pipe, items: null, scope: null, description: json.rows[i].description, admin: json.rows[i].admin}
                                              
                         if(json.rows[i].status === 0){
                         row.status = "Pending"
@@ -283,7 +430,7 @@ const PitRequestView = () => {
                     .then(async json => {
                     var row = null
                         for(let i = 0; i < json.rows.length; i++){
-                            row = {incidence_number: json.rows[i].incidence_number, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: json.rows[i].pipe, items: null, scope: null, description: json.rows[i].description}
+                            row = {incidence_number: json.rows[i].incidence_number, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: json.rows[i].pipe, items: null, scope: null, description: json.rows[i].description, admin: json.rows[i].admin}
                             
                               if(json.rows[i].status === 0){
                                 row.status = "Pending"
@@ -306,7 +453,7 @@ const PitRequestView = () => {
                         .then(async json => {
                         var row = null
                             for(let i = 0; i < json.rows.length; i++){
-                                row = {incidence_number: json.rows[i].incidence_number, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: json.rows[i].name, pipe: null, items: null, scope: null, description: null}
+                                row = {incidence_number: json.rows[i].incidence_number, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: json.rows[i].name, pipe: null, items: null, scope: null, description: null, admin: json.rows[i].admin}
                                
                                   if(json.rows[i].status === 0){
                                     row.status = "Pending"
@@ -329,7 +476,7 @@ const PitRequestView = () => {
                             .then(async json => {
                             var row = null
                                 for(let i = 0; i < json.rows.length; i++){
-                                    row = {incidence_number: json.rows[i].incidence_number, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: null, items: json.rows[i].items_to_report, scope: json.rows[i].scope, description: json.rows[i].description}
+                                    row = {incidence_number: json.rows[i].incidence_number, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: null, items: json.rows[i].items_to_report, scope: json.rows[i].scope, description: json.rows[i].description, admin: json.rows[i].admin}
                                     
                                       if(json.rows[i].status === 0){
                                         row.status = "Pending"
@@ -352,13 +499,13 @@ const PitRequestView = () => {
                                   return second.created_at.localeCompare(first.created_at);
                                 });
                                 
-                                const headers = ["Reference", "User", "Date", "Observations", "SPREF", "Name", "Pipe", "Items", "Scope", "Description", "Status", "Accepted/Rejected date"]
+                                const headers = ["Reference", "User", "Date", "Observations", "SPREF", "Name", "Pipe", "Items", "Scope", "Description", "Admin", "Status", "Accepted/Rejected date"]
                                 const apiData = rows
                                 const fileName = "QueryTracker report"
 
                                 const fileType =
                                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-                                const header_cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1']
+                                const header_cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1']
                                 const fileExtension = ".xlsx";
 
                                 let wscols = []
@@ -369,7 +516,6 @@ const PitRequestView = () => {
                                 const ws = XLSX.utils.json_to_sheet(apiData);   
                                 ws["!cols"] = wscols
                                 for(let i = 0; i < headers.length; i++){
-                                    console.log(i)
                                     ws[header_cells[i]].v = headers[i]
                                 }
                                 const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
@@ -406,7 +552,8 @@ const PitRequestView = () => {
             let body = {
                 incidence_number: updatedRows[i][0],
                 status_id: updatedRows[i][1],
-                type: updatedRows[i][2],
+                project: updatedRows[i][2],
+                type: updatedRows[i][3],
                 email: secureStorage.getItem("user")
               }
               let options = {
@@ -462,14 +609,21 @@ const PitRequestView = () => {
     }
 
     async function editProjects(){
-        setViewProjects(!viewProjects)
+        setCurrentTab("Projects")
+    }
+
+    async function changeRole(value){
+        setCurrentRole(value)
+        await setUpdateData(!updateData)
+        if(currentTab === "View"){
+            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)}/>)
+        }
     }
 
     document.body.style.zoom = 0.8
 
     var dataTableHeight = "600px"
 
-    
 
     return(
         
@@ -484,15 +638,15 @@ const PitRequestView = () => {
             
             <div className="isotracker__row">
                   <div className="isotracker__column">
-                      <img src={CSPTrackerLogo} alt="CSPTrackerLogo" className="isoTrackerLogo__image2" style={{height:"110px"}}/>
+                      <img src={PITLogo} alt="PITLogo" className="isoTrackerLogo__image2" style={{height:"110px"}}/>
                       
                       <div className="roleSelector__containerF">
-                              <RoleDropDown style={{paddingLeft: "2px"}} onChange={value => setCurrentRole(value)} roles = {roles}/>
+                              <RoleDropDown style={{paddingLeft: "2px"}} onChange={value => changeRole(value)} roles = {roles}/>
                       </div>
                       
                   </div>
                   <PieChart width={600} height={400}>
-                    <Pie data={counter} dataKey="value" cx="50%" cy="60%"  outerRadius={120} fill="#8884d8" label={renderCustomizedLabel}>
+                    <Pie data={counter} dataKey="value" cx="50%" cy="60%"  outerRadius={120} labelLine={false} fill="#8884d8" label={renderCustomizedLabel}>
                     {counter.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index]} />
                         ))}
@@ -508,6 +662,7 @@ const PitRequestView = () => {
                                   <div>
                                     {saveButton}
                                     {projectsButton}
+                                    {usersButton}
                                   </div>
                                   }
                               </div>                           
@@ -525,7 +680,8 @@ const PitRequestView = () => {
                   </table>
                   <center className="actionBtns__container">   
                     <div style={{display:"flex", marginTop:"10px"}}>
-                        <button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button>
+                        {addUserButton}
+                        {exportReport}
                     </div>
                     
                   </center>

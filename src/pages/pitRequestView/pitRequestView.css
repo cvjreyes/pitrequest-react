@@ -1,9 +1,10 @@
 .isoTrackerLogo__image2{
-    width: 270.57px;
+    width: 330.57px;
     height: auto;
     margin-top: 110px;
-    margin-left: 110px;
+    margin-left: 100px;
 }
+
 
 .roleSelector__containerF{
     width: 300px;
@@ -149,7 +150,7 @@
     position: fixed
 }
 
-.ant-table table { font-size: 18px; }
+.ant-table table { font-size: 18px; font-family: 'Quicksand', sans-serif; }
 
 .alert-error-hidden{
     opacity: 0;
