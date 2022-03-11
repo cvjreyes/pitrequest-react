@@ -1058,13 +1058,13 @@ class QTrackerViewDataTable extends React.Component{
           }
         }else if(fil === "admin"){
           if(auxDisplayData[i][fil].props){
-            for(let p = 0; p < auxDisplayData[i][fil].props.children.length; p++){
-              if(auxDisplayData[i][fil].props.children[p].props.selected){
-                if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.children[p].props.children.includes(this.state.filterData[column])){
-                  exists = false
-                }
+            console.log(auxDisplayData[i][fil].props)
+            if(auxDisplayData[i][fil].props.admin){
+              if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.admin.includes(this.state.filterData[column])){
+                exists = false
               }
             }
+            
           }else if(auxDisplayData[i][fil]){
             if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].includes(this.state.filterData[column])){
               exists = false
