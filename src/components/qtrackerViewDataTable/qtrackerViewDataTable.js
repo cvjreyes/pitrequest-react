@@ -52,7 +52,8 @@ class QTrackerViewDataTable extends React.Component{
     username: "",
     acronyms : null,
     steps: [],
-    filters: []
+    filters: [],
+    hours: {},
   };
 
   async statusChange(incidence_number, status, project, type){
@@ -79,7 +80,7 @@ class QTrackerViewDataTable extends React.Component{
         },
     }
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNWC", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNWCByProjects/"+secureStorage.getItem("user"), options)
         .then(response => response.json())
         .then(async json => {
           var rows = []
@@ -102,6 +103,7 @@ class QTrackerViewDataTable extends React.Component{
                 }
 
                 if(secureStorage.getItem("role") === "3D Admin"){
+                  row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                   row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NWC" changeAdmin = {this.changeAdmin.bind(this)}/>
                   if(json.rows[i].status === 0){
                       row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")} >
@@ -160,7 +162,7 @@ class QTrackerViewDataTable extends React.Component{
                 
                 rows.push(row)
             }
-            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVN", options)
+            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVNByProjects/"+secureStorage.getItem("user"), options)
             .then(response => response.json())
             .then(async json => {
             var row = null
@@ -179,6 +181,7 @@ class QTrackerViewDataTable extends React.Component{
                     }
                   }
                     if(secureStorage.getItem("role") === "3D Admin"){
+                      row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                       row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NVN" changeAdmin = {this.changeAdmin.bind(this)}/>
                       if(json.rows[i].status === 0){
                           row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")} >
@@ -236,7 +239,7 @@ class QTrackerViewDataTable extends React.Component{
                     rows.push(row)
                 }
                 
-                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRI", options)
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIByProjects/"+secureStorage.getItem("user"), options)
                 .then(response => response.json())
                 .then(async json => {
                 var row = null
@@ -255,6 +258,7 @@ class QTrackerViewDataTable extends React.Component{
                         }
                       }
                         if(secureStorage.getItem("role") === "3D Admin"){
+                          row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                           row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRI" changeAdmin = {this.changeAdmin.bind(this)}/>
                           if(json.rows[i].status === 0){
                               row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")} >
@@ -312,7 +316,7 @@ class QTrackerViewDataTable extends React.Component{
                         rows.push(row)
                     }
                     
-                    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRB", options)
+                    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRBByProjects/"+secureStorage.getItem("user"), options)
                     .then(response => response.json())
                     .then(async json => {
                     var row = null
@@ -331,6 +335,7 @@ class QTrackerViewDataTable extends React.Component{
                             }
                           }
                             if(secureStorage.getItem("role") === "3D Admin"){
+                              row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                               row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRB" changeAdmin = {this.changeAdmin.bind(this)}/>
                               if(json.rows[i].status === 0){
                                   row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")} >
@@ -389,7 +394,7 @@ class QTrackerViewDataTable extends React.Component{
                             rows.push(row)
                         }
                         
-                        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIDS", options)
+                        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIDSByProjects/"+secureStorage.getItem("user"), options)
                         .then(response => response.json())
                         .then(async json => {
                         var row = null
@@ -400,6 +405,7 @@ class QTrackerViewDataTable extends React.Component{
                                 row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: ""}
                               }
                                 if(secureStorage.getItem("role") === "3D Admin"){
+                                  row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                                   row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRIDS" changeAdmin = {this.changeAdmin.bind(this)}/>
                                   if(json.rows[i].status === 0){
                                       row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")} >
@@ -456,7 +462,7 @@ class QTrackerViewDataTable extends React.Component{
                                 rows.push(row)
                             }
                             
-                            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getRP", options)
+                            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getRPByProjects/"+secureStorage.getItem("user"), options)
                             .then(response => response.json())
                             .then(async json => {
                             var row = null
@@ -467,6 +473,7 @@ class QTrackerViewDataTable extends React.Component{
                                     row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerRPSpecPopUp incidence_number={json.rows[i].incidence_number} items={json.rows[i].items_to_report} scope={json.rows[i].scope} description={json.rows[i].description}/>, ar_date: ""}
                                   }
                                     if(secureStorage.getItem("role") === "3D Admin"){
+                                      row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                                       row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="RP" changeAdmin = {this.changeAdmin.bind(this)}/>
                                       if(json.rows[i].status === 0){
                                           row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")} >
@@ -557,7 +564,7 @@ class QTrackerViewDataTable extends React.Component{
         },
     }
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNWC", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNWCByProjects/"+secureStorage.getItem("user"), options)
         .then(response => response.json())
         .then(async json => {
           var rows = []
@@ -578,6 +585,7 @@ class QTrackerViewDataTable extends React.Component{
                 }
 
                 if(secureStorage.getItem("role") === "3D Admin"){
+                  row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                   row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NWC" changeAdmin = {this.changeAdmin.bind(this)}/>
                   if(json.rows[i].status === 0){
                       row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")} >
@@ -634,7 +642,7 @@ class QTrackerViewDataTable extends React.Component{
                 
                 rows.push(row)
             }
-            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVN", options)
+            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVNByProjects/"+secureStorage.getItem("user"), options)
             .then(response => response.json())
             .then(async json => {
             var row = null
@@ -653,6 +661,7 @@ class QTrackerViewDataTable extends React.Component{
                     }
                   }
                     if(secureStorage.getItem("role") === "3D Admin"){
+                      row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                       row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NVN" changeAdmin = {this.changeAdmin.bind(this)}/>
                       if(json.rows[i].status === 0){
                           row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")} >
@@ -709,7 +718,7 @@ class QTrackerViewDataTable extends React.Component{
                     rows.push(row)
                 }
                 
-                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRI", options)
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIByProjects/"+secureStorage.getItem("user"), options)
                 .then(response => response.json())
                 .then(async json => {
                 var row = null
@@ -728,6 +737,7 @@ class QTrackerViewDataTable extends React.Component{
                         }
                       }
                         if(secureStorage.getItem("role") === "3D Admin"){
+                          row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                           row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRI" changeAdmin = {this.changeAdmin.bind(this)}/>
                           if(json.rows[i].status === 0){
                               row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")} >
@@ -784,7 +794,7 @@ class QTrackerViewDataTable extends React.Component{
                         rows.push(row)
                     }
                     
-                    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRB", options)
+                    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRBByProjects/"+secureStorage.getItem("user"), options)
                     .then(response => response.json())
                     .then(async json => {
                     var row = null
@@ -803,6 +813,7 @@ class QTrackerViewDataTable extends React.Component{
                             }
                           }
                             if(secureStorage.getItem("role") === "3D Admin"){
+                              row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                               row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRB" changeAdmin = {this.changeAdmin.bind(this)}/>
                               if(json.rows[i].status === 0){
                                   row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")} >
@@ -859,7 +870,7 @@ class QTrackerViewDataTable extends React.Component{
                             rows.push(row)
                         }
                         
-                        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIDS", options)
+                        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIDSByProjects/"+secureStorage.getItem("user"), options)
                         .then(response => response.json())
                         .then(async json => {
                         var row = null
@@ -870,6 +881,7 @@ class QTrackerViewDataTable extends React.Component{
                                 row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: ""}
                               }
                                 if(secureStorage.getItem("role") === "3D Admin"){
+                                  row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                                   row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRIDS" changeAdmin = {this.changeAdmin.bind(this)}/>
                                   if(json.rows[i].status === 0){
                                       row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")} >
@@ -926,7 +938,7 @@ class QTrackerViewDataTable extends React.Component{
                                 rows.push(row)
                             }
                             
-                            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getRP", options)
+                            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getRPByProjects/"+secureStorage.getItem("user"), options)
                             .then(response => response.json())
                             .then(async json => {
                             var row = null
@@ -937,6 +949,7 @@ class QTrackerViewDataTable extends React.Component{
                                     row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerRPSpecPopUp incidence_number={json.rows[i].incidence_number} items={json.rows[i].items_to_report} scope={json.rows[i].scope} description={json.rows[i].description}/>, ar_date: ""}
                                   }
                                     if(secureStorage.getItem("role") === "3D Admin"){
+                                      row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                                       row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="RP" changeAdmin = {this.changeAdmin.bind(this)}/>
                                       if(json.rows[i].status === 0){
                                           row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")} >
@@ -1098,6 +1111,12 @@ class QTrackerViewDataTable extends React.Component{
     this.props.updateObservations(this.state.observations)
   }
 
+  async updateHours(incidence_number, hours){
+    let hoursAux = this.state.hours
+    hoursAux[incidence_number] = hours
+    await this.setState({hours: hoursAux})
+    await this.props.updateHours(hoursAux)
+  }
   
   getColumnSearchProps = dataIndex => ({
     
@@ -1130,7 +1149,7 @@ class QTrackerViewDataTable extends React.Component{
 
   render() {
 
-    const columns = [
+    let columns = [
       {
         title: <center className="dataTable__header__text">Reference</center>,
         dataIndex: 'incidence_number',
@@ -1195,7 +1214,7 @@ class QTrackerViewDataTable extends React.Component{
         dataIndex: 'ar_date',
         key: 'ar_date',
         ...this.getColumnSearchProps('ar_date'),
-        width: "250px",
+        width: "220px",
         sorter: {
           compare: (a, b) => { return a.ar_date.localeCompare(b.ar_date)},
         },
@@ -1219,6 +1238,105 @@ class QTrackerViewDataTable extends React.Component{
         width: '160px'
       },
     ]
+
+    if(secureStorage.getItem("role") === "3D Admin"){
+      columns = [
+        {
+          title: <center className="dataTable__header__text">Reference</center>,
+          dataIndex: 'incidence_number',
+          key: 'incidence_number',
+          ...this.getColumnSearchProps('incidence_number'),
+          sorter:{
+            compare: (a, b) => a.incidence_number.localeCompare(b.incidence_number),
+          },
+        },
+        {
+          title: <center className="dataTable__header__text">Project</center>,
+          dataIndex: 'project',
+          key: 'project',
+          ...this.getColumnSearchProps('project'),
+          sorter:{
+            compare: (a, b) => a.project.localeCompare(b.project),
+          },
+        },
+        {
+          title: <center className="dataTable__header__text">User</center>,
+          dataIndex: 'user',
+          key: 'user',
+          ...this.getColumnSearchProps('user'),
+          sorter:{
+            compare: (a, b) => a.user.localeCompare(b.user),
+          },
+        },
+        {
+          title: <center className="dataTable__header__text">Description</center>,
+          dataIndex: 'description',
+          key: 'description',
+          ...this.getColumnSearchProps('description'),
+          sorter:{
+            compare: (a, b) => a.description.localeCompare(b.description),
+          },
+        },
+        {
+          title: <div className="dataTable__header__text">Date</div>,
+          dataIndex: 'created_at',
+          key: 'created_at',
+          ...this.getColumnSearchProps('created_at'),
+          sorter: {
+            compare: (a, b) => { return a.created_at.localeCompare(b.created_at)},
+          },
+          
+        },
+        {
+          title: <center className="dataTable__header__text">Actions</center>,
+          dataIndex: 'specifications',
+          key: 'specifications',
+          ...this.getColumnSearchProps('specifications'),
+          width: "120px"
+        },  
+        {
+          title: <center className="dataTable__header__text">Observations</center>,
+          dataIndex: 'observations',
+          key: 'observations',
+          ...this.getColumnSearchProps('observations'),
+        },  
+        {
+          title: <center className="dataTable__header__text">Accepted/Rejected Date</center>,
+          dataIndex: 'ar_date',
+          key: 'ar_date',
+          ...this.getColumnSearchProps('ar_date'),
+          width: "220px",
+          sorter: {
+            compare: (a, b) => { return a.ar_date.localeCompare(b.ar_date)},
+          },
+        },
+        {
+          title: <center className="dataTable__header__text">Admin</center>,
+          dataIndex: 'admin',
+          key: 'admin',
+          align: "center",
+          ...this.getColumnSearchProps('admin'),
+          width: "270px"
+        },
+        {
+          title: <center className="dataTable__header__text">Hours</center>,
+          dataIndex: 'hours',
+          key: 'hours',
+          ...this.getColumnSearchProps('hours'),
+          width: "70px"
+        },
+        {
+          title: <center className="dataTable__header__text">Status</center>,
+          dataIndex: 'status',
+          key: 'status',
+          ...this.getColumnSearchProps('status'),
+          sorter:{
+            compare: (a, b) => a.status.localeCompare(b.status),
+          },
+          width: '160px'
+        },
+      ]
+    }
 
     var totalElements = null;
     if (this.state.data.length === 0){

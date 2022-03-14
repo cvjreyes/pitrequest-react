@@ -85,6 +85,7 @@ const PitRequestView = () => {
     const [saveBtn, setSaveBtn] = useState()
     const [updatedRows, setUpdatedRows] = useState([])
     const [observations, setObservations] = useState()
+    const [hours, setHours] = useState()
     const [counter, setCounter] = useState([])
     const [content, setContent] = useState(null)
     const [projectsButton, setProjectsButton] = useState(null)
@@ -92,6 +93,7 @@ const PitRequestView = () => {
     const [usersButton, setUsersButton] = useState(null)
     const [addUserButton, setAddUserButton] = useState(null)
     const [exportReport, setExportReport] = useState(null)
+    const [exportUsersReport, setExportUsersReport] = useState(null)
 
     const [updateData, setUpdateData] = useState(false)    
 
@@ -174,7 +176,8 @@ const PitRequestView = () => {
             setAddUserButton(null)
             setExportReport(<button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button>)
             setUsersButton(<button className="navBar__button" onClick={()=>setCurrentTab("Users")} style={{width:"100px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Users</p></button>)
-            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
+            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
+            setExportUsersReport(null)
         }else if(currentTab === "Projects"){
             setSaveButton(null)
             setExportReport(null)
@@ -182,7 +185,9 @@ const PitRequestView = () => {
             setUsersButton(null)
             setAddUserButton(null)
             setContent(<ProjectsExcel/>)
+            setExportUsersReport(null)
         }else if(currentTab === "Users"){
+            setExportUsersReport(<button className="action__btn" name="export" value="export" onClick={() => downloadUsersReport()}>Export</button>)
             setExportReport(null)
             if(secureStorage.getItem("role") === "3D Admin"){
                 setAddUserButton(<AddUserPopUp addUser={addUser.bind(this)}/>)
@@ -536,6 +541,80 @@ const PitRequestView = () => {
         })
     }
 
+    async function downloadUsersReport(){
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadUsers/")
+        .then(response => response.json())
+        .then(async json => {
+            let users = json.rows
+            let roles = []
+            let projects = []
+            for(let i = 0; i < users.length; i++){
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getRolesByEmail/" + users[i].email)
+                .then(response => response.json())
+                .then(json => {
+
+                    if(json.rows){
+                        let user_roles = []
+                        for(let i = 0; i < json.rows.length; i++){
+                            user_roles.push(json.rows[i].name)
+                        }
+                        roles.push(user_roles)
+                    }else{
+                        roles.push(["None"])
+                    }
+                })
+            }
+            for(let i = 0; i < users.length; i++){
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsByEmailExport/" + users[i].email)
+                .then(response => response.json())
+                .then(json => {
+                    if(json.rows){
+                        let user_projects = []
+                        for(let i = 0; i < json.rows.length; i++){
+                            user_projects.push(json.rows[i].name)
+                        }
+                        projects.push(user_projects)
+                    }else{
+                        projects.push(["None"])
+                    }
+                })
+
+            }
+            
+
+            for(let i = 0; i < users.length; i++){
+                users[i].roles = roles[i].toString()
+                users[i].projects = projects[i].toString()
+            }
+
+           
+            const headers = ["Username", "Email", "Roles", "Projects"]
+            const apiData = users
+            const fileName = "Users"
+
+            const fileType =
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+            const header_cells = ['A1', 'B1', 'C1', 'D1']
+            const fileExtension = ".xlsx";
+
+            let wscols = []
+            for(let i = 0; i < headers.length; i++){
+                wscols.push({width:35})
+            }
+
+            const ws = XLSX.utils.json_to_sheet(apiData);   
+            ws["!cols"] = wscols
+            for(let i = 0; i < headers.length; i++){
+                ws[header_cells[i]].v = headers[i]
+            }
+            const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+            const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+            const data = new Blob([excelBuffer], { type: fileType });
+            FileSaver.saveAs(data, fileName + fileExtension);
+            
+        })
+    }
+
     async function updateStatus(updatedRow){
         let currentRows = updatedRows
         currentRows.push(updatedRow)
@@ -544,17 +623,30 @@ const PitRequestView = () => {
 
     async function updateObservations(observations){
         await setObservations(observations)
+        await setUpdateData(!updateData)
+    }
+
+    async function updateHours(hours){
+        await setHours(hours)
+        await setUpdateData(!updateData)
     }
 
     async function saveChanges(){
-        for(let i = 0; i < updatedRows.length; i++){
+        await setUpdateData(!updateData)
+        let hoursArray = []
+        if(hours){
 
+            Object.entries(hours)
+            .map(async ([incidence_number, hours]) => 
+                await hoursArray.push([incidence_number, hours])
+            )
+
+        }
+
+        for(let i = 0; i < hoursArray.length; i++){
             let body = {
-                incidence_number: updatedRows[i][0],
-                status_id: updatedRows[i][1],
-                project: updatedRows[i][2],
-                type: updatedRows[i][3],
-                email: secureStorage.getItem("user")
+                incidence_number: hoursArray[i][0],
+                hours: hoursArray[i][1],
               }
               let options = {
                 method: "POST",
@@ -563,16 +655,13 @@ const PitRequestView = () => {
                 },
                 body: JSON.stringify(body)
               }
-              
-              fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateStatus", options)
+              fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateHours", options)
               .then(response => response.json())
               .then(async json => {
                 
               })
         }
-        
         let observationsArray = []
-
         if(observations){
 
             Object.entries(observations)
@@ -601,6 +690,29 @@ const PitRequestView = () => {
               .then(async json => {
                 
               })
+            }
+        for(let i = 0; i < updatedRows.length; i++){
+
+            let body = {
+                incidence_number: updatedRows[i][0],
+                status_id: updatedRows[i][1],
+                project: updatedRows[i][2],
+                type: updatedRows[i][3],
+                email: secureStorage.getItem("user")
+              }
+              let options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+              }
+              
+              fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateStatus", options)
+              .then(response => response.json())
+              .then(async json => {
+                
+              })
         }
         
         await setUpdatedRows([])
@@ -616,7 +728,7 @@ const PitRequestView = () => {
         setCurrentRole(value)
         await setUpdateData(!updateData)
         if(currentTab === "View"){
-            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)}/>)
+            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)}/>)
         }
     }
 
@@ -682,6 +794,7 @@ const PitRequestView = () => {
                     <div style={{display:"flex", marginTop:"10px"}}>
                         {addUserButton}
                         {exportReport}
+                        {exportUsersReport}
                     </div>
                     
                   </center>

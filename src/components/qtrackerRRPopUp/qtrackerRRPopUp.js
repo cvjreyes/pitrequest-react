@@ -121,6 +121,25 @@ export default class QtrackerRRPopUp extends Component {
         }
     }
 
+    async componentDidMount(){
+      const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+      }
+
+      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsByEmail/"+ secureStorage.getItem("user"), options)
+        .then(response => response.json())
+        .then(async json => {
+          let projects = []
+          for(let i = 0; i < json.projects.length; i++){
+            projects.push(json.projects[i].name)
+          }
+          this.setState({projects:projects})
+        })
+    }
+
     async openModal() {
         await this.setState({
             visible : true,
@@ -142,25 +161,6 @@ export default class QtrackerRRPopUp extends Component {
         this.refs.description.value = null;
         this.refs.items.value = null;
 
-    }
-
-    async componentDidMount(){
-      const options = {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
-      }
-
-      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjects", options)
-        .then(response => response.json())
-        .then(async json => {
-          let projects = []
-          for(let i = 0; i < json.projects.length; i++){
-            projects.push(json.projects[i].name)
-          }
-          this.setState({projects:projects})
-        })
     }
 
     async request(){
