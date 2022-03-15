@@ -170,36 +170,47 @@ const PitRequestView = () => {
     },[updateData])
 
     useEffect(async () =>{
-        if(currentTab === "View"){
-            setSaveButton(<button className="navBar__button" onClick={()=> saveChanges()}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>)
-            setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("Projects")}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
-            setAddUserButton(null)
-            setExportReport(<button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button>)
-            setUsersButton(<button className="navBar__button" onClick={()=>setCurrentTab("Users")} style={{width:"100px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Users</p></button>)
-            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
-            setExportUsersReport(null)
-        }else if(currentTab === "Projects"){
-            setSaveButton(null)
-            setExportReport(null)
-            setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("View")}><img src={BackIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Back</p></button>)
-            setUsersButton(null)
-            setAddUserButton(null)
-            setContent(<ProjectsExcel/>)
-            setExportUsersReport(null)
-        }else if(currentTab === "Users"){
-            setExportUsersReport(<button className="action__btn" name="export" value="export" onClick={() => downloadUsersReport()}>Export</button>)
-            setExportReport(null)
-            if(secureStorage.getItem("role") === "3D Admin"){
-                setAddUserButton(<AddUserPopUp addUser={addUser.bind(this)}/>)
-            }else{
+        if(currentRole === "3D Admin"){
+            if(currentTab === "View"){
+                setSaveButton(<button className="navBar__button" onClick={()=> saveChanges()}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>)
+                setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("Projects")}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
                 setAddUserButton(null)
+                setExportReport(<button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button>)
+                setUsersButton(<button className="navBar__button" onClick={()=>setCurrentTab("Users")} style={{width:"100px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Users</p></button>)
+                setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
+                setExportUsersReport(null)
+            }else if(currentTab === "Projects"){
+                setSaveButton(null)
+                setExportReport(null)
+                setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("View")}><img src={BackIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Back</p></button>)
+                setUsersButton(null)
+                setAddUserButton(null)
+                setContent(<ProjectsExcel/>)
+                setExportUsersReport(null)
+            }else if(currentTab === "Users"){
+                setExportUsersReport(<button className="action__btn" name="export" value="export" onClick={() => downloadUsersReport()}>Export</button>)
+                setExportReport(null)
+                if(secureStorage.getItem("role") === "3D Admin"){
+                    setAddUserButton(<AddUserPopUp addUser={addUser.bind(this)}/>)
+                }else{
+                    setAddUserButton(null)
+                }
+                setSaveButton(null)
+                setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("View")}><img src={BackIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Back</p></button>)
+                setUsersButton(null)
+                setContent(<UsersDataTable updateData={updateData} deleteUser={deleteUser.bind(this)} submitRoles={submitRoles.bind(this)} submitProjects={submitProjects.bind(this)}/>)
             }
-            setSaveButton(null)
-            setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("View")}><img src={BackIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Back</p></button>)
+        }else{
+            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
+            setSaveBtn(null)
+            setProjectsButton(null)
+            setAddUserButton(null)
+            setExportReport(null)
             setUsersButton(null)
-            setContent(<UsersDataTable updateData={updateData} deleteUser={deleteUser.bind(this)} submitRoles={submitRoles.bind(this)} submitProjects={submitProjects.bind(this)}/>)
+            setExportUsersReport(null)
         }
-    }, [currentTab, updateData])
+        
+    }, [currentTab, updateData, currentRole])
 
     async function submitRoles(id, roles){
         
@@ -770,13 +781,12 @@ const PitRequestView = () => {
                       <tr className="isotracker__table__navBar__container" style={{height:"65px "}}>
                           <th  className="isotracker__table__navBar">
                               <div style={{display:"flex"}}>
-                                  {secureStorage.getItem("role") === "3D Admin" &&
                                   <div>
                                     {saveButton}
                                     {projectsButton}
                                     {usersButton}
                                   </div>
-                                  }
+                                  
                               </div>                           
                                
                           </th>

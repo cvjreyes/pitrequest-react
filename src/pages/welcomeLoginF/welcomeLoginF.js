@@ -70,6 +70,7 @@ const WelcomeLoginF = () =>{
             .then(json => {
                 localStorage.setItem('token', json.token);
                 secureStorage.setItem('user', json.user);
+                secureStorage.setItem('roles', "None");
                 history("/"+process.env.REACT_APP_PROJECT+"/pitrequests");
                 window.location.reload(false);
             })

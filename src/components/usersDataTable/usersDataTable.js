@@ -62,6 +62,7 @@ class UsersDataTable extends React.Component{
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/api/users", options)
         .then(response => response.json())
         .then(async json => {
+          
           for(let i = 0; i < json.length; i++){
               let row = {user_id: json[i].id, username: json[i].name, email: json[i].email, roles: null, projects: null, actions: null}
               let userid = json[i].id
@@ -85,6 +86,9 @@ class UsersDataTable extends React.Component{
               await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/api/roles/user", options)
                   .then(response => response.json())
                   .then(async json => {
+                    if(json.roles){
+
+                    
                     
                     row["actions"] = <div style={{display:"flex"}}><DeleteUserConfPopUp  deleteUser={this.deleteUser.bind(this)} id={row.user_id} username={row.username}/><ManageRolesPopUp roles={json.roles} id={row.user_id} email={json.email} submitRoles={this.submitRoles.bind(this)}/><ManageProjectsPopUp id={row.user_id} submitProjects={this.submitProjects.bind(this)}/></div>                  
                     let roles = [rolesBtnsDict[json.roles[0]]]
@@ -100,7 +104,7 @@ class UsersDataTable extends React.Component{
                       }else{
                           row["color"] = "#eee"
                       }
-
+                    }
                       options = {
                         method: "GET",
                         headers: {
@@ -111,6 +115,7 @@ class UsersDataTable extends React.Component{
                       fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsByUser/"+userid, options)
                       .then(response => response.json())
                       .then(async json =>{
+                        if(json.projects){
                           const projects = json.codes
                           const projectsBtns = []
                           for(let i = 0; i < projects.length; i++){
@@ -119,8 +124,9 @@ class UsersDataTable extends React.Component{
                           row["projects"] = projectsBtns
                           let currentData = this.state.dataAux
                            currentData.push(row)
-                           
+                        
                            await this.setState({dataAux: currentData})
+                        }
                       })                     
                   
                       
@@ -182,11 +188,12 @@ class UsersDataTable extends React.Component{
                         },
                         body: JSON.stringify(body)
                     }
+                  
     
                     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/api/roles/user", options)
                         .then(response => response.json())
                         .then(async json => {
-
+                          if(json.roles){
                           row["actions"] = <div style={{display:"flex"}}><DeleteUserConfPopUp  deleteUser={this.deleteUser.bind(this)} id={row.user_id} username={row.username}/><ManageRolesPopUp roles={json.roles} id={row.user_id} email={json.email} submitRoles={this.submitRoles.bind(this)}/><ManageProjectsPopUp id={row.user_id} submitProjects={this.submitProjects.bind(this)}/></div>                  
                           let roles = [rolesBtnsDict[json.roles[0]]]
                             for(let j = 1; j < json.roles.length; j++){
@@ -206,10 +213,12 @@ class UsersDataTable extends React.Component{
                                   "Content-Type": "application/json"
                               },
                             }
+                          }
 
                             fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsByUser/"+userid, options)
                             .then(response => response.json())
                             .then(async json =>{
+                              if(json.projects){
                                 const projects = json.codes
                                 const projectsBtns = []
                                 for(let i = 0; i < projects.length; i++){
@@ -220,6 +229,7 @@ class UsersDataTable extends React.Component{
                               
                                  currentData.push(row)
                                  await this.setState({dataAux: currentData})
+                              }
                             })                     
                         })
                     
