@@ -215,7 +215,7 @@ const PitRequestView = () => {
     async function submitRoles(id, roles){
         
         localStorage.setItem("update", true)
-
+        console.log(roles)
         const body = {
             id: id,
             roles: roles
@@ -229,14 +229,14 @@ const PitRequestView = () => {
             body: JSON.stringify(body)
         }
 
-        fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/users/manageRoles", options)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/users/manageRoles", options)
         .then(response => response.json())
-        .then(json =>{
+        .then(async json =>{
             if(json.success){
-                
+                await setUpdateData(!updateData)
             }
         })
-        setUpdateData(!updateData)
+        await setUpdateData(!updateData)
     }
 
     async function deleteUser(id){

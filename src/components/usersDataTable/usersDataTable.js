@@ -59,79 +59,49 @@ class UsersDataTable extends React.Component{
     "3D Admin": <button className="btn"  disabled style={{width:"32px", color:"white", fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#CD853F"}}>3D</button>}
     
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/api/users", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getUsersFull", options)
         .then(response => response.json())
         .then(async json => {
           
-          for(let i = 0; i < json.length; i++){
-              let row = {user_id: json[i].id, username: json[i].name, email: json[i].email, roles: null, projects: null, actions: null}
-              let userid = json[i].id
+          for(let i = 0; i < json.rows.length; i++){
+              let row = {user_id: json.rows[i].id, username: json.rows[i].name, email: json.rows[i].email, roles: null, projects: null, actions: null}
               let users = this.state.users
-              users.push(json[i].email)
+              users.push(json.rows[i].email)
               this.setState({
                 users: users
               })
-              const body = {
-                  user: json[i].email,
-                  id: json[i].id
+              let roles = []
+              let rolesList = []
+              if(json.rows[i].roles === "" || json.rows[i].roles !== null){
+                rolesList = json.rows[i].roles.split(",")
+                for(let j = 0; j < rolesList.length; j++){
+                    roles.push(rolesBtnsDict[rolesList[j]])
+                }
+                row["roles"] = <div> {roles} </div>
               }
-              let options = {
-                  method: "POST",
-                  headers: {
-                      "Content-Type": "application/json"
-                  },
-                  body: JSON.stringify(body)
-              }
-
-              await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/api/roles/user", options)
-                  .then(response => response.json())
-                  .then(async json => {
-                    row["actions"] = <div style={{display:"flex"}}><DeleteUserConfPopUp  deleteUser={this.deleteUser.bind(this)} id={row.user_id} username={row.username}/><ManageRolesPopUp roles={[]} id={row.user_id} email={json.email} submitRoles={this.submitRoles.bind(this)}/><ManageProjectsPopUp id={row.user_id} submitProjects={this.submitProjects.bind(this)}/></div>                  
-                    if(json.roles){
-                    row["actions"] = <div style={{display:"flex"}}><DeleteUserConfPopUp  deleteUser={this.deleteUser.bind(this)} id={row.user_id} username={row.username}/><ManageRolesPopUp roles={json.roles} id={row.user_id} email={json.email} submitRoles={this.submitRoles.bind(this)}/><ManageProjectsPopUp id={row.user_id} submitProjects={this.submitProjects.bind(this)}/></div>                  
-                    let roles = [rolesBtnsDict[json.roles[0]]]
-                          for(let j = 1; j < json.roles.length; j++){
-                              roles.push(rolesBtnsDict[json.roles[j]])
-
-                          }
-
-                      
-                      row["roles"] = <div> {roles} </div>
-                        }
-                      if(i % 2 === 0){
-                          row["color"] = "#fff"
-                      }else{
-                          row["color"] = "#eee"
-                      }
-                    
-                      options = {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                      }
-
-                      fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsByUser/"+userid, options)
-                      .then(response => response.json())
-                      .then(async json =>{
-                        if(json.projects){
-                          const projects = json.codes
-                          const projectsBtns = []
-                          for(let i = 0; i < projects.length; i++){
-                            projectsBtns.push(<button className="btn" disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"white",  border: "1px solid black"}}>{projects[i]}</button>)
-                          }
-                          row["projects"] = projectsBtns
-                          let currentData = this.state.dataAux
-                           currentData.push(row)
-                        
-                           await this.setState({dataAux: currentData})
-                        }
-                      })                     
-                  
-                      
-                  })
               
-          }
+              if(i % 2 === 0){
+                  row["color"] = "#fff"
+              }else{
+                  row["color"] = "#eee"
+              }
+              if(json.rows[i].projects !== "" && json.rows[i].projects !== null){
+                const projects = json.rows[i].codes.split(",")
+                const projectsBtns = []
+                for(let i = 0; i < projects.length; i++){
+                  projectsBtns.push(<button className="btn" disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"white",  border: "1px solid black"}}>{projects[i]}</button>)
+                }
+                row["projects"] = projectsBtns
+              }
+              row["actions"] = <div style={{display:"flex"}}><DeleteUserConfPopUp  deleteUser={this.deleteUser.bind(this)} id={row.user_id} username={row.username}/><ManageRolesPopUp roles={rolesList} id={row.user_id} email={json.email} submitRoles={this.submitRoles.bind(this)}/><ManageProjectsPopUp id={row.user_id} submitProjects={this.submitProjects.bind(this)}/></div>                  
+
+                let currentData = this.state.dataAux
+                currentData.push(row)
+            
+                await this.setState({dataAux: currentData})
+            }
+              
+          
       })
       const filterRow = [{key:0, username: <div><input type="text" className="filter__input" placeholder="Username" onChange={(e) => this.filter(0, e.target.value)}/></div>, email: <div><input type="text" className="filter__input" placeholder="Email" onChange={(e) => this.filter(1,e.target.value)}/></div>, roles: <div><input type="text" className="filter__input" placeholder="Roles" onChange={(e) => this.filter(2,e.target.value)}/></div>, projects: <div><input type="text" className="filter__input" placeholder="Projects" onChange={(e) => this.filter(3,e.target.value)}/></div>}]
       
@@ -144,151 +114,82 @@ class UsersDataTable extends React.Component{
 
   async componentDidUpdate(prevProps, prevState){
     if(prevProps !== this.props){
-        const options = {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            },
-    
-        }
-    
-          const rolesBtnsDict = {"Design": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#00FF7F"}}>DES</button>, 
-          "DesignLead": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"lightgreen"}}>LDE</button>, 
-          "Stress": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#00BFFF"}}>STR</button>, 
-          "StressLead": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#87CEEB"}}>LST</button>, 
-          "Supports": <button className="btn"  disabled style={{color: "white",fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#1E90FF"}}>SUP</button>, 
-          "SupportsLead": <button className="btn"  disabled style={{color: "white",fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#6495ED"}}>LSP</button>, 
-          "Materials": <button className="btn"  disabled style={{color:"white", fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#6A5ACD"}}>MAT</button>, 
-          "Issuer": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#FFC0CB"}}>ISS</button>, 
-          "SpecialityLead": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"	#FFA500"}}>LOS</button>, 
-          "Process": <button className="btn"  disabled style={{color: "white",fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#FF4500"}}>PRO</button>, 
-          "Instrument": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#FFD700"}}>INS</button>, 
-          "Review": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"white"}}>REV</button>,
-          "Project": <button className="btn"  disabled style={{fontSize:"12px", color:"white", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#F033FF"}}>PRJ</button>,
-          "3D Admin": <button className="btn"  disabled style={{width: "32px",color:"white", fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#CD853F"}}>3D</button>}
+      const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        },
+  
+    }
+  
+  
+      const rolesBtnsDict = {"Design": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#00FF7F"}}>DES</button>, 
+      "DesignLead": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"lightgreen"}}>LDE</button>, 
+      "Stress": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#00BFFF"}}>STR</button>, 
+      "StressLead": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#87CEEB"}}>LST</button>, 
+      "Supports": <button className="btn"  disabled style={{color: "white",fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#1E90FF"}}>SUP</button>, 
+      "SupportsLead": <button className="btn"  disabled style={{color: "white",fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#6495ED"}}>LSP</button>, 
+      "Materials": <button className="btn"  disabled style={{color:"white", fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#6A5ACD"}}>MAT</button>, 
+      "Issuer": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#FFC0CB"}}>ISS</button>, 
+      "SpecialityLead": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"	#FFA500"}}>LOS</button>, 
+      "Process": <button className="btn"  disabled style={{color: "white",fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#FF4500"}}>PRO</button>, 
+      "Instrument": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#FFD700"}}>INS</button>, 
+      "Review": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"white"}}>REV</button>,
+      "Project": <button className="btn"  disabled style={{fontSize:"12px", color:"white", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#F033FF"}}>PRJ</button>,
+      "3D Admin": <button className="btn"  disabled style={{width:"32px", color:"white", fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#CD853F"}}>3D</button>}
+      
+      await this.setState({dataAux: []})
+
+      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getUsersFull", options)
+        .then(response => response.json())
+        .then(async json => {
           
-          await this.setState({dataAux: []})
-
-          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/api/users", options)
-              .then(response => response.json())
-              .then(async json => {
-                for(let i = 0; i < json.length; i++){
-                    
-                    let row = {user_id: json[i].id, username: json[i].name, email: json[i].email, roles: null, actions: null}
-                    let userid = json[i].id
-                    const body = {
-                        user: json[i].email,
-                        id: json[i].id
-                    }
-                    let options = {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(body)
-                    }
-                  
-    
-                    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/api/roles/user", options)
-                        .then(response => response.json())
-                        .then(async json => {
-                         
-                          row["actions"] = <div style={{display:"flex"}}><DeleteUserConfPopUp  deleteUser={this.deleteUser.bind(this)} id={row.user_id} username={row.username}/><ManageRolesPopUp roles={[]} id={row.user_id} email={json.email} submitRoles={this.submitRoles.bind(this)}/><ManageProjectsPopUp id={row.user_id} submitProjects={this.submitProjects.bind(this)}/></div>                  
-                          if(json.roles){
-                            row["actions"] = <div style={{display:"flex"}}><DeleteUserConfPopUp  deleteUser={this.deleteUser.bind(this)} id={row.user_id} username={row.username}/><ManageRolesPopUp roles={json.roles} id={row.user_id} email={json.email} submitRoles={this.submitRoles.bind(this)}/><ManageProjectsPopUp id={row.user_id} submitProjects={this.submitProjects.bind(this)}/></div>                  
-                          let roles = [rolesBtnsDict[json.roles[0]]]
-                            for(let j = 1; j < json.roles.length; j++){
-                                roles.push(rolesBtnsDict[json.roles[j]])
-                            }
-    
-                            row["roles"] = <div> {roles} </div>
-                          }
-                          
-                            if(i % 2 === 0){
-                                row["color"] = "#fff"
-                            }else{
-                                row["color"] = "#eee"
-                            }
-
-                            options = {
-                              method: "GET",
-                              headers: {
-                                  "Content-Type": "application/json"
-                              },
-                            }
-                          
-                            if(i % 2 === 0){
-                              row["color"] = "#fff"
-                            }else{
-                              row["color"] = "#eee"
-                            }
-
-                            fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsByUser/"+userid, options)
-                            .then(response => response.json())
-                            .then(async json =>{
-                              if(json.projects){
-                                const projects = json.codes
-                                const projectsBtns = []
-                                for(let i = 0; i < projects.length; i++){
-                                  projectsBtns.push(<button className="btn" disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"white", border: "1px solid black"}}>{projects[i]}</button>)
-                                }
-                                row["projects"] = projectsBtns
-                                let currentData = this.state.dataAux
-                              
-                                 currentData.push(row)
-                                 await this.setState({dataAux: currentData})
-                              }
-                            })                     
-                        })
-                    
+          for(let i = 0; i < json.rows.length; i++){
+              let row = {user_id: json.rows[i].id, username: json.rows[i].name, email: json.rows[i].email, roles: null, projects: null, actions: null}
+              let users = this.state.users
+              users.push(json.rows[i].email)
+              this.setState({
+                users: users
+              })
+              let roles = []
+              let rolesList = []
+              if(json.rows[i].roles === "" || json.rows[i].roles !== null){
+                rolesList = json.rows[i].roles.split(",")
+                for(let j = 0; j < rolesList.length; j++){
+                    roles.push(rolesBtnsDict[rolesList[j]])
                 }
-            })
-            await this.setState({data: this.state.dataAux})
-
-            let auxDisplayData = this.state.data
-            let resultData = []
-            let fil, exists = null
-            for(let i = 0; i < auxDisplayData.length; i++){
-              exists = true
-              for(let column = 0; column < Object.keys(auxDisplayData[i]).length-2; column ++){
-                fil = Object.keys(auxDisplayData[i])[column+1]
-                if(fil === "roles"){
-                  if(this.state.filterData[column] !== "" && this.state.filterData[column]){
-                    let filter_roles = this.state.filterData[column].split(" ")
-                    for(let r1 = 0; r1 < filter_roles.length; r1++){
-                      let exist_role = false
-                      for(let r2 = 0; r2 <  auxDisplayData[i][fil].props.children[1].length; r2++){
-
-                          if(auxDisplayData[i][fil].props.children[1][r2].props.children.includes(filter_roles[r1])){
-                            exist_role = true
-                          }
-                        
-                      }
-                      if(!exist_role){
-                        exists = false
-                      }
-                      
-                    }
-                    
-                  }
-                }else{
-                  if(auxDisplayData[i][fil]){
-                    if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].includes(this.state.filterData[column])){
-                      exists = false
-                    }
-                  }else{
-                    exists = false
-                  }
+                row["roles"] = <div> {roles} </div>
+              }
+              
+              if(i % 2 === 0){
+                  row["color"] = "#fff"
+              }else{
+                  row["color"] = "#eee"
+              }
+              if(json.rows[i].projects !== "" && json.rows[i].projects !== null){
+                const projects = json.rows[i].codes.split(",")
+                const projectsBtns = []
+                for(let i = 0; i < projects.length; i++){
+                  projectsBtns.push(<button className="btn" disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"white",  border: "1px solid black"}}>{projects[i]}</button>)
                 }
-                
+                row["projects"] = projectsBtns
               }
-              if(exists){
-                resultData.push(auxDisplayData[i])
-              }
+              row["actions"] = <div style={{display:"flex"}}><DeleteUserConfPopUp  deleteUser={this.deleteUser.bind(this)} id={row.user_id} username={row.username}/><ManageRolesPopUp roles={rolesList} id={row.user_id} email={json.email} submitRoles={this.submitRoles.bind(this)}/><ManageProjectsPopUp id={row.user_id} submitProjects={this.submitProjects.bind(this)}/></div>                  
+
+                let currentData = this.state.dataAux
+                currentData.push(row)
+            
+                await this.setState({dataAux: currentData})
             }
+              
+          
+      })
+        const filterRow = [{key:0, username: <div><input type="text" className="filter__input" placeholder="Username" onChange={(e) => this.filter(0, e.target.value)}/></div>, email: <div><input type="text" className="filter__input" placeholder="Email" onChange={(e) => this.filter(1,e.target.value)}/></div>, roles: <div><input type="text" className="filter__input" placeholder="Roles" onChange={(e) => this.filter(2,e.target.value)}/></div>, projects: <div><input type="text" className="filter__input" placeholder="Projects" onChange={(e) => this.filter(3,e.target.value)}/></div>}]
+        
+        await this.setState({data : this.state.dataAux, selectedRows: [], displayData: this.state.dataAux});
+        await this.setState({filters : filterRow})
+        await this.setState({mounted: true})
 
-            await this.setState({displayData: resultData})
-            console.log(this.state.displayData)
     }
   }
 
@@ -326,11 +227,13 @@ class UsersDataTable extends React.Component{
             let filter_projects = this.state.filterData[column].split(" ")
             for(let p1 = 0; p1 < filter_projects.length; p1++){
               let exist_pro = false
-              for(let p2 = 0; p2 < auxDisplayData[i][fil].length; p2++){
-                console.log( auxDisplayData[i][fil][p2])
-                if(auxDisplayData[i][fil][p2].props.children.includes(filter_projects[p1])){
-                  exist_pro = true
-                }    
+              if (auxDisplayData[i][fil]){
+                for(let p2 = 0; p2 < auxDisplayData[i][fil].length; p2++){
+                  console.log( auxDisplayData[i][fil][p2])
+                  if(auxDisplayData[i][fil][p2].props.children.includes(filter_projects[p1])){
+                    exist_pro = true
+                  }    
+                }
               }
               if(!exist_pro){
                 exists = false
@@ -448,6 +351,8 @@ class UsersDataTable extends React.Component{
         ...this.getColumnSearchProps('actions'),
       }
     ];
+
+
 
     return (
       <div>
