@@ -69,15 +69,41 @@ export default class Alert extends Component {
             }
             this.setState({alert: alertComponent})
         }else if(this.state.type==="qtracker"){
-            alertComponent = <div className="alert__qtracker">
+            if(this.props.text){
+                alertComponent = <div className="alert__warning__qtracker">
                                     
-                                    <img src={SuccessIcon} className="alert__icon" alt="success"></img>
-                                    <div className="text__alert__container">
-                                        <text className="alert__title">Success</text>
-                                        <text className="alert__text" style={{marginLeft:"-1px"}}>Request sent successfully!</text>
-                                    </div>
-                                
-                                </div>
+                <img src={WarningIcon} className="alert__icon" alt="success"></img>
+                <div className="text__alert__container">
+                    <text className="alert__title">Warning</text>
+                    <text className="alert__text" style={{marginLeft:"-1px"}}>{this.props.text}</text>
+                </div>
+            
+            </div>
+            }else{
+                if(this.props.project){
+                    alertComponent = <div className="alert__success">
+                                    
+                    <img src={SuccessIcon} className="alert__icon" alt="success"></img>
+                    <div className="text__alert__container">
+                        <text className="alert__title">Success</text>
+                        <text className="alert__text" style={{marginLeft:"-40px"}}>Project created successfully!</text>
+                    </div>
+                
+                </div>
+                }else{
+                    alertComponent = <div className="alert__success">
+                                    
+                    <img src={SuccessIcon} className="alert__icon" alt="success"></img>
+                    <div className="text__alert__container">
+                        <text className="alert__title">Success</text>
+                        <text className="alert__text" style={{marginLeft:"-45px"}}>Request sent successfully!</text>
+                    </div>
+                
+                </div>
+                }
+                
+            }
+            
              this.setState({alert: alertComponent})
         }else{
             if(this.state.popUp){

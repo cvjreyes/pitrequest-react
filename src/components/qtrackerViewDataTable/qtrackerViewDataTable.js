@@ -81,485 +81,969 @@ class QTrackerViewDataTable extends React.Component{
         },
     }
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNWCByProjects/"+secureStorage.getItem("user"), options)
-        .then(response => response.json())
-        .then(async json => {
-          var rows = []
-          var row = null
-          if(json.rows){
-            for(let i = 0; i < json.rows.length; i++){
-                
-                if(json.rows[i].attach === 1){
-                  if(json.rows[i].accept_reject_date != null){
-                    
-                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNWCSpecPopUp incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10)}
-                  }else{
-                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNWCSpecPopUp incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: ""}
-                  }
+    if(secureStorage.getItem("role") !== "3D Admin"){
+      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNWCByProjects/"+secureStorage.getItem("user"), options)
+      .then(response => response.json())
+      .then(async json => {
+        var rows = []
+        var row = null
+        if(json.rows){
+          for(let i = 0; i < json.rows.length; i++){
+              
+              if(json.rows[i].attach === 1){
+                if(json.rows[i].accept_reject_date != null){
+                  
+                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNWCSpecPopUp incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10)}
                 }else{
-                  if(json.rows[i].accept_reject_date != null){
-                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNWCSpecPopUp incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
-                  }else{
-                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNWCSpecPopUp incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: ""}
-                  }
+                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNWCSpecPopUp incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: ""}
                 }
+              }else{
+                if(json.rows[i].accept_reject_date != null){
+                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNWCSpecPopUp incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                }else{
+                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNWCSpecPopUp incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: ""}
+                }
+              }
 
-                if(secureStorage.getItem("role") === "3D Admin"){
-                  row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
-                  row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NWC" changeAdmin = {this.changeAdmin.bind(this)}/>
-                  if(json.rows[i].status === 0){
-                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")} >
-                      <option value="pending" selected>Pending</option>
-                      <option value="progress">In progress</option>
-                      <option value="ready">Ready</option>
-                      <option value="rejected">Rejected</option>
-                    </select>
-                      row.color = "#www"
-                  }else if(json.rows[i].status === 1){
-                    row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
-                    <option value="pending">Pending</option>
-                    <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+              if(secureStorage.getItem("role") === "3D Admin"){
+                row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NWC" changeAdmin = {this.changeAdmin.bind(this)}/>
+                if(json.rows[i].status === 0){
+                    row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")} >
+                    <option value="pending" selected>Pending</option>
+                    <option value="progress">In progress</option>
                     <option value="ready">Ready</option>
                     <option value="rejected">Rejected</option>
                   </select>
-                      row.color = "#yyy"
-                  }else if(json.rows[i].status === 2){
-                    row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
-                    <option value="pending">Pending</option>
-                    <option value="progress">In progress</option>
-                    <option value="ready" selected>Ready</option>
-                    <option value="rejected">Rejected</option>
-                    </select>
-                      row.color = "#ggg"
-                  }else{
-                    row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
-                    <option value="pending">Pending</option>
-                    <option value="progress">In progress</option>
-                    <option value="ready">Ready</option>
-                    <option value="rejected" selected>Rejected</option>
-                   </select>
-                      row.color = "#rrr"
-                  }
-
-                  row.observations = <input style={{width: "215px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
-
-                }else{
-                  row["admin"] = json.rows[i].admin
-                  if(json.rows[i].status === 0){
-                    row.status = "Pending"
                     row.color = "#www"
-                  }else if(json.rows[i].status === 1){
-                      row.status = "In progress"
-                      row.color = "#yyy"
-                  }else if(json.rows[i].status === 2){
-                      row.status = "Ready"
-                      row.color = "#ggg"
-                  }else{
-                      row.status = "Rejected"
-                      row.color = "#rrr"
-                  }
-
-                  row.observations = json.rows[i].observations
+                }else if(json.rows[i].status === 1){
+                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                  <option value="pending">Pending</option>
+                  <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                  <option value="ready">Ready</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+                    row.color = "#yyy"
+                }else if(json.rows[i].status === 2){
+                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                  <option value="pending">Pending</option>
+                  <option value="progress">In progress</option>
+                  <option value="ready" selected>Ready</option>
+                  <option value="rejected">Rejected</option>
+                  </select>
+                    row.color = "#ggg"
+                }else{
+                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                  <option value="pending">Pending</option>
+                  <option value="progress">In progress</option>
+                  <option value="ready">Ready</option>
+                  <option value="rejected" selected>Rejected</option>
+                 </select>
+                    row.color = "#rrr"
                 }
-                
-                rows.push(row)
-            }
+
+                row.observations = <input style={{width: "215px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+              }else{
+                row["admin"] = json.rows[i].admin
+                if(json.rows[i].status === 0){
+                  row.status = "Pending"
+                  row.color = "#www"
+                }else if(json.rows[i].status === 1){
+                    row.status = "In progress"
+                    row.color = "#yyy"
+                }else if(json.rows[i].status === 2){
+                    row.status = "Ready"
+                    row.color = "#ggg"
+                }else{
+                    row.status = "Rejected"
+                    row.color = "#rrr"
+                }
+
+                row.observations = json.rows[i].observations
+              }
+              
+              rows.push(row)
           }
-            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVNByProjects/"+secureStorage.getItem("user"), options)
-            .then(response => response.json())
-            .then(async json => {
-            var row = null
-              if(json.rows){
-                for(let i = 0; i < json.rows.length; i++){
-                  if(json.rows[i].attach === 1){
-                    if(json.rows[i].accept_reject_date != null){
-                      row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10)}
-                    }else{
-                      row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: ""}
-                    }
+        }
+          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVNByProjects/"+secureStorage.getItem("user"), options)
+          .then(response => response.json())
+          .then(async json => {
+          var row = null
+            if(json.rows){
+              for(let i = 0; i < json.rows.length; i++){
+                if(json.rows[i].attach === 1){
+                  if(json.rows[i].accept_reject_date != null){
+                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10)}
                   }else{
-                    if(json.rows[i].accept_reject_date != null){
-                      row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
-                    }else{
-                      row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: ""}
-                    }
+                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: ""}
                   }
-                    if(secureStorage.getItem("role") === "3D Admin"){
-                      row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
-                      row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NVN" changeAdmin = {this.changeAdmin.bind(this)}/>
-                      if(json.rows[i].status === 0){
-                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")} >
-                          <option value="pending" selected>Pending</option>
-                          <option value="progress">In progress</option>
-                          <option value="ready">Ready</option>
-                          <option value="rejected">Rejected</option>
-                        </select>
-                          row.color = "#www"
-                      }else if(json.rows[i].status === 1){
-                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
-                        <option value="pending">Pending</option>
-                        <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                }else{
+                  if(json.rows[i].accept_reject_date != null){
+                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                  }else{
+                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: ""}
+                  }
+                }
+                  if(secureStorage.getItem("role") === "3D Admin"){
+                    row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                    row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NVN" changeAdmin = {this.changeAdmin.bind(this)}/>
+                    if(json.rows[i].status === 0){
+                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")} >
+                        <option value="pending" selected>Pending</option>
+                        <option value="progress">In progress</option>
                         <option value="ready">Ready</option>
                         <option value="rejected">Rejected</option>
                       </select>
-                          row.color = "#yyy"
-                      }else if(json.rows[i].status === 2){
-                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
-                        <option value="pending">Pending</option>
-                        <option value="progress">In progress</option>
-                        <option value="ready" selected>Ready</option>
-                        <option value="rejected">Rejected</option>
-                        </select>
-                          row.color = "#ggg"
-                      }else{
-                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
-                        <option value="pending">Pending</option>
-                        <option value="progress">In progress</option>
-                        <option value="ready">Ready</option>
-                        <option value="rejected" selected>Rejected</option>
-                       </select>
-                          row.color = "#rrr"
-                      }
-                      row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
-
-                    }else{
-                      row["admin"] = json.rows[i].admin
-                      if(json.rows[i].status === 0){
-                        row.status = "Pending"
                         row.color = "#www"
-                      }else if(json.rows[i].status === 1){
-                          row.status = "In progress"
-                          row.color = "#yyy"
-                      }else if(json.rows[i].status === 2){
-                          row.status = "Ready"
-                          row.color = "#ggg"
-                      }else{
-                          row.status = "Rejected"
-                          row.color = "#rrr"
-                      }
-
-                      row.observations = json.rows[i].observations
+                    }else if(json.rows[i].status === 1){
+                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
+                      <option value="pending">Pending</option>
+                      <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                      <option value="ready">Ready</option>
+                      <option value="rejected">Rejected</option>
+                    </select>
+                        row.color = "#yyy"
+                    }else if(json.rows[i].status === 2){
+                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
+                      <option value="pending">Pending</option>
+                      <option value="progress">In progress</option>
+                      <option value="ready" selected>Ready</option>
+                      <option value="rejected">Rejected</option>
+                      </select>
+                        row.color = "#ggg"
+                    }else{
+                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
+                      <option value="pending">Pending</option>
+                      <option value="progress">In progress</option>
+                      <option value="ready">Ready</option>
+                      <option value="rejected" selected>Rejected</option>
+                     </select>
+                        row.color = "#rrr"
                     }
-                    rows.push(row)
-                }
+                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                  }else{
+                    row["admin"] = json.rows[i].admin
+                    if(json.rows[i].status === 0){
+                      row.status = "Pending"
+                      row.color = "#www"
+                    }else if(json.rows[i].status === 1){
+                        row.status = "In progress"
+                        row.color = "#yyy"
+                    }else if(json.rows[i].status === 2){
+                        row.status = "Ready"
+                        row.color = "#ggg"
+                    }else{
+                        row.status = "Rejected"
+                        row.color = "#rrr"
+                    }
+
+                    row.observations = json.rows[i].observations
+                  }
+                  rows.push(row)
               }
-                
-                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIByProjects/"+secureStorage.getItem("user"), options)
-                .then(response => response.json())
-                .then(async json => {
-                var row = null
-                    if(json.rows){
-                    for(let i = 0; i < json.rows.length; i++){
-                      if(json.rows[i].attach === 1){
-                        if(json.rows[i].accept_reject_date != null){
-                          row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10)}
-                        }else{
-                          row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: ""}
-                        }
+            }
+              
+              await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIByProjects/"+secureStorage.getItem("user"), options)
+              .then(response => response.json())
+              .then(async json => {
+              var row = null
+                  if(json.rows){
+                  for(let i = 0; i < json.rows.length; i++){
+                    if(json.rows[i].attach === 1){
+                      if(json.rows[i].accept_reject_date != null){
+                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10)}
                       }else{
-                        if(json.rows[i].accept_reject_date != null){
-                          row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
-                        }else{
-                          row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/>, ar_date: ""}
-                        }
+                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: ""}
                       }
-                        if(secureStorage.getItem("role") === "3D Admin"){
-                          row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
-                          row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRI" changeAdmin = {this.changeAdmin.bind(this)}/>
-                          if(json.rows[i].status === 0){
-                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")} >
-                              <option value="pending" selected>Pending</option>
-                              <option value="progress">In progress</option>
-                              <option value="ready">Ready</option>
-                              <option value="rejected">Rejected</option>
-                            </select>
-                              row.color = "#www"
-                          }else if(json.rows[i].status === 1){
-                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
-                            <option value="pending">Pending</option>
-                            <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                    }else{
+                      if(json.rows[i].accept_reject_date != null){
+                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                      }else{
+                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/>, ar_date: ""}
+                      }
+                    }
+                      if(secureStorage.getItem("role") === "3D Admin"){
+                        row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                        row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRI" changeAdmin = {this.changeAdmin.bind(this)}/>
+                        if(json.rows[i].status === 0){
+                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")} >
+                            <option value="pending" selected>Pending</option>
+                            <option value="progress">In progress</option>
                             <option value="ready">Ready</option>
                             <option value="rejected">Rejected</option>
                           </select>
-                              row.color = "#yyy"
-                          }else if(json.rows[i].status === 2){
-                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
-                            <option value="pending">Pending</option>
-                            <option value="progress">In progress</option>
-                            <option value="ready" selected>Ready</option>
-                            <option value="rejected">Rejected</option>
-                            </select>
-                              row.color = "#ggg"
-                          }else{
-                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
-                            <option value="pending">Pending</option>
-                            <option value="progress">In progress</option>
-                            <option value="ready">Ready</option>
-                            <option value="rejected" selected>Rejected</option>
-                           </select>
-                              row.color = "#rrr"
-                          }
-                          row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
-
-                        }else{
-                          row["admin"] = json.rows[i].admin
-                          if(json.rows[i].status === 0){
-                            row.status = "Pending"
                             row.color = "#www"
-                          }else if(json.rows[i].status === 1){
-                              row.status = "In progress"
-                              row.color = "#yyy"
-                          }else if(json.rows[i].status === 2){
-                              row.status = "Ready"
-                              row.color = "#ggg"
-                          }else{
-                              row.status = "Rejected"
-                              row.color = "#rrr"
-                          }
-
-                          row.observations = json.rows[i].observations
+                        }else if(json.rows[i].status === 1){
+                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
+                          <option value="pending">Pending</option>
+                          <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                          <option value="ready">Ready</option>
+                          <option value="rejected">Rejected</option>
+                        </select>
+                            row.color = "#yyy"
+                        }else if(json.rows[i].status === 2){
+                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
+                          <option value="pending">Pending</option>
+                          <option value="progress">In progress</option>
+                          <option value="ready" selected>Ready</option>
+                          <option value="rejected">Rejected</option>
+                          </select>
+                            row.color = "#ggg"
+                        }else{
+                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
+                          <option value="pending">Pending</option>
+                          <option value="progress">In progress</option>
+                          <option value="ready">Ready</option>
+                          <option value="rejected" selected>Rejected</option>
+                         </select>
+                            row.color = "#rrr"
                         }
-                        rows.push(row)
-                    }
+                        row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                      }else{
+                        row["admin"] = json.rows[i].admin
+                        if(json.rows[i].status === 0){
+                          row.status = "Pending"
+                          row.color = "#www"
+                        }else if(json.rows[i].status === 1){
+                            row.status = "In progress"
+                            row.color = "#yyy"
+                        }else if(json.rows[i].status === 2){
+                            row.status = "Ready"
+                            row.color = "#ggg"
+                        }else{
+                            row.status = "Rejected"
+                            row.color = "#rrr"
+                        }
+
+                        row.observations = json.rows[i].observations
+                      }
+                      rows.push(row)
                   }
-                    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRBByProjects/"+secureStorage.getItem("user"), options)
-                    .then(response => response.json())
-                    .then(async json => {
-                    var row = null
-                        if(json.rows){
-                        for(let i = 0; i < json.rows.length; i++){
-                          if(json.rows[i].attach === 1){
-                            if(json.rows[i].accept_reject_date != null){
-                              row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10)}
-                            }else{
-                              row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: ""}
-                            }
+                }
+                  await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRBByProjects/"+secureStorage.getItem("user"), options)
+                  .then(response => response.json())
+                  .then(async json => {
+                  var row = null
+                      if(json.rows){
+                      for(let i = 0; i < json.rows.length; i++){
+                        if(json.rows[i].attach === 1){
+                          if(json.rows[i].accept_reject_date != null){
+                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10)}
                           }else{
-                            if(json.rows[i].accept_reject_date != null){
-                              row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
-                            }else{
-                              row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/>, ar_date: ""}
-                            }
+                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: ""}
                           }
-                            if(secureStorage.getItem("role") === "3D Admin"){
-                              row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
-                              row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRB" changeAdmin = {this.changeAdmin.bind(this)}/>
-                              if(json.rows[i].status === 0){
-                                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")} >
-                                  <option value="pending" selected>Pending</option>
-                                  <option value="progress">In progress</option>
-                                  <option value="ready">Ready</option>
-                                  <option value="rejected">Rejected</option>
-                                </select>
-                                  row.color = "#www"
-                              }else if(json.rows[i].status === 1){
-                                row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
-                                <option value="pending">Pending</option>
-                                <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                        }else{
+                          if(json.rows[i].accept_reject_date != null){
+                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                          }else{
+                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/>, ar_date: ""}
+                          }
+                        }
+                          if(secureStorage.getItem("role") === "3D Admin"){
+                            row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                            row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRB" changeAdmin = {this.changeAdmin.bind(this)}/>
+                            if(json.rows[i].status === 0){
+                                row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")} >
+                                <option value="pending" selected>Pending</option>
+                                <option value="progress">In progress</option>
                                 <option value="ready">Ready</option>
                                 <option value="rejected">Rejected</option>
                               </select>
-                                  row.color = "#yyy"
-                              }else if(json.rows[i].status === 2){
-                                row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
-                                <option value="pending">Pending</option>
-                                <option value="progress">In progress</option>
-                                <option value="ready" selected>Ready</option>
-                                <option value="rejected">Rejected</option>
-                                </select>
-                                  row.color = "#ggg"
-                              }else{
-                                row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
-                                <option value="pending">Pending</option>
-                                <option value="progress">In progress</option>
-                                <option value="ready">Ready</option>
-                                <option value="rejected" selected>Rejected</option>
-                               </select>
-                                  row.color = "#rrr"
-                              }
-
-                              row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
-                            
-                            }else{
-                              row["admin"] = json.rows[i].admin
-                              if(json.rows[i].status === 0){
-                                row.status = "Pending"
                                 row.color = "#www"
-                              }else if(json.rows[i].status === 1){
-                                  row.status = "In progress"
-                                  row.color = "#yyy"
-                              }else if(json.rows[i].status === 2){
-                                  row.status = "Ready"
-                                  row.color = "#ggg"
-                              }else{
-                                  row.status = "Rejected"
-                                  row.color = "#rrr"
-                              }
-
-                              row.observations = json.rows[i].observations
+                            }else if(json.rows[i].status === 1){
+                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
+                              <option value="pending">Pending</option>
+                              <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                              <option value="ready">Ready</option>
+                              <option value="rejected">Rejected</option>
+                            </select>
+                                row.color = "#yyy"
+                            }else if(json.rows[i].status === 2){
+                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
+                              <option value="pending">Pending</option>
+                              <option value="progress">In progress</option>
+                              <option value="ready" selected>Ready</option>
+                              <option value="rejected">Rejected</option>
+                              </select>
+                                row.color = "#ggg"
+                            }else{
+                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
+                              <option value="pending">Pending</option>
+                              <option value="progress">In progress</option>
+                              <option value="ready">Ready</option>
+                              <option value="rejected" selected>Rejected</option>
+                             </select>
+                                row.color = "#rrr"
                             }
-                            rows.push(row)
-                        }
+
+                            row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                          
+                          }else{
+                            row["admin"] = json.rows[i].admin
+                            if(json.rows[i].status === 0){
+                              row.status = "Pending"
+                              row.color = "#www"
+                            }else if(json.rows[i].status === 1){
+                                row.status = "In progress"
+                                row.color = "#yyy"
+                            }else if(json.rows[i].status === 2){
+                                row.status = "Ready"
+                                row.color = "#ggg"
+                            }else{
+                                row.status = "Rejected"
+                                row.color = "#rrr"
+                            }
+
+                            row.observations = json.rows[i].observations
+                          }
+                          rows.push(row)
                       }
-                        
-                        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIDSByProjects/"+secureStorage.getItem("user"), options)
-                        .then(response => response.json())
-                        .then(async json => {
-                        var row = null
-                            if(json.rows){
-                            for(let i = 0; i < json.rows.length; i++){
-                              if(json.rows[i].accept_reject_date != null){
-                                row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
-                              }else{
-                                row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: ""}
-                              }
-                                if(secureStorage.getItem("role") === "3D Admin"){
-                                  row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
-                                  row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRIDS" changeAdmin = {this.changeAdmin.bind(this)}/>
-                                  if(json.rows[i].status === 0){
-                                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")} >
-                                      <option value="pending" selected>Pending</option>
-                                      <option value="progress">In progress</option>
-                                      <option value="ready">Ready</option>
-                                      <option value="rejected">Rejected</option>
-                                    </select>
-                                      row.color = "#www"
-                                  }else if(json.rows[i].status === 1){
-                                    row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
-                                    <option value="pending">Pending</option>
-                                    <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                    }
+                      
+                      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIDSByProjects/"+secureStorage.getItem("user"), options)
+                      .then(response => response.json())
+                      .then(async json => {
+                      var row = null
+                          if(json.rows){
+                          for(let i = 0; i < json.rows.length; i++){
+                            if(json.rows[i].accept_reject_date != null){
+                              row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                            }else{
+                              row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: ""}
+                            }
+                              if(secureStorage.getItem("role") === "3D Admin"){
+                                row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRIDS" changeAdmin = {this.changeAdmin.bind(this)}/>
+                                if(json.rows[i].status === 0){
+                                    row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")} >
+                                    <option value="pending" selected>Pending</option>
+                                    <option value="progress">In progress</option>
                                     <option value="ready">Ready</option>
                                     <option value="rejected">Rejected</option>
                                   </select>
-                                      row.color = "#yyy"
-                                  }else if(json.rows[i].status === 2){
-                                    row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
-                                    <option value="pending">Pending</option>
-                                    <option value="progress">In progress</option>
-                                    <option value="ready" selected>Ready</option>
-                                    <option value="rejected">Rejected</option>
-                                    </select>
-                                      row.color = "#ggg"
-                                  }else{
-                                    row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
-                                    <option value="pending">Pending</option>
-                                    <option value="progress">In progress</option>
-                                    <option value="ready">Ready</option>
-                                    <option value="rejected" selected>Rejected</option>
-                                   </select>
-                                      row.color = "#rrr"
-                                  }
-                                  row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
-
-                                }else{
-                                  row["admin"] = json.rows[i].admin
-                                  if(json.rows[i].status === 0){
-                                    row.status = "Pending"
                                     row.color = "#www"
-                                  }else if(json.rows[i].status === 1){
-                                      row.status = "In progress"
-                                      row.color = "#yyy"
-                                  }else if(json.rows[i].status === 2){
-                                      row.status = "Ready"
-                                      row.color = "#ggg"
-                                  }else{
-                                      row.status = "Rejected"
-                                      row.color = "#rrr"
-                                  }
-                                  row.observations = json.rows[i].observations
+                                }else if(json.rows[i].status === 1){
+                                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
+                                  <option value="pending">Pending</option>
+                                  <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                  <option value="ready">Ready</option>
+                                  <option value="rejected">Rejected</option>
+                                </select>
+                                    row.color = "#yyy"
+                                }else if(json.rows[i].status === 2){
+                                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
+                                  <option value="pending">Pending</option>
+                                  <option value="progress">In progress</option>
+                                  <option value="ready" selected>Ready</option>
+                                  <option value="rejected">Rejected</option>
+                                  </select>
+                                    row.color = "#ggg"
+                                }else{
+                                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
+                                  <option value="pending">Pending</option>
+                                  <option value="progress">In progress</option>
+                                  <option value="ready">Ready</option>
+                                  <option value="rejected" selected>Rejected</option>
+                                 </select>
+                                    row.color = "#rrr"
                                 }
-                                rows.push(row)
-                            }
+                                row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                              }else{
+                                row["admin"] = json.rows[i].admin
+                                if(json.rows[i].status === 0){
+                                  row.status = "Pending"
+                                  row.color = "#www"
+                                }else if(json.rows[i].status === 1){
+                                    row.status = "In progress"
+                                    row.color = "#yyy"
+                                }else if(json.rows[i].status === 2){
+                                    row.status = "Ready"
+                                    row.color = "#ggg"
+                                }else{
+                                    row.status = "Rejected"
+                                    row.color = "#rrr"
+                                }
+                                row.observations = json.rows[i].observations
+                              }
+                              rows.push(row)
                           }
-                            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getRPByProjects/"+secureStorage.getItem("user"), options)
-                            .then(response => response.json())
-                            .then(async json => {
-                            var row = null
-                                if(json.rows){
-                                for(let i = 0; i < json.rows.length; i++){
-                                  if(json.rows[i].accept_reject_date != null){
-                                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerRPSpecPopUp incidence_number={json.rows[i].incidence_number} items={json.rows[i].items_to_report} scope={json.rows[i].scope} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
-                                  }else{
-                                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerRPSpecPopUp incidence_number={json.rows[i].incidence_number} items={json.rows[i].items_to_report} scope={json.rows[i].scope} description={json.rows[i].description}/>, ar_date: ""}
-                                  }
-                                    if(secureStorage.getItem("role") === "3D Admin"){
-                                      row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
-                                      row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="RP" changeAdmin = {this.changeAdmin.bind(this)}/>
-                                      if(json.rows[i].status === 0){
-                                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")} >
-                                          <option value="pending" selected>Pending</option>
-                                          <option value="progress">In progress</option>
-                                          <option value="ready">Ready</option>
-                                          <option value="rejected">Rejected</option>
-                                        </select>
-                                          row.color = "#www"
-                                      }else if(json.rows[i].status === 1){
-                                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
-                                        <option value="pending">Pending</option>
-                                        <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                        }
+                          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getRPByProjects/"+secureStorage.getItem("user"), options)
+                          .then(response => response.json())
+                          .then(async json => {
+                          var row = null
+                              if(json.rows){
+                              for(let i = 0; i < json.rows.length; i++){
+                                if(json.rows[i].accept_reject_date != null){
+                                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerRPSpecPopUp incidence_number={json.rows[i].incidence_number} items={json.rows[i].items_to_report} scope={json.rows[i].scope} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                                }else{
+                                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerRPSpecPopUp incidence_number={json.rows[i].incidence_number} items={json.rows[i].items_to_report} scope={json.rows[i].scope} description={json.rows[i].description}/>, ar_date: ""}
+                                }
+                                  if(secureStorage.getItem("role") === "3D Admin"){
+                                    row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                    row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="RP" changeAdmin = {this.changeAdmin.bind(this)}/>
+                                    if(json.rows[i].status === 0){
+                                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")} >
+                                        <option value="pending" selected>Pending</option>
+                                        <option value="progress">In progress</option>
                                         <option value="ready">Ready</option>
                                         <option value="rejected">Rejected</option>
                                       </select>
-                                          row.color = "#yyy"
-                                      }else if(json.rows[i].status === 2){
-                                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
-                                        <option value="pending">Pending</option>
-                                        <option value="progress">In progress</option>
-                                        <option value="ready" selected>Ready</option>
-                                        <option value="rejected">Rejected</option>
-                                        </select>
-                                          row.color = "#ggg"
-                                      }else{
-                                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
-                                        <option value="pending">Pending</option>
+                                        row.color = "#www"
+                                    }else if(json.rows[i].status === 1){
+                                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
+                                      <option value="pending">Pending</option>
+                                      <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                      <option value="ready">Ready</option>
+                                      <option value="rejected">Rejected</option>
+                                    </select>
+                                        row.color = "#yyy"
+                                    }else if(json.rows[i].status === 2){
+                                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
+                                      <option value="pending">Pending</option>
+                                      <option value="progress">In progress</option>
+                                      <option value="ready" selected>Ready</option>
+                                      <option value="rejected">Rejected</option>
+                                      </select>
+                                        row.color = "#ggg"
+                                    }else{
+                                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
+                                      <option value="pending">Pending</option>
+                                      <option value="progress">In progress</option>
+                                      <option value="ready">Ready</option>
+                                      <option value="rejected" selected>Rejected</option>
+                                     </select>
+                                        row.color = "#rrr"
+                                    }
+                                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                                  }else{
+                                    row["admin"] = json.rows[i].admin
+                                    if(json.rows[i].status === 0){
+                                      row.status = "Pending"
+                                      row.color = "#www"
+                                    }else if(json.rows[i].status === 1){
+                                        row.status = "In progress"
+                                        row.color = "#yyy"
+                                    }else if(json.rows[i].status === 2){
+                                        row.status = "Ready"
+                                        row.color = "#ggg"
+                                    }else{
+                                        row.status = "Rejected"
+                                        row.color = "#rrr"
+                                    }
+                                    row.observations = json.rows[i].observations
+                                  }
+                                  rows.push(row)
+                              }
+                            }
+                              // Sort the array based on the second element
+                              rows.sort(function(first, second) {
+                                return second.created_at.localeCompare(first.created_at);
+                              });
+                              const filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filter(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filter(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filter(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(3,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(4,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filter(7,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filter(5,e.target.value)}/></div>}]
+              
+                              this.setState({data : rows, displayData: rows});
+                              await this.setState({filters : filterRow})
+
+                          })
+
+                      })
+
+                  })
+
+              })
+
+          })
+          
+      })
+    }else{
+      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNWC/"+secureStorage.getItem("user"), options)
+      .then(response => response.json())
+      .then(async json => {
+        var rows = []
+        var row = null
+        if(json.rows){
+          for(let i = 0; i < json.rows.length; i++){
+              
+              if(json.rows[i].attach === 1){
+                if(json.rows[i].accept_reject_date != null){
+                  
+                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNWCSpecPopUp incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10)}
+                }else{
+                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNWCSpecPopUp incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: ""}
+                }
+              }else{
+                if(json.rows[i].accept_reject_date != null){
+                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNWCSpecPopUp incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                }else{
+                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNWCSpecPopUp incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: ""}
+                }
+              }
+
+              if(secureStorage.getItem("role") === "3D Admin"){
+                row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NWC" changeAdmin = {this.changeAdmin.bind(this)}/>
+                if(json.rows[i].status === 0){
+                    row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")} >
+                    <option value="pending" selected>Pending</option>
+                    <option value="progress">In progress</option>
+                    <option value="ready">Ready</option>
+                    <option value="rejected">Rejected</option>
+                  </select>
+                    row.color = "#www"
+                }else if(json.rows[i].status === 1){
+                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                  <option value="pending">Pending</option>
+                  <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                  <option value="ready">Ready</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+                    row.color = "#yyy"
+                }else if(json.rows[i].status === 2){
+                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                  <option value="pending">Pending</option>
+                  <option value="progress">In progress</option>
+                  <option value="ready" selected>Ready</option>
+                  <option value="rejected">Rejected</option>
+                  </select>
+                    row.color = "#ggg"
+                }else{
+                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                  <option value="pending">Pending</option>
+                  <option value="progress">In progress</option>
+                  <option value="ready">Ready</option>
+                  <option value="rejected" selected>Rejected</option>
+                 </select>
+                    row.color = "#rrr"
+                }
+
+                row.observations = <input style={{width: "215px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+              }else{
+                row["admin"] = json.rows[i].admin
+                if(json.rows[i].status === 0){
+                  row.status = "Pending"
+                  row.color = "#www"
+                }else if(json.rows[i].status === 1){
+                    row.status = "In progress"
+                    row.color = "#yyy"
+                }else if(json.rows[i].status === 2){
+                    row.status = "Ready"
+                    row.color = "#ggg"
+                }else{
+                    row.status = "Rejected"
+                    row.color = "#rrr"
+                }
+
+                row.observations = json.rows[i].observations
+              }
+              
+              rows.push(row)
+          }
+        }
+          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVN/"+secureStorage.getItem("user"), options)
+          .then(response => response.json())
+          .then(async json => {
+          var row = null
+            if(json.rows){
+              for(let i = 0; i < json.rows.length; i++){
+                if(json.rows[i].attach === 1){
+                  if(json.rows[i].accept_reject_date != null){
+                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10)}
+                  }else{
+                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: ""}
+                  }
+                }else{
+                  if(json.rows[i].accept_reject_date != null){
+                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                  }else{
+                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: ""}
+                  }
+                }
+                  if(secureStorage.getItem("role") === "3D Admin"){
+                    row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                    row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NVN" changeAdmin = {this.changeAdmin.bind(this)}/>
+                    if(json.rows[i].status === 0){
+                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")} >
+                        <option value="pending" selected>Pending</option>
+                        <option value="progress">In progress</option>
+                        <option value="ready">Ready</option>
+                        <option value="rejected">Rejected</option>
+                      </select>
+                        row.color = "#www"
+                    }else if(json.rows[i].status === 1){
+                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
+                      <option value="pending">Pending</option>
+                      <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                      <option value="ready">Ready</option>
+                      <option value="rejected">Rejected</option>
+                    </select>
+                        row.color = "#yyy"
+                    }else if(json.rows[i].status === 2){
+                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
+                      <option value="pending">Pending</option>
+                      <option value="progress">In progress</option>
+                      <option value="ready" selected>Ready</option>
+                      <option value="rejected">Rejected</option>
+                      </select>
+                        row.color = "#ggg"
+                    }else{
+                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
+                      <option value="pending">Pending</option>
+                      <option value="progress">In progress</option>
+                      <option value="ready">Ready</option>
+                      <option value="rejected" selected>Rejected</option>
+                     </select>
+                        row.color = "#rrr"
+                    }
+                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                  }else{
+                    row["admin"] = json.rows[i].admin
+                    if(json.rows[i].status === 0){
+                      row.status = "Pending"
+                      row.color = "#www"
+                    }else if(json.rows[i].status === 1){
+                        row.status = "In progress"
+                        row.color = "#yyy"
+                    }else if(json.rows[i].status === 2){
+                        row.status = "Ready"
+                        row.color = "#ggg"
+                    }else{
+                        row.status = "Rejected"
+                        row.color = "#rrr"
+                    }
+
+                    row.observations = json.rows[i].observations
+                  }
+                  rows.push(row)
+              }
+            }
+              
+              await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRI/"+secureStorage.getItem("user"), options)
+              .then(response => response.json())
+              .then(async json => {
+              var row = null
+                  if(json.rows){
+                  for(let i = 0; i < json.rows.length; i++){
+                    if(json.rows[i].attach === 1){
+                      if(json.rows[i].accept_reject_date != null){
+                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10)}
+                      }else{
+                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: ""}
+                      }
+                    }else{
+                      if(json.rows[i].accept_reject_date != null){
+                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                      }else{
+                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/>, ar_date: ""}
+                      }
+                    }
+                      if(secureStorage.getItem("role") === "3D Admin"){
+                        row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                        row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRI" changeAdmin = {this.changeAdmin.bind(this)}/>
+                        if(json.rows[i].status === 0){
+                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")} >
+                            <option value="pending" selected>Pending</option>
+                            <option value="progress">In progress</option>
+                            <option value="ready">Ready</option>
+                            <option value="rejected">Rejected</option>
+                          </select>
+                            row.color = "#www"
+                        }else if(json.rows[i].status === 1){
+                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
+                          <option value="pending">Pending</option>
+                          <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                          <option value="ready">Ready</option>
+                          <option value="rejected">Rejected</option>
+                        </select>
+                            row.color = "#yyy"
+                        }else if(json.rows[i].status === 2){
+                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
+                          <option value="pending">Pending</option>
+                          <option value="progress">In progress</option>
+                          <option value="ready" selected>Ready</option>
+                          <option value="rejected">Rejected</option>
+                          </select>
+                            row.color = "#ggg"
+                        }else{
+                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
+                          <option value="pending">Pending</option>
+                          <option value="progress">In progress</option>
+                          <option value="ready">Ready</option>
+                          <option value="rejected" selected>Rejected</option>
+                         </select>
+                            row.color = "#rrr"
+                        }
+                        row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                      }else{
+                        row["admin"] = json.rows[i].admin
+                        if(json.rows[i].status === 0){
+                          row.status = "Pending"
+                          row.color = "#www"
+                        }else if(json.rows[i].status === 1){
+                            row.status = "In progress"
+                            row.color = "#yyy"
+                        }else if(json.rows[i].status === 2){
+                            row.status = "Ready"
+                            row.color = "#ggg"
+                        }else{
+                            row.status = "Rejected"
+                            row.color = "#rrr"
+                        }
+
+                        row.observations = json.rows[i].observations
+                      }
+                      rows.push(row)
+                  }
+                }
+                  await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRB/"+secureStorage.getItem("user"), options)
+                  .then(response => response.json())
+                  .then(async json => {
+                  var row = null
+                      if(json.rows){
+                      for(let i = 0; i < json.rows.length; i++){
+                        if(json.rows[i].attach === 1){
+                          if(json.rows[i].accept_reject_date != null){
+                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10)}
+                          }else{
+                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: ""}
+                          }
+                        }else{
+                          if(json.rows[i].accept_reject_date != null){
+                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                          }else{
+                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/>, ar_date: ""}
+                          }
+                        }
+                          if(secureStorage.getItem("role") === "3D Admin"){
+                            row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                            row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRB" changeAdmin = {this.changeAdmin.bind(this)}/>
+                            if(json.rows[i].status === 0){
+                                row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")} >
+                                <option value="pending" selected>Pending</option>
+                                <option value="progress">In progress</option>
+                                <option value="ready">Ready</option>
+                                <option value="rejected">Rejected</option>
+                              </select>
+                                row.color = "#www"
+                            }else if(json.rows[i].status === 1){
+                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
+                              <option value="pending">Pending</option>
+                              <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                              <option value="ready">Ready</option>
+                              <option value="rejected">Rejected</option>
+                            </select>
+                                row.color = "#yyy"
+                            }else if(json.rows[i].status === 2){
+                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
+                              <option value="pending">Pending</option>
+                              <option value="progress">In progress</option>
+                              <option value="ready" selected>Ready</option>
+                              <option value="rejected">Rejected</option>
+                              </select>
+                                row.color = "#ggg"
+                            }else{
+                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
+                              <option value="pending">Pending</option>
+                              <option value="progress">In progress</option>
+                              <option value="ready">Ready</option>
+                              <option value="rejected" selected>Rejected</option>
+                             </select>
+                                row.color = "#rrr"
+                            }
+
+                            row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                          
+                          }else{
+                            row["admin"] = json.rows[i].admin
+                            if(json.rows[i].status === 0){
+                              row.status = "Pending"
+                              row.color = "#www"
+                            }else if(json.rows[i].status === 1){
+                                row.status = "In progress"
+                                row.color = "#yyy"
+                            }else if(json.rows[i].status === 2){
+                                row.status = "Ready"
+                                row.color = "#ggg"
+                            }else{
+                                row.status = "Rejected"
+                                row.color = "#rrr"
+                            }
+
+                            row.observations = json.rows[i].observations
+                          }
+                          rows.push(row)
+                      }
+                    }
+                      
+                      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIDS/"+secureStorage.getItem("user"), options)
+                      .then(response => response.json())
+                      .then(async json => {
+                      var row = null
+                          if(json.rows){
+                          for(let i = 0; i < json.rows.length; i++){
+                            if(json.rows[i].accept_reject_date != null){
+                              row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                            }else{
+                              row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: ""}
+                            }
+                              if(secureStorage.getItem("role") === "3D Admin"){
+                                row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRIDS" changeAdmin = {this.changeAdmin.bind(this)}/>
+                                if(json.rows[i].status === 0){
+                                    row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")} >
+                                    <option value="pending" selected>Pending</option>
+                                    <option value="progress">In progress</option>
+                                    <option value="ready">Ready</option>
+                                    <option value="rejected">Rejected</option>
+                                  </select>
+                                    row.color = "#www"
+                                }else if(json.rows[i].status === 1){
+                                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
+                                  <option value="pending">Pending</option>
+                                  <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                  <option value="ready">Ready</option>
+                                  <option value="rejected">Rejected</option>
+                                </select>
+                                    row.color = "#yyy"
+                                }else if(json.rows[i].status === 2){
+                                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
+                                  <option value="pending">Pending</option>
+                                  <option value="progress">In progress</option>
+                                  <option value="ready" selected>Ready</option>
+                                  <option value="rejected">Rejected</option>
+                                  </select>
+                                    row.color = "#ggg"
+                                }else{
+                                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
+                                  <option value="pending">Pending</option>
+                                  <option value="progress">In progress</option>
+                                  <option value="ready">Ready</option>
+                                  <option value="rejected" selected>Rejected</option>
+                                 </select>
+                                    row.color = "#rrr"
+                                }
+                                row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                              }else{
+                                row["admin"] = json.rows[i].admin
+                                if(json.rows[i].status === 0){
+                                  row.status = "Pending"
+                                  row.color = "#www"
+                                }else if(json.rows[i].status === 1){
+                                    row.status = "In progress"
+                                    row.color = "#yyy"
+                                }else if(json.rows[i].status === 2){
+                                    row.status = "Ready"
+                                    row.color = "#ggg"
+                                }else{
+                                    row.status = "Rejected"
+                                    row.color = "#rrr"
+                                }
+                                row.observations = json.rows[i].observations
+                              }
+                              rows.push(row)
+                          }
+                        }
+                          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getRP/"+secureStorage.getItem("user"), options)
+                          .then(response => response.json())
+                          .then(async json => {
+                          var row = null
+                              if(json.rows){
+                              for(let i = 0; i < json.rows.length; i++){
+                                if(json.rows[i].accept_reject_date != null){
+                                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerRPSpecPopUp incidence_number={json.rows[i].incidence_number} items={json.rows[i].items_to_report} scope={json.rows[i].scope} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                                }else{
+                                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerRPSpecPopUp incidence_number={json.rows[i].incidence_number} items={json.rows[i].items_to_report} scope={json.rows[i].scope} description={json.rows[i].description}/>, ar_date: ""}
+                                }
+                                  if(secureStorage.getItem("role") === "3D Admin"){
+                                    row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                    row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="RP" changeAdmin = {this.changeAdmin.bind(this)}/>
+                                    if(json.rows[i].status === 0){
+                                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")} >
+                                        <option value="pending" selected>Pending</option>
                                         <option value="progress">In progress</option>
                                         <option value="ready">Ready</option>
-                                        <option value="rejected" selected>Rejected</option>
-                                       </select>
-                                          row.color = "#rrr"
-                                      }
-                                      row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
-
-                                    }else{
-                                      row["admin"] = json.rows[i].admin
-                                      if(json.rows[i].status === 0){
-                                        row.status = "Pending"
+                                        <option value="rejected">Rejected</option>
+                                      </select>
                                         row.color = "#www"
-                                      }else if(json.rows[i].status === 1){
-                                          row.status = "In progress"
-                                          row.color = "#yyy"
-                                      }else if(json.rows[i].status === 2){
-                                          row.status = "Ready"
-                                          row.color = "#ggg"
-                                      }else{
-                                          row.status = "Rejected"
-                                          row.color = "#rrr"
-                                      }
-                                      row.observations = json.rows[i].observations
+                                    }else if(json.rows[i].status === 1){
+                                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
+                                      <option value="pending">Pending</option>
+                                      <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                      <option value="ready">Ready</option>
+                                      <option value="rejected">Rejected</option>
+                                    </select>
+                                        row.color = "#yyy"
+                                    }else if(json.rows[i].status === 2){
+                                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
+                                      <option value="pending">Pending</option>
+                                      <option value="progress">In progress</option>
+                                      <option value="ready" selected>Ready</option>
+                                      <option value="rejected">Rejected</option>
+                                      </select>
+                                        row.color = "#ggg"
+                                    }else{
+                                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
+                                      <option value="pending">Pending</option>
+                                      <option value="progress">In progress</option>
+                                      <option value="ready">Ready</option>
+                                      <option value="rejected" selected>Rejected</option>
+                                     </select>
+                                        row.color = "#rrr"
                                     }
-                                    rows.push(row)
-                                }
+                                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                                  }else{
+                                    row["admin"] = json.rows[i].admin
+                                    if(json.rows[i].status === 0){
+                                      row.status = "Pending"
+                                      row.color = "#www"
+                                    }else if(json.rows[i].status === 1){
+                                        row.status = "In progress"
+                                        row.color = "#yyy"
+                                    }else if(json.rows[i].status === 2){
+                                        row.status = "Ready"
+                                        row.color = "#ggg"
+                                    }else{
+                                        row.status = "Rejected"
+                                        row.color = "#rrr"
+                                    }
+                                    row.observations = json.rows[i].observations
+                                  }
+                                  rows.push(row)
                               }
-                                // Sort the array based on the second element
-                                rows.sort(function(first, second) {
-                                  return second.created_at.localeCompare(first.created_at);
-                                });
-                                const filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filter(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filter(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filter(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(3,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(4,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filter(7,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filter(5,e.target.value)}/></div>}]
-                
-                                this.setState({data : rows, displayData: rows});
-                                await this.setState({filters : filterRow})
+                            }
+                              // Sort the array based on the second element
+                              rows.sort(function(first, second) {
+                                return second.created_at.localeCompare(first.created_at);
+                              });
+                              const filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filter(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filter(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filter(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(3,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(4,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filter(7,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filter(5,e.target.value)}/></div>}]
+              
+                              this.setState({data : rows, displayData: rows});
+                              await this.setState({filters : filterRow})
 
-                            })
+                          })
 
-                        })
+                      })
 
-                    })
+                  })
 
-                })
+              })
 
-            })
-            
-        })
+          })
+          
+      })
+    }
+
+    
 
   }
 
@@ -574,7 +1058,488 @@ class QTrackerViewDataTable extends React.Component{
         },
     }
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNWCByProjects/"+secureStorage.getItem("user"), options)
+    if(secureStorage.getItem("role") === "3D Admin"){
+      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNWCByProjects/"+secureStorage.getItem("user"), options)
+      .then(response => response.json())
+      .then(async json => {
+        var rows = []
+        var row = null
+        if(json.rows){
+          for(let i = 0; i < json.rows.length; i++){
+              
+              if(json.rows[i].attach === 1){
+                if(json.rows[i].accept_reject_date != null){
+                  
+                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNWCSpecPopUp incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10)}
+                }else{
+                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNWCSpecPopUp incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: ""}
+                }
+              }else{
+                if(json.rows[i].accept_reject_date != null){
+                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNWCSpecPopUp incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                }else{
+                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNWCSpecPopUp incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: ""}
+                }
+              }
+
+              if(secureStorage.getItem("role") === "3D Admin"){
+                row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NWC" changeAdmin = {this.changeAdmin.bind(this)}/>
+                if(json.rows[i].status === 0){
+                    row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")} >
+                    <option value="pending" selected>Pending</option>
+                    <option value="progress">In progress</option>
+                    <option value="ready">Ready</option>
+                    <option value="rejected">Rejected</option>
+                  </select>
+                    row.color = "#www"
+                }else if(json.rows[i].status === 1){
+                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                  <option value="pending">Pending</option>
+                  <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                  <option value="ready">Ready</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+                    row.color = "#yyy"
+                }else if(json.rows[i].status === 2){
+                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                  <option value="pending">Pending</option>
+                  <option value="progress">In progress</option>
+                  <option value="ready" selected>Ready</option>
+                  <option value="rejected">Rejected</option>
+                  </select>
+                    row.color = "#ggg"
+                }else{
+                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                  <option value="pending">Pending</option>
+                  <option value="progress">In progress</option>
+                  <option value="ready">Ready</option>
+                  <option value="rejected" selected>Rejected</option>
+                 </select>
+                    row.color = "#rrr"
+                }
+
+                row.observations = <input style={{width: "215px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+              }else{
+                row["admin"] = json.rows[i].admin
+                if(json.rows[i].status === 0){
+                  row.status = "Pending"
+                  row.color = "#www"
+                }else if(json.rows[i].status === 1){
+                    row.status = "In progress"
+                    row.color = "#yyy"
+                }else if(json.rows[i].status === 2){
+                    row.status = "Ready"
+                    row.color = "#ggg"
+                }else{
+                    row.status = "Rejected"
+                    row.color = "#rrr"
+                }
+
+                row.observations = json.rows[i].observations
+              }
+              
+              rows.push(row)
+          }
+        }
+          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVNByProjects/"+secureStorage.getItem("user"), options)
+          .then(response => response.json())
+          .then(async json => {
+          var row = null
+            if(json.rows){
+              for(let i = 0; i < json.rows.length; i++){
+                if(json.rows[i].attach === 1){
+                  if(json.rows[i].accept_reject_date != null){
+                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10)}
+                  }else{
+                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: ""}
+                  }
+                }else{
+                  if(json.rows[i].accept_reject_date != null){
+                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                  }else{
+                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: ""}
+                  }
+                }
+                  if(secureStorage.getItem("role") === "3D Admin"){
+                    row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                    row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NVN" changeAdmin = {this.changeAdmin.bind(this)}/>
+                    if(json.rows[i].status === 0){
+                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")} >
+                        <option value="pending" selected>Pending</option>
+                        <option value="progress">In progress</option>
+                        <option value="ready">Ready</option>
+                        <option value="rejected">Rejected</option>
+                      </select>
+                        row.color = "#www"
+                    }else if(json.rows[i].status === 1){
+                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
+                      <option value="pending">Pending</option>
+                      <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                      <option value="ready">Ready</option>
+                      <option value="rejected">Rejected</option>
+                    </select>
+                        row.color = "#yyy"
+                    }else if(json.rows[i].status === 2){
+                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
+                      <option value="pending">Pending</option>
+                      <option value="progress">In progress</option>
+                      <option value="ready" selected>Ready</option>
+                      <option value="rejected">Rejected</option>
+                      </select>
+                        row.color = "#ggg"
+                    }else{
+                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
+                      <option value="pending">Pending</option>
+                      <option value="progress">In progress</option>
+                      <option value="ready">Ready</option>
+                      <option value="rejected" selected>Rejected</option>
+                     </select>
+                        row.color = "#rrr"
+                    }
+                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                  }else{
+                    row["admin"] = json.rows[i].admin
+                    if(json.rows[i].status === 0){
+                      row.status = "Pending"
+                      row.color = "#www"
+                    }else if(json.rows[i].status === 1){
+                        row.status = "In progress"
+                        row.color = "#yyy"
+                    }else if(json.rows[i].status === 2){
+                        row.status = "Ready"
+                        row.color = "#ggg"
+                    }else{
+                        row.status = "Rejected"
+                        row.color = "#rrr"
+                    }
+
+                    row.observations = json.rows[i].observations
+                  }
+                  rows.push(row)
+              }
+            }
+              
+              await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIByProjects/"+secureStorage.getItem("user"), options)
+              .then(response => response.json())
+              .then(async json => {
+              var row = null
+                  if(json.rows){
+                  for(let i = 0; i < json.rows.length; i++){
+                    if(json.rows[i].attach === 1){
+                      if(json.rows[i].accept_reject_date != null){
+                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10)}
+                      }else{
+                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: ""}
+                      }
+                    }else{
+                      if(json.rows[i].accept_reject_date != null){
+                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                      }else{
+                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/>, ar_date: ""}
+                      }
+                    }
+                      if(secureStorage.getItem("role") === "3D Admin"){
+                        row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                        row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRI" changeAdmin = {this.changeAdmin.bind(this)}/>
+                        if(json.rows[i].status === 0){
+                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")} >
+                            <option value="pending" selected>Pending</option>
+                            <option value="progress">In progress</option>
+                            <option value="ready">Ready</option>
+                            <option value="rejected">Rejected</option>
+                          </select>
+                            row.color = "#www"
+                        }else if(json.rows[i].status === 1){
+                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
+                          <option value="pending">Pending</option>
+                          <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                          <option value="ready">Ready</option>
+                          <option value="rejected">Rejected</option>
+                        </select>
+                            row.color = "#yyy"
+                        }else if(json.rows[i].status === 2){
+                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
+                          <option value="pending">Pending</option>
+                          <option value="progress">In progress</option>
+                          <option value="ready" selected>Ready</option>
+                          <option value="rejected">Rejected</option>
+                          </select>
+                            row.color = "#ggg"
+                        }else{
+                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
+                          <option value="pending">Pending</option>
+                          <option value="progress">In progress</option>
+                          <option value="ready">Ready</option>
+                          <option value="rejected" selected>Rejected</option>
+                         </select>
+                            row.color = "#rrr"
+                        }
+                        row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                      }else{
+                        row["admin"] = json.rows[i].admin
+                        if(json.rows[i].status === 0){
+                          row.status = "Pending"
+                          row.color = "#www"
+                        }else if(json.rows[i].status === 1){
+                            row.status = "In progress"
+                            row.color = "#yyy"
+                        }else if(json.rows[i].status === 2){
+                            row.status = "Ready"
+                            row.color = "#ggg"
+                        }else{
+                            row.status = "Rejected"
+                            row.color = "#rrr"
+                        }
+
+                        row.observations = json.rows[i].observations
+                      }
+                      rows.push(row)
+                  }
+                }
+                  await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRBByProjects/"+secureStorage.getItem("user"), options)
+                  .then(response => response.json())
+                  .then(async json => {
+                  var row = null
+                      if(json.rows){
+                      for(let i = 0; i < json.rows.length; i++){
+                        if(json.rows[i].attach === 1){
+                          if(json.rows[i].accept_reject_date != null){
+                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10)}
+                          }else{
+                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: ""}
+                          }
+                        }else{
+                          if(json.rows[i].accept_reject_date != null){
+                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                          }else{
+                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRISpecPopUp incidence_number={json.rows[i].incidence_number} pipe={json.rows[i].pipe} description={json.rows[i].description}/>, ar_date: ""}
+                          }
+                        }
+                          if(secureStorage.getItem("role") === "3D Admin"){
+                            row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                            row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRB" changeAdmin = {this.changeAdmin.bind(this)}/>
+                            if(json.rows[i].status === 0){
+                                row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")} >
+                                <option value="pending" selected>Pending</option>
+                                <option value="progress">In progress</option>
+                                <option value="ready">Ready</option>
+                                <option value="rejected">Rejected</option>
+                              </select>
+                                row.color = "#www"
+                            }else if(json.rows[i].status === 1){
+                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
+                              <option value="pending">Pending</option>
+                              <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                              <option value="ready">Ready</option>
+                              <option value="rejected">Rejected</option>
+                            </select>
+                                row.color = "#yyy"
+                            }else if(json.rows[i].status === 2){
+                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
+                              <option value="pending">Pending</option>
+                              <option value="progress">In progress</option>
+                              <option value="ready" selected>Ready</option>
+                              <option value="rejected">Rejected</option>
+                              </select>
+                                row.color = "#ggg"
+                            }else{
+                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
+                              <option value="pending">Pending</option>
+                              <option value="progress">In progress</option>
+                              <option value="ready">Ready</option>
+                              <option value="rejected" selected>Rejected</option>
+                             </select>
+                                row.color = "#rrr"
+                            }
+
+                            row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                          
+                          }else{
+                            row["admin"] = json.rows[i].admin
+                            if(json.rows[i].status === 0){
+                              row.status = "Pending"
+                              row.color = "#www"
+                            }else if(json.rows[i].status === 1){
+                                row.status = "In progress"
+                                row.color = "#yyy"
+                            }else if(json.rows[i].status === 2){
+                                row.status = "Ready"
+                                row.color = "#ggg"
+                            }else{
+                                row.status = "Rejected"
+                                row.color = "#rrr"
+                            }
+
+                            row.observations = json.rows[i].observations
+                          }
+                          rows.push(row)
+                      }
+                    }
+                      
+                      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIDSByProjects/"+secureStorage.getItem("user"), options)
+                      .then(response => response.json())
+                      .then(async json => {
+                      var row = null
+                          if(json.rows){
+                          for(let i = 0; i < json.rows.length; i++){
+                            if(json.rows[i].accept_reject_date != null){
+                              row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                            }else{
+                              row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: ""}
+                            }
+                              if(secureStorage.getItem("role") === "3D Admin"){
+                                row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="NRIDS" changeAdmin = {this.changeAdmin.bind(this)}/>
+                                if(json.rows[i].status === 0){
+                                    row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")} >
+                                    <option value="pending" selected>Pending</option>
+                                    <option value="progress">In progress</option>
+                                    <option value="ready">Ready</option>
+                                    <option value="rejected">Rejected</option>
+                                  </select>
+                                    row.color = "#www"
+                                }else if(json.rows[i].status === 1){
+                                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
+                                  <option value="pending">Pending</option>
+                                  <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                  <option value="ready">Ready</option>
+                                  <option value="rejected">Rejected</option>
+                                </select>
+                                    row.color = "#yyy"
+                                }else if(json.rows[i].status === 2){
+                                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
+                                  <option value="pending">Pending</option>
+                                  <option value="progress">In progress</option>
+                                  <option value="ready" selected>Ready</option>
+                                  <option value="rejected">Rejected</option>
+                                  </select>
+                                    row.color = "#ggg"
+                                }else{
+                                  row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
+                                  <option value="pending">Pending</option>
+                                  <option value="progress">In progress</option>
+                                  <option value="ready">Ready</option>
+                                  <option value="rejected" selected>Rejected</option>
+                                 </select>
+                                    row.color = "#rrr"
+                                }
+                                row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                              }else{
+                                row["admin"] = json.rows[i].admin
+                                if(json.rows[i].status === 0){
+                                  row.status = "Pending"
+                                  row.color = "#www"
+                                }else if(json.rows[i].status === 1){
+                                    row.status = "In progress"
+                                    row.color = "#yyy"
+                                }else if(json.rows[i].status === 2){
+                                    row.status = "Ready"
+                                    row.color = "#ggg"
+                                }else{
+                                    row.status = "Rejected"
+                                    row.color = "#rrr"
+                                }
+                                row.observations = json.rows[i].observations
+                              }
+                              rows.push(row)
+                          }
+                        }
+                          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getRPByProjects/"+secureStorage.getItem("user"), options)
+                          .then(response => response.json())
+                          .then(async json => {
+                          var row = null
+                              if(json.rows){
+                              for(let i = 0; i < json.rows.length; i++){
+                                if(json.rows[i].accept_reject_date != null){
+                                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerRPSpecPopUp incidence_number={json.rows[i].incidence_number} items={json.rows[i].items_to_report} scope={json.rows[i].scope} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)}
+                                }else{
+                                  row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerRPSpecPopUp incidence_number={json.rows[i].incidence_number} items={json.rows[i].items_to_report} scope={json.rows[i].scope} description={json.rows[i].description}/>, ar_date: ""}
+                                }
+                                  if(secureStorage.getItem("role") === "3D Admin"){
+                                    row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                    row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="RP" changeAdmin = {this.changeAdmin.bind(this)}/>
+                                    if(json.rows[i].status === 0){
+                                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")} >
+                                        <option value="pending" selected>Pending</option>
+                                        <option value="progress">In progress</option>
+                                        <option value="ready">Ready</option>
+                                        <option value="rejected">Rejected</option>
+                                      </select>
+                                        row.color = "#www"
+                                    }else if(json.rows[i].status === 1){
+                                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
+                                      <option value="pending">Pending</option>
+                                      <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                      <option value="ready">Ready</option>
+                                      <option value="rejected">Rejected</option>
+                                    </select>
+                                        row.color = "#yyy"
+                                    }else if(json.rows[i].status === 2){
+                                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
+                                      <option value="pending">Pending</option>
+                                      <option value="progress">In progress</option>
+                                      <option value="ready" selected>Ready</option>
+                                      <option value="rejected">Rejected</option>
+                                      </select>
+                                        row.color = "#ggg"
+                                    }else{
+                                      row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
+                                      <option value="pending">Pending</option>
+                                      <option value="progress">In progress</option>
+                                      <option value="ready">Ready</option>
+                                      <option value="rejected" selected>Rejected</option>
+                                     </select>
+                                        row.color = "#rrr"
+                                    }
+                                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                                  }else{
+                                    row["admin"] = json.rows[i].admin
+                                    if(json.rows[i].status === 0){
+                                      row.status = "Pending"
+                                      row.color = "#www"
+                                    }else if(json.rows[i].status === 1){
+                                        row.status = "In progress"
+                                        row.color = "#yyy"
+                                    }else if(json.rows[i].status === 2){
+                                        row.status = "Ready"
+                                        row.color = "#ggg"
+                                    }else{
+                                        row.status = "Rejected"
+                                        row.color = "#rrr"
+                                    }
+                                    row.observations = json.rows[i].observations
+                                  }
+                                  rows.push(row)
+                              }
+                            }
+                              // Sort the array based on the second element
+                              rows.sort(function(first, second) {
+                                return second.created_at.localeCompare(first.created_at);
+                              });
+                              const filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filter(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filter(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filter(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(3,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(4,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filter(7,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filter(5,e.target.value)}/></div>}]
+              
+                              this.setState({data : rows, displayData: rows});
+                              await this.setState({filters : filterRow})
+
+                          })
+
+                      })
+
+                  })
+
+              })
+
+          })
+          
+      })
+    }else{
+      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNWC/"+secureStorage.getItem("user"), options)
         .then(response => response.json())
         .then(async json => {
           var rows = []
@@ -658,7 +1623,7 @@ class QTrackerViewDataTable extends React.Component{
                 rows.push(row)
             }
           }
-            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVNByProjects/"+secureStorage.getItem("user"), options)
+            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVN/"+secureStorage.getItem("user"), options)
             .then(response => response.json())
             .then(async json => {
             var row = null
@@ -737,7 +1702,7 @@ class QTrackerViewDataTable extends React.Component{
                 }
               }
                 
-                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIByProjects/"+secureStorage.getItem("user"), options)
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRI/"+secureStorage.getItem("user"), options)
                 .then(response => response.json())
                 .then(async json => {
                 var row = null
@@ -815,7 +1780,7 @@ class QTrackerViewDataTable extends React.Component{
                         rows.push(row)
                     }
                   }
-                    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRBByProjects/"+secureStorage.getItem("user"), options)
+                    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRB/"+secureStorage.getItem("user"), options)
                     .then(response => response.json())
                     .then(async json => {
                     var row = null
@@ -895,7 +1860,7 @@ class QTrackerViewDataTable extends React.Component{
                         }
                       }
                         
-                        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIDSByProjects/"+secureStorage.getItem("user"), options)
+                        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIDS/"+secureStorage.getItem("user"), options)
                         .then(response => response.json())
                         .then(async json => {
                         var row = null
@@ -964,7 +1929,7 @@ class QTrackerViewDataTable extends React.Component{
                                 rows.push(row)
                             }
                           }
-                            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getRPByProjects/"+secureStorage.getItem("user"), options)
+                            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getRP/"+secureStorage.getItem("user"), options)
                             .then(response => response.json())
                             .then(async json => {
                             var row = null
@@ -1053,6 +2018,9 @@ class QTrackerViewDataTable extends React.Component{
             })
             
         })
+    }
+
+    
 
       }
     

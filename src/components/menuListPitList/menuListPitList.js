@@ -20,6 +20,7 @@ import QtrackerNRBPopUp from '../qtrackerNRBPopUp/qtrackerNRBPopUp';
 import QtrackerRRPopUp from '../qtrackerRRPopUp/qtrackerRRPopUp';
 import QtrackerNRIDSPopUp from '../qtrackerNRIDSPopUp/qtrackerNRIDSPopUp';
 import SvgIcon from '@mui/material/SvgIcon';
+import ProjectPopUp from '../projectPopUp/projectPopUp';
 
 const CryptoJS = require("crypto-js");
 const SecureStorage = require("secure-web-storage");
@@ -139,11 +140,17 @@ export default function MenuListPITList(props) {
       history("/"+process.env.REACT_APP_PROJECT+"/pitrequestsview");
     }
 
+    function handleProjectsViewClick(){
+      history("/"+process.env.REACT_APP_PROJECT+"/projectsview");
+    }
+
     function success(){
       props.success()
     }
 
-    
+    function successProject(){
+      props.successProject()
+    }
 
 
   return (
@@ -200,6 +207,14 @@ export default function MenuListPITList(props) {
         <QtrackerRRPopUp success={success.bind(this)}/>
 
         </StyledTreeItem>
+      </StyledTreeItem>
+
+      <StyledTreeItem nodeId="12" labelText="Projects" color="#e3742f" bgColor="#fcefe3" labelIcon={Label}>
+
+        <StyledTreeItem nodeId="19" labelText="Projects tray" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleProjectsViewClick()}/>
+
+        <ProjectPopUp successProject={successProject.bind(this)}/>
+        
       </StyledTreeItem>
         
     </TreeView>

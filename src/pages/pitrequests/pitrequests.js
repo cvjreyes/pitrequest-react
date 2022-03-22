@@ -17,6 +17,7 @@ const PITRequests = () =>{
     const [navBar, setNavBar] = useState(null);
     const [circles, setCircles] = useState(null);
     const [success, setSuccess] = useState(false);
+    const [successProject, setSuccessProject] = useState(false)
 
     const history = useNavigate();
 
@@ -54,7 +55,7 @@ const PITRequests = () =>{
 
     useEffect(() =>{        
         setNavBar(<NavBar/>)
-        setContent(<MenuListPIT success={() => setSuccess(true)}/>)    
+        setContent(<MenuListPIT success={() => setSuccess(true)} successProject={() => setSuccessProject(true)}/>)    
         setCircles(<div><img src={GreenCircle} alt="greenCircle" className="greenCircle__image"/>
         <img src={BlueCircle} alt="blueCircle" className="blueCircle__image"/></div>)               
           
@@ -69,7 +70,7 @@ const PITRequests = () =>{
         history("/" + process.env.REACT_APP_PROJECT)
     }
 
-    console.log(success)
+    console.log(successProject)
 
     return(
         <div>
@@ -83,6 +84,12 @@ const PITRequests = () =>{
             onTransitionEnd={() => setSuccess(false)}
             >
                 <AlertF type="qtracker"/>
+            </div>
+            <div style={{zIndex: 99999}}
+            className={`alert alert-success ${successProject ? 'alert-shown' : 'alert-hidden'}`}
+            onTransitionEnd={() => setSuccessProject(false)}
+            >
+                <AlertF type="qtracker" project={true}/>
             </div>
             {circles}
             <div>

@@ -48,6 +48,18 @@
     z-index: 99999;
 }
 
+.alert__warning__qtracker{
+    position: fixed;
+    display: flex;
+    width: 841px;
+    height: 93px;
+    background: #FFCA42;
+    border-radius: 8.2397px;
+    left:50%;
+    margin-left: -420.5px;
+    margin-top: -130px;
+}
+
 .alert__icon{
     position: absolute;
     width: 74.98px;
