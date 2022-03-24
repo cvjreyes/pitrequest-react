@@ -6,10 +6,7 @@ import {useNavigate} from "react-router";
 
 import { useCallback, useMemo, useRef } from 'react';
 import { render } from 'react-dom';
-import { AgGridReact } from 'ag-grid-react';
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-import 'ag-grid-enterprise';
+import ProjectsTreeGrid from '../../components/projectsTreeGrid/projectsTreeGrid';
 const ProjectManager = () =>{
 
     const [navBar, setNavBar] = useState(null);
@@ -20,36 +17,8 @@ const ProjectManager = () =>{
     const SecureStorage = require("secure-web-storage");
     var SECRET_KEY = 'sanud2ha8shd72h';
 
-    const gridRef = useRef();
-    const containerStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
-    const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
+    const [updateData, setUpdateData] = useState(false)
 
-    const [rowData, setRowData] = useState(getData());
-    const [columnDefs, setColumnDefs] = useState([
-        // we're using the auto group column by default!
-        { field: 'jobTitle' },
-        { field: 'employmentType' },
-    ]);
-
-    const defaultColDef = useMemo(() => {
-        return {
-          flex: 1,
-          editable: true,
-        };
-      }, []);
-      const autoGroupColumnDef = useMemo(() => {
-        return {
-          headerName: 'Organisation Hierarchy',
-          minWidth: 300,
-          cellRendererParams: {
-            suppressCount: true,
-          },
-        };
-      }, []);
-
-      const getDataPath = useCallback(function (data) {
-        return data.orgHierarchy;
-      }, []);
 
     var secureStorage = new SecureStorage(localStorage, {
         hash: function hash(key) {
@@ -73,126 +42,6 @@ const ProjectManager = () =>{
         }
     });
 
-    async function addRow(){
-        let d = rowData
-        rowData.push({
-            orgHierarchy: ['Erica Rogers', 'Malcolm Barretta'],
-            jobTitle: 'Exec. Vice President',
-            employmentType: 'Permanent',
-          })
-        await setRowData(d)
-        console.log(rowData)
-    }
-
-    function getData() {
-        var rowData = [
-          {
-            orgHierarchy: [<button onClick={()=> addRow()}>+</button>] ,
-            jobTitle: 'CEO',
-            employmentType: 'Permanent',
-          },
-          {
-            orgHierarchy: ['Erica Rogers', 'Malcolm Barrett'],
-            jobTitle: 'Exec. Vice President',
-            employmentType: 'Permanent',
-          },
-      
-          {
-            orgHierarchy: ['Erica Rogers', 'Malcolm Barrett', 'Esther Baker'],
-            jobTitle: 'Director of Operations',
-            employmentType: 'Permanent',
-          },
-          {
-            orgHierarchy: [
-              'Erica Rogers',
-              'Malcolm Barrett',
-              'Esther Baker',
-              'Brittany Hanson',
-            ],
-            jobTitle: 'Fleet Coordinator',
-            employmentType: 'Permanent',
-          },
-          {
-            orgHierarchy: [
-              'Erica Rogers',
-              'Malcolm Barrett',
-              'Esther Baker',
-              'Brittany Hanson',
-              'Leah Flowers',
-            ],
-            jobTitle: 'Parts Technician',
-            employmentType: 'Contract',
-          },
-          {
-            orgHierarchy: [
-              'Erica Rogers',
-              'Malcolm Barrett',
-              'Esther Baker',
-              'Brittany Hanson',
-              'Tammy Sutton',
-            ],
-            jobTitle: 'Service Technician',
-            employmentType: 'Contract',
-          },
-          {
-            orgHierarchy: [
-              'Erica Rogers',
-              'Malcolm Barrett',
-              'Esther Baker',
-              'Derek Paul',
-            ],
-            jobTitle: 'Inventory Control',
-            employmentType: 'Permanent',
-          },
-      
-          {
-            orgHierarchy: ['Erica Rogers', 'Malcolm Barrett', 'Francis Strickland'],
-            jobTitle: 'VP Sales',
-            employmentType: 'Permanent',
-          },
-          {
-            orgHierarchy: [
-              'Erica Rogers',
-              'Malcolm Barrett',
-              'Francis Strickland',
-              'Morris Hanson',
-            ],
-            jobTitle: 'Sales Manager',
-            employmentType: 'Permanent',
-          },
-          {
-            orgHierarchy: [
-              'Erica Rogers',
-              'Malcolm Barrett',
-              'Francis Strickland',
-              'Todd Tyler',
-            ],
-            jobTitle: 'Sales Executive',
-            employmentType: 'Contract',
-          },
-          {
-            orgHierarchy: [
-              'Erica Rogers',
-              'Malcolm Barrett',
-              'Francis Strickland',
-              'Bennie Wise',
-            ],
-            jobTitle: 'Sales Executive',
-            employmentType: 'Contract',
-          },
-          {
-            orgHierarchy: [
-              'Erica Rogers',
-              'Malcolm Barrett',
-              'Francis Strickland',
-              'Joel Cooper',
-            ],
-            jobTitle: 'Sales Executive',
-            employmentType: 'Permanent',
-          },
-        ];
-        return rowData;
-      }
 
     useEffect(async ()=>{
         const options = {
@@ -243,6 +92,7 @@ const ProjectManager = () =>{
 
     return(
         <div>
+          {updateData}
             <IdleTimer
                 timeout={1000 * 60 * 15}
                 onIdle={handleOnIdle}
@@ -250,38 +100,9 @@ const ProjectManager = () =>{
             />
             <div>
                 <NavBar/>
-                
-                    <div style={containerStyle}>
-                    <div className="example-wrapper">
-                        <div style={gridStyle} className="ag-theme-alpine">
-                            <div
-                            className="ag-theme-balham"
-                            style={{
-                                height: '900px',
-                                width: '2000px',
-                                marginTop: '200px',
-                                marginLeft: '150px',
-                                fontSize:"20px"
-                            }}
-                            >
-                            <AgGridReact
-                                ref={gridRef}
-                                editType="cell"
-                                rowData={rowData}
-                                columnDefs={columnDefs}
-                                defaultColDef={defaultColDef}
-                                autoGroupColumnDef={autoGroupColumnDef}
-                                treeData={true}
-                                animateRows={true}
-                                groupDefaultExpanded={-1}
-                                getDataPath={getDataPath}
-                            ></AgGridReact>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
+                <ProjectsTreeGrid></ProjectsTreeGrid>
             </div>
+        </div>
         
     );
 };
