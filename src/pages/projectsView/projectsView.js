@@ -148,11 +148,10 @@ const ProjectsView = () => {
         history("/" + process.env.REACT_APP_PROJECT)
     }
 
-    async function changeAdmin(admin, incidence_number, type){
+    async function changeAdmin(admin, id){
         const body = {
             admin: admin,
-            incidence_number: incidence_number,
-            type: type,
+            task_id: id,
             currentAdmin: secureStorage.getItem("user")
           }
         const options = {
@@ -162,7 +161,7 @@ const ProjectsView = () => {
             },
           body: JSON.stringify(body)
         }
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/changeAdmin", options)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/changeAdminProjectTask", options)
         .then(response => response.json())
           .then(json =>{
             if(json.success){
@@ -211,7 +210,7 @@ const ProjectsView = () => {
                 },
                 body: JSON.stringify(body)
               }
-              fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateHours", options)
+              fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/projects/updateHours", options)
               .then(response => response.json())
               .then(async json => {
                 
@@ -230,7 +229,7 @@ const ProjectsView = () => {
 
         for(let i = 0; i < observationsArray.length; i++){
             let body = {
-                incidence_number: observationsArray[i][0],
+                task_id: observationsArray[i][0],
                 observation: observationsArray[i][1],
               }
               let options = {
@@ -241,7 +240,7 @@ const ProjectsView = () => {
                 body: JSON.stringify(body)
               }
               
-              fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateObservations", options)
+              fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/projects/updateObservations", options)
               .then(response => response.json())
               .then(async json => {
                 
@@ -250,10 +249,8 @@ const ProjectsView = () => {
         for(let i = 0; i < updatedRows.length; i++){
 
             let body = {
-                incidence_number: updatedRows[i][0],
+                task_id: updatedRows[i][0],
                 status_id: updatedRows[i][1],
-                project: updatedRows[i][2],
-                type: updatedRows[i][3],
                 email: secureStorage.getItem("user")
               }
               let options = {
@@ -264,7 +261,7 @@ const ProjectsView = () => {
                 body: JSON.stringify(body)
               }
               
-              fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateStatus", options)
+              fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/projects/updateStatus", options)
               .then(response => response.json())
               .then(async json => {
                 

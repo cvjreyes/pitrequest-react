@@ -152,6 +152,10 @@ export default function MenuListPITList(props) {
       props.successProject()
     }
 
+    function handleManageProjectsViewClick(){
+      history("/"+process.env.REACT_APP_PROJECT+"/projectManager")
+    }
+
 
   return (
     <TreeView
@@ -211,7 +215,9 @@ export default function MenuListPITList(props) {
 
       <StyledTreeItem nodeId="12" labelText="Projects" color="#e3742f" bgColor="#fcefe3" labelIcon={Label}>
 
-        <StyledTreeItem nodeId="19" labelText="Projects tray" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleProjectsViewClick()}/>
+        <StyledTreeItem nodeId="19" labelText="Tasks" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleProjectsViewClick()}/>
+
+        <StyledTreeItem nodeId="20" labelText="Project manager" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleManageProjectsViewClick()}/>
 
         <ProjectPopUp successProject={successProject.bind(this)}/>
         

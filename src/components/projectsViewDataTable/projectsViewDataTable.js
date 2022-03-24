@@ -71,13 +71,17 @@ class ProjectsViewDataTable extends React.Component{
         let rows = []
         let row = {}
         for(let i = 0; i < json.tasks.length; i++){
-            row = {task: json.tasks[i].task, subtask: json.tasks[i].subtask, project: json.tasks[i].project + " (" + json.tasks[i].code + ")", date: json.tasks[i].date, observations: <input style={{width: "275px"}} type="text" defaultValue={json.tasks[i].observations} onChange={(event)=>this.updateObservations(json.tasks[i].id, event.target.value)}/>, ar_date: json.tasks[i].accept_reject_date, admin: <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.tasks[i].admin} id={json.tasks[i].id} changeAdmin = {this.changeAdmin.bind(this)}/>, hours: <input style={{width: "55px"}} type="text" defaultValue={json.tasks[i].hours} onChange={(event)=>this.updateHours(json.rows[i].id, event.target.value)}/>}
+            row = {task: json.tasks[i].task, subtask: json.tasks[i].subtask, project: json.tasks[i].project + " (" + json.tasks[i].code + ")", date: json.tasks[i].date.toString().substring(0,10) + " "+ json.tasks[i].date.toString().substring(11,19) , observations: <input style={{width: "275px"}} type="text" defaultValue={json.tasks[i].observations} onChange={(event)=>this.updateObservations(json.tasks[i].id, event.target.value)}/>, ar_date: "", admin: <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.tasks[i].admin} incidence_number={json.tasks[i].id} changeAdmin = {this.changeAdmin.bind(this)}/>, hours: <input style={{width: "55px"}} type="text" defaultValue={json.tasks[i].hours} onChange={(event)=>this.updateHours(json.tasks[i].id, event.target.value)}/>, estimated: json.tasks[i].estimated}
+            if(json.tasks[i].accept_reject_date){
+              row["ar_date"] = json.tasks[i].accept_reject_date.toString().substring(0,10) + " "+ json.tasks[i].accept_reject_date.toString().substring(11,19)
+            }
+            
             if(json.tasks[i].status === 0 || !json.tasks[i].status){
                 row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.tasks[i].id, event.target.value)} >
                 <option value="pending" selected>Pending</option>
                 <option value="progress">In progress</option>
                 <option value="ready">Ready</option>
-                <option value="rejected">Rejected</option>
+                <option value="rejected">Cancelled</option>
               </select>
                 row.color = "#www"
             }else if(json.tasks[i].status === 1){
@@ -85,7 +89,7 @@ class ProjectsViewDataTable extends React.Component{
               <option value="pending">Pending</option>
               <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
               <option value="ready">Ready</option>
-              <option value="rejected">Rejected</option>
+              <option value="rejected">Cancelled</option>
             </select>
                 row.color = "#yyy"
             }else if(json.tasks[i].status === 2){
@@ -93,7 +97,7 @@ class ProjectsViewDataTable extends React.Component{
               <option value="pending">Pending</option>
               <option value="progress">In progress</option>
               <option value="ready" selected>Ready</option>
-              <option value="rejected">Rejected</option>
+              <option value="rejected">Cancelled</option>
               </select>
                 row.color = "#ggg"
             }else{
@@ -101,21 +105,80 @@ class ProjectsViewDataTable extends React.Component{
               <option value="pending">Pending</option>
               <option value="progress">In progress</option>
               <option value="ready">Ready</option>
-              <option value="rejected" selected>Rejected</option>
+              <option value="rejected" selected>Cancelled</option>
              </select>
                 row.color = "#rrr"
             }
             rows.push(row)
         }
-        await this.setState({data : rows, selectedRows: [], displayData: rows});
+        const filterRow = [{task: <div><input type="text" className="filter__input" placeholder="Task" onChange={(e) => this.filter(0, e.target.value)}/></div>, subtask: <div><input type="text" className="filter__input" placeholder="Subtask" onChange={(e) => this.filter(1, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filter(2, e.target.value)}/></div>, date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(3,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="A/R Date" onChange={(e) => this.filter(5,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filter(6,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filter(9,e.target.value)}/></div>, estimated: <div><input type="text" className="filter__input" placeholder="Estimated" onChange={(e) => this.filter(8,e.target.value)}/></div>}]
+
+        await this.setState({data : rows, selectedRows: [], displayData: rows, filters: filterRow});
     })
   }
 
-  async componentDidUpdate(){
+  async componentDidUpdate(prevProps, prevState){
+    if(prevProps !== this.props){
+      const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        },
+  
+    }
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsTasks", options)
+    .then(response => response.json())
+    .then(async json => {
+        let rows = []
+        let row = {}
+        for(let i = 0; i < json.tasks.length; i++){
+            row = {task: json.tasks[i].task, subtask: json.tasks[i].subtask, project: json.tasks[i].project + " (" + json.tasks[i].code + ")", date: json.tasks[i].date.toString().substring(0,10) + " "+ json.tasks[i].date.toString().substring(11,19) , observations: <input style={{width: "275px"}} type="text" defaultValue={json.tasks[i].observations} onChange={(event)=>this.updateObservations(json.tasks[i].id, event.target.value)}/>, ar_date: "", admin: <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.tasks[i].admin} id={json.tasks[i].id} changeAdmin = {this.changeAdmin.bind(this)}/>, hours: <input style={{width: "55px"}} type="text" defaultValue={json.tasks[i].hours} onChange={(event)=>this.updateHours(json.tasks[i].id, event.target.value)}/>}
+            if(json.tasks[i].accept_reject_date){
+              row["ar_date"] = json.tasks[i].accept_reject_date.toString().substring(0,10) + " "+ json.tasks[i].accept_reject_date.toString().substring(11,19)
+            }
+            
+            if(json.tasks[i].status === 0 || !json.tasks[i].status){
+                row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.tasks[i].id, event.target.value)} >
+                <option value="pending" selected>Pending</option>
+                <option value="progress">In progress</option>
+                <option value="ready">Ready</option>
+                <option value="rejected">Cancelled</option>
+              </select>
+                row.color = "#www"
+            }else if(json.tasks[i].status === 1){
+              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.tasks[i].id, event.target.value)}>
+              <option value="pending">Pending</option>
+              <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+              <option value="ready">Ready</option>
+              <option value="rejected">Cancelled</option>
+            </select>
+                row.color = "#yyy"
+            }else if(json.tasks[i].status === 2){
+              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.tasks[i].id, event.target.value)}>
+              <option value="pending">Pending</option>
+              <option value="progress">In progress</option>
+              <option value="ready" selected>Ready</option>
+              <option value="rejected">Cancelled</option>
+              </select>
+                row.color = "#ggg"
+            }else{
+              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.tasks[i].id, event.target.value)}>
+              <option value="pending">Pending</option>
+              <option value="progress">In progress</option>
+              <option value="ready">Ready</option>
+              <option value="rejected" selected>Cancelled</option>
+             </select>
+                row.color = "#rrr"
+            }
+            rows.push(row)
+        }
 
+        await this.setState({data : rows, selectedRows: [], displayData: rows});
+      })
+    }
   }
 
-  async statusChange(incidence_number, status, project, type){
+  async statusChange(id, status){
     let status_id
     if(status === "pending"){
       status_id = 0
@@ -127,12 +190,12 @@ class ProjectsViewDataTable extends React.Component{
       status_id = 3
     }
 
-   await this.props.updateStatus([incidence_number, status_id, project, type])  
+   await this.props.updateStatus([id, status_id])  
   }
 
  
-  async changeAdmin(admin, incidence_number, type){
-    this.props.changeAdmin(admin, incidence_number, type)
+  async changeAdmin(admin, id){
+    this.props.changeAdmin(admin, id)
   }
   
 
@@ -172,7 +235,6 @@ class ProjectsViewDataTable extends React.Component{
           }
         }else if(fil === "admin"){
           if(auxDisplayData[i][fil].props){
-            console.log(auxDisplayData[i][fil].props)
             if(auxDisplayData[i][fil].props.admin){
               if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.admin.includes(this.state.filterData[column])){
                 exists = false
@@ -188,11 +250,16 @@ class ProjectsViewDataTable extends React.Component{
               exists = false
             }
           }
+        }else if(fil === "observations" || fil === "hours"){
+          
         }else{
+          console.log(auxDisplayData[i][fil])
           if(auxDisplayData[i][fil]){
-            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].includes(this.state.filterData[column])){
+            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toString().includes(this.state.filterData[column])){
               exists = false
             }
+          }else if(!auxDisplayData[i][fil] &&this.state.filterData[column] ){
+            exists = false
           }
           
         }
@@ -293,6 +360,7 @@ class ProjectsViewDataTable extends React.Component{
         dataIndex: 'observations',
         key: 'observations',
         ...this.getColumnSearchProps('observations'),
+        width:"290px"
       },  
       {
         title: <center className="dataTable__header__text">Accepted/Rejected Date</center>,
@@ -317,19 +385,20 @@ class ProjectsViewDataTable extends React.Component{
         dataIndex: 'status',
         key: 'status',
         ...this.getColumnSearchProps('status'),
-        sorter:{
-          compare: (a, b) => a.status.localeCompare(b.status),
-        },
         width: '160px'
+      },
+      {
+        title: <center className="dataTable__header__text">Estimated hours</center>,
+        dataIndex: 'estimated',
+        key: 'estimated',
+        ...this.getColumnSearchProps('estimated'),
+        width: '150px'
       },
       {
         title: <center className="dataTable__header__text">Hours</center>,
         dataIndex: 'hours',
         key: 'hours',
         ...this.getColumnSearchProps('hours'),
-        sorter:{
-          compare: (a, b) => a.hours.localeCompare(b.hours),
-        },
         width: '70px'
       },
     ]
@@ -338,7 +407,7 @@ class ProjectsViewDataTable extends React.Component{
     if (this.state.data.length === 0){
       totalElements = null;
     }else{
-      totalElements = (<div style={{position: "absolute", bottom: 110, left:120}}>
+      totalElements = (<div style={{position: "absolute", bottom: 140, left:120}}>
       <b>Total elements: {this.state.data.length}</b>
      </div>);
     }
