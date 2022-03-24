@@ -171,7 +171,8 @@ export default class QtrackerRRPopUp extends Component {
                 description: this.state.description,
                 items: this.state.items,
                 user: secureStorage.getItem("user"),
-                project: document.getElementById("projectSelect").value
+                project: document.getElementById("projectSelect").value,
+                priority: document.getElementById("prioritySelect").value
               }
               const options = {
                 method: "POST",
@@ -221,6 +222,12 @@ export default class QtrackerRRPopUp extends Component {
                                 {this.state.projects.map(project =>(
                                     <option>{project}</option>
                                 ))}
+                            </select>
+                            <label className="priority__label" for="prioritySelect">Priority:</label>
+                            <select id="prioritySelect" className="prioritySelect">    
+                                    <option value="0">Low</option> 
+                                    <option value="1">Medium</option>  
+                                    <option value="2">High</option>                                
                             </select>
                             <textarea data-for="items-help" data-tip="Items help" data-iscapture="true" name="items" className="qtrackerPopUp__input__text" rows="3" placeholder="Items to report" ref="items" style={{marginBottom:"20px", color:"black"}} onChange={(e) => this.setState({items: e.target.value})}/>
                             <ReactTooltip id="items-help" place="right" type="dark" effect="solid"/>

@@ -178,7 +178,8 @@ export default class QtrackerNVNPopUp extends Component {
             description: this.state.description,
             has_attach: has_attach,
             user: secureStorage.getItem("user"),
-            project: document.getElementById("projectSelect").value
+            project: document.getElementById("projectSelect").value,
+            priority: document.getElementById("prioritySelect").value
           }
           let options = {
             method: "POST",
@@ -241,6 +242,12 @@ export default class QtrackerNVNPopUp extends Component {
                                 {this.state.projects.map(project =>(
                                     <option>{project}</option>
                                 ))}
+                            </select>
+                            <label className="priority__label" for="prioritySelect">Priority:</label>
+                            <select id="prioritySelect" className="prioritySelect">    
+                                    <option value="0">Low</option> 
+                                    <option value="1">Medium</option>  
+                                    <option value="2">High</option>                                
                             </select>
                             <input data-for="name-help" data-tip="Name help" data-iscapture="true" type="text" placeholder="Name" id="name" className="qtrackerPopUp__input__text" ref="name" style={{marginBottom: "20px", color:'black'}} value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} ></input>
                             <ReactTooltip id="name-help" place="right" type="dark" effect="solid"/>

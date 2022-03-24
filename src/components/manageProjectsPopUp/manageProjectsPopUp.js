@@ -98,7 +98,7 @@ export default class ManageRolesPopUp extends Component {
             <section >
                 <input type="button"  value="PROJECTS" className="btn"  style={{padding:"2px 5px 2px 5px", marginRight:"5px", marginLeft:"5px", width:"70px", fontSize:"12px", float:"right", backgroundColor:"#78B28A", color:"white"}} onClick={() => this.openModal()} />
                 <div>
-                    <Modal visible={this.state.visible} width="300" height="380" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="300" height="480" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div
                         className={`alert alert-success ${this.state.blankFields ? 'alert-shown' : 'alert-hidden'}`}
                         onTransitionEnd={() => this.setState({blankFields: false})}
@@ -112,9 +112,9 @@ export default class ManageRolesPopUp extends Component {
                         <div>
                             {this.state.projectsList}
                         </div>
-                        <div className="popUp__buttons__container__manage">
-                            <button class="btn btn-sm btn-success" onClick={() => this.submitProjects()} style={{left:"75px", fontSize:"16px", marginTop:"175px", position:"absolute"}}>Submit</button>
-                            <button class="btn btn-sm btn-danger" onClick={() => this.closeModal()} style={{right:"75px", fontSize:"16px", marginTop:"175px", position:"absolute"}}>Cancel</button>
+                        <div className="popUp__buttons__container__manage__projects">
+                            <button class="btn btn-sm btn-success" onClick={() => this.submitProjects()} style={{marginLeft:"75px", fontSize:"16px"}}>Submit</button>
+                            <button class="btn btn-sm btn-danger" onClick={() => this.closeModal()} style={{marginLeft:"12px", fontSize:"16px"}}>Cancel</button>
                         </div>
                     </Modal>
                 </div>

@@ -182,7 +182,8 @@ export default class QtrackerNWCPopUp extends Component {
                 description: this.state.description,
                 has_attach: has_attach,
                 user: secureStorage.getItem("user"),
-                project: document.getElementById("projectSelect").value
+                project: document.getElementById("projectSelect").value,
+                priority: document.getElementById("prioritySelect").value
               }
               let options = {
                 method: "POST",
@@ -246,6 +247,12 @@ export default class QtrackerNWCPopUp extends Component {
                                 {this.state.projects.map(project =>(
                                     <option>{project}</option>
                                 ))}
+                            </select>
+                            <label className="priority__label" for="prioritySelect">Priority:</label>
+                            <select id="prioritySelect" className="prioritySelect">    
+                                    <option value="0">Low</option> 
+                                    <option value="1">Medium</option>  
+                                    <option value="2">High</option>                                
                             </select>
 
                             <input data-for="spref-help" data-tip="SPREF help" data-iscapture="true" type="text" placeholder="SPREF" id="spref" className="qtrackerPopUp__input__text" ref="spref" style={{marginBottom: "20px", color:'black'}} value={this.state.spref} onChange={(e) => this.setState({spref: e.target.value})} ></input>

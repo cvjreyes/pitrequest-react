@@ -72,6 +72,20 @@ class QTrackerViewDataTable extends React.Component{
    await this.props.updateStatus([incidence_number, status_id, project, type])  
   }
 
+  async priorityChange(incidence_number, priority, project, type){
+    let priority_id
+    if(priority === "low"){
+      priority_id = 0
+    }else if(priority === "medium"){
+      priority_id = 1
+    }else if(priority === "high"){
+      priority_id = 2
+    }
+
+   await this.props.updatePriority([incidence_number, priority_id, project, type])  
+  }
+
+
   async componentDidMount(){
 
     const options = {
@@ -141,10 +155,38 @@ class QTrackerViewDataTable extends React.Component{
                       row.color = "#rrr"
                   }
 
+                  if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                    row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")} >
+                    <option value="low" selected>Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                  }else if(json.rows[i].priority === 1){
+                    row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                  }else if(json.rows[i].priority === 2){
+                    row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high" selected>High</option>
+                    </select>
+                  }
+
                   row.observations = <input style={{width: "215px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                 }else{
                   row["admin"] = json.rows[i].admin
+                  if(json.rows[i].priority === 0){
+                    row.priority = "Low"
+                  }else if(json.rows[i].priority === 1){
+                      row.priority = "Medium"
+                  }else if(json.rows[i].priority === 2){
+                      row.priority = "High"
+                  }
+
                   if(json.rows[i].status === 0){
                     row.status = "Pending"
                     row.color = "#www"
@@ -220,10 +262,38 @@ class QTrackerViewDataTable extends React.Component{
                        </select>
                           row.color = "#rrr"
                       }
+                      if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                        row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")} >
+                        <option value="low" selected>Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                      </select>
+                      }else if(json.rows[i].priority === 1){
+                        row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                      </select>
+                      }else if(json.rows[i].priority === 2){
+                        row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high" selected>High</option>
+                        </select>
+                      }
                       row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                     }else{
                       row["admin"] = json.rows[i].admin
+
+                      if(json.rows[i].priority === 0){
+                        row.priority = "Low"
+                      }else if(json.rows[i].priority === 1){
+                          row.priority = "Medium"
+                      }else if(json.rows[i].priority === 2){
+                          row.priority = "High"
+                      }
+
                       if(json.rows[i].status === 0){
                         row.status = "Pending"
                         row.color = "#www"
@@ -299,10 +369,39 @@ class QTrackerViewDataTable extends React.Component{
                            </select>
                               row.color = "#rrr"
                           }
+
+                          if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                            row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")} >
+                            <option value="low" selected>Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                          </select>
+                          }else if(json.rows[i].priority === 1){
+                            row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                          </select>
+                          }else if(json.rows[i].priority === 2){
+                            row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high" selected>High</option>
+                            </select>
+                          }
                           row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                         }else{
                           row["admin"] = json.rows[i].admin
+
+                          if(json.rows[i].priority === 0){
+                            row.priority = "Low"
+                          }else if(json.rows[i].priority === 1){
+                              row.priority = "Medium"
+                          }else if(json.rows[i].priority === 2){
+                              row.priority = "High"
+                          }
+
                           if(json.rows[i].status === 0){
                             row.status = "Pending"
                             row.color = "#www"
@@ -378,10 +477,39 @@ class QTrackerViewDataTable extends React.Component{
                                   row.color = "#rrr"
                               }
 
+                              if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                                row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")} >
+                                <option value="low" selected>Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                              </select>
+                              }else if(json.rows[i].priority === 1){
+                                row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                              </select>
+                              }else if(json.rows[i].priority === 2){
+                                row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high" selected>High</option>
+                                </select>
+                              }
+
                               row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
                             
                             }else{
                               row["admin"] = json.rows[i].admin
+
+                              if(json.rows[i].priority === 0){
+                                row.priority = "Low"
+                              }else if(json.rows[i].priority === 1){
+                                  row.priority = "Medium"
+                              }else if(json.rows[i].priority === 2){
+                                  row.priority = "High"
+                              }
+
                               if(json.rows[i].status === 0){
                                 row.status = "Pending"
                                 row.color = "#www"
@@ -449,10 +577,39 @@ class QTrackerViewDataTable extends React.Component{
                                    </select>
                                       row.color = "#rrr"
                                   }
+
+                                  if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                                    row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")} >
+                                    <option value="low" selected>Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                  </select>
+                                  }else if(json.rows[i].priority === 1){
+                                    row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                  </select>
+                                  }else if(json.rows[i].priority === 2){
+                                    row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high" selected>High</option>
+                                    </select>
+                                  }
                                   row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                 }else{
                                   row["admin"] = json.rows[i].admin
+
+                                  if(json.rows[i].priority === 0){
+                                    row.priority = "Low"
+                                  }else if(json.rows[i].priority === 1){
+                                      row.priority = "Medium"
+                                  }else if(json.rows[i].priority === 2){
+                                      row.priority = "High"
+                                  }
+
                                   if(json.rows[i].status === 0){
                                     row.status = "Pending"
                                     row.color = "#www"
@@ -518,10 +675,39 @@ class QTrackerViewDataTable extends React.Component{
                                        </select>
                                           row.color = "#rrr"
                                       }
+
+                                      if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                                        row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")} >
+                                        <option value="low" selected>Low</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="high">High</option>
+                                      </select>
+                                      }else if(json.rows[i].priority === 1){
+                                        row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
+                                        <option value="low">Low</option>
+                                        <option value="medium" selected>Medium</option>
+                                        <option value="high">High</option>
+                                      </select>
+                                      }else if(json.rows[i].priority === 2){
+                                        row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
+                                        <option value="low">Low</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="high" selected>High</option>
+                                        </select>
+                                      }
                                       row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                     }else{
                                       row["admin"] = json.rows[i].admin
+
+                                      if(json.rows[i].priority === 0){
+                                        row.priority = "Low"
+                                      }else if(json.rows[i].priority === 1){
+                                          row.priority = "Medium"
+                                      }else if(json.rows[i].priority === 2){
+                                          row.priority = "High"
+                                      }
+
                                       if(json.rows[i].status === 0){
                                         row.status = "Pending"
                                         row.color = "#www"
@@ -544,7 +730,7 @@ class QTrackerViewDataTable extends React.Component{
                                 rows.sort(function(first, second) {
                                   return second.created_at.localeCompare(first.created_at);
                                 });
-                                const filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filter(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filter(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filter(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(3,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(4,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filter(7,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filter(5,e.target.value)}/></div>}]
+                                const filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filter(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filter(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filter(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(3,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(4,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filter(7,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filter(5,e.target.value)}/></div>, priority: <div><input type="text" className="filter__input" placeholder="Priority" onChange={(e) => this.filter(11,e.target.value)}/></div>}]
                 
                                 this.setState({data : rows, displayData: rows});
                                 await this.setState({filters : filterRow})
@@ -634,10 +820,38 @@ class QTrackerViewDataTable extends React.Component{
                       row.color = "#rrr"
                   }
 
+                  if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                    row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")} >
+                    <option value="low" selected>Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                  }else if(json.rows[i].priority === 1){
+                    row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                  }else if(json.rows[i].priority === 2){
+                    row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high" selected>High</option>
+                    </select>
+                  }
+
                   row.observations = <input style={{width: "215px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                 }else{
                   row["admin"] = json.rows[i].admin
+                  if(json.rows[i].priority === 0){
+                    row.priority = "Low"
+                  }else if(json.rows[i].priority === 1){
+                      row.priority = "Medium"
+                  }else if(json.rows[i].priority === 2){
+                      row.priority = "High"
+                  }
+
                   if(json.rows[i].status === 0){
                     row.status = "Pending"
                     row.color = "#www"
@@ -713,10 +927,38 @@ class QTrackerViewDataTable extends React.Component{
                        </select>
                           row.color = "#rrr"
                       }
+                      if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                        row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")} >
+                        <option value="low" selected>Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                      </select>
+                      }else if(json.rows[i].priority === 1){
+                        row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                      </select>
+                      }else if(json.rows[i].priority === 2){
+                        row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high" selected>High</option>
+                        </select>
+                      }
                       row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                     }else{
                       row["admin"] = json.rows[i].admin
+
+                      if(json.rows[i].priority === 0){
+                        row.priority = "Low"
+                      }else if(json.rows[i].priority === 1){
+                          row.priority = "Medium"
+                      }else if(json.rows[i].priority === 2){
+                          row.priority = "High"
+                      }
+
                       if(json.rows[i].status === 0){
                         row.status = "Pending"
                         row.color = "#www"
@@ -792,10 +1034,39 @@ class QTrackerViewDataTable extends React.Component{
                            </select>
                               row.color = "#rrr"
                           }
+
+                          if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                            row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")} >
+                            <option value="low" selected>Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                          </select>
+                          }else if(json.rows[i].priority === 1){
+                            row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                          </select>
+                          }else if(json.rows[i].priority === 2){
+                            row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high" selected>High</option>
+                            </select>
+                          }
                           row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                         }else{
                           row["admin"] = json.rows[i].admin
+
+                          if(json.rows[i].priority === 0){
+                            row.priority = "Low"
+                          }else if(json.rows[i].priority === 1){
+                              row.priority = "Medium"
+                          }else if(json.rows[i].priority === 2){
+                              row.priority = "High"
+                          }
+
                           if(json.rows[i].status === 0){
                             row.status = "Pending"
                             row.color = "#www"
@@ -871,10 +1142,39 @@ class QTrackerViewDataTable extends React.Component{
                                   row.color = "#rrr"
                               }
 
+                              if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                                row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")} >
+                                <option value="low" selected>Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                              </select>
+                              }else if(json.rows[i].priority === 1){
+                                row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                              </select>
+                              }else if(json.rows[i].priority === 2){
+                                row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high" selected>High</option>
+                                </select>
+                              }
+
                               row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
                             
                             }else{
                               row["admin"] = json.rows[i].admin
+
+                              if(json.rows[i].priority === 0){
+                                row.priority = "Low"
+                              }else if(json.rows[i].priority === 1){
+                                  row.priority = "Medium"
+                              }else if(json.rows[i].priority === 2){
+                                  row.priority = "High"
+                              }
+
                               if(json.rows[i].status === 0){
                                 row.status = "Pending"
                                 row.color = "#www"
@@ -942,10 +1242,39 @@ class QTrackerViewDataTable extends React.Component{
                                    </select>
                                       row.color = "#rrr"
                                   }
+
+                                  if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                                    row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")} >
+                                    <option value="low" selected>Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                  </select>
+                                  }else if(json.rows[i].priority === 1){
+                                    row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                  </select>
+                                  }else if(json.rows[i].priority === 2){
+                                    row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high" selected>High</option>
+                                    </select>
+                                  }
                                   row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                 }else{
                                   row["admin"] = json.rows[i].admin
+
+                                  if(json.rows[i].priority === 0){
+                                    row.priority = "Low"
+                                  }else if(json.rows[i].priority === 1){
+                                      row.priority = "Medium"
+                                  }else if(json.rows[i].priority === 2){
+                                      row.priority = "High"
+                                  }
+
                                   if(json.rows[i].status === 0){
                                     row.status = "Pending"
                                     row.color = "#www"
@@ -1011,10 +1340,39 @@ class QTrackerViewDataTable extends React.Component{
                                        </select>
                                           row.color = "#rrr"
                                       }
+
+                                      if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                                        row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")} >
+                                        <option value="low" selected>Low</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="high">High</option>
+                                      </select>
+                                      }else if(json.rows[i].priority === 1){
+                                        row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
+                                        <option value="low">Low</option>
+                                        <option value="medium" selected>Medium</option>
+                                        <option value="high">High</option>
+                                      </select>
+                                      }else if(json.rows[i].priority === 2){
+                                        row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
+                                        <option value="low">Low</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="high" selected>High</option>
+                                        </select>
+                                      }
                                       row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                     }else{
                                       row["admin"] = json.rows[i].admin
+
+                                      if(json.rows[i].priority === 0){
+                                        row.priority = "Low"
+                                      }else if(json.rows[i].priority === 1){
+                                          row.priority = "Medium"
+                                      }else if(json.rows[i].priority === 2){
+                                          row.priority = "High"
+                                      }
+                                      
                                       if(json.rows[i].status === 0){
                                         row.status = "Pending"
                                         row.color = "#www"
@@ -1037,10 +1395,8 @@ class QTrackerViewDataTable extends React.Component{
                                 rows.sort(function(first, second) {
                                   return second.created_at.localeCompare(first.created_at);
                                 });
-                                const filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filter(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filter(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filter(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(3,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(4,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filter(7,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filter(5,e.target.value)}/></div>}]
                 
                                 this.setState({data : rows, displayData: rows});
-                                await this.setState({filters : filterRow})
 
                             })
 
@@ -1075,12 +1431,33 @@ class QTrackerViewDataTable extends React.Component{
     for(let i = 0; i < auxDisplayData.length; i++){
       exists = true
       for(let column = 0; column < Object.keys(auxDisplayData[i]).length-1; column ++){
-        
+       
         fil = Object.keys(auxDisplayData[i])[column]
+        if(secureStorage.getItem("role") !== "3D Admin" && column === 8){
+            column = 11
+        }
         if(fil === "specifications"){
           fil = "status"
         }
         if(fil === "status"){
+          if(auxDisplayData[i][fil].props){
+            for(let p = 0; p < auxDisplayData[i][fil].props.children.length; p++){
+              if(auxDisplayData[i][fil].props.children[p].props.selected){
+                if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.children[p].props.children.includes(this.state.filterData[column])){
+                  exists = false
+                }
+              }
+            }
+          }else if(auxDisplayData[i][fil]){
+            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].includes(this.state.filterData[column])){
+              exists = false
+            }
+          }else{
+            if(this.state.filterData[column] !== "" && this.state.filterData[column]){
+              exists = false
+            }
+          }
+        }if(fil === "priority"){
           if(auxDisplayData[i][fil].props){
             for(let p = 0; p < auxDisplayData[i][fil].props.children.length; p++){
               if(auxDisplayData[i][fil].props.children[p].props.selected){
@@ -1257,6 +1634,16 @@ class QTrackerViewDataTable extends React.Component{
         width: "270px"
       },
       {
+        title: <center className="dataTable__header__text">Priority</center>,
+        dataIndex: 'priority',
+        key: 'priority',
+        ...this.getColumnSearchProps('priority'),
+        sorter:{
+          compare: (a, b) => a.priority.localeCompare(b.priority),
+        },
+        width: '105px'
+      },
+      {
         title: <center className="dataTable__header__text">Status</center>,
         dataIndex: 'status',
         key: 'status',
@@ -1348,6 +1735,13 @@ class QTrackerViewDataTable extends React.Component{
           width: "270px"
         },
         {
+          title: <center className="dataTable__header__text">Priority</center>,
+          dataIndex: 'priority',
+          key: 'priority',
+          ...this.getColumnSearchProps('priority'),
+          width: '105px'
+        },
+        {
           title: <center className="dataTable__header__text">Hours</center>,
           dataIndex: 'hours',
           key: 'hours',
@@ -1371,7 +1765,7 @@ class QTrackerViewDataTable extends React.Component{
     if (this.state.data.length === 0){
       totalElements = null;
     }else{
-      totalElements = (<div style={{position: "absolute", bottom: 110, left:120}}>
+      totalElements = (<div style={{position: "absolute", bottom: 140, left:120}}>
       <b>Total elements: {this.state.data.length}</b>
      </div>);
     }

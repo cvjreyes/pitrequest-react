@@ -94,6 +94,7 @@ const PitRequestView = () => {
     const [addUserButton, setAddUserButton] = useState(null)
     const [exportReport, setExportReport] = useState(null)
     const [exportUsersReport, setExportUsersReport] = useState(null)
+    const [updatedRowsPrio, setUpdatedRowsPrio] = useState([])
 
     const [updateData, setUpdateData] = useState(false)    
 
@@ -102,8 +103,7 @@ const PitRequestView = () => {
     useEffect(()=>{
         if(!secureStorage.getItem("user")){
             history("/"+process.env.REACT_APP_PROJECT+"/");
-        }
-        
+        }        
     }, [])
 
     var currentUser = secureStorage.getItem('user')
@@ -177,7 +177,7 @@ const PitRequestView = () => {
                 setAddUserButton(null)
                 setExportReport(<button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button>)
                 setUsersButton(<button className="navBar__button" onClick={()=>setCurrentTab("Users")} style={{width:"100px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Users</p></button>)
-                setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
+                setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
                 setExportUsersReport(null)
             }else if(currentTab === "Projects"){
                 setSaveButton(null)
@@ -201,7 +201,7 @@ const PitRequestView = () => {
                 setContent(<UsersDataTable updateData={updateData} deleteUser={deleteUser.bind(this)} submitRoles={submitRoles.bind(this)} submitProjects={submitProjects.bind(this)}/>)
             }
         }else{
-            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
+            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
             setSaveBtn(null)
             setProjectsButton(null)
             setAddUserButton(null)
@@ -642,6 +642,12 @@ const PitRequestView = () => {
         await setUpdateData(!updateData)
     }
 
+    async function updatePriority(updatedRow){
+        let currentRows = updatedRowsPrio
+        currentRows.push(updatedRow)
+        await setUpdatedRowsPrio(currentRows)
+    }
+
     async function saveChanges(){
         await setUpdateData(!updateData)
         let hoursArray = []
@@ -727,6 +733,32 @@ const PitRequestView = () => {
         }
         
         await setUpdatedRows([])
+
+        for(let i = 0; i < updatedRowsPrio.length; i++){
+
+            let body = {
+                incidence_number: updatedRowsPrio[i][0],
+                priority_id: updatedRowsPrio[i][1],
+                project: updatedRowsPrio[i][2],
+                type: updatedRowsPrio[i][3],
+                email: secureStorage.getItem("user")
+              }
+              let options = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+              }
+              
+              fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updatePriority", options)
+              .then(response => response.json())
+              .then(async json => {
+                
+              })
+        }
+
+        await setUpdatedRowsPrio([])
         await setUpdateData(!updateData)
         
     }
@@ -739,7 +771,7 @@ const PitRequestView = () => {
         setCurrentRole(value)
         await setUpdateData(!updateData)
         if(currentTab === "View"){
-            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)}/>)
+            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
         }
     }
 

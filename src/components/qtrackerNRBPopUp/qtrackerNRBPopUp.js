@@ -115,6 +115,7 @@ export default class QtrackerNRBPopUp extends Component {
             pipe: null,
             attach: null,
             description: null,
+            priority: null,
             errorBlankRequest: false,
             projects: []
         }
@@ -153,6 +154,7 @@ export default class QtrackerNRBPopUp extends Component {
             pipe: null,
             description: null,
             attach: null,
+            priority: null
         });
 
         this.refs.pipe.value = null;
@@ -179,7 +181,8 @@ export default class QtrackerNRBPopUp extends Component {
             description: this.state.description,
             has_attach: has_attach,
             user: secureStorage.getItem("user"),
-            project: document.getElementById("projectSelect").value
+            project: document.getElementById("projectSelect").value,
+            priority: document.getElementById("prioritySelect").value
           }
           const options = {
             method: "POST",
@@ -242,6 +245,12 @@ export default class QtrackerNRBPopUp extends Component {
                                 {this.state.projects.map(project =>(
                                     <option>{project}</option>
                                 ))}
+                            </select>
+                            <label className="priority__label" for="prioritySelect">Priority:</label>
+                            <select id="prioritySelect" className="prioritySelect">    
+                                    <option value="0">Low</option> 
+                                    <option value="1">Medium</option>  
+                                    <option value="2">High</option>                                
                             </select>
                           <input data-for="pipe-help" data-tip="Pipe help" data-iscapture="true" type="text" placeholder="Pipe" id="pipe" className="qtrackerPopUp__input__text" ref="pipe" style={{marginBottom: "20px", color:'black'}} value={this.state.pipe} onChange={(e) => this.setState({pipe: e.target.value})} ></input>
                             <ReactTooltip id="pipe-help" place="right" type="dark" effect="solid"/>

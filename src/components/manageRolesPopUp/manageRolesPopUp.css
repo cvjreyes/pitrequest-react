@@ -98,11 +98,12 @@
     background-color: yellow;
 }
 
-.popUp__buttons__container__manage{
-    margin-top: 15px;
+.popUp__buttons__container__manage__projects{
     display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    top: 430px;
 }
 
 .dnd__container{
