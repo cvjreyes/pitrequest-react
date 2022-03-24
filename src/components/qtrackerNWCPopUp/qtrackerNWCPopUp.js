@@ -224,7 +224,7 @@ export default class QtrackerNWCPopUp extends Component {
             <div>
                     <StyledTreeItem
                     nodeId="9"
-                    labelText="NotWorkingComponent"
+                    labelText="Component"
                     labelIcon={SupervisorAccountIcon}
                     onClick={() => this.openModal()}
                     color="none" 

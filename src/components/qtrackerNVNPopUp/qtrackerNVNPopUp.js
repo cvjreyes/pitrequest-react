@@ -221,7 +221,7 @@ export default class QtrackerNVNPopUp extends Component {
             <div>
                     <StyledTreeItem
                     nodeId="10"
-                    labelText="NotViewInNavis"
+                    labelText="Navisworks"
                     labelIcon={SupervisorAccountIcon}
                     onClick={() => this.openModal()}
                     color="none" 

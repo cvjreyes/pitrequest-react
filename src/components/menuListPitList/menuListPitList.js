@@ -155,52 +155,24 @@ export default function MenuListPITList(props) {
       defaultEndIcon={<div style={{ width: 24 }} />}
       sx={{ height: 800, flexGrow: 1, maxWidth: 720, overflowY: 'auto' }}
     >
-      {/*<StyledTreeItem nodeId="14" style={{marginBottom:"5px"}} labelText="New user" labelIcon={PlusSquare}/>*/}
-      <StyledTreeItem nodeId="1" style={{marginBottom:"5px"}} labelText="CADpmc" labelIcon={MailIcon} onClick={()=> handleCADpmcClick()}/>
-      {/*<StyledTreeItem nodeId="3" labelText="Out of SpecTracker" color="#1a73e8" bgColor="#e8f0fe" labelIcon={Label}>
-        <StyledTreeItem
-          nodeId="5"
-          labelText="InstrumentTracker"
-          labelIcon={SupervisorAccountIcon}
-          
-        />
-        <StyledTreeItem
-          nodeId="6"
-          labelText="PSVTracker"
-          labelIcon={InfoIcon}
-          
-        />
-        <StyledTreeItem
-          nodeId="7"
-          labelText="ExpansionJoin"
-          labelIcon={ForumIcon}
-          style={{marginBottom:"5px"}}
-        />
+      <StyledTreeItem nodeId="1" style={{marginBottom:"5px"}} labelText="Request Item" labelIcon={Label}>
+        <QtrackerRRPopUp success={success.bind(this)}/>
+        <QtrackerNRIDSPopUp success={success.bind(this)}/>
       </StyledTreeItem>
-      */}
-      <StyledTreeItem nodeId="4" labelText="3DQuery" color="#e3742f" bgColor="#fcefe3" labelIcon={Label}>
 
-        <StyledTreeItem nodeId="18" labelText="Requests tray" labelIcon={InfoIcon} onClick={()=> handlePitViewClick()} />
-        
-        <StyledTreeItem nodeId="19" labelText="Create request" color="#e3742f" bgColor="#fcefe3" labelIcon={Label}>
-
+      <StyledTreeItem nodeId="4" style={{marginBottom:"5px"}} labelText="Issues" labelIcon={Label}>
         <QtrackerNWCPopUp success={success.bind(this)}/>
         <QtrackerNVNPopUp success={success.bind(this)}/>
-        
-        <StyledTreeItem
-          nodeId="11"
-          labelText="NotReporting"
-          labelIcon={Label}
-        >
-          <QtrackerNRIPopUp success={success.bind(this)}/>
-          <QtrackerNRBPopUp success={success.bind(this)}/>
-          <QtrackerNRIDSPopUp success={success.bind(this)}/>
-        </StyledTreeItem>
-
-        <QtrackerRRPopUp success={success.bind(this)}/>
-
-        </StyledTreeItem>
+        <QtrackerNRIPopUp success={success.bind(this)}/>
       </StyledTreeItem>
+
+      <StyledTreeItem nodeId="8" style={{marginBottom:"5px"}} labelText="Piping Spec Materials" labelIcon={Label}>
+        <StyledTreeItem nodeId="1" style={{marginBottom:"5px"}} labelText="CADPMC" labelIcon={MailIcon} onClick={()=> handleCADpmcClick()}/>
+      </StyledTreeItem>
+
+      
+      <StyledTreeItem nodeId="18" labelText="Requests Dashboard" labelIcon={InfoIcon} onClick={()=> handlePitViewClick()} />
+      
         
     </TreeView>
   );

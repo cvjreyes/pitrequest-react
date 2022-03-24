@@ -201,7 +201,7 @@ export default class QtrackerRRPopUp extends Component {
             <div>
                     <StyledTreeItem
                     nodeId="14"
-                    labelText="RequestReport"
+                    labelText="Report"
                     labelIcon={SupervisorAccountIcon}
                     onClick={() => this.openModal()}
                     color="none" 

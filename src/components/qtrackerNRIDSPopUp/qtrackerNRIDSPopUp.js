@@ -190,7 +190,7 @@ export default class QtrackerNRIDSPopUp extends Component {
             <div>
                     <StyledTreeItem
                     nodeId="15"
-                    labelText="IFC/DGN/STEP"
+                    labelText="Interface files (IFC/DGN)"
                     labelIcon={SupervisorAccountIcon}
                     onClick={() => this.openModal()}
                     color="none" 
