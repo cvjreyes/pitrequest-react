@@ -5,7 +5,7 @@ import IdleTimer from 'react-idle-timer'
 import {useNavigate} from "react-router";
 import ProjectsTreeGrid from '../../components/projectsTreeGrid/projectsTreeGrid';
 
-const ProjectManager = () =>{
+const ProjectManager = () =>{    
 
     const [navBar, setNavBar] = useState(null);
 
@@ -17,6 +17,9 @@ const ProjectManager = () =>{
 
     const [updateData, setUpdateData] = useState(false)
   
+    function back(){
+        history("/"+process.env.REACT_APP_PROJECT+"/pitrequests")
+    }
 
     var secureStorage = new SecureStorage(localStorage, {
         hash: function hash(key) {
@@ -40,9 +43,6 @@ const ProjectManager = () =>{
         }
     });
 
-
-   
-
     document.title= process.env.REACT_APP_APP_NAMEPROJ
     document.body.style.zoom = 0.8
 
@@ -62,7 +62,7 @@ const ProjectManager = () =>{
             />
             <div >
                 <NavBar/>
-                <ProjectsTreeGrid/>
+                <ProjectsTreeGrid back={back.bind(this)}/>
                 
 
             </div>
