@@ -46,7 +46,8 @@ class ProjectsTreeGrid extends Component {
       tasks: [],
       subtasks: [],
       tasksNames: [],
-      updateData: false
+      updateData: false,
+      error: false
     };
     
   }
@@ -170,6 +171,8 @@ class ProjectsTreeGrid extends Component {
 
   async saveChanges(){
 
+    await this.setState({error: false})
+
     let new_nodes = []
     let removed_nodes = []
     let current_nodes = []
@@ -205,8 +208,10 @@ class ProjectsTreeGrid extends Component {
 
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitProjectsChanges", options)
       .then(response => response.json())
-      .then(json =>{
-
+      .then(async json =>{
+        if(!json.success){
+          await this.setState({error: true})
+        }
       })
 
 
@@ -224,8 +229,10 @@ class ProjectsTreeGrid extends Component {
 
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitSubtasks", options)
       .then(response => response.json())
-      .then(json =>{
-
+      .then(async json =>{
+        if(!json.success){
+          await this.setState({error: true})
+        }
       })
     body = {
       rows: this.state.tasks,
@@ -241,7 +248,10 @@ class ProjectsTreeGrid extends Component {
     
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitTasks", options)
     .then(response => response.json())
-    .then(json =>{
+    .then(async json =>{
+      if(!json.success){
+        await this.setState({error: true})
+      }
     })
     
     options = {
@@ -255,6 +265,9 @@ class ProjectsTreeGrid extends Component {
       await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getTasks", options)
       .then(response => response.json())
       .then(async json => {
+        if(!json.success){
+          await this.setState({error: true})
+        }
         let tasks = []
         let tasksNames = []
         let subtasks =[]
@@ -312,6 +325,11 @@ class ProjectsTreeGrid extends Component {
     }
     
     await this.setState({initial_nodes: initial_nodes})
+    if(this.state.error){
+      this.props.error()
+    }else{
+      this.props.success()
+    }
   }
 
   

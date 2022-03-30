@@ -142,7 +142,7 @@ class QTrackerViewDataTable extends React.Component{
                     row.color = "#rrr"
                 }
 
-                row.observations = <input style={{width: "215px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                row.observations = <input style={{width: "210px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
               }else{
                 row["admin"] = json.rows[i].admin
@@ -221,7 +221,7 @@ class QTrackerViewDataTable extends React.Component{
                      </select>
                         row.color = "#rrr"
                     }
-                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                   }else{
                     row["admin"] = json.rows[i].admin
@@ -300,7 +300,7 @@ class QTrackerViewDataTable extends React.Component{
                          </select>
                             row.color = "#rrr"
                         }
-                        row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                        row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                       }else{
                         row["admin"] = json.rows[i].admin
@@ -379,7 +379,7 @@ class QTrackerViewDataTable extends React.Component{
                                 row.color = "#rrr"
                             }
 
-                            row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                            row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
                           
                           }else{
                             row["admin"] = json.rows[i].admin
@@ -450,7 +450,7 @@ class QTrackerViewDataTable extends React.Component{
                                  </select>
                                     row.color = "#rrr"
                                 }
-                                row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                               }else{
                                 row["admin"] = json.rows[i].admin
@@ -519,7 +519,7 @@ class QTrackerViewDataTable extends React.Component{
                                      </select>
                                         row.color = "#rrr"
                                     }
-                                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                   }else{
                                     row["admin"] = json.rows[i].admin
@@ -622,7 +622,7 @@ class QTrackerViewDataTable extends React.Component{
                     row.color = "#rrr"
                 }
 
-                row.observations = <input style={{width: "215px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                row.observations = <input style={{width: "210px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
               }else{
                 row["admin"] = json.rows[i].admin
@@ -701,7 +701,7 @@ class QTrackerViewDataTable extends React.Component{
                      </select>
                         row.color = "#rrr"
                     }
-                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                   }else{
                     row["admin"] = json.rows[i].admin
@@ -780,7 +780,7 @@ class QTrackerViewDataTable extends React.Component{
                          </select>
                             row.color = "#rrr"
                         }
-                        row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                        row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                       }else{
                         row["admin"] = json.rows[i].admin
@@ -859,7 +859,7 @@ class QTrackerViewDataTable extends React.Component{
                                 row.color = "#rrr"
                             }
 
-                            row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                            row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
                           
                           }else{
                             row["admin"] = json.rows[i].admin
@@ -930,7 +930,7 @@ class QTrackerViewDataTable extends React.Component{
                                  </select>
                                     row.color = "#rrr"
                                 }
-                                row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                               }else{
                                 row["admin"] = json.rows[i].admin
@@ -999,7 +999,7 @@ class QTrackerViewDataTable extends React.Component{
                                      </select>
                                         row.color = "#rrr"
                                     }
-                                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                   }else{
                                     row["admin"] = json.rows[i].admin
@@ -1119,7 +1119,7 @@ class QTrackerViewDataTable extends React.Component{
                     row.color = "#rrr"
                 }
 
-                row.observations = <input style={{width: "215px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                row.observations = <input style={{width: "210px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
               }else{
                 row["admin"] = json.rows[i].admin
@@ -1198,7 +1198,7 @@ class QTrackerViewDataTable extends React.Component{
                      </select>
                         row.color = "#rrr"
                     }
-                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                   }else{
                     row["admin"] = json.rows[i].admin
@@ -1277,7 +1277,7 @@ class QTrackerViewDataTable extends React.Component{
                          </select>
                             row.color = "#rrr"
                         }
-                        row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                        row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                       }else{
                         row["admin"] = json.rows[i].admin
@@ -1356,7 +1356,7 @@ class QTrackerViewDataTable extends React.Component{
                                 row.color = "#rrr"
                             }
 
-                            row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                            row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
                           
                           }else{
                             row["admin"] = json.rows[i].admin
@@ -1427,7 +1427,7 @@ class QTrackerViewDataTable extends React.Component{
                                  </select>
                                     row.color = "#rrr"
                                 }
-                                row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                               }else{
                                 row["admin"] = json.rows[i].admin
@@ -1496,7 +1496,7 @@ class QTrackerViewDataTable extends React.Component{
                                      </select>
                                         row.color = "#rrr"
                                     }
-                                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                   }else{
                                     row["admin"] = json.rows[i].admin
@@ -1599,7 +1599,7 @@ class QTrackerViewDataTable extends React.Component{
                       row.color = "#rrr"
                   }
 
-                  row.observations = <input style={{width: "215px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                  row.observations = <input style={{width: "210px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                 }else{
                   row["admin"] = json.rows[i].admin
@@ -1678,7 +1678,7 @@ class QTrackerViewDataTable extends React.Component{
                        </select>
                           row.color = "#rrr"
                       }
-                      row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                      row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                     }else{
                       row["admin"] = json.rows[i].admin
@@ -1757,7 +1757,7 @@ class QTrackerViewDataTable extends React.Component{
                            </select>
                               row.color = "#rrr"
                           }
-                          row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                          row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                         }else{
                           row["admin"] = json.rows[i].admin
@@ -1836,7 +1836,7 @@ class QTrackerViewDataTable extends React.Component{
                                   row.color = "#rrr"
                               }
 
-                              row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                              row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
                             
                             }else{
                               row["admin"] = json.rows[i].admin
@@ -1907,7 +1907,7 @@ class QTrackerViewDataTable extends React.Component{
                                    </select>
                                       row.color = "#rrr"
                                   }
-                                  row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                  row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                 }else{
                                   row["admin"] = json.rows[i].admin
@@ -1976,7 +1976,7 @@ class QTrackerViewDataTable extends React.Component{
                                        </select>
                                           row.color = "#rrr"
                                       }
-                                      row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "215px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                      row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "210px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                     }else{
                                       row["admin"] = json.rows[i].admin
@@ -2339,7 +2339,7 @@ class QTrackerViewDataTable extends React.Component{
     if (this.state.data.length === 0){
       totalElements = null;
     }else{
-      totalElements = (<div style={{position: "absolute", bottom: 110, left:120}}>
+      totalElements = (<div style={{position: "absolute", bottom: 140, left:120}}>
       <b>Total elements: {this.state.data.length}</b>
      </div>);
     }

@@ -32,20 +32,28 @@ export default class Alert extends Component {
             
             </div>
             }else{
-                alertComponent = <div className="alert__success">
+                let cn ="alert__success"
+                if(this.props.cn){
+                    cn = this.props.cn
+                }
+                alertComponent = <div className={cn}>
                                     
                                     <img src={SuccessIcon} className="alert__icon" alt="success2"></img>
                                     <div className="text__alert__container">
                                         <text className="alert__title">Excellent!</text>
-                                        <text className="alert__text" style={{marginLeft:this.props.margin}}>{this.props.text}</text>
+                                        <text className="alert__text" style={{marginLeft:"-45px"}}>{this.props.text}</text>
                                     </div>
                                 
                                 </div>
             }
             this.setState({alert: alertComponent})
         }else if(this.state.type === "error"){
+            let cn ="alert__error"
+            if(this.props.cn){
+                cn = this.props.cn
+            }
             if(this.state.change){
-                alertComponent = <div className="alert__error">
+                alertComponent = <div className={cn}>
                                     
                 <img src={ErrorIcon} className="alert__icon" alt="error"></img>
                 <div className="text__alert__container">
@@ -56,13 +64,13 @@ export default class Alert extends Component {
             
             </div>
             }else{
-                alertComponent = <div className="alert__error">
+                alertComponent = <div className={cn}>
                                     
                                     <img src={ErrorIcon} className="alert__icon" alt="error2"></img>
                                     <div className="text__alert__container">
                                         <text className="alert__title">Oops!</text>
                                         <text className="alert__error__text">Something has failed:</text>
-                                        <text className="alert__subtext" style={{marginLeft:this.props.margin}}>{this.props.subtext}</text>
+                                        <text className="alert__subtext" style={{marginLeft:"-60px"}}>{this.props.subtext}</text>
                                     </div>
                                 
                                 </div>
