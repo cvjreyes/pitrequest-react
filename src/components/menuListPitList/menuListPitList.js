@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -7,9 +8,7 @@ import TreeItem, { treeItemClasses } from '@mui/lab/TreeItem';
 import Typography from '@mui/material/Typography';
 import MailIcon from '@mui/icons-material/Mail';
 import Label from '@mui/icons-material/Label';
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import InfoIcon from '@mui/icons-material/Info';
-import ForumIcon from '@mui/icons-material/Forum';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import {useNavigate} from "react-router";
@@ -132,6 +131,8 @@ export default function MenuListPITList(props) {
 
     const history = useNavigate()
 
+    const [itplanMenu, setItplanMenu] = useState(null)
+
     function handleCADpmcClick(){
         window.open("http://eu012vm0190/UI/Login.aspx", "_blank")
     }
@@ -156,6 +157,32 @@ export default function MenuListPITList(props) {
       history("/"+process.env.REACT_APP_PROJECT+"/projectManager")
     }
 
+    useEffect(async ()=>{
+      const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+      }
+      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/isAdmin/" + secureStorage.getItem("user"), options)
+        .then(response => response.json())
+        .then(async json => {
+            if(json.isAdmin){
+              await setItplanMenu(<StyledTreeItem nodeId="12" labelText="ITPlan" color="#e3742f" bgColor="#fcefe3" labelIcon={Label}>
+
+              <StyledTreeItem nodeId="19" labelText="Tasks" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleProjectsViewClick()}/>
+      
+              <StyledTreeItem nodeId="20" labelText="Project manager" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleManageProjectsViewClick()}/>
+      
+              <ProjectPopUp successProject={successProject.bind(this)}/>
+              
+            </StyledTreeItem>)
+            }else{
+              await setItplanMenu(null)
+            }
+        }) 
+    }, [])
+
 
   return (
     <TreeView
@@ -178,22 +205,14 @@ export default function MenuListPITList(props) {
       </StyledTreeItem>
 
       <StyledTreeItem nodeId="8" style={{marginBottom:"5px"}} labelText="Piping Spec Materials" labelIcon={Label}>
-        <StyledTreeItem nodeId="1" style={{marginBottom:"5px"}} labelText="CADPMC" labelIcon={MailIcon} onClick={()=> handleCADpmcClick()}/>
+        <StyledTreeItem nodeId="36" style={{marginBottom:"5px"}} labelText="CADPMC" labelIcon={MailIcon} onClick={()=> handleCADpmcClick()}/>
       </StyledTreeItem>
 
       
       <StyledTreeItem nodeId="18" labelText="Requests Dashboard" labelIcon={InfoIcon} onClick={()=> handlePitViewClick()} />
       
 
-      <StyledTreeItem nodeId="12" labelText="Projects" color="#e3742f" bgColor="#fcefe3" labelIcon={Label}>
-
-        <StyledTreeItem nodeId="19" labelText="Tasks" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleProjectsViewClick()}/>
-
-        <StyledTreeItem nodeId="20" labelText="Project manager" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleManageProjectsViewClick()}/>
-
-        <ProjectPopUp successProject={successProject.bind(this)}/>
-        
-      </StyledTreeItem>
+      {itplanMenu}
         
     </TreeView>
   );

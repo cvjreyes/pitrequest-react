@@ -90,12 +90,12 @@ const PitRequestView = () => {
     const [hours, setHours] = useState()
     const [counter, setCounter] = useState([])
     const [content, setContent] = useState(null)
-    const [projectsButton, setProjectsButton] = useState(null)
     const [saveButton, setSaveButton] = useState(null)
     const [usersButton, setUsersButton] = useState(null)
     const [addUserButton, setAddUserButton] = useState(null)
     const [exportReport, setExportReport] = useState(null)
     const [exportUsersReport, setExportUsersReport] = useState(null)
+    const [backToMenuButton, setBackToMenuButton] = useState(null)
     const [updatedRowsPrio, setUpdatedRowsPrio] = useState([])
 
     const [success, setSuccess] = useState(false)
@@ -178,20 +178,20 @@ const PitRequestView = () => {
         if(currentRole === "3D Admin"){
             if(currentTab === "View"){
                 setSaveButton(<button className="navBar__button" onClick={()=> saveChanges()}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>)
-                setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("Projects")}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
                 setAddUserButton(null)
                 setExportReport(<button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button>)
                 setUsersButton(<button className="navBar__button" onClick={()=>setCurrentTab("Users")} style={{width:"100px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Users</p></button>)
                 setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
                 setExportUsersReport(null)
+                setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
             }else if(currentTab === "Projects"){
                 setSaveButton(null)
                 setExportReport(null)
-                setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("View")}><img src={BackIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Back</p></button>)
                 setUsersButton(null)
                 setAddUserButton(null)
                 setContent(<ProjectsExcel/>)
                 setExportUsersReport(null)
+                setBackToMenuButton(null)
             }else if(currentTab === "Users"){
                 setExportUsersReport(<button className="action__btn" name="export" value="export" onClick={() => downloadUsersReport()}>Export</button>)
                 setExportReport(null)
@@ -201,14 +201,14 @@ const PitRequestView = () => {
                     setAddUserButton(null)
                 }
                 setSaveButton(null)
-                setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("View")}><img src={BackIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Back</p></button>)
                 setUsersButton(null)
                 setContent(<UsersDataTable updateData={updateData} deleteUser={deleteUser.bind(this)} submitRoles={submitRoles.bind(this)} submitProjects={submitProjects.bind(this)}/>)
+                setBackToMenuButton(null)
             }
         }else{
             setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
+            setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
             setSaveBtn(null)
-            setProjectsButton(null)
             setAddUserButton(null)
             setExportReport(null)
             setUsersButton(null)
@@ -216,6 +216,10 @@ const PitRequestView = () => {
         }
         
     }, [currentTab, updateData, currentRole])
+
+    function back(){
+        history("/"+process.env.REACT_APP_PROJECT+"/pitrequests")
+    }
 
     async function submitRoles(id, roles){
         
@@ -848,8 +852,8 @@ const PitRequestView = () => {
                           <th  className="isotracker__table__navBar">
                               <div style={{display:"flex"}}>
                                   <div>
+                                    {backToMenuButton}
                                     {saveButton}
-                                    {projectsButton}
                                     {usersButton}
                                   </div>
                                   

@@ -22,7 +22,22 @@ class ProjectsTreeGrid extends Component {
         { field: 'project', rowGroup: true, hide: true },
         { field: 'task', rowGroup: true, hide: true, headerClass: 'header-custom'},
         { field: 'subtask', checkboxSelection: true, hide: true, width:20, headerClass: 'header-custom'},
-        { field: 'hours', headerClass: 'header-custom'}
+        { field: 'hours', headerClass: 'header-custom', aggFunc: values =>{
+          let sum = 0
+          if(values){
+            for(let i = 0; i < values.rowNode.allLeafChildren.length; i++){
+              if(values.rowNode.allLeafChildren[i].data.checked){
+                sum+= values.rowNode.allLeafChildren[i].data.hours
+              }
+            }
+          }
+          if(sum > 0){
+            return sum
+          }else{
+            return null
+          }
+          
+        }}
       ],
       defaultColDef: {
         resizable: true,
@@ -34,7 +49,8 @@ class ProjectsTreeGrid extends Component {
         field: 'subtask',
         cellRenderer: 'agGroupCellRenderer',
         cellRendererParams: {
-          checkbox: true,
+          suppressCount: true,
+          checkbox: true
         },
       },
       rowSelection: 'multiple',
@@ -47,10 +63,12 @@ class ProjectsTreeGrid extends Component {
       subtasks: [],
       tasksNames: [],
       updateData: false,
-      error: false
+      error: false,
+      projects: []
     };
     
   }
+
 
   async componentDidMount(){
 
@@ -85,6 +103,17 @@ class ProjectsTreeGrid extends Component {
         }
         await this.setState({tasks : tasks, subtasks: subtasks, tasksNames: tasksNames});
     })
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsWithHours", options)
+      .then(response => response.json())
+      .then(async json => {
+        let projects = []
+        for(let i = 0; i < json.projects.length; i++){
+          console.log(json.projects)
+          projects.push({"Project": json.projects[i].name, "Hours": json.projects[i].sup_estihrs, "id": json.projects[i].id})
+        }
+        await this.setState({projects : projects});
+      })
   }
 
 
@@ -99,6 +128,7 @@ class ProjectsTreeGrid extends Component {
     rows.push({"Task": "", "Subtask": "", "Hours": "", "id": ""})
     this.setState({subtasks: rows})
   }
+
 
   onGridReady = async(params) => {
     this.gridApi = params.api;
@@ -132,6 +162,7 @@ class ProjectsTreeGrid extends Component {
         const tasks = json.tasks
 
         for(let i = 0; i < projects.length; i ++){
+          nodes.push({project: projects[i].name, task: "Support", subtask:"Estimated hours", hours: projects[i].sup_estihrs, checked: true})
           for(let j = 0; j < tasks.length; j ++){
             let node = {project: projects[i].name, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
             if(this.state.tree_nodes.some(e => e.project === node.project && e.task === node.task && e.subtask === node.subtask && e.hours === node.hours)) {
@@ -253,6 +284,26 @@ class ProjectsTreeGrid extends Component {
         await this.setState({error: true})
       }
     })
+
+    body = {
+      rows: this.state.projects,
+    }
+
+    options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    }
+    
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitProjectsHours", options)
+    .then(response => response.json())
+    .then(async json =>{
+      if(!json.success){
+        await this.setState({error: true})
+      }
+    })
     
     options = {
       method: "GET",
@@ -260,6 +311,8 @@ class ProjectsTreeGrid extends Component {
           "Content-Type": "application/json"
       },
     }
+
+    
  
     setTimeout(async ()=> 
       await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getTasks", options)
@@ -298,6 +351,8 @@ class ProjectsTreeGrid extends Component {
       },
     }
 
+    
+
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAllPTS", options)
     .then(response => response.json())
     .then(async json => {
@@ -305,6 +360,7 @@ class ProjectsTreeGrid extends Component {
         const projects = json.projects
         const tasks = json.tasks
         for(let i = 0; i < projects.length; i ++){
+          nodes.push({project: projects[i].name, task: "Support", subtask:"Estimated hours", hours: projects[i].sup_estihrs, checked: true})
           for(let j = 0; j < tasks.length; j ++){
             let node = {project: projects[i].name, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
             if(this.state.tree_nodes.some(e => e.project === node.project && e.task === node.task && e.subtask === node.subtask && e.hours === node.hours)) {
@@ -323,8 +379,19 @@ class ProjectsTreeGrid extends Component {
     for(let i = 0; i < this.gridApi.getSelectedNodes().length; i++){
       initial_nodes.push(this.gridApi.getSelectedNodes()[i].data)
     }
-    
+
     await this.setState({initial_nodes: initial_nodes})
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsWithHours", options)
+      .then(response => response.json())
+      .then(async json => {
+        let projects = []
+        for(let i = 0; i < json.projects.length; i++){
+          projects.push({"Project": json.projects[i].name, "Hours": json.projects[i].sup_estihrs, "id": json.projects[i].id})
+        }
+        await this.setState({projects : projects});
+      })
+      
     if(this.state.error){
       this.props.error()
     }else{
@@ -338,7 +405,7 @@ class ProjectsTreeGrid extends Component {
     
     let settingsTasks = {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 1000,
+      colWidths: 480,
       
       className:'excel'
     }
@@ -346,6 +413,11 @@ class ProjectsTreeGrid extends Component {
     let settingsSubtasks= {
       licenseKey: 'non-commercial-and-evaluation',
       colWidths: 333,
+    }
+
+    let settingsProjects = {
+      licenseKey: 'non-commercial-and-evaluation',
+      colWidths: 220,
     }
 
     return (
@@ -380,12 +452,13 @@ class ProjectsTreeGrid extends Component {
             />
           </div>
         </div>
-        <div id="hot-app" className="excel__container">
+        <div>
+            <div className="excel__container__2">
               <HotTable
                 data={this.state.tasks}
                 colHeaders = {["<b>Task</b>"]}
                 rowHeaders={true}
-                width="1200"
+                width="610"
                 
                 height="300"
                 rowHeights="25"
@@ -411,9 +484,45 @@ class ProjectsTreeGrid extends Component {
                   ]}
               />
               <br></br>
-              <center>
-                  <button className="projects__add__button" onClick={()=>this.addRowTasks()} style={{width:"70px", marginBottom:"50px", height:"30px"}}><p className="projects__add__button__text">Add</p></button>
-                </center>
+              
+                <HotTable
+                data={this.state.projects}
+                colHeaders = {["<b>Project</b>", "<b>Estimated hours</b>"]}
+                rowHeaders={true}
+                width="590"
+                
+                height="300"
+                rowHeights="25"
+                settings={settingsProjects} 
+                manualColumnResize={true}
+                manualRowResize={true}
+                columns= { [{data: "Project"}, {data: "Hours"}]}
+                filters={true}
+                dropdownMenu= {[
+                    'make_read_only',
+                    '---------',
+                    'alignment',
+                    '---------',
+                    'filter_by_condition',
+                    '---------',
+                    'filter_operators',
+                    '---------',
+                    'filter_by_condition2',
+                    '---------',
+                    'filter_by_value',
+                    '---------',
+                    'filter_action_bar',
+                  ]}
+              />
+              <br></br>
+              
+            </div>
+            <div style={{display: "flex", float:"left"}}>
+              <div style={{marginLeft:"245px"}}>
+              <button className="projects__add__button" onClick={()=>this.addRowTasks()} style={{width:"70px", marginBottom:"50px", height:"30px", }}><p className="projects__add__button__text">Add</p></button>
+              </div>
+            </div>
+            <div id="hot-app" className="excel__container">
               <HotTable
                 data={this.state.subtasks}
                 colHeaders = {["<b>Task</b>", "<b>Subtask</b>", "<b>Hours</b>"]}
@@ -447,6 +556,7 @@ class ProjectsTreeGrid extends Component {
               <center>
                   <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px", height: "30px"}}><p className="projects__add__button__text">Add</p></button>
                 </center>
+            </div>
             </div>
       </div>
       </div>

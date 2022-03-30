@@ -7,11 +7,16 @@ import {useNavigate} from "react-router";
 
 import SaveIcon from "../../assets/images/save.svg"
 import FolderIcon from "../../assets/images/FolderOpen.png"
+import BackIcon from "../../assets/images/back.svg"
 
 import ProjectsViewDataTable from '../../components/projectsViewDataTable/projectsViewDataTable';
 
 import { PieChart, Pie, Tooltip, Cell } from 'recharts';
 import './projectsView.css'
+
+import AlertF from "../../components/alert/alert"
+import ProjectsHoursDataTable from '../../components/projectsHoursDataTable/projectsHoursDataTable';
+
 
 /*
 const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#FF3358'];
@@ -83,8 +88,12 @@ const ProjectsView = () => {
     const [projectsButton, setProjectsButton] = useState(null)
     const [saveButton, setSaveButton] = useState(null)
     const [usersButton, setUsersButton] = useState(null)
+    const [backButton, setBackButton] = useState(null)
 
     const [updateData, setUpdateData] = useState(false)    
+
+    const [success, setSuccess] = useState(false)
+    const [error, setError] = useState(false)
 
     const history = useNavigate()
 
@@ -121,9 +130,18 @@ const ProjectsView = () => {
     },[updateData])
 
     useEffect(async () =>{
-        setSaveButton(<button className="navBar__button" onClick={()=> saveChanges()}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>)
-        setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("Projects")}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
-        setContent(<ProjectsViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
+        if(currentTab === "View"){
+            setSaveButton(<button className="navBar__button" onClick={()=> saveChanges()}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>)
+            setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("Projects")}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
+            setContent(<ProjectsViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
+            setBackButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
+        }else{
+            setSaveButton(null)
+            setProjectsButton(null)
+            setContent(<ProjectsHoursDataTable/>)
+            setBackButton(<button className="navBar__button" onClick={()=> setCurrentTab("View")} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
+        }
+        
     }, [currentTab, updateData])
 
     
@@ -169,6 +187,10 @@ const ProjectsView = () => {
             }
           })
     }
+    
+    function back(){
+        history("/"+process.env.REACT_APP_PROJECT+"/pitrequests")
+    }
 
     async function updateStatus(updatedRow){
         let currentRows = updatedRows
@@ -187,6 +209,7 @@ const ProjectsView = () => {
     }
 
     async function saveChanges(){
+        let err = false
         await setUpdateData(!updateData)
         let hoursArray = []
         if(hours){
@@ -213,7 +236,9 @@ const ProjectsView = () => {
               fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/projects/updateHours", options)
               .then(response => response.json())
               .then(async json => {
-                
+                if(!json.success){
+                    err = true
+                }
               })
         }
         let observationsArray = []
@@ -243,7 +268,9 @@ const ProjectsView = () => {
               fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/projects/updateObservations", options)
               .then(response => response.json())
               .then(async json => {
-                
+                if(!json.success){
+                    err = true
+                }
               })
             }
         for(let i = 0; i < updatedRows.length; i++){
@@ -264,10 +291,16 @@ const ProjectsView = () => {
               fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/projects/updateStatus", options)
               .then(response => response.json())
               .then(async json => {
-                
+                if(!json.success){
+                    err = true
+                }
               })
         }
-        
+        if(err){
+            setError(true)
+        }else{
+            setSuccess(true)
+        }
         await setUpdatedRows([])
         await setUpdateData(!updateData)
         
@@ -281,6 +314,18 @@ const ProjectsView = () => {
         
         <div>
             {updateData}
+            <div
+                className={`alert alert-success ${success ? 'alert-shown' : 'alert-hidden'}`}
+                onTransitionEnd={() => setSuccess(false)}
+                >
+                <AlertF type="success" text="Changes saved successfully!" margin="-100px"/>
+            </div>
+            <div
+                className={`alert alert-success ${error ? 'alert-shown' : 'alert-hidden'}`}
+                onTransitionEnd={() => setError(false)}
+                >
+                <AlertF type="error" subtext="A problem occurred while saving changes!" />
+            </div>
             <IdleTimer
                 timeout={1000 * 60 * 15}
                 onIdle={handleOnIdle}
@@ -300,6 +345,7 @@ const ProjectsView = () => {
                           <th  className="isotracker__table__navBar">
                               <div style={{display:"flex"}}>
                                   <div>
+                                    {backButton}
                                     {saveButton}
                                     {projectsButton}
                                     {usersButton}

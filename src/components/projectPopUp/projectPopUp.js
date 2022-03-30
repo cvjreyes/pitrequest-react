@@ -123,7 +123,8 @@ export default class ProjectPopUp extends Component {
             tasks: [],
             tasks_menu: [],
             checked: [],
-            expanded: []
+            expanded: [],
+            hours: null
         }
     }
 
@@ -189,6 +190,7 @@ export default class ProjectPopUp extends Component {
             name: null,
             description: null,
             attach: null,
+            hours: null
         });
     }
 
@@ -200,7 +202,8 @@ export default class ProjectPopUp extends Component {
             description: null,
             attach: null,
             checked: [],
-            expanded: []
+            expanded: [],
+            hours: null
         });
 
         this.refs.name.value = null;
@@ -216,7 +219,8 @@ export default class ProjectPopUp extends Component {
             name : this.state.name,
             code: this.state.code,
             admin: document.getElementById("adminSelect").value,
-            tasks: this.state.checked
+            tasks: this.state.checkedm,
+            hours: this.state.hours
           }
           let options = {
             method: "POST",
@@ -253,7 +257,7 @@ export default class ProjectPopUp extends Component {
                     />                
                     <div>
                     
-                    <Modal visible={this.state.visible} width="700" height="900" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="700" height="950" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                         <div
                         className={`alert alert-warning ${this.state.errorBlankRequest ? 'alert-shown' : 'alert-hidden'}`}
                         onTransitionEnd={() => this.setState({errorBlankRequest: false})}
@@ -273,6 +277,10 @@ export default class ProjectPopUp extends Component {
                                     <option>{admin}</option>
                                 ))}
                             </select>
+                        <div className="estihrs__container">
+                          <label className="priority__label" for="hours">Estimated support hours:</label>
+                          <input type="text" id="hours" className="carta__input" onChange={(e) => this.setState({hours: e.target.value})}></input>
+                        </div>
                         <h4 className="project__subtitle">Initial tasks</h4>     
                         <div style={{position:"absolute", marginTop:"35px", marginLeft:"25px"}}>
                         <CheckboxTree

@@ -119,7 +119,8 @@ export default class QtrackerNWCPopUp extends Component {
             attach: null,
             description: null,
             errorBlankRequest: false,
-            projects: []
+            projects: [],
+            carta: null
         }
     }
 
@@ -183,7 +184,8 @@ export default class QtrackerNWCPopUp extends Component {
                 has_attach: has_attach,
                 user: secureStorage.getItem("user"),
                 project: document.getElementById("projectSelect").value,
-                priority: document.getElementById("prioritySelect").value
+                priority: document.getElementById("prioritySelect").value,
+                carta: this.state.carta
               }
               let options = {
                 method: "POST",
@@ -248,6 +250,8 @@ export default class QtrackerNWCPopUp extends Component {
                                     <option>{project}</option>
                                 ))}
                             </select>
+                            <label className="priority__label" for="carta">Carta:</label>
+                            <input type="text" id="carta" className="carta__input" onChange={(e) => this.setState({carta: e.target.value})}></input>
                             <label className="priority__label" for="prioritySelect">Priority:</label>
                             <select id="prioritySelect" className="prioritySelect">    
                                     <option value="0">Low</option> 

@@ -5,8 +5,15 @@
 
 .excel__container{
     width: 1090px;
+    margin-top: 30px;
+    text-align:"center";
+}
+
+.excel__container__2{
+    width: 1090px;
     margin-top: 60px;
     text-align:"center";
+    display: flex;
 }
 
 .handsontable td{
@@ -45,7 +52,7 @@
     font-family: 'Quicksand', sans-serif;
     
     background-color: lightgray;
-    ;
+    
 }
 
 .projects__button:hover{
