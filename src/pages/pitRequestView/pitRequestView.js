@@ -20,6 +20,8 @@ import { PieChart, Pie, Tooltip, Cell } from 'recharts';
 import './pitRequestView.css'
 import ProjectsExcel from '../../components/projectsExcel/projectsExcel'
 
+import AlertF from "../../components/alert/alert"
+
 const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#FF3358'];
 
 const RADIAN = Math.PI / 180;
@@ -95,6 +97,9 @@ const PitRequestView = () => {
     const [exportReport, setExportReport] = useState(null)
     const [exportUsersReport, setExportUsersReport] = useState(null)
     const [updatedRowsPrio, setUpdatedRowsPrio] = useState([])
+
+    const [success, setSuccess] = useState(false)
+    const [error, setError] = useState(false)
 
     const [updateData, setUpdateData] = useState(false)    
 
@@ -310,7 +315,11 @@ const PitRequestView = () => {
           fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/updateProjects/", options)
           .then(response => response.json())
           .then(json =>{
-            
+            if(json.success){
+                setSuccess(true)
+            }else{
+                setError(true)
+            }
           })
           await setUpdateData(!updateData)
 
@@ -649,6 +658,7 @@ const PitRequestView = () => {
     }
 
     async function saveChanges(){
+        let err = false
         await setUpdateData(!updateData)
         let hoursArray = []
         if(hours){
@@ -672,9 +682,12 @@ const PitRequestView = () => {
                 },
                 body: JSON.stringify(body)
               }
-              fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateHours", options)
+              await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateHours", options)
               .then(response => response.json())
               .then(async json => {
+                if(!json.success){
+                    err = true
+                }
                 
               })
         }
@@ -702,10 +715,12 @@ const PitRequestView = () => {
                 body: JSON.stringify(body)
               }
               
-              fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateObservations", options)
+              await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateObservations", options)
               .then(response => response.json())
               .then(async json => {
-                
+                if(!json.success){
+                    err = true
+                }
               })
             }
         for(let i = 0; i < updatedRows.length; i++){
@@ -725,13 +740,20 @@ const PitRequestView = () => {
                 body: JSON.stringify(body)
               }
               
-              fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateStatus", options)
+              await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateStatus", options)
               .then(response => response.json())
               .then(async json => {
-                
+                if(!json.success){
+                    err = true
+                }
               })
         }
-        
+        if(err){
+            setError(true)
+        }else{
+            setSuccess(true)
+        }
+
         await setUpdatedRows([])
 
         for(let i = 0; i < updatedRowsPrio.length; i++){
@@ -784,6 +806,18 @@ const PitRequestView = () => {
         
         <div>
             {updateData}
+            <div
+                className={`alert alert-success ${success ? 'alert-shown' : 'alert-hidden'}`}
+                onTransitionEnd={() => setSuccess(false)}
+                >
+                <AlertF type="success" text="Changes saved successfully!" margin="-100px"/>
+            </div>
+            <div
+                className={`alert alert-success ${error ? 'alert-shown' : 'alert-hidden'}`}
+                onTransitionEnd={() => setError(false)}
+                >
+                <AlertF type="error" subtext="A problem occurred while saving changes!" />
+            </div>
             <IdleTimer
                 timeout={1000 * 60 * 15}
                 onIdle={handleOnIdle}

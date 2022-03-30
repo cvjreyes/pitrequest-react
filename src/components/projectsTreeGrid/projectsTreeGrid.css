@@ -1,0 +1,74 @@
+.header-custom{
+    font-size: 21px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.excel__container{
+    width: 1090px;
+    margin-top: 60px;
+    text-align:"center";
+}
+
+.handsontable td{
+    font-size: 20px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.handsontable th{
+    font-size: 20px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+
+.projects__button{
+    height: 50px;
+    width: 100px;
+    border: 0;
+    background-color: transparent;
+    margin-left: 10px;
+    border-radius: 1em 1em 1em 1em;
+    transition: 0.3s;
+    font-family: 'Quicksand', sans-serif;
+    
+    background-color:#99C6F8;
+    ;
+}
+
+.projects__add__button{
+    height: 50px;
+    width: 100px;
+    border: 0;
+    background-color: transparent;
+    margin-left: 10px;
+    border-radius: 1em 1em 1em 1em;
+    transition: 0.3s;
+    font-family: 'Quicksand', sans-serif;
+    
+    background-color: lightgray;
+    ;
+}
+
+.projects__button:hover{
+    background-color: #0070ED;}
+
+.projects__button__text{
+    font-size: 17px;
+    margin-top: 9px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.projects__add__button:hover{
+    background-color: gray;
+}
+
+.projects__button__text{
+    font-size: 17px;
+    margin-top: 9px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.projects__add__button__text{
+    font-size: 15px;
+    margin-top: 3px;
+    font-family: 'Quicksand', sans-serif;
+}

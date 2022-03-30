@@ -11,6 +11,10 @@ const MenuListPIT = (props) =>{
         props.success()
     }
 
+    function successProject(){
+        props.successProject()
+    }
+
     return(
         <div class="panel__container">
             <div className="panel__heading__container">
@@ -21,7 +25,7 @@ const MenuListPIT = (props) =>{
 
             <div className="elements__container">
                 <div className="menu" style={{paddingTop:"10px"}}>
-                    <MenuListPITList success={success.bind(this)}/>
+                    <MenuListPITList success={success.bind(this)} successProject={successProject.bind(this)}/>
                 </div>
                 
             </div>

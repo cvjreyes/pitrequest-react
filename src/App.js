@@ -9,6 +9,9 @@ import WelcomeLoginF from './pages/welcomeLoginF/welcomeLoginF';
 import PITRequests from './pages/pitrequests/pitrequests';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PitRequestView from './pages/pitRequestView/pitRequestView';
+import ProjectsView from './pages/projectsView/projectsView';
+import ProjectManager from './pages/projectManager/projectManager';
+
 function App() {
   return (
     <div className="App">
@@ -17,6 +20,8 @@ function App() {
             <Route path={"/"+process.env.REACT_APP_PROJECT+"/"} element={<WelcomeLoginF/>} />
             <Route path={"/"+process.env.REACT_APP_PROJECT+"/pitrequests"} element={<PITRequests/>}></Route>
             <Route path={"/"+process.env.REACT_APP_PROJECT+"/pitrequestsview"} element={<PitRequestView/>}></Route>
+            <Route path={"/"+process.env.REACT_APP_PROJECT+"/projectsview"} element={<ProjectsView/>}></Route>
+            <Route path={"/"+process.env.REACT_APP_PROJECT+"/projectManager"} element={<ProjectManager/>}></Route>
       </Routes>
     </BrowserRouter>
     </div>
