@@ -3,10 +3,10 @@ import React, { useState, useEffect } from 'react';
 
 import IdleTimer from 'react-idle-timer'
 import {useNavigate} from "react-router";
-import ProjectsTreeGrid from '../../components/projectsTreeGrid/projectsTreeGrid';
+import OffersTreeGrid from '../../components/offersTreeGrid/offersTreeGrid';
 import AlertF from "../../components/alert/alert"
 
-const ProjectManager = () =>{    
+const OfferManager = () =>{    
 
     const [navBar, setNavBar] = useState(null);
     const [success, setSuccess] = useState(false)
@@ -63,9 +63,6 @@ const ProjectManager = () =>{
         setError(true)
     }
 
-    function goToTasks(){
-        history("/"+process.env.REACT_APP_PROJECT+"/projectsView")
-    }
 
     return(
         <div>
@@ -89,7 +86,7 @@ const ProjectManager = () =>{
             />
             <div >
                 <NavBar/>
-                <ProjectsTreeGrid back={back.bind(this)} success={successAlert.bind(this)} error={errorAlert.bind(this)} goToTasks={goToTasks.bind(this)}/>
+                <OffersTreeGrid back={back.bind(this)} success={successAlert.bind(this)} error={errorAlert.bind(this)}/>
                 
 
             </div>
@@ -98,4 +95,4 @@ const ProjectManager = () =>{
     );
 };
 
-export default ProjectManager;
+export default OfferManager;

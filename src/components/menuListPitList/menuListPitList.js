@@ -20,6 +20,8 @@ import QtrackerRRPopUp from '../qtrackerRRPopUp/qtrackerRRPopUp';
 import QtrackerNRIDSPopUp from '../qtrackerNRIDSPopUp/qtrackerNRIDSPopUp';
 import SvgIcon from '@mui/material/SvgIcon';
 import ProjectPopUp from '../projectPopUp/projectPopUp';
+import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
+import OfferPopUp from '../OfferPopUp/offerPopUp';
 
 const CryptoJS = require("crypto-js");
 const SecureStorage = require("secure-web-storage");
@@ -87,6 +89,13 @@ const StyledTreeItemRoot = styled(TreeItem)(({ theme }) => ({
   },
 }));
 
+const useStyles = makeStyles({
+  label: {
+    backgroundColor: "green",
+    color: "red"
+  }
+});
+
 function StyledTreeItem(props) {
   const {
     bgColor,
@@ -102,7 +111,7 @@ function StyledTreeItem(props) {
       label={
         <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
           <Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} />
-          <Typography variant="h5" sx={{ fontWeight: 'inherit', flexGrow: 1 }}>
+          <Typography variant="h5" sx={{ fontWeight: 'inherit', flexGrow: 1, fontFamily: "Quicksand, sans-serif", fontSize:"30px" }}>
             {labelText}
           </Typography>
           <Typography variant="caption" color="inherit">
@@ -157,6 +166,10 @@ export default function MenuListPITList(props) {
       history("/"+process.env.REACT_APP_PROJECT+"/projectManager")
     }
 
+    function handleManageOffersViewClick(){
+      history("/"+process.env.REACT_APP_PROJECT+"/offersManager")
+    }
+
     useEffect(async ()=>{
       const options = {
         method: "GET",
@@ -172,9 +185,13 @@ export default function MenuListPITList(props) {
 
               <StyledTreeItem nodeId="19" labelText="Tasks" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleProjectsViewClick()}/>
       
-              <StyledTreeItem nodeId="20" labelText="Project manager" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleManageProjectsViewClick()}/>
-      
+              <StyledTreeItem nodeId="20" labelText="Projects manager" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleManageProjectsViewClick()}/>
+     
               <ProjectPopUp successProject={successProject.bind(this)}/>
+
+              <StyledTreeItem nodeId="21" labelText="Offers manager" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleManageOffersViewClick()}/>
+
+              <OfferPopUp successProject={successProject.bind(this)}/>
               
             </StyledTreeItem>)
             }else{

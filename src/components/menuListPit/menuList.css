@@ -4,25 +4,27 @@
     width: 30%;
     position: absolute; 
     left: 35%;
-    
 }
 
 .panel__heading__container{
-    background-color: #338df1; 
+    /*background-color: #338df1; */
+    background-color: white;
     border-radius: 20px 20px 0px 0px; 
     text-align: center;
-    height: 70px;
+    height: 110px;
     margin-top: 120px;
-    padding-top:12px;
-    border-bottom: 1px solid rgb(211, 224, 233);
+    padding-top:18px;
+    border: 5px solid gray(211, 224, 233);
     width:100%;
+    display: flex;
+
 }
 
 .panel__heading__text{
-    font-size: 22px;
+    font-size: 28px;
     font-family: 'Quicksand', sans-serif;
     font-weight: 700;
-    color: white;
+    color: gray;
 }
 
 .panel__content__container{
@@ -169,3 +171,9 @@ h4{
 .panel__content__container__last:active{
     box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+
+.pit__image{
+    width: 350px;
+    height: auto;
+}
+

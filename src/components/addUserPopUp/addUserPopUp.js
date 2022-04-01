@@ -128,7 +128,7 @@ export default class AddUserPopUp extends Component {
             <section >
                 <input type="button"  value="Add user" className="action__btn" onClick={() => this.openModal()} />
                 <div>
-                    <Modal visible={this.state.visible} width="650" height="530" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="650" height="340" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div
                         className={`alert alert-success ${this.state.blankFields ? 'alert-shown' : 'alert-hidden'}`}
                         onTransitionEnd={() => this.setState({blankFields: false})}
@@ -157,6 +157,19 @@ export default class AddUserPopUp extends Component {
                             <h4 style={{fontWeight:"bold"}}>Roles</h4>
                             
                         </div>
+                        <div className="checkbox__container">
+                            <div className="popUp__input__checkbox__group">
+                                <div className="checkbox">
+                                    <input type="checkbox" name="DES" value="DES" className="popUp__input__checkbox" onChange={(e) => this.setState({des: e.target.checked})} checked={this.state.des}/>
+                                    <label for="DES" className="popUp__input__checkbox__label">Design</label>          
+                                </div>    
+                                <div className="checkbox">
+                                    <input type="checkbox" name="3D" value="3D" className="popUp__input__checkbox" onChange={(e) => this.setState({adm: e.target.checked})} checked={this.state.adm}/>  
+                                    <label for="3D" className="popUp__input__checkbox__label">3DAdmin</label>
+                                </div>
+                            </div>
+                        </div> 
+                        {/*
                         <div className="checkbox__container">
                             <div className="popUp__input__checkbox__group">
                                 <div className="checkbox">
@@ -222,6 +235,7 @@ export default class AddUserPopUp extends Component {
                             </div>
                             
                         </div>
+                        */}
                         <div className="popUp__buttons__container__users">
                             <button class="btn btn-sm btn-success" onClick={() => this.addUser()} style={{marginRight:"5px", fontSize:"16px"}}>Add user</button>
                             <button class="btn btn-sm btn-danger" onClick={() => this.closeModal()} style={{marginLeft:"5px", fontSize:"16px"}}>Cancel</button>

@@ -127,7 +127,7 @@ class ProjectsHoursDataTable extends React.Component{
     if (this.state.data.length === 0){
       totalElements = null;
     }else{
-      totalElements = (<div style={{position: "absolute", bottom: 110, left:120}}>
+      totalElements = (<div style={{position: "absolute", bottom: 140, left:120}}>
       <b>Total elements: {this.state.data.length}</b>
      </div>);
     }
@@ -136,7 +136,6 @@ class ProjectsHoursDataTable extends React.Component{
         {this.state.updateData}
         <div className="estimatedDataTable__container" style={{width:"auto"}}>
         <Table className="customTable" bordered = {true} columns={columns} dataSource={this.state.data} style={{ height: '540px' }} scroll={{y:437}} pagination={{disabled:true, defaultPageSize:5000}} size="small"/>
-          <Table className="filter__table" pagination={{disabled:true}} scroll={{y:437}} showHeader = {false} bordered = {true} columns={columns} dataSource={this.state.filters} size="small"/> 
           {totalElements}
         </div>
         

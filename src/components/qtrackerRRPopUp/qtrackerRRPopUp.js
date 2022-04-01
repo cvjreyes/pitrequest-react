@@ -83,7 +83,7 @@ const CryptoJS = require("crypto-js");
             label={
               <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
                 <Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} />
-                <Typography variant="h5" sx={{ fontWeight: 'inherit', flexGrow: 1 }}>
+                <Typography variant="h5" sx={{ fontWeight: 'inherit', flexGrow: 1, fontFamily: "Quicksand, sans-serif", fontSize:"30px" }}>
                   {labelText}
                 </Typography>
                 <Typography variant="caption">
@@ -107,6 +107,7 @@ const CryptoJS = require("crypto-js");
         labelInfo: PropTypes.string,
         labelText: PropTypes.string.isRequired,
       };
+
 
 export default class QtrackerRRPopUp extends Component {
     constructor(props) {
@@ -202,6 +203,7 @@ export default class QtrackerRRPopUp extends Component {
         return (
             <div>
                     <StyledTreeItem
+                    
                     nodeId="14"
                     labelText="Report"
                     labelIcon={SupervisorAccountIcon}

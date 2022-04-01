@@ -132,7 +132,7 @@ class ProjectsViewDataTable extends React.Component{
         let rows = []
         let row = {}
         for(let i = 0; i < json.tasks.length; i++){
-            row = {task: json.tasks[i].task, subtask: json.tasks[i].subtask, project: json.tasks[i].project + " (" + json.tasks[i].code + ")", date: json.tasks[i].date.toString().substring(0,10) + " "+ json.tasks[i].date.toString().substring(11,19) , observations: <input style={{width: "275px"}} type="text" defaultValue={json.tasks[i].observations} onChange={(event)=>this.updateObservations(json.tasks[i].id, event.target.value)}/>, ar_date: "", admin: <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.tasks[i].admin} id={json.tasks[i].id} changeAdmin = {this.changeAdmin.bind(this)}/>, hours: <input style={{width: "55px"}} type="text" defaultValue={json.tasks[i].hours} onChange={(event)=>this.updateHours(json.tasks[i].id, event.target.value)}/>}
+            row = {task: json.tasks[i].task, subtask: json.tasks[i].subtask, project: json.tasks[i].project + " (" + json.tasks[i].code + ")", date: json.tasks[i].date.toString().substring(0,10) + " "+ json.tasks[i].date.toString().substring(11,19) , observations: <input style={{width: "275px"}} type="text" defaultValue={json.tasks[i].observations} onChange={(event)=>this.updateObservations(json.tasks[i].id, event.target.value)}/>, ar_date: "", admin: <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.tasks[i].admin} incidence_number={json.tasks[i].id} changeAdmin = {this.changeAdmin.bind(this)}/>, hours: <input style={{width: "55px"}} type="text" defaultValue={json.tasks[i].hours} onChange={(event)=>this.updateHours(json.tasks[i].id, event.target.value)}/>, estimated: json.tasks[i].estimated}
             if(json.tasks[i].accept_reject_date){
               row["ar_date"] = json.tasks[i].accept_reject_date.toString().substring(0,10) + " "+ json.tasks[i].accept_reject_date.toString().substring(11,19)
             }
@@ -172,11 +172,12 @@ class ProjectsViewDataTable extends React.Component{
             }
             rows.push(row)
         }
+        const filterRow = [{task: <div><input type="text" className="filter__input" placeholder="Task" onChange={(e) => this.filter(0, e.target.value)}/></div>, subtask: <div><input type="text" className="filter__input" placeholder="Subtask" onChange={(e) => this.filter(1, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filter(2, e.target.value)}/></div>, date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(3,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="A/R Date" onChange={(e) => this.filter(5,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filter(6,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filter(9,e.target.value)}/></div>, estimated: <div><input type="text" className="filter__input" placeholder="Estimated" onChange={(e) => this.filter(8,e.target.value)}/></div>}]
 
-        await this.setState({data : rows, selectedRows: [], displayData: rows});
-      })
-    }
+        await this.setState({data : rows, selectedRows: [], displayData: rows, filters: filterRow});
+    })
   }
+}
 
   async statusChange(id, status){
     let status_id
@@ -407,7 +408,7 @@ class ProjectsViewDataTable extends React.Component{
     if (this.state.data.length === 0){
       totalElements = null;
     }else{
-      totalElements = (<div style={{position: "absolute", bottom: 110, left:120}}>
+      totalElements = (<div style={{position: "absolute", bottom: 140, left:120}}>
       <b>Total elements: {this.state.data.length}</b>
      </div>);
     }

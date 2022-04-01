@@ -84,7 +84,7 @@ const CryptoJS = require("crypto-js");
             label={
               <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
                 <Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} />
-                <Typography variant="h5" sx={{ fontWeight: 'inherit', flexGrow: 1 }}>
+                <Typography variant="h5" sx={{ fontWeight: 'inherit', flexGrow: 1, fontFamily: "Quicksand, sans-serif", fontSize:"30px" }}>
                   {labelText}
                 </Typography>
                 <Typography variant="caption">
@@ -124,7 +124,7 @@ export default class ProjectPopUp extends Component {
             tasks_menu: [],
             checked: [],
             expanded: [],
-            hours: null
+            hours: null,
         }
     }
 
@@ -161,8 +161,7 @@ export default class ProjectPopUp extends Component {
             Object.entries(json.tasks[i])
             .map( ([key, value]) => 
               current_tasks.push(value, key)
-            )
-
+            ) 
             
             let task = {
               value: current_tasks[0]*100,
@@ -219,7 +218,7 @@ export default class ProjectPopUp extends Component {
             name : this.state.name,
             code: this.state.code,
             admin: document.getElementById("adminSelect").value,
-            tasks: this.state.checkedm,
+            tasks: this.state.checked,
             hours: this.state.hours
           }
           let options = {
@@ -242,7 +241,18 @@ export default class ProjectPopUp extends Component {
     }    
 
     render() {       
-        
+        let tasks_tree = <p className='priority__label' style={{marginLeft:"6px"}}>No tasks available</p>
+        if(this.state.tasks_menu.length > 0){
+          tasks_tree = <CheckboxTree
+                            nodes={this.state.tasks_menu}
+                            checked={this.state.checked}
+                            expanded={this.state.expanded}
+                            onCheck={checked => this.setState({ checked })}
+                            onExpand={expanded => this.setState({ expanded })}
+                            icons="fa5"
+                            
+                        />   
+        }
         return (
             <div>
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"></link>
@@ -283,14 +293,7 @@ export default class ProjectPopUp extends Component {
                         </div>
                         <h4 className="project__subtitle">Initial tasks</h4>     
                         <div style={{position:"absolute", marginTop:"35px", marginLeft:"25px"}}>
-                        <CheckboxTree
-                            nodes={this.state.tasks_menu}
-                            checked={this.state.checked}
-                            expanded={this.state.expanded}
-                            onCheck={checked => this.setState({ checked })}
-                            onExpand={expanded => this.setState({ expanded })}
-                            icons="fa5"
-                        />   
+                        {tasks_tree}
                         </div>
                             
                         </div>

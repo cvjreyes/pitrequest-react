@@ -9,6 +9,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import AlertF from "../../components/alert/alert"
 import ReactTooltip from "react-tooltip"
+import CheckboxTree from 'react-checkbox-tree';
+import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 
 const CryptoJS = require("crypto-js");
     const SecureStorage = require("secure-web-storage");
@@ -82,7 +84,7 @@ const CryptoJS = require("crypto-js");
             label={
               <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
                 <Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} />
-                <Typography variant="h5" sx={{ fontWeight: 'inherit', flexGrow: 1, fontFamily: "Quicksand, sans-serif" }}>
+                <Typography variant="h5" sx={{ fontWeight: 'inherit', flexGrow: 1, fontFamily: "Quicksand, sans-serif", fontSize:"30px" }}>
                   {labelText}
                 </Typography>
                 <Typography variant="caption">
@@ -107,20 +109,28 @@ const CryptoJS = require("crypto-js");
         labelText: PropTypes.string.isRequired,
       };
 
-export default class QtrackerNRBPopUp extends Component {
+export default class OfferPopUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
             visible : false,
-            pipe: null,
+            name: null,
+            code: null,
             attach: null,
             description: null,
-            priority: null,
             errorBlankRequest: false,
-            projects: []
+            tasks: [],
+            tasks_menu: [],
+            checked: [],
+            expanded: [],
+            hours: null,
         }
     }
+
+    
+
     async componentDidMount(){
+
       const options = {
         method: "GET",
         headers: {
@@ -128,103 +138,116 @@ export default class QtrackerNRBPopUp extends Component {
         }
       }
 
-      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsByEmail/"+ secureStorage.getItem("user"), options)
+
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getTasks", options)
         .then(response => response.json())
         .then(async json => {
-          let projects = []
-          for(let i = 0; i < json.projects.length; i++){
-            projects.push(json.projects[i].name)
+          this.setState({tasks: json.tasks})
+
+          let tasks_menu = []
+          let current_tasks
+          for(let i = 1; i < json.tasks.length; i++){
+            current_tasks = []
+            Object.entries(json.tasks[i])
+            .map( ([key, value]) => 
+              current_tasks.push(value, key)
+            ) 
+            
+            let task = {
+              value: current_tasks[0]*100,
+              label: <span style={{fontSize:"22px"}}>{current_tasks[1]}</span>
+            }
+
+            let children = []
+            for(let i = 2; i < current_tasks.length; i+=2){
+              children.push({value: current_tasks[i], label: current_tasks[i+1]})
+            }
+            if(current_tasks[2]){
+              task["children"] = children
+            }
+            tasks_menu.push(task)
           }
-          this.setState({projects:projects})
+
+          this.setState({tasks_menu: tasks_menu})
         })
+    
     }
 
     async openModal() {
         await this.setState({
             visible : true,
-            pipe: null,
+            name: null,
             description: null,
             attach: null,
+            hours: null
         });
     }
 
     async closeModal() {
         await this.setState({
             visible : false,
-            pipe: null,
+            name: null,
+            code: null,
             description: null,
             attach: null,
-            priority: null
+            checked: [],
+            expanded: [],
+            hours: null
         });
 
-        this.refs.pipe.value = null;
-        this.refs.description.value = null;
-        this.refs.attach.value = null;
-
+        this.refs.name.value = null;
+        this.refs.code.value = null;
     }
 
 
-    async request(){
-        
-      if(this.state.pipe && this.state.description){
+    async createOffer(){
+      if(this.state.name && this.state.code){
 
-          let has_attach
-
-          if(this.state.attach){
-            has_attach = true
-          }else{
-            has_attach = false
+        let body ={
+            name : this.state.name,
+            code: this.state.code,
+            tasks: this.state.checked,
+            hours: this.state.hours
           }
-
-          const body ={
-            pipe : this.state.pipe,
-            description: this.state.description,
-            has_attach: has_attach,
-            user: secureStorage.getItem("user"),
-            project: document.getElementById("projectSelect").value,
-            priority: document.getElementById("prioritySelect").value
-          }
-          const options = {
+          let options = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(body)
         }
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/requestNRB", options)
-        .then(response => response.json())
-        .then(async json => {
-            if(json.filename && this.state.attach){
-              const extension = this.state.attach.name.split('.').pop();
-              const file  = new FormData(); 
-              file.append('file', this.state.attach, json.filename + "." + extension);
-              await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/uploadAttach", {
-                  method: 'POST',
-                  body: file,
-                  }).then(response =>{
-                      if (response.status === 200){
-                          this.props.success()
-                      }
-                  })                       
-              
-            }else{
-                this.props.success()
-            }
-        })
-        this.closeModal()
-    }else{
-        this.setState({errorBlankRequest: true})
-    }
+          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/createOffer", options)
+              .then(response => response.json())
+              .then(async json => {                 
+                this.props.successProject()              
+              })
+              this.closeModal()
+        }else{
+            this.setState({errorBlankRequest: true})
+        }
         
     }    
 
     render() {       
-        
+        let tasks_tree = <p className='priority__label' style={{marginLeft:"6px"}}>No tasks available</p>
+        if(this.state.tasks_menu.length > 0){
+          tasks_tree = <CheckboxTree
+                            nodes={this.state.tasks_menu}
+                            checked={this.state.checked}
+                            expanded={this.state.expanded}
+                            onCheck={checked => this.setState({ checked })}
+                            onExpand={expanded => this.setState({ expanded })}
+                            icons="fa5"
+                            
+                        />   
+        }
         return (
             <div>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"></link>
+
                     <StyledTreeItem
-                    nodeId="9"
-                    labelText="BFile"
+                    nodeId="10"
+                    labelText="Create Offer"
                     labelIcon={SupervisorAccountIcon}
                     onClick={() => this.openModal()}
                     color="none" 
@@ -232,36 +255,32 @@ export default class QtrackerNRBPopUp extends Component {
                     />                
                     <div>
                     
-                    <Modal visible={this.state.visible} width="700" height="530" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="700" height="950" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                         <div
-                        className={`alert alert-success ${this.state.errorBlankRequest ? 'alert-shown' : 'alert-hidden'}`}
+                        className={`alert alert-warning ${this.state.errorBlankRequest ? 'alert-shown' : 'alert-hidden'}`}
                         onTransitionEnd={() => this.setState({errorBlankRequest: false})}
                         >
                             <AlertF type="qtracker" text="At least one field is blank!" margin="5px"/>                            
                         </div>
-                        <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>NOT REPORTING IN BFILE</h3></center>
+                        <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>NEW OFFER</h3></center>
                         <div className="qtrackerRequest__container">
-                        <select id="projectSelect" className="projectSelect">
-                                {this.state.projects.map(project =>(
-                                    <option>{project}</option>
-                                ))}
-                            </select>
-                            <label className="priority__label" for="prioritySelect">Priority:</label>
-                            <select id="prioritySelect" className="prioritySelect">    
-                                    <option value="0">Low</option> 
-                                    <option value="1">Medium</option>  
-                                    <option value="2">High</option>                                
-                            </select>
-                          <input data-for="pipe-help" data-tip="Pipe help" data-iscapture="true" type="text" placeholder="Pipe" id="pipe" className="qtrackerPopUp__input__text" ref="pipe" style={{marginBottom: "20px", color:'black'}} value={this.state.pipe} onChange={(e) => this.setState({pipe: e.target.value})} ></input>
-                            <ReactTooltip id="pipe-help" place="right" type="dark" effect="solid"/>
-                            <textarea name="description" className="qtrackerPopUp__input__text" rows="5" placeholder="Description" ref="description" style={{marginBottom:"20px", color:"black"}} onChange={(e) => this.setState({description: e.target.value})}/>
-                            
-
-                            <input type="file" id="attach"className="qtrackerPopUp__input__file"  ref="attach" style={{marginBottom: "30px"}} onChange={(e) => this.setState({attach: e.target.files[0]})} ></input>
-                            <label for="attach" className="attach__label">Attach: </label>
-                            <button class="btn btn-sm btn-success" onClick={() => this.request()} style={{marginRight:"5px", fontSize:"20px"}}>Submit</button>
-                            <button class="btn btn-sm btn-danger" onClick={() => this.closeModal()} style={{marginLeft:"5px", fontSize:"20px"}}>Cancel</button>
+                        <h4 className="project__subtitle">Offer Name</h4>
+                        <div>
+                        <input type="text" placeholder="Name" id="name" className="project__input__text" ref="name" style={{marginBottom: "20px", color:'black'}} value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} ></input>
+                        <input type="text" placeholder="Code" id="code" className="code__input__text" ref="code" style={{marginBottom: "20px", color:'black'}} value={this.state.code} onChange={(e) => this.setState({code: e.target.value})} ></input>
                         </div>
+                        <div className="estihrs__container">
+                          <label className="priority__label" for="hours">Estimated support hours:</label>
+                          <input type="text" id="hours" className="carta__input" onChange={(e) => this.setState({hours: e.target.value})}></input>
+                        </div>
+                        <h4 className="project__subtitle">Initial tasks</h4>     
+                        <div style={{position:"absolute", marginTop:"35px", marginLeft:"25px"}}>
+                        {tasks_tree}
+                        </div>
+                            
+                        </div>
+                        <button class="btn btn-sm btn-success" onClick={() => this.createOffer()} style={{marginLeft:"70px", marginTop:"540px", fontSize:"20px", position:"absolute"}}>Submit</button>
+                            <button class="btn btn-sm btn-danger" onClick={() => this.closeModal()} style={{marginLeft:"180px", marginTop:"540px", fontSize:"20px", position:"absolute"}}>Cancel</button>
                     </Modal>
                 </div>
             </div>

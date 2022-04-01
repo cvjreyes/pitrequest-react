@@ -3,7 +3,6 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-enterprise';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-import './projectsTreeGrid.css'
 import { HotTable } from '@handsontable/react';
 import 'handsontable/dist/handsontable.full.css';
 import Handsontable from 'handsontable'
@@ -14,14 +13,14 @@ import SaveIcon from "../../assets/images/save.svg"
 import BackIcon from "../../assets/images/back.svg"
 
 
-class ProjectsTreeGrid extends Component {
+class OffersTreeGrid extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
       columnDefs: [
-        { field: 'project', rowGroup: true, hide: true },
+        { field: 'offer', rowGroup: true, hide: true },
         { field: 'task', rowGroup: true, hide: true, headerClass: 'header-custom'},
         { field: 'subtask', checkboxSelection: true, hide: true, width:20, headerClass: 'header-custom'},
         { field: 'hours', headerClass: 'header-custom', aggFunc: values =>{
@@ -47,7 +46,7 @@ class ProjectsTreeGrid extends Component {
       },
       autoGroupColumnDef: {
         headerClass: 'header-custom',
-        headerName: 'Projects and tasks',
+        headerName: 'Offers and tasks',
         field: 'subtask',
         cellRenderer: 'agGroupCellRenderer',
         cellRendererParams: {
@@ -66,8 +65,7 @@ class ProjectsTreeGrid extends Component {
       tasksNames: [],
       updateData: false,
       error: false,
-      projects: [],
-      admins: []
+      offers: [],
     };
     
   }
@@ -113,25 +111,19 @@ class ProjectsTreeGrid extends Component {
         await this.setState({tasks : tasks, subtasks: subtasks, tasksNames: tasksNames});
     })
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsWithHours", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getOffersWithHours", options)
       .then(response => response.json())
       .then(async json => {
-        let projects = []
-        if(json.projects){
-          for(let i = 0; i < json.projects.length; i++){
-            projects.push({"Project": json.projects[i].name, "Admin" : json.projects[i].admin, "Hours": json.projects[i].sup_estihrs, "id": json.projects[i].id})
+        let offers = []
+        if(json.offers){
+          for(let i = 0; i < json.offers.length; i++){
+            offers.push({"Offer": json.offers[i].name, "Hours": json.offers[i].sup_estihrs, "id": json.offers[i].id})
           }
         }else{
-          projects.push({"Project": null, "Admin" : null, "Hours": null, "id": null})
+            offers.push({"Offer": null, "Hours": null, "id": null})
         }
         
-        await this.setState({projects : projects});
-      })
-
-      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAdmins", options)
-      .then(response => response.json())
-      .then(json => {
-        this.setState({admins: json.admins})
+        await this.setState({offers : offers});
       })
   }
 
@@ -159,13 +151,13 @@ class ProjectsTreeGrid extends Component {
           "Content-Type": "application/json"
       },
     }
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsTreeData", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getOffersTreeData", options)
     .then(response => response.json())
     .then(async json => {
         let tree_nodes = []
         let node = {}
         for(let i = 0; i < json.rows.length; i++){
-            node = {project: json.rows[i].project, task: json.rows[i].task, subtask: json.rows[i].subtask, hours: json.rows[i].hours}
+            node = {offer: json.rows[i].offer, task: json.rows[i].task, subtask: json.rows[i].subtask, hours: json.rows[i].hours}
             if(node){
                 tree_nodes.push(node)
             }
@@ -173,19 +165,19 @@ class ProjectsTreeGrid extends Component {
         }
         await this.setState({tree_nodes: tree_nodes})
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAllPTS", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAllOTS", options)
     .then(response => response.json())
     .then(async json => {
         let nodes = []
-        const projects = json.projects
+        const offers = json.offers
         const tasks = json.tasks
 
-        for(let i = 0; i < projects.length; i ++){
-          let support_node = {project: projects[i].name, task: "Support", subtask:"Estimated hours", hours: projects[i].sup_estihrs, checked: true}
+        for(let i = 0; i < offers.length; i ++){
+          let support_node = {offer: offers[i].name, task: "Support", subtask:"Estimated hours", hours: offers[i].sup_estihrs, checked: true}
           if(tasks){
             for(let j = 0; j < tasks.length; j ++){
-              let node = {project: projects[i].name, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
-              if(this.state.tree_nodes.some(e => e.project === node.project && e.task === node.task && e.subtask === node.subtask && e.hours === node.hours)) {
+              let node = {offer: offers[i].name, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
+              if(this.state.tree_nodes.some(e => e.offer === node.offer && e.task === node.task && e.subtask === node.subtask && e.hours === node.hours)) {
                 node["checked"] = true
                 support_node.hours -= node.hours
               }else{
@@ -194,7 +186,7 @@ class ProjectsTreeGrid extends Component {
               nodes.push(node)
             }
           }else{
-            let node = {project: projects[i].name, task: "No tasks available", subtasks: null, hours: null}
+            let node = {offer: offers[i].name, task: "No offers available", subtasks: null, hours: null}
             nodes.push(node)
           }
           nodes.push(support_node)
@@ -240,13 +232,13 @@ class ProjectsTreeGrid extends Component {
     }
 
     for(let i = 0; i < current_nodes.length; i++){
-      if(!this.state.initial_nodes.some(e => e.project === current_nodes[i].project && e.task === current_nodes[i].task && e.subtask === current_nodes[i].subtask && e.hours === current_nodes[i].hours)){
+      if(!this.state.initial_nodes.some(e => e.offer === current_nodes[i].offer && e.task === current_nodes[i].task && e.subtask === current_nodes[i].subtask && e.hours === current_nodes[i].hours)){
         new_nodes.push(current_nodes[i])
       }
     }
 
     for(let i = 0; i < this.state.initial_nodes.length; i++){
-      if(!current_nodes.some(e => e.project === this.state.initial_nodes[i].project && e.task === this.state.initial_nodes[i].task && e.subtask === this.state.initial_nodes[i].subtask && e.hours === this.state.initial_nodes[i].hours)){
+      if(!current_nodes.some(e => e.offer === this.state.initial_nodes[i].offer && e.task === this.state.initial_nodes[i].task && e.subtask === this.state.initial_nodes[i].subtask && e.hours === this.state.initial_nodes[i].hours)){
         removed_nodes.push(this.state.initial_nodes[i])
       }
     }
@@ -264,7 +256,7 @@ class ProjectsTreeGrid extends Component {
       body: JSON.stringify(body)
     }
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitProjectsChanges", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitOffersChanges", options)
       .then(response => response.json())
       .then(async json =>{
         if(!json.success){
@@ -313,7 +305,7 @@ class ProjectsTreeGrid extends Component {
     })
 
     body = {
-      rows: this.state.projects,
+      rows: this.state.offers,
     }
 
     options = {
@@ -323,8 +315,8 @@ class ProjectsTreeGrid extends Component {
         },
         body: JSON.stringify(body)
     }
-    if(this.state.projects){
-      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitProjectsHours", options)
+    if(this.state.offers){
+      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitOffersHours", options)
       .then(response => response.json())
       .then(async json =>{
         if(!json.success){
@@ -378,33 +370,34 @@ class ProjectsTreeGrid extends Component {
       },
     }
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsTreeData", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getOffersTreeData", options)
     .then(response => response.json())
     .then(async json => {
         let tree_nodes = []
         let node = {}
         for(let i = 0; i < json.rows.length; i++){
-            node = {project: json.rows[i].project, task: json.rows[i].task, subtask: json.rows[i].subtask, hours: json.rows[i].hours}
+            node = {offer: json.rows[i].offer, task: json.rows[i].task, subtask: json.rows[i].subtask, hours: json.rows[i].hours}
             if(node){
                 tree_nodes.push(node)
             }
             
         }
         await this.setState({tree_nodes: tree_nodes})
-      })
+    })
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAllPTS", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAllOTS", options)
     .then(response => response.json())
     .then(async json => {
         let nodes = []
-        const projects = json.projects
+        const offers = json.offers
         const tasks = json.tasks
-        for(let i = 0; i < projects.length; i ++){
-          let support_node = {project: projects[i].name, task: "Support", subtask:"Estimated hours", hours: projects[i].sup_estihrs, checked: true}
+
+        for(let i = 0; i < offers.length; i ++){
+          let support_node = {offer: offers[i].name, task: "Support", subtask:"Estimated hours", hours: offers[i].sup_estihrs, checked: true}
           if(tasks){
             for(let j = 0; j < tasks.length; j ++){
-              let node = {project: projects[i].name, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
-              if(this.state.tree_nodes.some(e => e.project === node.project && e.task === node.task && e.subtask === node.subtask && e.hours === node.hours)) {
+              let node = {offer: offers[i].name, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
+              if(this.state.tree_nodes.some(e => e.offer === node.offer && e.task === node.task && e.subtask === node.subtask && e.hours === node.hours)) {
                 node["checked"] = true
                 support_node.hours -= node.hours
               }else{
@@ -413,14 +406,13 @@ class ProjectsTreeGrid extends Component {
               nodes.push(node)
             }
           }else{
-            let node = {project: projects[i].name, task: "No tasks available", subtasks: null, hours: null}
+            let node = {offer: offers[i].name, task: "No offers available", subtasks: null, hours: null}
             nodes.push(node)
           }
           nodes.push(support_node)
           
         }
-        
-        await this.setState({rowData: nodes})    
+        await this.setState({rowData: nodes})
     })
 
     let initial_nodes = []
@@ -431,18 +423,19 @@ class ProjectsTreeGrid extends Component {
 
     await this.setState({initial_nodes: initial_nodes})
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsWithHours", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getOffersWithHours", options)
       .then(response => response.json())
       .then(async json => {
-        let projects = []
-        if(json.projects){
-          for(let i = 0; i < json.projects.length; i++){
-            projects.push({"Project": json.projects[i].name, "Admin" : json.projects[i].admin, "Hours": json.projects[i].sup_estihrs, "id": json.projects[i].id})
+        let offers = []
+        if(json.offers){
+          for(let i = 0; i < json.offers.length; i++){
+            offers.push({"Offer": json.offers[i].name, "Hours": json.offers[i].sup_estihrs, "id": json.offers[i].id})
           }
         }else{
-          projects.push({"Project": null, "Admin" : null, "Hours": null, "id": null})
+            offers.push({"Offer": null, "Hours": null, "id": null})
         }
-        await this.setState({projects : projects});
+        
+        await this.setState({offers : offers});
       })
       
     if(this.state.error){
@@ -470,14 +463,13 @@ class ProjectsTreeGrid extends Component {
 
     let settingsProjects = {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 220,
+      colWidths: 300,
     }
 
     return (
       <div>
       <div style={{marginTop: "140px"}}>
-      <button className="projects__button" onClick={()=>this.props.back()} style={{width:"175px", marginLeft:"-1415px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="projects__button__text">Back to menu</p></button>
-      <button className="projects__button" onClick={()=>this.props.goToTasks()} style={{width:"175px",marginLeft:"20px"}}><img src={FolderIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="projects__button__text">Tasks</p></button>
+      <button className="projects__button" onClick={()=>this.props.back()} style={{width:"175px", marginLeft:"-1605px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="projects__button__text">Back to menu</p></button>
       <button className="projects__button" onClick={()=>this.saveChanges()} style={{width:"175px", marginLeft:"20px"}}><img src={SaveIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="projects__button__text">Save</p></button>
       </div>
       <div style={{display: "flex"}}>
@@ -512,7 +504,7 @@ class ProjectsTreeGrid extends Component {
                 data={this.state.tasks}
                 colHeaders = {["<b>Task</b>"]}
                 rowHeaders={true}
-                width="370"
+                width="570"
                 
                 height="300"
                 rowHeights="25"
@@ -540,17 +532,17 @@ class ProjectsTreeGrid extends Component {
               <br></br>
               
                 <HotTable
-                data={this.state.projects}
-                colHeaders = {["<b>Project</b>", "<b>Default admin</b>", "<b>Estimated hours</b>"]}
+                data={this.state.offers}
+                colHeaders = {["<b>Offer</b>", "<b>Estimated hours</b>"]}
                 rowHeaders={true}
-                width="750"
+                width="950"
                 
                 height="300"
                 rowHeights="25"
                 settings={settingsProjects} 
                 manualColumnResize={true}
                 manualRowResize={true}
-                columns= { [{data: "Project", editor: false}, {data: "Admin", type: Handsontable.cellTypes.dropdown, strict:true, source: this.state.admins}, {data: "Hours"}]}
+                columns= { [{data: "Offer", editor: false}, {data: "Hours"}]}
                 filters={true}
                 dropdownMenu= {[
                     'make_read_only',
@@ -618,4 +610,4 @@ class ProjectsTreeGrid extends Component {
   }
 }
 
-export default ProjectsTreeGrid;
+export default OffersTreeGrid;
