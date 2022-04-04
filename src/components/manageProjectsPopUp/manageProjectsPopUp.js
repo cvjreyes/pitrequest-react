@@ -3,7 +3,6 @@ import Modal from 'react-awesome-modal';
 import './manageProjectsPopUp.css'
 import AlertF from "../alert/alert"
 
-
 export default class ManageRolesPopUp extends Component {
     constructor(props) {
         super(props);

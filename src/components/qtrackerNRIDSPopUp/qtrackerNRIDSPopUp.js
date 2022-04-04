@@ -82,7 +82,7 @@ const CryptoJS = require("crypto-js");
             label={
               <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
                 <Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} />
-                <Typography variant="h5" sx={{ fontWeight: 'inherit', flexGrow: 1 }}>
+                <Typography variant="h5" sx={{ fontWeight: 'inherit', flexGrow: 1 , fontFamily: "Quicksand, sans-serif", fontSize:"30px"}}>
                   {labelText}
                 </Typography>
                 <Typography variant="caption">
@@ -114,7 +114,8 @@ export default class QtrackerNRIDSPopUp extends Component {
             visible : false,
             name: null,
             errorBlankRequest: false,
-            projects: []
+            projects: [],
+            carta: null
         }
     }
 
@@ -161,7 +162,8 @@ export default class QtrackerNRIDSPopUp extends Component {
                 name : this.state.name,
                 user: secureStorage.getItem("user"),
                 project: document.getElementById("projectSelect").value,
-                priority: document.getElementById("prioritySelect").value                
+                priority: document.getElementById("prioritySelect").value,
+                carta: this.state.carta               
               }
               const options = {
                 method: "POST",
@@ -212,6 +214,8 @@ export default class QtrackerNRIDSPopUp extends Component {
                                     <option>{project}</option>
                                 ))}
                             </select>
+                            <label className="priority__label" for="carta">Carta:</label>
+                            <input type="text" id="carta" className="carta__input" onChange={(e) => this.setState({carta: e.target.value})}></input>
                             <label className="priority__label" for="prioritySelect">Priority:</label>
                             <select id="prioritySelect" className="prioritySelect">    
                                     <option value="0">Low</option> 

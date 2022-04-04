@@ -1,0 +1,39 @@
+.adminSelect{
+    font-size: 20px;
+    height: 37px;
+    width: 570px;
+    margin-bottom: 17px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.project__subtitle{
+    float: left;
+    margin-left: 31px;
+}
+
+.project__input__text{
+    width: 77%;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-size: 20px;
+}
+.code__input__text{
+    width: 12%;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+react-checkbox-tree {
+    font-size: 18px;
+  }
+
+.estihrs__container{
+    width: 570;
+    text-align: left;
+    margin-left: 31px;
+    margin-bottom: 12px;
+}

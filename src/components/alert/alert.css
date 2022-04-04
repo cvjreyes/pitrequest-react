@@ -23,6 +23,18 @@
     margin-top: 80px;
 }
 
+.alert__error__mt{
+    position: fixed;
+    display: flex;
+    width: 841px;
+    height: 93px;
+    background: #FF3358;
+    border-radius: 8.2397px;
+    left:50%;
+    margin-left: -420.5px;
+    margin-top: -80px;
+}
+
 .alert__warning{
     position: fixed;
     display: flex;
@@ -46,6 +58,18 @@
     margin-left: -420.5px;
     margin-top: 30px;
     z-index: 99999;
+}
+
+.alert__warning__qtracker{
+    position: fixed;
+    display: flex;
+    width: 841px;
+    height: 93px;
+    background: #FFCA42;
+    border-radius: 8.2397px;
+    left:50%;
+    margin-left: -420.5px;
+    margin-top: -130px;
 }
 
 .alert__icon{
@@ -98,6 +122,18 @@
     width:150px
 }
 
+.alert__success__mt{
+    position: fixed;
+    display: flex;
+    width: 841px;
+    height: 93px;
+    background: #7BD36D;
+    border-radius: 8.2397px;
+    left:50%;
+    margin-left: -420.5px;
+    margin-top: -80px;
+}
+
 .alert__subtext{
 
     float:left;
@@ -121,7 +157,7 @@
     width: 200px;
     height: 28.01px;
     margin-top:7px;
-    margin-left:0px;
+    margin-left:-25px;
 
     font-style: normal;
     font-weight: bold;

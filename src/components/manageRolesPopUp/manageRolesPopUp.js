@@ -53,7 +53,7 @@ export default class ManageRolesPopUp extends Component {
                 <label for="DES" className="popUp__input__checkbox__label">Design</label>          
             </div>)
         }
-
+        /*
         if(this.props.roles.indexOf("Stress") > -1){
             await this.setState({str: true})
             selectedLeft.push(<div className="checkbox">
@@ -131,11 +131,11 @@ export default class ManageRolesPopUp extends Component {
                 <label for="PRJ" className="popUp__input__checkbox__label">Project</label>
             </div>)
         }
-
+        */
         this.setState({selectedRolesLeft: selectedLeft})
 
         let selectedRight = []
-
+        /*
         if(this.props.roles.indexOf("DesignLead") > -1){
             await this.setState({lde: true})
             selectedRight.push(<div className="checkbox">
@@ -213,7 +213,7 @@ export default class ManageRolesPopUp extends Component {
                 <label for="INS" className="popUp__input__checkbox__label">Instrumentation</label>
             </div>)
         }
-
+        */
         if(this.props.roles.indexOf("3D Admin") > -1){
             await this.setState({adm: true})
             selectedRight.push(<div className="checkbox">
@@ -310,7 +310,7 @@ export default class ManageRolesPopUp extends Component {
             <section >
                 <input type="button"  value="ROLES" className="btn"  style={{padding:"2px 5px 2px 5px", marginRight:"5px", marginLeft:"5px", width:"70px", fontSize:"12px", float:"right", backgroundColor:"#17A2B8", color:"white"}} onClick={() => this.openModal()} />
                 <div>
-                    <Modal visible={this.state.visible} width="450" height="380" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="450" height="200" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div
                         className={`alert alert-success ${this.state.blankFields ? 'alert-shown' : 'alert-hidden'}`}
                         onTransitionEnd={() => this.setState({blankFields: false})}
@@ -331,7 +331,7 @@ export default class ManageRolesPopUp extends Component {
                             </div>
                             
                         </div>
-                        <div className="popUp__buttons__container__manage">
+                        <div className="popUp__buttons__container__manage" style={{marginTop:"30px"}}>
                             <button class="btn btn-sm btn-success" onClick={() => this.submitRoles()} style={{marginRight:"5px", fontSize:"16px"}}>Submit</button>
                             <button class="btn btn-sm btn-danger" onClick={() => this.closeModal()} style={{marginLeft:"5px", fontSize:"16px"}}>Cancel</button>
                         </div>
