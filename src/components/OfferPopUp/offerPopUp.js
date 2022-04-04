@@ -247,7 +247,7 @@ export default class OfferPopUp extends Component {
 
                     <StyledTreeItem
                     nodeId="10"
-                    labelText="Create Offer"
+                    labelText="Create offer"
                     labelIcon={SupervisorAccountIcon}
                     onClick={() => this.openModal()}
                     color="none" 
@@ -255,7 +255,7 @@ export default class OfferPopUp extends Component {
                     />                
                     <div>
                     
-                    <Modal visible={this.state.visible} width="700" height="950" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="700" height="850" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                         <div
                         className={`alert alert-warning ${this.state.errorBlankRequest ? 'alert-shown' : 'alert-hidden'}`}
                         onTransitionEnd={() => this.setState({errorBlankRequest: false})}
