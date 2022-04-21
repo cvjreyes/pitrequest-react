@@ -13,6 +13,7 @@ import ProjectsView from './pages/projectsView/projectsView';
 import ProjectManager from './pages/projectManager/projectManager';
 import OffersTreeGrid from './components/offersTreeGrid/offersTreeGrid';
 import OfferManager from './pages/offerManager/offerManager';
+import CSPTracker from './pages/sptracker/sptracker';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path={"/"+process.env.REACT_APP_PROJECT+"/projectsview"} element={<ProjectsView/>}></Route>
             <Route path={"/"+process.env.REACT_APP_PROJECT+"/projectManager"} element={<ProjectManager/>}></Route>
             <Route path={"/"+process.env.REACT_APP_PROJECT+"/offersManager"} element={<OfferManager/>}></Route>
+            <Route path={"/"+process.env.REACT_APP_PROJECT+"/sptracker"} element={<CSPTracker/>}></Route>
       </Routes>
     </BrowserRouter>
     </div>
