@@ -49,7 +49,7 @@ export default class CSPTrackerRequestPopUp extends Component {
                 "Content-Type": "application/json"
             },
         }
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/pids", options)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/pids", options)
         .then(response => response.json())
         .then(async json => {
             let pids = []

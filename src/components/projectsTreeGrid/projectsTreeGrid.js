@@ -88,7 +88,6 @@ class ProjectsTreeGrid extends Component {
         let tasks = []
         let tasksNames = []
         let subtasks =[]
-        console.log(json)
         if(json.tasks){
           for(let i = 1; i < json.tasks.length; i++){
             let ts = []
