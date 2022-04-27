@@ -12,6 +12,7 @@ class CSPTrackerKeyParams extends React.Component{
     endPreparationData: [],
     boltTypesData: [],
     pidData: [],
+    projects: [],
     tab: this.props.currentTab,
     selectedRows: [],
     selectedRowsKeys: [],
@@ -93,10 +94,20 @@ class CSPTrackerKeyParams extends React.Component{
       var row = null
       for(let i = 0; i < json.rows.length; i++){
 
-          row = {"id": json.rows[i].id, "Name": json.rows[i].pid}
+          row = {"id": json.rows[i].id, "Name": json.rows[i].pid, "Project": json.rows[i].name}
           rows.push(row)
       }
       this.setState({pidData : rows, selectedRows: []});  
+
+    }) 
+    fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjects", options)
+    .then(response => response.json())
+    .then(json => {
+      var projects = []
+      for(let i = 0; i < json.projects.length; i++){
+        projects.push(json.projects[i].name)
+      }
+      this.setState({projects : projects});  
 
     }) 
   }
@@ -203,7 +214,7 @@ class CSPTrackerKeyParams extends React.Component{
 
   addRowPids(){
     let rows = this.state.pidData
-    rows.push({"Name": ""})
+    rows.push({"Name": "", "Project": ""})
     this.setState({pidData: rows})
   }
 
@@ -256,7 +267,7 @@ class CSPTrackerKeyParams extends React.Component{
 
       return (
         <div className="row" style={{float:"left"}}>
-           <div className="column" style={{marginLeft:"150px"}}>
+           <div className="column" style={{marginLeft:"50px", width:"280px"}}>
             <div id="hot-app">
               <HotTable
                 data={this.state.ratingData}
@@ -292,7 +303,7 @@ class CSPTrackerKeyParams extends React.Component{
               </center>
             </div>
           </div>
-          <div className="column" style={{marginLeft:"170px"}}>
+          <div className="column" style={{marginLeft:"50px", width:"270px"}}>
 
             <div id="hot-app">
               <HotTable
@@ -330,7 +341,7 @@ class CSPTrackerKeyParams extends React.Component{
             </div>
           </div>
          
-          <div className="column" style={{marginLeft:"100px"}}>
+          <div className="column" style={{marginLeft:"50px", width:"290px"}}>
             <div id="hot-app">
               <HotTable
                 data={this.state.endPreparationData}
@@ -367,7 +378,7 @@ class CSPTrackerKeyParams extends React.Component{
               <br></br>
             </div>
           </div>
-          <div className="column" style={{marginLeft:"170px"}}>
+          <div className="column" style={{marginLeft:"50px", width:"300px"}}>
 
             <div id="hot-app">
               <HotTable
@@ -404,19 +415,19 @@ class CSPTrackerKeyParams extends React.Component{
               </center>
             </div>
           </div>
-          <div className="column" style={{marginLeft:"170px"}}>
+          <div className="column" style={{marginLeft:"50px", width:"720px"}}>
 
             <div id="hot-app">
               <HotTable
                 data={this.state.pidData}
-                colHeaders = {["<b>PIDS</b>"]}
+                colHeaders = {["<b>PIDS</b>", "<b>PROJECT</b>"]}
                 rowHeaders={true}
-                width="350"
+                width="650"
                 height="470"
                 settings={pidsSettings} 
                 manualColumnResize={true}
                 manualRowResize={true}
-                columns= {[{ data: "Name"}]}
+                columns= {[{ data: "Name"}, { data: "Project", type:"dropdown", source: this.state.projects, strict:"true"}]}
                 filters={true}
                 dropdownMenu= {[
                     'make_read_only',

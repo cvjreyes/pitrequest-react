@@ -26,29 +26,33 @@ const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#99C6F8', '#94DCAA', '#FF3358'
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const radius = innerRadius + (outerRadius - innerRadius) * 1.3;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-    if(index === 0){
-        index = "MAT"
-    }else if(index === 1){
-        index = "HOLD"
-    }else if(index === 2){
-        index = "OK-REV0"
-    }else if(index === 3){
-        index = "OK-REVN"
-    }else if(index === 4){
-        index = "EXCLUDED"
-    }else if(index === 5){
-        index = "DELETED"
+    if(percent === 0){
+        return null
+    }else{
+        if(index === 0){
+            index = "MAT"
+        }else if(index === 1){
+            index = "HOLD"
+        }else if(index === 2){
+            index = "OK-REV0"
+        }else if(index === 3){
+            index = "OK-REVN"
+        }else if(index === 4){
+            index = "EXCLUDED"
+        }else if(index === 5){
+            index = "DELETED"
+        }
+      
+        return (
+          <text x={x} y={y} fill="black"  textAnchor={'middle'} dominantBaseline="central">
+              {index}
+          </text>
+        );
     }
-  
-    return (
-      <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-          {index}
-      </text>
-    );
+    
   };
 
 const CSPTracker = () => {
@@ -106,6 +110,7 @@ const CSPTracker = () => {
     const [endPreparationData, setEndPrepartaionData] = useState()
     const [boltTypesData, setBoltTypesData] = useState()
     const [pidData, setPidData] = useState()
+    const [projectsData, setProjectsData] = useState()
 
     const [busy, setBusy] = useState(false)
     const [editingUser, setEditingUser] = useState()
@@ -227,6 +232,7 @@ const CSPTracker = () => {
                 await setEndPrepartaionData(json.endPreparationData)
                 await setBoltTypesData(json.boltTypesData)
                 await setPidData(json.pidData)
+                await setProjectsData(json.projectsData)
             })
         }    
     }, [currentTab])
@@ -404,6 +410,10 @@ const CSPTracker = () => {
              
     }
 
+    function back(){
+        history("/"+process.env.REACT_APP_PROJECT+"/pitrequests")
+    }
+
     async function updateDataMethod(){
         setUpdateData(!updateData)
     }
@@ -412,13 +422,13 @@ const CSPTracker = () => {
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadCSP/")
         .then(response => response.json())
         .then(json => {
-            const headers = ["Tag", "Spec", "P1Bore", "P2Bore", "P3Bore", "Rating", "End preparation", "Line ID", "P&ID", "Type", "Drawing description", "Quantity", "Requisition", "Description", "Iso description", "Ident", "Face to face", "FLG Short Code", "Equipment + Nozzle", "Utility Station", "Request date", "Ready to load date", "Ready in E3D date", "Comments", "Ready to Load", "Ready in 3D", "Updated"]
+            const headers = ["Tag", "Project", "Spec", "P1Bore", "P2Bore", "P3Bore", "Rating", "End preparation", "Line ID", "P&ID", "Type", "Drawing description", "Quantity", "Requisition", "Description", "Iso description", "Ident", "Face to face", "FLG Short Code", "Equipment + Nozzle", "Utility Station", "Request date", "Ready to load date", "Ready in E3D date", "Comments", "Ready to Load", "Ready in 3D", "Updated"]
             const apiData = JSON.parse(json)
             const fileName = "CSPTracker report"
 
             const fileType =
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-            const header_cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1', 'N1', 'O1', 'P1', 'Q1', 'R1', 'S1', 'T1', 'U1', 'V1', 'W1', 'X1', 'Y1', 'Z1', 'A2', 'B2', 'C2', 'D2', 'E2', 'F2']
+            const header_cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1', 'N1', 'O1', 'P1', 'Q1', 'R1', 'S1', 'T1', 'U1', 'V1', 'W1', 'X1', 'Y1', 'Z1', 'A2', 'B2', 'C2', 'D2', 'E2', 'F2', 'G2']
             const fileExtension = ".xlsx";
 
             let wscols = []
@@ -442,24 +452,27 @@ const CSPTracker = () => {
 
     var dataTableHeight = "570px"
 
-    let editBtn, addRowBtn, saveBtn, exportBtn, requestBtn, notificationsBtn, designNotificationsBtn = null
+    let editBtn, addRowBtn, saveBtn, exportBtn, requestBtn, notificationsBtn, designNotificationsBtn, backBtn = null
     let table = <CSPTrackerdDataTable currentRole = {currentRole} updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} uploadDrawingSuccess = {uploadSuccess.bind(this)} updateDrawingSuccess = {updateSuccess.bind(this)} drawingUploadError={drawingUploadError.bind(this)}/>
     if(currentRole === "Materials"){
         editBtn = <label class="switchBtn" style={{width:"145px"}}>
-                    <p className="navBar__button__text" style={{width:"100px", marginTop:"4px"}}>Edit mode</p>
+                    <p className="navBar__button__text" style={{width:"80px", marginTop:"4px"}}>Edit mode</p>
                     <input type="checkbox" id="edit" onClick={()=>handleToggle()}/>
                     <div class="slide round"></div>
                 </label>   
                    
         if(currentTab === "Edit"){
             notificationsBtn = null
+            backBtn = null
         }
         else if(currentTab !== "Requests"){
+            backBtn = <button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={Back} alt="hold" className="navBar__icon" style={{marginRight:"0px", marginTop:"5px"}}></img><p className="navBar__button__text">Back</p></button>
             notificationsBtn = <button className="navBar__button" onClick={()=>setCurrentTab("Requests")} style={{width:"120px", marginTop:"5px"}}><img src={Reports} alt="hold" className="navBar__icon" style={{marginRight:"4px"}}></img><p className="navBar__button__text">Requests</p></button>
         }else{
+            backBtn = <button className="navBar__button" onClick={()=>back()} style={{width:"100px", marginTop:"5px"}}><img src={Back} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>
             notificationsBtn = <button className="navBar__button" onClick={()=>setCurrentTab("View")} style={{backgroundColor:"#99C6F8", width:"120px", marginTop:"5px"}}><img src={Back} alt="hold" className="navBar__icon" style={{marginRight:"4px"}}></img><p className="navBar__button__text">Back</p></button>
             editBtn = <label class="switchBtn" style={{width:"145px"}}>
-            <p className="navBar__button__text" style={{width:"100px", marginTop:"4px"}}>Edit mode</p>
+            <p className="navBar__button__text" style={{width:"80px", marginTop:"4px"}}>Edit mode</p>
             <input type="checkbox" id="edit" disabled/>
             <div class="slide round"></div>
         </label>
@@ -467,14 +480,16 @@ const CSPTracker = () => {
     }
 
     if(currentRole === "3D Admin"){
+        backBtn = <button className="navBar__button" onClick={()=>back()} style={{width:"100px",marginTop:"5px"}}><img src={Back} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>
         editBtn = <label class="switchBtn" style={{width:"155px"}}>
-                    <p className="navBar__button__text" style={{width:"180px", marginTop:"4px"}}>KeyParams</p>
+                    <p className="navBar__button__text" style={{width:"90px", marginTop:"4px"}}>KeyParams</p>
                     <input type="checkbox" id="edit" onClick={()=>handleToggleKP()}/>
                     <div class="slide round" style={{marginLeft:"90px"}}></div>
                 </label>  
     }
 
     if(currentRole === "Design"){
+        backBtn = <button className="navBar__button" onClick={()=>back()} style={{width:"100px", marginTop:"5px"}}><img src={Back} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>
         requestBtn = <CSPTrackerRequestPopUp errorBlankRequest={errorBlankRequest.bind(this)} successRequest={successRequest.bind(this)} existsErrorRequest={existsErrorRequest.bind(this)} errorPidRequest={errorPidRequest.bind(this)}/>
     }
 
@@ -485,12 +500,14 @@ const CSPTracker = () => {
         exportBtn = <button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button>
         addRowBtn = null
         saveBtn = null
+        backBtn = <button className="navBar__button" onClick={()=>back()} style={{width:"100px", marginTop:"5px"}}><img src={Back} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>
+
         
     }else if(currentTab === "Edit"){
         if(!busy){
             table = <HotTable
             data={editData}
-            colHeaders = {["<b>TAG</b>", "<b>SPEC</b>", "<b>P1BORE</b>", "<b>P2BORE</b>", "P3BORE", "<b>RATING</b>", "<b>END PREPARATION</b>", "<b>LINE ID</b>", "<b>P&ID</b>", "<b>TYPE</b>", "<b>DRAWING DESCRIPTION</b>", "<b>QUANTITY</b>", "REQUISITION", "<b>DESCRIPTION</b>", "<b>ISO DESCRIPTION</b>", "<b>IDENT</b>", "FACE TO FACE", "<b>FLG SHORT CODE</b>", "EQUIPMENT + NOZZLE", "UTILITY STATION", "COMMENTS"]}
+            colHeaders = {["<b>TAG</b>","<b>PROJECT</b>", "<b>SPEC</b>", "<b>P1BORE</b>", "<b>P2BORE</b>", "P3BORE", "<b>RATING</b>", "<b>END PREPARATION</b>", "<b>LINE ID</b>", "<b>P&ID</b>", "<b>TYPE</b>", "<b>DRAWING DESCRIPTION</b>", "<b>QUANTITY</b>", "REQUISITION", "<b>DESCRIPTION</b>", "<b>ISO DESCRIPTION</b>", "<b>IDENT</b>", "FACE TO FACE", "<b>FLG SHORT CODE</b>", "EQUIPMENT + NOZZLE", "UTILITY STATION", "COMMENTS"]}
             rowHeaders={true}
             width="2200"
             height="635"
@@ -513,20 +530,22 @@ const CSPTracker = () => {
                 '---------',
                 'filter_action_bar',
               ]}
-            columns= {[{ data: "tag", type:'text'}, {data: "spec", type:"dropdown", strict:"true", source: specData}, {data: p1bore, type:"dropdown", strict:"true", source: diametersData}, {data: p2bore, type:"dropdown", strict:"true", source: diametersData}, {data: p3bore, type:"dropdown", strict:"true", source: diametersData}, {data: "rating", type:"dropdown", strict:"true", source: ratingData}, {data: "end_preparation", type:"dropdown", strict:"true", source: endPreparationData}, {data: "line_id", type:"text"}, {data: "pid", type:"dropdown", strict:"true", source: pidData}, {data: "type", type:"text"}, {data: "description_plan_code", type:"dropdown", allowInvalid:true, source: descriptionPlaneData}, {data:"quantity", type:"numeric"}, { data: "requisition", type:'text'}, { data: "description", type:'text'}, {data: "description_iso", type:"text"},{data: "ident", type:"text"}, {data: "face_to_face", type:"text"}, {data: "bolt_type", type:"dropdown", strict:"true", source: boltTypesData}, {data:"equipnozz", type:"text"}, {data:"utility_station", type:"text"}, {data:"comments", type:"text"}]}
+            columns= {[{ data: "tag", type:'text'}, {data: "project", readOnly: "true"}, {data: "spec", type:"dropdown", strict:"true", source: specData}, {data: p1bore, type:"dropdown", strict:"true", source: diametersData}, {data: p2bore, type:"dropdown", strict:"true", source: diametersData}, {data: p3bore, type:"dropdown", strict:"true", source: diametersData}, {data: "rating", type:"dropdown", strict:"true", source: ratingData}, {data: "end_preparation", type:"dropdown", strict:"true", source: endPreparationData}, {data: "line_id", type:"text"}, {data: "pid", type:"dropdown", strict:"true", source: pidData}, {data: "type", type:"text"}, {data: "description_plan_code", type:"dropdown", allowInvalid:true, source: descriptionPlaneData}, {data:"quantity", type:"numeric"}, { data: "requisition", type:'text'}, { data: "description", type:'text'}, {data: "description_iso", type:"text"},{data: "ident", type:"text"}, {data: "face_to_face", type:"text"}, {data: "bolt_type", type:"dropdown", strict:"true", source: boltTypesData}, {data:"equipnozz", type:"text"}, {data:"utility_station", type:"text"}, {data:"comments", type:"text"}]}
             />
           
             dataTableHeight= "700px"
             addRowBtn = <button class="btn btn-sm btn-success" onClick={() => addRow()} style={{marginRight:"5px", fontSize:"18px", width:"35px", height:"35px", borderRadius:"10px", float:"right", marginTop:"8px"}}>+</button>
-    
+            backBtn = null
             saveBtn = <button className="navBar__button" onClick={()=> saveChanges()} style={{marginTop:"7px"}}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>
         }else{
             table = <div className="connected__panel"><p className="connected__text">The user {editingUser} is already editing!</p></div>
         }    
 
     }else if(currentTab === "Requests"){
+        backBtn = null
         table = <CSPTrackerdRequestsDataTable updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} />
     }else if(currentTab === "CSP KeyParams"){
+        backBtn = null
         table = <CSPTrackerKeyParams success={()=> setSuccessAlert(true)}/>
     }
 
@@ -622,6 +641,7 @@ const CSPTracker = () => {
                                 {notificationsBtn}
                                 {designNotificationsBtn}
                                 {saveBtn}   
+                                {backBtn}
                               </div>                           
                                
                           </th>

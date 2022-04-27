@@ -227,7 +227,7 @@ export default function MenuListPITList(props) {
 
       <StyledTreeItem nodeId="8" style={{marginBottom:"5px"}} labelText="Piping Spec Materials" labelIcon={Label}>
         <StyledTreeItem nodeId="36" style={{marginBottom:"5px"}} labelText="CADPMC" labelIcon={MailIcon} onClick={()=> handleCADpmcClick()}/>
-        <StyledTreeItem nodeId="37" style={{marginBottom:"5px"}} labelText="SpTracker" labelIcon={MailIcon} onClick={()=> handleSPClick()}/>
+        <StyledTreeItem nodeId="37" style={{marginBottom:"5px"}} labelText="SPTracker" labelIcon={MailIcon} onClick={()=> handleSPClick()}/>
 
       </StyledTreeItem>
 

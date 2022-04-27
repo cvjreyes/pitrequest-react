@@ -157,7 +157,7 @@ class CSPTrackerdRequestsDataTable extends React.Component{
                 var rows = []
                 var row = null
                 for(let i = 0; i < json.rows.length; i++){
-                    row = {key:i, tag: json.rows[i].tag, pid: json.rows[i].pid, sptag: json.rows[i].sptag}
+                    row = {key:i, tag: json.rows[i].tag, pid: json.rows[i].pid, sptag: json.rows[i].sptag, project: json.rows[i].name}
                     if(json.rows[i].read === 0){
                       row.actions = <div className="request__buttons__container">
                           <button className="read__button btn-info" onClick={()=>this.markAsRead(json.rows[i].id)}>Mark as read</button>
@@ -215,8 +215,8 @@ class CSPTrackerdRequestsDataTable extends React.Component{
                 var rows = []
                 var row = null
                 for(let i = 0; i < json.rows.length; i++){
-                    row = {key:i, tag: json.rows[i].tag, pid: json.rows[i].pid, sptag: json.rows[i].sptag}
-                    if(json.rows[i].read === 0){
+                  row = {key:i, tag: json.rows[i].tag, pid: json.rows[i].pid, sptag: json.rows[i].sptag, project: json.rows[i].name}
+                  if(json.rows[i].read === 0){
                       row.actions = <div className="request__buttons__container">
                           <button className="read__button btn-info" onClick={()=>this.markAsRead(json.rows[i].id)}>Mark as read</button>
                           <button className="accept__button btn-success" onClick={()=>this.accept(json.rows[i].id)}>Accept</button>
@@ -362,6 +362,15 @@ class CSPTrackerdRequestsDataTable extends React.Component{
         },
       },
       {
+        title: <center className="dataTable__header__text">PROJECT</center>,
+        dataIndex: 'project',
+        key: 'project',
+        ...this.getColumnSearchProps('project'),
+        sorter:{
+          compare: (a, b) => a.project.localeCompare(b.project),
+        },
+      },
+      {
         title: <center className="dataTable__header__text">P&ID</center>,
         dataIndex: 'pid',
         key: 'pid',
@@ -395,7 +404,7 @@ class CSPTrackerdRequestsDataTable extends React.Component{
     if (this.state.data.length === 0){
       totalElements = null;
     }else{
-      totalElements = (<div style={{position: "absolute", bottom: 25, left:0}}>
+      totalElements = (<div style={{position: "absolute", bottom: 170, left:110}}>
       <b>Total elements: {this.state.data.length}</b>
      </div>);
     }
