@@ -888,7 +888,6 @@ class CSPTrackerdDataTable extends React.Component{
         title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="TAG" style={{textAlign:"center"}} onChange={(e) => this.filter(0, e.target.value)}/></center>,
         dataIndex: 'tag',
         key: 'tag',
-        ...this.getColumnSearchProps('tag'),
         fixed: "left",
         align: "center"
       },
@@ -896,7 +895,6 @@ class CSPTrackerdDataTable extends React.Component{
         title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Project" style={{textAlign:"center"}} onChange={(e) => this.filter(25, e.target.value)}/></center>,
         dataIndex: 'project',
         key: 'project',
-        ...this.getColumnSearchProps('project'),
         fixed: "left",
         align: "center"
       },
@@ -904,7 +902,6 @@ class CSPTrackerdDataTable extends React.Component{
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Type" style={{textAlign:"center"}} onChange={(e) => this.filter(2, e.target.value)}/></div>,
         dataIndex: 'type',
         key: 'type',
-        ...this.getColumnSearchProps('type'),
         fixed: "left",
         align: "center"
       },
@@ -912,56 +909,48 @@ class CSPTrackerdDataTable extends React.Component{
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Spec" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
         dataIndex: 'spec',
         key: 'spec',
-        ...this.getColumnSearchProps('spec'),
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="P1Bore" style={{textAlign:"center"}} onChange={(e) => this.filter(7, e.target.value)}/></div>,
         dataIndex: 'p1bore',
         key: 'p1bore',
-        ...this.getColumnSearchProps('p1bore'),
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="P2Bore" style={{textAlign:"center"}} onChange={(e) => this.filter(8, e.target.value)}/></div>,
         dataIndex: 'p2bore',
         key: 'p2bore',
-        ...this.getColumnSearchProps('p2bore'),
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="P3Bore" style={{textAlign:"center"}} onChange={(e) => this.filter(9, e.target.value)}/></div>,
         dataIndex: 'p3bore',
         key: 'p3bore',
-        ...this.getColumnSearchProps('p3bore'),
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Rating" style={{textAlign:"center"}} onChange={(e) => this.filter(10, e.target.value)}/></div>,
         dataIndex: 'rating',
         key: 'rating',
-        ...this.getColumnSearchProps('rating'),
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="End Preparation" style={{textAlign:"center"}} onChange={(e) => this.filter(11, e.target.value)}/></div>,
         dataIndex: 'end_preparation',
         key: 'end_preparation',
-        ...this.getColumnSearchProps('end_preparation'),
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Line ID" style={{textAlign:"center"}} onChange={(e) => this.filter(20, e.target.value)}/></div>,
         dataIndex: 'line_id',
         key: 'line_id',
-        ...this.getColumnSearchProps('line_id'),
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="P&ID" style={{textAlign:"center"}} onChange={(e) => this.filter(19, e.target.value)}/></div>,
         dataIndex: 'pid',
         key: 'pid',
-        ...this.getColumnSearchProps('pid'),
         align: "center"
       },
       
@@ -969,7 +958,6 @@ class CSPTrackerdDataTable extends React.Component{
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Drawing Description" style={{textAlign:"center"}} onChange={(e) => this.filter(4, e.target.value)}/></div>,
         dataIndex: 'description_plane',
         key: 'description_plane',
-        ...this.getColumnSearchProps('description_plane'),
         align: "center"
       },
       {
@@ -984,21 +972,18 @@ class CSPTrackerdDataTable extends React.Component{
         title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Quantity" style={{textAlign:"center"}} onChange={(e) => this.filter(1, e.target.value)}/></center>,
         dataIndex: 'quantity',
         key: 'quantity',
-        ...this.getColumnSearchProps('quantity'),
         align: "center"
       },    
       {
         title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Requisition" style={{textAlign:"center"}} onChange={(e) => this.filter(21, e.target.value)}/></center>,
         dataIndex: 'requisition',
         key: 'requisition',
-        ...this.getColumnSearchProps('requisition'),
         align: "center"
       }, 
       {
         title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Description" style={{textAlign:"center"}} onChange={(e) => this.filter(3, e.target.value)}/></center>,
         dataIndex: 'description',
         key: 'description',
-        ...this.getColumnSearchProps('description'),
         width: "400px",
         ellipsis:true
       },
@@ -1007,7 +992,6 @@ class CSPTrackerdDataTable extends React.Component{
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="ISO Description" style={{textAlign:"center"}} onChange={(e) => this.filter(5, e.target.value)}/></div>,
         dataIndex: 'description_iso',
         key: 'description_iso',
-        ...this.getColumnSearchProps('description_iso'),
         width: "400px",
         ellipsis:true
       },
@@ -1015,69 +999,59 @@ class CSPTrackerdDataTable extends React.Component{
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ident" style={{textAlign:"center"}} onChange={(e) => this.filter(6, e.target.value)}/></div>,
         dataIndex: 'ident',
         key: 'ident',
-        ...this.getColumnSearchProps('ident'),
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Face to Face" style={{textAlign:"center"}} onChange={(e) => this.filter(14, e.target.value)}/></div>,
         dataIndex: 'face_to_face',
         key: 'face_to_face',
-        ...this.getColumnSearchProps('face_to_face'),
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="FLG Short Code" style={{textAlign:"center"}} onChange={(e) => this.filter(15, e.target.value)}/></div>,
         dataIndex: 'bolts_type',
         key: 'bolts_type',
-        ...this.getColumnSearchProps('bolts_type'),
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Equipment + Nozzle" style={{textAlign:"center"}} onChange={(e) => this.filter(22, e.target.value)}/></div>,
         dataIndex: 'equipnozz',
         key: 'equipnozz',
-        ...this.getColumnSearchProps('equipnozz'),
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Utility Station" style={{textAlign:"center"}} onChange={(e) => this.filter(23, e.target.value)}/></div>,
         dataIndex: 'utility_station',
         key: 'utility_station',
-        ...this.getColumnSearchProps('utility_station'),
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Request Update" style={{textAlign:"center"}} onChange={(e) => this.filter(24, e.target.value)}/></div>,
         dataIndex: 'request_date',
         key: 'request_date',
-        ...this.getColumnSearchProps('request_date'),
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready to load date" style={{textAlign:"center"}} onChange={(e) => this.filter(26, e.target.value)}/></div>,
         dataIndex: 'ready_load_date',
         key: 'ready_load_date',
-        ...this.getColumnSearchProps('ready_load_date'),
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready in 3D date" style={{textAlign:"center"}} onChange={(e) => this.filter(26, e.target.value)}/></div>,
         dataIndex: 'ready_e3d_date',
         key: 'ready_e3d_date',
-        ...this.getColumnSearchProps('ready_e3d_date'),
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Comments" style={{textAlign:"center"}} onChange={(e) => this.filter(18, e.target.value)}/></div>,
         dataIndex: 'comments',
         key: 'comments',
-        ...this.getColumnSearchProps('comments'),
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready to load" style={{textAlign:"center"}} onChange={(e) => this.filter(16, e.target.value)}/></div>,
         dataIndex: 'ready_load',
         key: 'ready_load',
-        ...this.getColumnSearchProps('ready_load'),
         fixed: "right",
         align: "center"
       },
@@ -1085,7 +1059,6 @@ class CSPTrackerdDataTable extends React.Component{
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready in 3D" style={{textAlign:"center"}} onChange={(e) => this.filter(17, e.target.value)}/></div>,
         dataIndex: 'ready_e3d',
         key: 'ready_e3d',
-        ...this.getColumnSearchProps('ready_e3d'),
         fixed: "right",
         align: "center"
       },
