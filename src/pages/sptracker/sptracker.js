@@ -623,7 +623,7 @@ const CSPTracker = () => {
                       </div>
                       
                   </div>
-                  <PieChart width={600} height={400}>
+                  <PieChart width={600} height={420}>
                     <Pie data={counter} dataKey="value" cx="50%" cy="60%"  outerRadius={120} fill="#8884d8" label={renderCustomizedLabel}>
                     {counter.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index]} />
