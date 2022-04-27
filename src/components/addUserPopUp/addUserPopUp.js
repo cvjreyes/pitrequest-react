@@ -128,7 +128,7 @@ export default class AddUserPopUp extends Component {
             <section >
                 <input type="button"  value="Add user" className="action__btn" onClick={() => this.openModal()} />
                 <div>
-                    <Modal visible={this.state.visible} width="650" height="340" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="650" height="380" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div
                         className={`alert alert-success ${this.state.blankFields ? 'alert-shown' : 'alert-hidden'}`}
                         onTransitionEnd={() => this.setState({blankFields: false})}
@@ -163,6 +163,10 @@ export default class AddUserPopUp extends Component {
                                     <input type="checkbox" name="DES" value="DES" className="popUp__input__checkbox" onChange={(e) => this.setState({des: e.target.checked})} checked={this.state.des}/>
                                     <label for="DES" className="popUp__input__checkbox__label">Design</label>          
                                 </div>    
+                                <div className="checkbox">
+                                    <input type="checkbox" name="MAT" value="MAT" className="popUp__input__checkbox" onChange={(e) => this.setState({mat: e.target.checked})} checked={this.state.mat}/>  
+                                    <label for="MAT" className="popUp__input__checkbox__label">Materials</label>
+                                </div>
                                 <div className="checkbox">
                                     <input type="checkbox" name="3D" value="3D" className="popUp__input__checkbox" onChange={(e) => this.setState({adm: e.target.checked})} checked={this.state.adm}/>  
                                     <label for="3D" className="popUp__input__checkbox__label">3DAdmin</label>

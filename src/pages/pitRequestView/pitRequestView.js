@@ -27,25 +27,31 @@ const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#FF3358'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const radius = innerRadius + (outerRadius - innerRadius) * 1.25;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN) + 1;
+    console.log(x)
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-    if(index === 0){
-        index = "Pen"
-    }else if(index === 1){
-        index = "Pro"
-    }else if(index === 2){
-        index = "A"
-    }else if(index === 3){
-        index = "R"
+    if(percent === 0){
+        return null
+    }else{
+        if(index === 0){
+            index = "Pending"
+        }else if(index === 1){
+            index = "In progress"
+        }else if(index === 2){
+            index = "Ready"
+        }else if(index === 3){
+            index = "Rejected"
+        }
+      
+        return (
+          <text x={x} y={y} fill="black" textAnchor={'middle'} dominantBaseline="central">
+              {index}
+          </text>
+        );
     }
-  
-    return (
-      <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-          {index}
-      </text>
-    );
+    
   };
   
 
@@ -867,7 +873,7 @@ const PitRequestView = () => {
                       
                   </div>
                   <PieChart width={600} height={400}>
-                    <Pie data={counter} dataKey="value" cx="50%" cy="60%"  outerRadius={120} labelLine={false} fill="#8884d8" label={renderCustomizedLabel}>
+                    <Pie data={counter} dataKey="value" cx="50%" cy="60%"  outerRadius={120} fill="#8884d8" label={renderCustomizedLabel}>
                     {counter.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index]} />
                         ))}

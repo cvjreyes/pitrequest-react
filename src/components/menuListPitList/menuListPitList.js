@@ -170,6 +170,10 @@ export default function MenuListPITList(props) {
       history("/"+process.env.REACT_APP_PROJECT+"/offersManager")
     }
 
+    function handleSPClick(){
+      history("/"+process.env.REACT_APP_PROJECT+"/sptracker")
+    }
+
     useEffect(async ()=>{
       const options = {
         method: "GET",
@@ -223,6 +227,8 @@ export default function MenuListPITList(props) {
 
       <StyledTreeItem nodeId="8" style={{marginBottom:"5px"}} labelText="Piping Spec Materials" labelIcon={Label}>
         <StyledTreeItem nodeId="36" style={{marginBottom:"5px"}} labelText="CADPMC" labelIcon={MailIcon} onClick={()=> handleCADpmcClick()}/>
+        <StyledTreeItem nodeId="37" style={{marginBottom:"5px"}} labelText="SPTracker" labelIcon={MailIcon} onClick={()=> handleSPClick()}/>
+
       </StyledTreeItem>
 
       

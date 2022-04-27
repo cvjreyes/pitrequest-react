@@ -1,0 +1,44 @@
+.request__buttons__container{
+
+}
+
+.read__button{
+    margin-right: 10px;
+    border-radius: 5px 5px 5px 5px;
+    width: 150px;
+    background: #338DF1;
+}
+
+.unread__button{
+    margin-right: 10px;
+    border-radius: 5px 5px 5px 5px;
+    width: 150px;
+    background: #66A9F4;
+}
+
+.accept__button{
+    margin-right: 10px;
+    border-radius: 5px 5px 5px 5px;
+    width: 150px;
+}
+
+.reject__button{
+    margin-right: 10px;
+    border-radius: 5px 5px 5px 5px;
+    width: 150px;
+}
+
+.delete__button{
+    border: none;
+    background:#FF3358;
+    width: 27px;
+    height: 27px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.trash__icon{
+    width: 23px;
+    height: 23px;
+    position: absolute;
+    margin-left: -14px;
+}
