@@ -202,16 +202,9 @@ export default class QtrackerRRPopUp extends Component {
         
         return (
             <div>
-                    <StyledTreeItem
-                    
-                    nodeId="14"
-                    labelText="Report"
-                    labelIcon={SupervisorAccountIcon}
-                    onClick={() => this.openModal()}
-                    color="none" 
-                    bgColor="none"
-                    />                
-                    <div>
+                    <div className='mainmenu__item__container' style={{marginTop:"45px"}}>
+                      <span style={{display:"flex"}} ><div style={{width:"160px"}}><text className='mainmenu__item' onClick={()=> this.openModal()}>Report</text></div></span>
+                    </div>
                     
                     <Modal visible={this.state.visible} width="700" height="580" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                         <div
@@ -220,7 +213,7 @@ export default class QtrackerRRPopUp extends Component {
                         >
                             <AlertF type="qtracker" text="At least one field is blank!" margin="5px"/>                            
                         </div>
-                        <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>REQUEST REPORT</h3></center>
+                        <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>REPORT</h3></center>
                         <div className="qtrackerRequest__container">
                         <select id="projectSelect" className="projectSelect">
                                 {this.state.projects.map(project =>(
@@ -231,7 +224,7 @@ export default class QtrackerRRPopUp extends Component {
                             <input type="text" id="carta" className="carta__input" onChange={(e) => this.setState({carta: e.target.value})}></input>
                             <label className="priority__label" for="prioritySelect">Priority:</label>
                             <select id="prioritySelect" className="prioritySelect">    
-                                    <option value="0">Low</option> 
+                                    <option value="0">Low</option>  
                                     <option value="1">Medium</option>  
                                     <option value="2">High</option>                                
                             </select>
@@ -248,7 +241,6 @@ export default class QtrackerRRPopUp extends Component {
                         </div>
                     </Modal>
                 </div>
-            </div>
         );
     }
 }

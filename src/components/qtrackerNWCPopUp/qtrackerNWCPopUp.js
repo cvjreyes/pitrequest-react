@@ -224,14 +224,9 @@ export default class QtrackerNWCPopUp extends Component {
     render() {       
         return (
             <div>
-                    <StyledTreeItem
-                    nodeId="9"
-                    labelText="Component"
-                    labelIcon={SupervisorAccountIcon}
-                    onClick={() => this.openModal()}
-                    color="none" 
-                    bgColor="none"
-                    />                
+                    <div className='mainmenu__item__container' style={{marginTop:"45px"}}>
+                      <span style={{display:"flex"}} ><div style={{width:"160px"}}><text className='mainmenu__item' onClick={()=> this.openModal()}>Component</text></div></span>
+                    </div>            
                     <div>
                     
                     <Modal visible={this.state.visible} width="700" height="530px" effect="fadeInUp" onClickAway={() => this.closeModal()}>
@@ -242,7 +237,7 @@ export default class QtrackerNWCPopUp extends Component {
                             <AlertF type="qtracker" text="At least one field is blank!" margin="5px"/>                            
                         </div>
                         
-                        <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>NOT WORKING COMPONENT</h3></center>
+                        <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>COMPONENT</h3></center>
                         <div className="qtrackerRequest__container">
                             
                             <select id="projectSelect" className="projectSelect">

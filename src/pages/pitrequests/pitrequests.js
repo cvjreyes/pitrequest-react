@@ -2,6 +2,7 @@ import NavBar from '../../components/navBar/navBar';
 import React, { useState , useEffect} from 'react'
 import GreenCircle from "../../assets/images/green_circle.png"
 import BlueCircle from "../../assets/images/blue_circle.png"
+import TechnipLogo from "../../assets/images/technip.png"
 
 import IdleTimer from 'react-idle-timer'
 import {useNavigate} from "react-router";
@@ -62,7 +63,7 @@ const PITRequests = () =>{
     }, [])
 
     document.title= process.env.REACT_APP_APP_NAMEPROJ
-    document.body.style.zoom = 0.8
+    document.body.style.zoom = 0.9
 
     function handleOnIdle(){
  
@@ -91,6 +92,7 @@ const PITRequests = () =>{
             >
                 <AlertF type="qtracker" project={true}/>
             </div>
+            <img src={TechnipLogo} alt="technipLogo" className="technipLogo__image__pit"/>
             {circles}
             <div>
                 {navBar}

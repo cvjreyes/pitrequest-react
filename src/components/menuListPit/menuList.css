@@ -1,9 +1,8 @@
 .panel__container{
-    border-radius: 20px;
     text-align: center;
     width: 30%;
     position: absolute; 
-    left: 35%;
+    left: 7%;
 }
 
 .panel__heading__container{
@@ -12,7 +11,7 @@
     border-radius: 20px 20px 0px 0px; 
     text-align: center;
     height: 110px;
-    margin-top: 120px;
+    margin-top: 130px;
     padding-top:18px;
     border: 5px solid gray(211, 224, 233);
     width:100%;
@@ -110,13 +109,13 @@ h4{
 .elements__container{
     background-color: white;
     position: relative;
-    border-radius: 0px 0px 20px 20px;
+    margin-top: 100px;
+    margin-left: 215px
 }
 
 .menu{
     background-color: white;
     text-align: left;
-    border-radius: 0px 0px 20px 20px;
 }
 
 .iso__title__menu{
@@ -173,7 +172,57 @@ h4{
 }
 
 .pit__image{
-    width: 350px;
-    height: auto;
+    width: 100%;
+    height: 115px;
 }
 
+.select__text{
+    font-size: 26px;
+    font-weight: 500;
+}
+
+.back__text{
+    font-size: 20px;
+    margin-left: 20px;
+    font-weight: 400;
+}
+
+.mainmenu__item{
+    font-size: 24px;
+    font-weight: 300;
+}
+
+.mainmenu__item:hover{
+    font-size: 24px;
+    font-weight: 300;
+    font-weight: 500;
+}
+
+.menu__arrow{
+    padding-top: 4px;
+}
+
+.mainmenu__item__container{
+    margin-top: 35px;
+    cursor: pointer;
+    width: 270px;
+}
+
+.back__item__container{
+    margin-top: 5px;
+    cursor: pointer;
+    width: 170px;
+}
+
+.vector__image{
+    width: 9px;
+    height: 20px;
+    margin-top: 9px;
+}
+
+.vector__image__reversed{
+    width: 11px;
+    height: 24px;
+    margin-top: 4px;
+    transform: scaleX(-1);
+}

@@ -221,14 +221,9 @@ export default class QtrackerNRIPopUp extends Component {
         
         return (
             <div>
-                    <StyledTreeItem
-                    nodeId="9"
-                    labelText="Isometric"
-                    labelIcon={SupervisorAccountIcon}
-                    onClick={() => this.openModal()}
-                    color="none" 
-                    bgColor="none"
-                    />                
+                    <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+                      <span style={{display:"flex"}} ><div style={{width:"280px"}}><text className='mainmenu__item' onClick={()=> this.openModal()}>Isometric</text></div></span>
+                    </div>         
                     <div>
                     
                     <Modal visible={this.state.visible} width="700" height="530" effect="fadeInUp" onClickAway={() => this.closeModal()}>
@@ -238,7 +233,7 @@ export default class QtrackerNRIPopUp extends Component {
                         >
                             <AlertF type="qtracker" text="At least one field is blank!" margin="5px"/>                            
                         </div>
-                        <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>NOT REPORTING IN ISOMETRIC</h3></center>
+                        <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>ISOMETRIC</h3></center>
                         <div className="qtrackerRequest__container">
                         <select id="projectSelect" className="projectSelect">
                                 {this.state.projects.map(project =>(

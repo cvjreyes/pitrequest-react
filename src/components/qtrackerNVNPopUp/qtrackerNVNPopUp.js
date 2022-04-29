@@ -221,14 +221,9 @@ export default class QtrackerNVNPopUp extends Component {
         
         return (
             <div>
-                    <StyledTreeItem
-                    nodeId="10"
-                    labelText="Navisworks"
-                    labelIcon={SupervisorAccountIcon}
-                    onClick={() => this.openModal()}
-                    color="none" 
-                    bgColor="none"
-                    />                
+                    <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+                      <span style={{display:"flex"}} ><div style={{width:"280px"}}><text className='mainmenu__item' onClick={()=> this.openModal()}>Navisworks</text></div></span>
+                    </div>   
                     <div>
                     
                     <Modal visible={this.state.visible} width="700" height="530" effect="fadeInUp" onClickAway={() => this.closeModal()}>
@@ -238,7 +233,7 @@ export default class QtrackerNVNPopUp extends Component {
                         >
                             <AlertF type="qtracker" text="At least one field is blank!" margin="5px"/>                            
                         </div>
-                        <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>NOT VIEW IN NAVIS</h3></center>
+                        <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>NAVISWORKS</h3></center>
                         <div className="qtrackerRequest__container">
                         <select id="projectSelect" className="projectSelect">
                                 {this.state.projects.map(project =>(

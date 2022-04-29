@@ -77,7 +77,7 @@ const NavBar = (props) =>{
 
     const handleChangePassword = () =>{
         setAnchorElUser(null);
-        history.push("/"+process.env.REACT_APP_PROJECT+"/changepassword");
+        history("/"+process.env.REACT_APP_PROJECT+"/changepassword");
     }
 
     useEffect(() => {
@@ -141,7 +141,7 @@ const NavBar = (props) =>{
                         PaperProps={{
                             style: {
                             left: '50%',
-                            transform: 'translateX(+220%)',
+                            transform: 'translateX(+120%)',
                             }
                         }}
                     >

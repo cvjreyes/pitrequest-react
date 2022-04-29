@@ -13,6 +13,14 @@
     top: 5%;
 }
 
+.technipLogo__image__pit{
+    position: absolute;
+    width: 147.14px;
+    height: auto;
+    left: 90%;
+    top: 11%;
+}
+
 .isoTrackerLogo__image{
     position: absolute;
     width: 390.57px;
@@ -209,7 +217,7 @@
 
 .greenCircle__image{
     position: absolute;
-    width: 250px;
+    width: 294px;
 
     right: 0;
     top: 25%;
@@ -218,7 +226,7 @@
 
 .blueCircle__image{
     position: absolute;
-    width: 550px;
+    width: 650px;
 
     right: 100px;
     top: 25%;

@@ -14,6 +14,7 @@ import ProjectManager from './pages/projectManager/projectManager';
 import OffersTreeGrid from './components/offersTreeGrid/offersTreeGrid';
 import OfferManager from './pages/offerManager/offerManager';
 import CSPTracker from './pages/sptracker/sptracker';
+import ChangePasswordPage from './pages/changePassword/changePassword'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <BrowserRouter>
       <Routes>
             <Route path={"/"+process.env.REACT_APP_PROJECT+"/"} element={<WelcomeLoginF/>} />
+            <Route path={"/"+process.env.REACT_APP_PROJECT+"/changepassword"} element={<ChangePasswordPage/>}></Route>
             <Route path={"/"+process.env.REACT_APP_PROJECT+"/pitrequests"} element={<PITRequests/>}></Route>
             <Route path={"/"+process.env.REACT_APP_PROJECT+"/pitrequestsview"} element={<PitRequestView/>}></Route>
             <Route path={"/"+process.env.REACT_APP_PROJECT+"/projectsview"} element={<ProjectsView/>}></Route>

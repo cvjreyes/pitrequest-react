@@ -3,14 +3,8 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import TreeView from '@mui/lab/TreeView';
 import TreeItem, { treeItemClasses } from '@mui/lab/TreeItem';
 import Typography from '@mui/material/Typography';
-import MailIcon from '@mui/icons-material/Mail';
-import Label from '@mui/icons-material/Label';
-import InfoIcon from '@mui/icons-material/Info';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import {useNavigate} from "react-router";
 import QtrackerNWCPopUp from '../qtrackerNWCPopUp/qtrackerNWCPopUp'
 import QtrackerNVNPopUp from '../qtrackerNVNPopUp/qtrackerNVNPopUp';
@@ -22,6 +16,7 @@ import SvgIcon from '@mui/material/SvgIcon';
 import ProjectPopUp from '../projectPopUp/projectPopUp';
 import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
 import OfferPopUp from '../OfferPopUp/offerPopUp';
+import Vector from "../../assets/images/Vector.png"
 
 const CryptoJS = require("crypto-js");
 const SecureStorage = require("secure-web-storage");
@@ -138,6 +133,9 @@ StyledTreeItem.propTypes = {
 
 export default function MenuListPITList(props) {
 
+    const [options, setOptions] = useState(null)
+    const [currentMenu, setcurrentMenu] = useState("main")
+
     const history = useNavigate()
 
     const [itplanMenu, setItplanMenu] = useState(null)
@@ -175,37 +173,86 @@ export default function MenuListPITList(props) {
     }
 
     useEffect(async ()=>{
-      const options = {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
+
+      if(currentMenu === "main"){
+        const options = {
+          method: "GET",
+          headers: {
+              "Content-Type": "application/json"
+          }
         }
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/isAdmin/" + secureStorage.getItem("user"), options)
+          .then(response => response.json())
+          .then(async json => {
+              if(json.isAdmin){
+                await setOptions(<div><text className='select__text'>Select your option</text>
+                <div className='mainmenu__item__container' style={{marginTop:"40px"}}>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("request")}><div style={{width:"260px"}}><text className='mainmenu__item'>Request item</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                </div>
+                <div className='mainmenu__item__container'>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("issues")}><div style={{width:"260px"}}><text className='mainmenu__item'>Issues</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                </div>
+                <div className='mainmenu__item__container'>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("piping")}><div style={{width:"260px"}}><text className='mainmenu__item'>Piping Spec Materials</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                </div>
+                <div className='mainmenu__item__container'>
+                  <span style={{display:"flex", width:"260px"}} onClick={()=> handlePitViewClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Requests Dashboard</text></div></span>
+                </div>
+                <div className='mainmenu__item__container'>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("itplan")}><div style={{width:"260px"}}><text className='mainmenu__item'>IT Plan</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                </div></div>)
+              }else{
+                await setOptions(<div><text className='select__text'>Select your option</text>
+                <div className='mainmenu__item__container' style={{marginTop:"40px"}}>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("request")}><div style={{width:"260px"}}><text className='mainmenu__item'>Request item</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                </div>
+                <div className='mainmenu__item__container'>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("issues")}><div style={{width:"260px"}}><text className='mainmenu__item'>Issues</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                </div>
+                <div className='mainmenu__item__container'>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("piping")}><div style={{width:"260px"}}><text className='mainmenu__item'>Piping Spec Materials</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                </div>
+                <div className='mainmenu__item__container'>
+                  <span style={{display:"flex", width:"260px"}} onClick={()=> handlePitViewClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Requests Dashboard</text></div></span>
+                </div></div>)
+              }
+          }) 
+      }else if(currentMenu === "request"){
+        await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>MAIN MENU</text></div></span>
+
+        <QtrackerRRPopUp success={success.bind(this)}/>
+        <QtrackerNRIDSPopUp success={success.bind(this)}/></div>)
+      }else if(currentMenu === "issues"){
+        await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>MAIN MENU</text></div></span>
+
+        <QtrackerNWCPopUp success={success.bind(this)}/>
+        <QtrackerNVNPopUp success={success.bind(this)}/>
+        <QtrackerNRIPopUp success={success.bind(this)}/></div>)
+      }else if(currentMenu === "piping"){
+        await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>MAIN MENU</text></div></span>
+
+        <div className='mainmenu__item__container'>
+          <span style={{display:"flex", width:"260px"}} onClick={()=> handleCADpmcClick()}><div style={{width:"260px", marginTop:"5px"}}><text className='mainmenu__item'>CADPMC</text></div></span>
+        </div>
+        <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+          <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>SPTracker</text></div></span>
+        </div></div>)
+      }else if(currentMenu === "itplan"){
+        await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>MAIN MENU</text></div></span>
+
+        <div className='mainmenu__item__container'>
+          <span style={{display:"flex", width:"260px"}} onClick={()=> handleCADpmcClick()}><div style={{width:"260px", marginTop:"5px"}}><text className='mainmenu__item'>CADPMC</text></div></span>
+        </div>
+        <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+          <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>SPTracker</text></div></span>
+        </div></div>)
       }
-      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/isAdmin/" + secureStorage.getItem("user"), options)
-        .then(response => response.json())
-        .then(async json => {
-            if(json.isAdmin){
-              await setItplanMenu(<StyledTreeItem nodeId="12" labelText="ITPlan" color="#e3742f" bgColor="#fcefe3" labelIcon={Label}>
-
-              <StyledTreeItem nodeId="19" labelText="Tasks" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleProjectsViewClick()}/>
       
-              <StyledTreeItem nodeId="20" labelText="Projects manager" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleManageProjectsViewClick()}/>
-     
-              <ProjectPopUp successProject={successProject.bind(this)}/>
-
-              <StyledTreeItem nodeId="21" labelText="Offers manager" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleManageOffersViewClick()}/>
-
-              <OfferPopUp successProject={successProject.bind(this)}/>
-              
-            </StyledTreeItem>)
-            }else{
-              await setItplanMenu(null)
-            }
-        }) 
-    }, [])
+    }, [currentMenu])
 
 
   return (
+    /*
     <TreeView
       aria-label="customized"
       defaultExpanded={['3']}
@@ -238,5 +285,10 @@ export default function MenuListPITList(props) {
       {itplanMenu}
         
     </TreeView>
+    */
+   <div>
+    {options}
+   </div>
   );
+  
 }
