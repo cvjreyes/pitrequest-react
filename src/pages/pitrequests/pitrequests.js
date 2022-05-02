@@ -92,7 +92,7 @@ const PITRequests = () =>{
             >
                 <AlertF type="qtracker" project={true}/>
             </div>
-            <img src={TechnipLogo} alt="technipLogo" className="technipLogo__image__pit"/>
+            <img src={TechnipLogo} alt="technipLogo" className="technipLogo__image__pit2"/>
             {circles}
             <div>
                 {navBar}

@@ -138,8 +138,6 @@ export default function MenuListPITList(props) {
 
     const history = useNavigate()
 
-    const [itplanMenu, setItplanMenu] = useState(null)
-
     function handleCADpmcClick(){
         window.open("http://eu012vm0190/UI/Login.aspx", "_blank")
     }
@@ -187,7 +185,7 @@ export default function MenuListPITList(props) {
               if(json.isAdmin){
                 await setOptions(<div><text className='select__text'>Select your option</text>
                 <div className='mainmenu__item__container' style={{marginTop:"40px"}}>
-                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("request")}><div style={{width:"260px"}}><text className='mainmenu__item'>Request item</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("request")}><div style={{width:"260px"}}><text className='mainmenu__item'>Request Item</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div>
                 <div className='mainmenu__item__container'>
                   <span style={{display:"flex"}} onClick={()=> setcurrentMenu("issues")}><div style={{width:"260px"}}><text className='mainmenu__item'>Issues</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
@@ -204,7 +202,7 @@ export default function MenuListPITList(props) {
               }else{
                 await setOptions(<div><text className='select__text'>Select your option</text>
                 <div className='mainmenu__item__container' style={{marginTop:"40px"}}>
-                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("request")}><div style={{width:"260px"}}><text className='mainmenu__item'>Request item</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("request")}><div style={{width:"260px"}}><text className='mainmenu__item'>Request Item</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div>
                 <div className='mainmenu__item__container'>
                   <span style={{display:"flex"}} onClick={()=> setcurrentMenu("issues")}><div style={{width:"260px"}}><text className='mainmenu__item'>Issues</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
@@ -241,11 +239,16 @@ export default function MenuListPITList(props) {
         await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>MAIN MENU</text></div></span>
 
         <div className='mainmenu__item__container'>
-          <span style={{display:"flex", width:"260px"}} onClick={()=> handleCADpmcClick()}><div style={{width:"260px", marginTop:"5px"}}><text className='mainmenu__item'>CADPMC</text></div></span>
+          <span style={{display:"flex", width:"260px"}} onClick={()=> handleProjectsViewClick()}><div style={{width:"260px", marginTop:"5px"}}><text className='mainmenu__item'>Tasks</text></div></span>
         </div>
         <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
-          <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>SPTracker</text></div></span>
-        </div></div>)
+          <span style={{display:"flex", width:"260px"}} onClick={()=> handleManageProjectsViewClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Project Manager</text></div></span>
+        </div>
+        <ProjectPopUp successProject={successProject.bind(this)}/>
+        <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+          <span style={{display:"flex", width:"260px"}} onClick={()=> handleManageOffersViewClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Offer Manager</text></div></span>
+        </div>
+        <OfferPopUp successProject={successProject.bind(this)}/></div>)
       }
       
     }, [currentMenu])
@@ -282,7 +285,19 @@ export default function MenuListPITList(props) {
       <StyledTreeItem nodeId="18" labelText="Requests Dashboard" labelIcon={InfoIcon} onClick={()=> handlePitViewClick()} />
       
 
-      {itplanMenu}
+      <StyledTreeItem nodeId="12" labelText="ITPlan" color="#e3742f" bgColor="#fcefe3" labelIcon={Label}>
+
+              <StyledTreeItem nodeId="19" labelText="Tasks" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleProjectsViewClick()}/>
+      
+              <StyledTreeItem nodeId="20" labelText="Projects manager" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleManageProjectsViewClick()}/>
+     
+              <ProjectPopUp successProject={successProject.bind(this)}/>
+
+              <StyledTreeItem nodeId="21" labelText="Offers manager" color="#e3742f" bgColor="#fcefe3" labelIcon={InfoIcon} onClick={()=> handleManageOffersViewClick()}/>
+
+              <OfferPopUp successProject={successProject.bind(this)}/>
+              
+            </StyledTreeItem>
         
     </TreeView>
     */

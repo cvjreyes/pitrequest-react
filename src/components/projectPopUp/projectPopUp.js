@@ -257,14 +257,9 @@ export default class ProjectPopUp extends Component {
             <div>
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"></link>
 
-                    <StyledTreeItem
-                    nodeId="10"
-                    labelText="Create project"
-                    labelIcon={SupervisorAccountIcon}
-                    onClick={() => this.openModal()}
-                    color="none" 
-                    bgColor="none"
-                    />                
+                    <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+                      <span style={{display:"flex"}} ><div style={{width:"280px"}}><text className='mainmenu__item' onClick={()=> this.openModal()}>Create Project</text></div></span>
+                    </div>               
                     <div>
                     
                     <Modal visible={this.state.visible} width="700" height="950" effect="fadeInUp" onClickAway={() => this.closeModal()}>
