@@ -1,7 +1,6 @@
 {
   "name": "pitrequest-react",
   "version": "0.1.0",
-  "homepage": "http://es001vs0103/pitrequest",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.1",

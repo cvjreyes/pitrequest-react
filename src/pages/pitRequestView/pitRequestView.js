@@ -118,6 +118,9 @@ const PitRequestView = () => {
         if(!secureStorage.getItem("user")){
             history("/"+process.env.REACT_APP_PROJECT+"/");
         }        
+        if(secureStorage.getItem("tab") === "Users"){
+            setCurrentTab("Users")
+        }
     }, [])
 
     var currentUser = secureStorage.getItem('user')
@@ -186,6 +189,7 @@ const PitRequestView = () => {
     useEffect(async () =>{
         if(currentRole === "3D Admin"){
             if(currentTab === "View"){
+                secureStorage.setItem("tab", "View")
                 setSaveButton(<button className="navBar__button" onClick={()=> saveChanges()}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>)
                 setAddUserButton(null)
                 setExportReport(<button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button>)
@@ -195,6 +199,7 @@ const PitRequestView = () => {
                 setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("Projects")}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
                 setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
             }else if(currentTab === "Users"){
+                secureStorage.setItem("tab", "Users")
                 setExportUsersReport(<button className="action__btn" name="export" value="export" onClick={() => downloadUsersReport()}>Export</button>)
                 setExportReport(null)
                 setAddUserButton(<AddUserPopUp addUser={addUser.bind(this)}/>)
@@ -205,6 +210,7 @@ const PitRequestView = () => {
                 setBackToMenuButton(<button className="navBar__button" onClick={()=> setCurrentTab("View")} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
 
             }else if(currentTab === "Projects"){
+                secureStorage.setItem("tab", "Projects")
                 setProjectsButton(null)
                 setContent(<ProjectsHoursDataTable/>)
                 setBackToMenuButton(<button className="navBar__button" onClick={()=> setCurrentTab("View")} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)

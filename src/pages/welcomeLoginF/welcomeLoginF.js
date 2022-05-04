@@ -119,9 +119,6 @@ const WelcomeLoginF = () =>{
                 <div className="login__buttons">
                     <button className="login__button" onClick={handleLogin}>Log In</button>
                     {error && <p className="error__message" style={{color: "red", position:"absolute"}}>Email or password incorrect. Try again.</p>} 
-
-                    <text className="navis__text">Or you can access to NavisattSelect</text>
-                    <button className="navis__button" onClick={(e) => history.push("/"+process.env.REACT_APP_PROJECT+"/navis")}>NAVISATTSELECT</button>
             </div>
             </div>
             
