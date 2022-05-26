@@ -34,7 +34,7 @@ class ProjectsTreeGrid extends Component {
             }
           }
           if(sum > 0){
-            return sum
+            return Math.floor(sum)
           }else{
             return null
           }

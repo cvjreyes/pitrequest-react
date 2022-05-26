@@ -160,3 +160,9 @@ img{
     color: gray;
     font-size: 16px;
 }
+
+.btn__dropdown{
+    max-width: 2000px;
+    background-color: transparent;
+    border: none;
+}

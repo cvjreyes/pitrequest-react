@@ -2,7 +2,7 @@ import React, { useState} from 'react'
 import './changePassword.css';
 import TechnipLogo from "../../assets/images/technip.png"
 import IsoTrackerLogo from "../../assets/images/IsoTracker.svg"
-import FullTrackerLogo from "../../assets/images/3dtracker.png"
+import FullTrackerLogo from "../../assets/images/pitlogo.svg"
 import Eye from "../../assets/images/eye.png"
 import GreenCircle from "../../assets/images/green_circle.png"
 import BlueCircle from "../../assets/images/blue_circle.png"

@@ -44,11 +44,11 @@ export default class ManageRolesPopUp extends Component {
                     for(let i = 0; i < projects.length; i++){
                         if(user_projects.indexOf(projects[i].id) > -1){
                             projectsID[projects[i].id] = true
-                            projectsList.push(<div style={{textAlign:"left", marginLeft:"100px"}}><input defaultChecked={true} type="checkbox" name={projects[i].name} value={projects[i].id} id={projects[i].id} onChange={(e) => this.checkProject(projects[i].id)}/>
+                            projectsList.push(<div style={{textAlign:"left", marginLeft:"70px"}}><input defaultChecked={true} type="checkbox" name={projects[i].name} value={projects[i].id} id={projects[i].id} onChange={(e) => this.checkProject(projects[i].id)}/>
                             <label for={projects[i].name} className="popUp__input__checkbox__label__projects">{projects[i].name}</label></div> )
                         }else{
                             projectsID[projects[i].id] = false
-                            projectsList.push(<div style={{textAlign:"left", marginLeft:"100px"}}><input type="checkbox" name={projects[i].name} value={projects[i].id} id={projects[i].id} onChange={(e) => this.checkProject(projects[i].id)}/>
+                            projectsList.push(<div style={{textAlign:"left", marginLeft:"70px"}}><input type="checkbox" name={projects[i].name} value={projects[i].id} id={projects[i].id} onChange={(e) => this.checkProject(projects[i].id)}/>
                             <label for={projects[i].name} className="popUp__input__checkbox__label__projects">{projects[i].name}</label></div> )
                         }
                         
@@ -97,7 +97,7 @@ export default class ManageRolesPopUp extends Component {
             <section >
                 <input type="button"  value="PROJECTS" className="btn"  style={{padding:"2px 5px 2px 5px", marginRight:"5px", marginLeft:"5px", width:"70px", fontSize:"12px", float:"right", backgroundColor:"#78B28A", color:"white"}} onClick={() => this.openModal()} />
                 <div>
-                    <Modal visible={this.state.visible} width="300" height="480" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="350" height="480" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div
                         className={`alert alert-success ${this.state.blankFields ? 'alert-shown' : 'alert-hidden'}`}
                         onTransitionEnd={() => this.setState({blankFields: false})}
@@ -108,10 +108,10 @@ export default class ManageRolesPopUp extends Component {
                             <center className="popUp__title"><h3><strong>Manage projects</strong></h3></center>
                                 
                         </div>
-                        <div>
+                        <div className="project__manager__container">
                             {this.state.projectsList}
                         </div>
-                        <div className="popUp__buttons__container__manage__projects">
+                        <div className="popUp__buttons__container__manage__projects2">
                             <button class="btn btn-sm btn-success" onClick={() => this.submitProjects()} style={{marginLeft:"75px", fontSize:"16px"}}>Submit</button>
                             <button class="btn btn-sm btn-danger" onClick={() => this.closeModal()} style={{marginLeft:"12px", fontSize:"16px"}}>Cancel</button>
                         </div>

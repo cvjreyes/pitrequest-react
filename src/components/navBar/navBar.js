@@ -115,8 +115,9 @@ const NavBar = (props) =>{
         }
       }, [isMenuOpen])
     
-
-
+      let margin = 2100 - (username.length*6)
+      margin = margin + "px"
+      console.log(margin)
     
     return(
         <div ref={ref}>
@@ -126,10 +127,9 @@ const NavBar = (props) =>{
             
                 <Toolbar>
                     
-                    <Button className="btn_dropdown" style={{marginLeft:"90%", marginTop:"4px"}} onClick={handleClickUser}>
+                    <button className="btn__dropdown" style={{marginLeft:margin, marginTop:"4px"}} onClick={handleClickUser}>
                     <i className="dropdown__text">{username}&nbsp;🠗</i>
-                    </Button>
-
+                    </button>
                     <Menu
                         id="simple-menu"
                         anchorEl={anchorElUser}

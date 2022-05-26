@@ -186,3 +186,18 @@
   .checkbox{
       width: 150px;
   }
+
+  .project__manager__container{
+      height:330px;
+      overflow-y: scroll;
+      width:290px;
+  }
+
+  .popUp__buttons__container__manage__projects2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 430px;
+    margin-left: 28px;
+}
