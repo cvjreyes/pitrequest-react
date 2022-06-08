@@ -115,7 +115,7 @@ const NavBar = (props) =>{
         }
       }, [isMenuOpen])
     
-      let margin = 2100 - (username.length*6)
+      let margin = 2000 - (username.length*6)
       margin = margin + "px"
       console.log(margin)
     

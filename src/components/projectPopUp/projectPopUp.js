@@ -149,38 +149,56 @@ export default class ProjectPopUp extends Component {
           this.setState({admins:admins})
         })
 
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getTasks", options)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getTasksPopUp", options)
         .then(response => response.json())
         .then(async json => {
-          this.setState({tasks: json.tasks})
-
-          let tasks_menu = []
-          let current_tasks
-          for(let i = 1; i < json.tasks.length; i++){
-            current_tasks = []
-            Object.entries(json.tasks[i])
-            .map( ([key, value]) => 
-              current_tasks.push(value, key)
-            ) 
-            
-            let task = {
-              value: current_tasks[0]*100,
-              label: <span style={{fontSize:"22px"}}>{current_tasks[1]}</span>
+          let softwares = json.softwares
+          let c = 1
+          let nodes = []
+          Object.entries(softwares).map(async function([key, tasks]){ 
+            let software = {
+              value: c,
+              label: <span style={{fontSize:"22px"}}>{key}</span>
             }
-
-            let children = []
-            for(let i = 2; i < current_tasks.length; i+=2){
-              children.push({value: current_tasks[i], label: current_tasks[i+1]})
+            let current_tasks = []
+            let subtasks = []
+            let task = {}
+            let task_menu = []
+            let init = 0
+            for(let i = 0; i < tasks.length; i+=2){
+              
+              Object.entries(tasks[i]).map( function([key, value]){
+                  if(current_tasks.indexOf(key) < 0){
+                    if(init > 0){
+                      task["children"] = subtasks
+                      task_menu.push(task)
+                      task = {}
+                      subtasks = []
+                    }else{
+                      init += 1
+                    }
+                    task = {
+                      value: key * 100,
+                      label: <span style={{fontSize:"22px"}}>{value}</span>
+                    }
+                    current_tasks.push(key)
+                  }
+              })
+              Object.entries(tasks[i+1]).map( function([key, value]){
+                subtasks.push({
+                  value: key,
+                  label: value
+                })
+              })
             }
-            if(current_tasks[2]){
-              task["children"] = children
-            }
-            tasks_menu.push(task)
-          }
-
-          this.setState({tasks_menu: tasks_menu})
+            c += 1
+            task["children"] = subtasks
+            task_menu.push(task)
+            software["children"] = task_menu
+            nodes.push(software)
+          })
+          await this.setState({tasks_menu: nodes})
         })
-    
     }
 
     async openModal() {
@@ -208,7 +226,6 @@ export default class ProjectPopUp extends Component {
         this.refs.name.value = null;
         this.refs.code.value = null;
     }
-
 
     async createProject(){
         

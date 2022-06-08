@@ -17,6 +17,7 @@ import ProjectPopUp from '../projectPopUp/projectPopUp';
 import { fade, makeStyles, withStyles } from '@material-ui/core/styles';
 import OfferPopUp from '../OfferPopUp/offerPopUp';
 import Vector from "../../assets/images/Vector.png"
+import QtrackerISPopUp from '../qtrackerISPopUp/qtrackerISPopUp';
 
 const CryptoJS = require("crypto-js");
 const SecureStorage = require("secure-web-storage");
@@ -227,7 +228,8 @@ export default function MenuListPITList(props) {
         await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>MAIN MENU</text></div></span>
 
         <QtrackerRRPopUp success={success.bind(this)}/>
-        <QtrackerNRIDSPopUp success={success.bind(this)}/></div>)
+        <QtrackerNRIDSPopUp success={success.bind(this)}/>
+        <QtrackerISPopUp success={success.bind(this)}/></div>)
       }else if(currentMenu === "issues"){
         await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>MAIN MENU</text></div></span>
 
