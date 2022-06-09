@@ -208,6 +208,13 @@ h4{
     width: 270px;
 }
 
+.mainmenu__item__container__soft{
+    margin-top: 35px;
+    cursor: pointer;
+    width: 400px;
+    margin-right: 20px;
+}
+
 .back__item__container{
     margin-top: 5px;
     cursor: pointer;

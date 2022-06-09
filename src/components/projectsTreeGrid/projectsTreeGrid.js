@@ -21,16 +21,16 @@ class ProjectsTreeGrid extends Component {
 
     this.state = {
       columnDefs: [
-        { field: 'project', rowGroup: true, hide: true },
-        { field: 'software', rowGroup: true, headerClass: 'header-custom'},
-        { field: 'task', rowGroup: true, hide: true, headerClass: 'header-custom'},
-        { field: 'subtask', checkboxSelection: true, hide: true, width:20, headerClass: 'header-custom'},
+        { field: 'project', rowGroup: true, hide: true, checkboxSelection:  false },
+        { field: 'software', checkboxSelection: true, rowGroup: true, hide: true, headerClass: 'header-custom'},
+        { field: 'task', checkboxSelection: true, rowGroup: true, hide: true, headerClass: 'header-custom'},
+        { field: 'subtask',checkboxSelection: true, hide: true, width:20, headerClass: 'header-custom'},
         { field: 'hours', headerClass: 'header-custom', aggFunc: values =>{
           let sum = 0
           if(values){
             for(let i = 0; i < values.rowNode.allLeafChildren.length; i++){
               if(values.rowNode.allLeafChildren[i].data.checked){
-                sum+= values.rowNode.allLeafChildren[i].data.hours
+                sum += values.rowNode.allLeafChildren[i].data.hours
               }
             }
           }
@@ -101,7 +101,6 @@ class ProjectsTreeGrid extends Component {
         let tasks = []
         let tasksNames = []
         let subtasks =[]
-        console.log(json)
         if(json.tasks){
           for(let i = 1; i < json.tasks.length; i++){
             let ts = []
@@ -180,7 +179,7 @@ class ProjectsTreeGrid extends Component {
         let tree_nodes = []
         let node = {}
         for(let i = 0; i < json.rows.length; i++){
-            node = {project: json.rows[i].project, task: json.rows[i].task, subtask: json.rows[i].subtask, hours: json.rows[i].hours}
+            node = {project: json.rows[i].project, software: json.rows[i].software, task: json.rows[i].task, subtask: json.rows[i].subtask, hours: json.rows[i].hours}
             if(node){
                 tree_nodes.push(node)
             }
@@ -196,10 +195,10 @@ class ProjectsTreeGrid extends Component {
         const tasks = json.tasks
 
         for(let i = 0; i < projects.length; i ++){
-          let support_node = {project: projects[i].name, task: "Support", subtask:"Estimated hours", hours: projects[i].sup_estihrs, checked: true}
+          let support_node = {project: projects[i].name, software: "Support", task: "Estimated", subtask:"Hours", hours: projects[i].sup_estihrs, checked: true}
           if(tasks){
             for(let j = 0; j < tasks.length; j ++){
-              let node = {project: projects[i].name, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
+              let node = {project: projects[i].name, software: tasks[j].software, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
               if(this.state.tree_nodes.some(e => e.project === node.project && e.task === node.task && e.subtask === node.subtask && e.hours === node.hours)) {
                 node["checked"] = true
                 support_node.hours -= node.hours
@@ -239,7 +238,7 @@ class ProjectsTreeGrid extends Component {
   };
 
   isRowSelectable = function(rowNode) {
-    return rowNode.data ? rowNode.data.subtask : false;
+    return true;
   }
 
   async saveChanges(){
@@ -363,7 +362,6 @@ class ProjectsTreeGrid extends Component {
       let tasks = []
       let tasksNames = []
       let subtasks =[]
-      console.log(json)
       if(json.tasks){
         for(let i = 1; i < json.tasks.length; i++){
           let ts = []
@@ -409,7 +407,7 @@ class ProjectsTreeGrid extends Component {
         }
         await this.setState({tree_nodes: tree_nodes})
       })
-
+      
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAllPTS", options)
     .then(response => response.json())
     .then(async json => {
@@ -417,10 +415,10 @@ class ProjectsTreeGrid extends Component {
         const projects = json.projects
         const tasks = json.tasks
         for(let i = 0; i < projects.length; i ++){
-          let support_node = {project: projects[i].name, task: "Support", subtask:"Estimated hours", hours: projects[i].sup_estihrs, checked: true}
+          let support_node = {project: projects[i].name, software: "Support", task: "Estimated", subtask:"Hours", hours: projects[i].sup_estihrs, checked: true}
           if(tasks){
             for(let j = 0; j < tasks.length; j ++){
-              let node = {project: projects[i].name, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
+              let node = {project: projects[i].name, software: tasks[j].software, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
               if(this.state.tree_nodes.some(e => e.project === node.project && e.task === node.task && e.subtask === node.subtask && e.hours === node.hours)) {
                 node["checked"] = true
                 support_node.hours -= node.hours
@@ -436,9 +434,16 @@ class ProjectsTreeGrid extends Component {
           nodes.push(support_node)
           
         }
-        
         await this.setState({rowData: nodes})    
     })
+
+    await this.gridApi.forEachNode(node => {
+      if(node.data){
+        if(node.data.checked === true){
+          node.setSelected(true)
+        }
+      }
+    });
 
     let initial_nodes = []
 
@@ -472,6 +477,7 @@ class ProjectsTreeGrid extends Component {
   
   render() {
     
+    console.log(this.state.rowData)
     
     let settingsTasks = {
       licenseKey: 'non-commercial-and-evaluation',
@@ -507,7 +513,6 @@ class ProjectsTreeGrid extends Component {
             }}
             className="ag-theme-alpine"
           >
-
             <AgGridReact
               columnDefs={this.state.columnDefs}
               defaultColDef={this.state.defaultColDef}
@@ -520,6 +525,7 @@ class ProjectsTreeGrid extends Component {
               animateRows={true}
               isRowSelectable={this.isRowSelectable}
               rowStyle={this.state.rowStyle}
+              groupSelectsChildren={true}
             />
           </div>
         </div>
@@ -600,6 +606,40 @@ class ProjectsTreeGrid extends Component {
                 rowHeaders={true}
                 width="1092"
                 
+                height="200"
+                rowHeights="25"
+                settings={settingsSubtasks} 
+                manualColumnResize={true}
+                manualRowResize={true}
+                columns= { [{data: "Task", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.tasksNames}, {data: "Subtask"}, {data: "Hours"}]}
+                filters={true}
+                dropdownMenu= {[
+                    'make_read_only',
+                    '---------',
+                    'alignment',
+                    '---------',
+                    'filter_by_condition',
+                    '---------',
+                    'filter_operators',
+                    '---------',
+                    'filter_by_condition2',
+                    '---------',
+                    'filter_by_value',
+                    '---------',
+                    'filter_action_bar',
+                  ]}
+              />
+              <br></br>
+              <center>
+                  <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px", height: "30px"}}><p className="projects__add__button__text">Add</p></button>
+                </center>
+            </div>
+            <div id="hot-app" className="excel__container">
+              <HotTable
+                data={this.state.subtasks}
+                colHeaders = {["<b>Task</b>", "<b>Incidence type</b>"]}
+                rowHeaders={true}
+                width="1092"
                 height="200"
                 rowHeights="25"
                 settings={settingsSubtasks} 

@@ -304,7 +304,7 @@ export default class ProjectPopUp extends Component {
                           <input type="text" id="hours" className="carta__input" onChange={(e) => this.setState({hours: e.target.value})}></input>
                         </div>
                         <h4 className="project__subtitle">Initial tasks</h4>     
-                        <div style={{position:"absolute", marginTop:"35px", marginLeft:"25px"}}>
+                        <div className="menu__container">
                         {tasks_tree}
                         </div>
                             

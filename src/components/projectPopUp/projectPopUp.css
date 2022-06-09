@@ -37,3 +37,12 @@ react-checkbox-tree {
     margin-left: 31px;
     margin-bottom: 12px;
 }
+
+.menu__container{
+    position:absolute; 
+    margin-top:35px;
+    margin-left:25px;
+    overflow-y:scroll;
+    width:580px;
+    height: 450px;
+}
