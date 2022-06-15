@@ -451,6 +451,7 @@ class ProjectsTreeGrid extends Component {
       initial_nodes.push(this.gridApi.getSelectedNodes()[i].data)
     }
 
+
     await this.setState({initial_nodes: initial_nodes})
 
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsWithHours", options)
@@ -493,7 +494,7 @@ class ProjectsTreeGrid extends Component {
 
     let settingsProjects = {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 339,
+      colWidths: 338,
     }
 
     return (
@@ -535,7 +536,7 @@ class ProjectsTreeGrid extends Component {
                 data={this.state.projects}
                 colHeaders = {["<b>Project</b>", "<b>Default admin</b>", "<b>Estimated hours</b>"]}
                 rowHeaders={true}
-                width="1300"
+                width="1310"
                 
                 height="200"
                 rowHeights="25"
@@ -569,7 +570,7 @@ class ProjectsTreeGrid extends Component {
                 data={this.state.tasks}
                 colHeaders = {["<b>Software</b>", "<b>Task</b>"]}
                 rowHeaders={true}
-                width="1092"
+                width="1097"
                 height="200"
                 rowHeights="25"
                 settings={settingsTasks} 
@@ -604,7 +605,7 @@ class ProjectsTreeGrid extends Component {
                 data={this.state.subtasks}
                 colHeaders = {["<b>Task</b>", "<b>Subtask</b>", "<b>Hours</b>"]}
                 rowHeaders={true}
-                width="1092"
+                width="1097"
                 
                 height="200"
                 rowHeights="25"
@@ -634,40 +635,7 @@ class ProjectsTreeGrid extends Component {
                   <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px", height: "30px"}}><p className="projects__add__button__text">Add</p></button>
                 </center>
             </div>
-            <div id="hot-app" className="excel__container">
-              <HotTable
-                data={this.state.subtasks}
-                colHeaders = {["<b>Task</b>", "<b>Incidence type</b>"]}
-                rowHeaders={true}
-                width="1092"
-                height="200"
-                rowHeights="25"
-                settings={settingsSubtasks} 
-                manualColumnResize={true}
-                manualRowResize={true}
-                columns= { [{data: "Task", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.tasksNames}, {data: "Subtask"}, {data: "Hours"}]}
-                filters={true}
-                dropdownMenu= {[
-                    'make_read_only',
-                    '---------',
-                    'alignment',
-                    '---------',
-                    'filter_by_condition',
-                    '---------',
-                    'filter_operators',
-                    '---------',
-                    'filter_by_condition2',
-                    '---------',
-                    'filter_by_value',
-                    '---------',
-                    'filter_action_bar',
-                  ]}
-              />
-              <br></br>
-              <center>
-                  <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px", height: "30px"}}><p className="projects__add__button__text">Add</p></button>
-                </center>
-            </div>
+            
             </div>
       </div>
       </div>

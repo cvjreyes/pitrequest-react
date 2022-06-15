@@ -20,9 +20,10 @@ class OffersTreeGrid extends Component {
 
     this.state = {
       columnDefs: [
-        { field: 'offer', rowGroup: true, hide: true },
-        { field: 'task', rowGroup: true, hide: true, headerClass: 'header-custom'},
-        { field: 'subtask', checkboxSelection: true, hide: true, width:20, headerClass: 'header-custom'},
+        { field: 'offer', rowGroup: true, hide: true, checkboxSelection:  false },
+        { field: 'software', checkboxSelection: true, rowGroup: true, hide: true, headerClass: 'header-custom'},
+        { field: 'task', checkboxSelection: true, rowGroup: true, hide: true, headerClass: 'header-custom'},
+        { field: 'subtask',checkboxSelection: true, hide: true, width:20, headerClass: 'header-custom'},
         { field: 'hours', headerClass: 'header-custom', aggFunc: values =>{
           let sum = 0
           if(values){
@@ -171,7 +172,7 @@ class OffersTreeGrid extends Component {
         let tree_nodes = []
         let node = {}
         for(let i = 0; i < json.rows.length; i++){
-            node = {offer: json.rows[i].offer, task: json.rows[i].task, subtask: json.rows[i].subtask, hours: json.rows[i].hours}
+            node = {offer: json.rows[i].offer, software: json.rows[i].software, task: json.rows[i].task, subtask: json.rows[i].subtask, hours: json.rows[i].hours}
             if(node){
                 tree_nodes.push(node)
             }
@@ -187,10 +188,10 @@ class OffersTreeGrid extends Component {
         const tasks = json.tasks
 
         for(let i = 0; i < offers.length; i ++){
-          let support_node = {offer: offers[i].name, task: "Support", subtask:"Estimated hours", hours: offers[i].sup_estihrs, checked: true}
+          let support_node = {offer: offers[i].name, software: "Support", task: "Estimated", subtask:"Hours", hours: offers[i].sup_estihrs, checked: true}
           if(tasks){
             for(let j = 0; j < tasks.length; j ++){
-              let node = {offer: offers[i].name, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
+              let node = {offer: offers[i].name, software: tasks[j].software, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
               if(this.state.tree_nodes.some(e => e.offer === node.offer && e.task === node.task && e.subtask === node.subtask && e.hours === node.hours)) {
                 node["checked"] = true
                 support_node.hours -= node.hours
@@ -393,7 +394,7 @@ class OffersTreeGrid extends Component {
         let tree_nodes = []
         let node = {}
         for(let i = 0; i < json.rows.length; i++){
-            node = {offer: json.rows[i].offer, task: json.rows[i].task, subtask: json.rows[i].subtask, hours: json.rows[i].hours}
+            node = {offer: json.rows[i].offer, software: json.rows[i].software, task: json.rows[i].task, subtask: json.rows[i].subtask, hours: json.rows[i].hours}
             if(node){
                 tree_nodes.push(node)
             }
@@ -410,10 +411,10 @@ class OffersTreeGrid extends Component {
         const tasks = json.tasks
 
         for(let i = 0; i < offers.length; i ++){
-          let support_node = {offer: offers[i].name, task: "Support", subtask:"Estimated hours", hours: offers[i].sup_estihrs, checked: true}
+          let support_node = {offer: offers[i].name, software: "Support", task: "Estimated", subtask:"Hours", hours: offers[i].sup_estihrs, checked: true}
           if(tasks){
             for(let j = 0; j < tasks.length; j ++){
-              let node = {offer: offers[i].name, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
+              let node = {offer: offers[i].name, software: tasks[j].software, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
               if(this.state.tree_nodes.some(e => e.offer === node.offer && e.task === node.task && e.subtask === node.subtask && e.hours === node.hours)) {
                 node["checked"] = true
                 support_node.hours -= node.hours
