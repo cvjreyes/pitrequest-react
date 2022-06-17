@@ -166,3 +166,15 @@ img{
     background-color: transparent;
     border: none;
 }
+
+.projects__button__back{
+    background-color: transparent;
+    margin-left: 10px;
+    border: none;
+    font-family: 'Quicksand', sans-serif;
+    ;
+}
+
+.projects__button__back:hover{
+    color: antiquewhite;
+}
