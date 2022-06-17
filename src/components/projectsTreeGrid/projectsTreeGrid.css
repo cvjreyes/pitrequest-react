@@ -22,8 +22,8 @@
 }
 
 .handsontable th{
-    font-size: 20px;
     font-family: 'Quicksand', sans-serif;
+    font-size: 20px;
 }
 
 
@@ -41,6 +41,44 @@
     ;
 }
 
+/*Boton de save*/
+.projects__button__save{
+    height: 50px;
+    width: 100px;
+    border: 0;
+    background-color: transparent;
+    border-radius: 1em 1em 1em 1em;
+    transition: 0.3s;
+    font-family: 'Quicksand', sans-serif;
+    color: white;
+    background-color:#338DF1;
+    font-weight: bold;
+}
+
+.projects__button__save:hover{
+    background-color: #99C6F8;
+    color: black;
+}
+
+/*Boton de Tasks*/
+.projects__button__task{
+    height: 50px;
+    width: 100px;
+    border: 1px solid #0070ED;;
+    background-color: transparent;
+    border-radius: 1em 1em 1em 1em;
+    transition: 0.3s;
+    font-family: 'Quicksand', sans-serif;
+    color: #0070ED;;
+    background-color:white;
+    font-weight: bold;
+}
+
+.projects__button__task:hover{
+    background-color: #99C6F8;
+    color: black;
+}
+
 .projects__add__button{
     height: 50px;
     width: 100px;
@@ -50,9 +88,6 @@
     border-radius: 1em 1em 1em 1em;
     transition: 0.3s;
     font-family: 'Quicksand', sans-serif;
-    
-    background-color: lightgray;
-    
 }
 
 .projects__button:hover{
@@ -64,8 +99,10 @@
     font-family: 'Quicksand', sans-serif;
 }
 
-.projects__add__button:hover{
-    background-color: gray;
+/*Cuando pulso el boton de add project se vuelve transparente azulado*/
+.projects__add__button__text:hover{
+    background-color: skyblue;
+    border-radius: 8px;
 }
 
 .projects__button__text{
@@ -76,6 +113,69 @@
 
 .projects__add__button__text{
     font-size: 15px;
-    margin-top: 3px;
     font-family: 'Quicksand', sans-serif;
+    color: #0070ED;
+    font-style: normal;
+    font-weight: bold;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 18px 42px;
+    gap: 8px;
+
+    margin-top: 10px;
+
+    width: 134px;
+    height: 32px;
+
+    border: 2px solid #0070ED;
+    border-radius: 8px;
+}
+
+/*Colores de los th*/
+.handsontable thead th {
+    background: #338DF1;
+    color: #FFFF;
+}
+
+/*Redondear las esquinas del thead por posicion*/
+/*tabla de arriba*/
+.custom__table__2 thead th:nth-child(1){
+    
+    border-radius: 7px 0px 0px 0px;
+}
+
+.custom__table__2 thead th:nth-child(3){
+    
+    border-radius: 0px 8px 0px 0px;
+}
+
+/*Columna 1 de la tabla de arriba*/
+
+/*tabla de en medio*/
+.custom__table__1 thead th:nth-child(1){
+    border-radius: 7px 0px 0px 0px;
+}
+
+.custom__table__1 thead th:nth-child(2){
+    
+    border-radius: 0px 8px 0px 0px;
+}
+
+/*tabla de abajo*/
+.custom__table__3 {
+    margin-top: 70px;
+}
+
+.custom__table__3 thead th:nth-child(1){
+    
+    border-radius: 7px 0px 0px 0px;
+}
+
+.custom__table__3 thead th:nth-child(3){
+    
+    border-radius: 0px 8px 0px 0px;
 }

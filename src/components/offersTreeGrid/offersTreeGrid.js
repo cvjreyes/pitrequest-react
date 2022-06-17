@@ -6,12 +6,11 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { HotTable } from '@handsontable/react';
 import 'handsontable/dist/handsontable.full.css';
 import Handsontable from 'handsontable'
-import FolderIcon from "../../assets/images/FolderOpen.png"
+import '../projectsTreeGrid/projectsTreeGrid.css'
 
 
 import SaveIcon from "../../assets/images/save.svg"
-import BackIcon from "../../assets/images/back.svg"
-
+import SaveIcon2 from "../../assets/images/SaveIcon2.svg"
 
 class OffersTreeGrid extends Component {
 
@@ -469,26 +468,25 @@ class OffersTreeGrid extends Component {
     
     let settingsTasks = {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 510,
+      colWidths: 535,
       
       className:'excel'
     }
 
     let settingsSubtasks= {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 340,
+      colWidths: 355,
     }
 
     let settingsProjects = {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 510,
+      colWidths: 535,
     }
 
     return (
       <div>
       <div style={{marginTop: "140px"}}>
-      <button className="projects__button" onClick={()=>this.props.back()} style={{width:"175px", marginLeft:"-1605px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="projects__button__text">Back to menu</p></button>
-      <button className="projects__button" onClick={()=>this.saveChanges()} style={{width:"175px", marginLeft:"20px"}}><img src={SaveIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="projects__button__text">Save</p></button>
+      <button className="projects__button__save" onClick={()=>this.saveChanges()} style={{width:"175px", marginLeft:"-1800px"}}><img src={SaveIcon2} alt="hold" className="navBar__icon__save" style={{marginRight:"-20px"}}></img><p className="projects__button__text">Save</p></button>
       </div>
       <div style={{display: "flex"}}>
         
@@ -521,9 +519,10 @@ class OffersTreeGrid extends Component {
                 <HotTable
                 data={this.state.offers}
                 colHeaders = {["<b>Offer</b>", "<b>Estimated hours</b>"]}
-                rowHeaders={true}
+                rowHeaders={false}
                 width="1300"
                 height="200"
+                className="custom__table__1"
                 rowHeights="25"
                 settings={settingsProjects} 
                 manualColumnResize={true}
@@ -546,17 +545,16 @@ class OffersTreeGrid extends Component {
                     'filter_action_bar',
                   ]}
               />
-              <br></br>
               
             </div>
-            <br></br>
             <div id="hot-app" className="excel__container">
             <HotTable
                 data={this.state.tasks}
                 colHeaders = {["<b>Software</b>", "<b>Task</b>"]}
-                rowHeaders={true}
+                rowHeaders={false}
                 width="1092"
                 height="200"
+                className="custom__table__1"
                 rowHeights="25"
                 settings={settingsTasks} 
                 manualColumnResize={true}
@@ -580,18 +578,18 @@ class OffersTreeGrid extends Component {
                   ]}
               />
             </div>
-            <div style={{display: "flex", float:"left", marginTop:"20px"}}>
-              <div style={{marginLeft:"505px"}}>
-              <button className="projects__add__button" onClick={()=>this.addRowTasks()} style={{width:"70px", marginBottom:"50px", height:"30px", }}><p className="projects__add__button__text">Add</p></button>
+            <div style={{display: "flex", float:"left", marginTop:"0px"}}>
+              <div style={{marginLeft:"440px"}}>
+              <button className="projects__add__button" onClick={()=>this.addRowTasks()} style={{width:"70px", marginBottom:"50px", height:"10px", }}><p className="projects__add__button__text">+ Add</p></button>
               </div>
             </div>
             <div id="hot-app" className="excel__container">
               <HotTable
                 data={this.state.subtasks}
                 colHeaders = {["<b>Task</b>", "<b>Subtask</b>", "<b>Hours</b>"]}
-                rowHeaders={true}
+                rowHeaders={false}
                 width="1092"
-                
+                className="custom__table__3"
                 height="200"
                 rowHeights="25"
                 settings={settingsSubtasks} 
@@ -615,10 +613,11 @@ class OffersTreeGrid extends Component {
                     'filter_action_bar',
                   ]}
               />
-              <br></br>
-              <center>
-                  <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px", height: "30px"}}><p className="projects__add__button__text">Add</p></button>
-                </center>
+              <div style={{display: "flex", float:"left"}}>
+                <div style={{marginLeft:"440px"}}>
+                  <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px", height: "30px"}}><p className="projects__add__button__text">+ Add</p></button>
+                </div>
+              </div>
             </div>
             </div>
       </div>
