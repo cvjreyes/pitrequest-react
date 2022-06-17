@@ -10,6 +10,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import './navBar.css';
 import {useNavigate} from "react-router";
 
+import BackIcon from "../../assets/images/back.svg"
+
 const CryptoJS = require("crypto-js");
 const SecureStorage = require("secure-web-storage");
 var SECRET_KEY = 'sanud2ha8shd72h';
@@ -61,6 +63,7 @@ const NavBar = (props) =>{
     const [username, setUsername] = React.useState("");
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const ref = useRef()
+    const [hoverbutton, setHoverbutton] = React.useState(null);
 
     const handleClickUser = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -80,6 +83,10 @@ const NavBar = (props) =>{
         history("/"+process.env.REACT_APP_PROJECT+"/changepassword");
     }
 
+    function back(){
+        history("/"+process.env.REACT_APP_PROJECT+"/pitrequests")
+    }
+
     useEffect(() => {
         const checkIfClickedOutside = e => {
           // If the menu is open and the clicked target is not within the menu,
@@ -88,6 +95,12 @@ const NavBar = (props) =>{
               
             setIsMenuOpen(false)
           }
+        }
+
+        if(window.location.href.includes("/projectManager") || window.location.href.includes("/offersManager")) {
+            setHoverbutton (<button className="projects__button__back" onClick={()=>back()} style={{width:"175px", marginLeft:"115px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="projects__button__text">Back to menu</p></button>) 
+        } else {
+            setHoverbutton (null)
         }
 
         const bodyUsername = {
@@ -115,9 +128,9 @@ const NavBar = (props) =>{
         }
       }, [isMenuOpen])
     
-      let margin = 2000 - (username.length*6)
+      let margin = 1850 - (username.length*6)
       margin = margin + "px"
-      console.log(margin)
+      console.log(window.location.href)
     
     return(
         <div ref={ref}>
@@ -127,7 +140,11 @@ const NavBar = (props) =>{
             
                 <Toolbar>
                     
-                    <button className="btn__dropdown" style={{marginLeft:margin, marginTop:"4px"}} onClick={handleClickUser}>
+                    {
+                        hoverbutton
+                    }
+                    
+                    <button className="btn__dropdown" style={{marginLeft:margin, marginTop:"10px"}} onClick={handleClickUser}>
                     <i className="dropdown__text">{username}&nbsp;🠗</i>
                     </button>
                     <Menu

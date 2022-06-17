@@ -102,6 +102,20 @@
     margin-left: 5px
 }
 
+.navBar__icon__save{
+    height: 35px;
+    width: 23px;
+    margin-top: 5px;
+    margin-left: 30px
+}
+
+.navBar__icon__task{
+    height: 35px;
+    width: 23px;
+    margin-top: 5px;
+    margin-left: 30px
+}
+
 .navBar__button{
     height: 50px;
     width: 100px;
