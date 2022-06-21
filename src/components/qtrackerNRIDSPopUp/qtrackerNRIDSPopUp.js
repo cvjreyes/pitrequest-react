@@ -189,43 +189,80 @@ export default class QtrackerNRIDSPopUp extends Component {
     render() {       
         
         return (
-            <div>
-                    <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
-                      <span style={{display:"flex"}} ><div style={{width:"280px"}}><text className='mainmenu__item' onClick={()=> this.openModal()}>Interface files (IFC/DGN)</text></div></span>
+          <div>
+            <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+              <span style={{display:"flex"}} ><div style={{width:"280px"}}><text className='mainmenu__item' onClick={()=> this.openModal()}>Interface files (IFC/DGN)</text></div></span>
+            </div>
+              <div>
+                <Modal visible={this.state.visible} width="670" height="350" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <div
+                    className={`alert alert-success ${this.state.errorBlankRequest ? 'alert-shown' : 'alert-hidden'}`}
+                    onTransitionEnd={() => this.setState({errorBlankRequest: false})}
+                    >
+                        <AlertF type="qtracker" text="At least one field is blank!" margin="5px"/>                            
                     </div>
-                    <div>
-                    
-                    <Modal visible={this.state.visible} width="700" height="310" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                        <div
-                        className={`alert alert-success ${this.state.errorBlankRequest ? 'alert-shown' : 'alert-hidden'}`}
-                        onTransitionEnd={() => this.setState({errorBlankRequest: false})}
-                        >
-                            <AlertF type="qtracker" text="At least one field is blank!" margin="5px"/>                            
-                        </div>
-                        <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>INTERFACE FILES (IFC/DGN)</h3></center>
-                        <div className="qtrackerRequest__container">
-                        <select id="projectSelect" className="projectSelect">
+                    <div className="qtrackerRequest__container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th colSpan={3}>
+                            <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>Interface files (IFC/DGN)</h3></center>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {/* Primer fila: Project - Carta - Priority */}
+                        <tr>
+                          <td style={{textAlign: "left"}}>
+                            <label className="priority__label" for="projectSelect" >Project</label>                            
+                          </td>
+                          <td style={{textAlign: "left"}}>
+                            <label className="priority__label" for="carta">Carta</label>                            
+                          </td>
+                          <td style={{textAlign: "left"}}>
+                            <label className="priority__label" for="prioritySelect">Priority</label>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style={{textAlign: "left"}}>
+                            <select id="projectSelect" className="projectSelect">
                                 {this.state.projects.map(project =>(
                                     <option>{project}</option>
                                 ))}
                             </select>
-                            <label className="priority__label" for="carta">Carta:</label>
+                          </td>
+                          <td style={{textAlign: "left"}}>
                             <input type="text" id="carta" className="carta__input" onChange={(e) => this.setState({carta: e.target.value})}></input>
-                            <label className="priority__label" for="prioritySelect">Priority:</label>
+                          </td>
+                          <td style={{textAlign: "left"}}>
                             <select id="prioritySelect" className="prioritySelect">    
                                     <option value="0">Low</option> 
                                     <option value="1">Medium</option>  
                                     <option value="2">High</option>                                
                             </select>
-                            <input data-for="name-help" data-tip="Name help" data-iscapture="true" type="text" placeholder="Name" id="name" className="qtrackerPopUp__input__text" ref="name" style={{marginBottom: "20px", color:'black'}} value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} ></input>
+                          </td>
+                        </tr>
+                        {/* Segunda fila: Name */}
+                        <tr>
+                          <td style={{textAlign: "left"}}>
+                            <label className="priority__label" for="name">Name</label>
+                          </td>
+                        </tr>
+                        <tr >
+                          <td colSpan={3} style={{textAlign: "left"}}>                            
+                            <input data-for="name-help" data-tip="Name help" data-iscapture="true" type="text" id="name" className="qtrackerPopUp__input__text" ref="name" style={{marginBottom: "20px", color:'black'}} value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} ></input>
                             <ReactTooltip id="name-help" place="right" type="dark" effect="solid"/>
-
-                            <button class="btn btn-sm btn-success" onClick={() => this.request()} style={{marginRight:"5px", fontSize:"20px"}}>Submit</button>
-                            <button class="btn btn-sm btn-danger" onClick={() => this.closeModal()} style={{marginLeft:"5px", fontSize:"20px"}}>Cancel</button>
-                        </div>
-                    </Modal>
-                </div>
-            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    {/* Tercera fila: Los dos botones */}
+                    <button class="btn__submit" onClick={() => this.request()} >Submit</button>
+                    <button class="btn__cancel" onClick={() => this.closeModal()} >Cancel</button>
+                    </div>
+                </Modal>
+              </div>
+          </div>
         );
     }
 }
