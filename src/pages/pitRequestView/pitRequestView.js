@@ -530,8 +530,8 @@ const PitRequestView = () => {
                                 }
                                 
                                   if(json.rows[i].accept_reject_date){
-                    row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
-                  }
+                                    row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
+                                }
                                   rows.push(row)
                             }
                             
