@@ -217,51 +217,101 @@ export default class QtrackerNRIPopUp extends Component {
         
     }    
 
-    render() {       
-        
-        return (
-            <div>
-                    <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
-                      <span style={{display:"flex"}} ><div style={{width:"280px"}}><text className='mainmenu__item' onClick={()=> this.openModal()}>Isometric</text></div></span>
-                    </div>         
-                    <div>
-                    
-                    <Modal visible={this.state.visible} width="700" height="530" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                        <div
-                        className={`alert alert-success ${this.state.errorBlankRequest ? 'alert-shown' : 'alert-hidden'}`}
-                        onTransitionEnd={() => this.setState({errorBlankRequest: false})}
-                        >
-                            <AlertF type="qtracker" text="At least one field is blank!" margin="5px"/>                            
-                        </div>
-                        <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>ISOMETRIC</h3></center>
-                        <div className="qtrackerRequest__container">
-                        <select id="projectSelect" className="projectSelect">
-                                {this.state.projects.map(project =>(
-                                    <option>{project}</option>
-                                ))}
-                            </select>
-                            <label className="priority__label" for="carta">Carta:</label>
-                            <input type="text" id="carta" className="carta__input" onChange={(e) => this.setState({carta: e.target.value})}></input>
-                            <label className="priority__label" for="prioritySelect">Priority:</label>
-                            <select id="prioritySelect" className="prioritySelect">    
-                                    <option value="0">Low</option> 
-                                    <option value="1">Medium</option>  
-                                    <option value="2">High</option>                                
-                            </select>
-                            <input data-for="pipe-help" data-tip="Pipe help" data-iscapture="true" type="text" placeholder="Pipe" id="pipe" className="qtrackerPopUp__input__text" ref="pipe" style={{marginBottom: "20px", color:'black'}} value={this.state.pipe} onChange={(e) => this.setState({pipe: e.target.value})} ></input>
-                            <ReactTooltip id="pipe-help" place="right" type="dark" effect="solid"/>
+    render() { 
+      return (
+        <div>
+          <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+            <span style={{display:"flex"}} ><div style={{width:"280px"}}><text className='mainmenu__item' onClick={()=> this.openModal()}>Isometric</text></div></span>
+          </div>         
+          <div>
+          <Modal visible={this.state.visible} width="660px" height="640px" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+          <div
+          className={`alert alert-success ${this.state.errorBlankRequest ? 'alert-shown' : 'alert-hidden'}`}
+          onTransitionEnd={() => this.setState({errorBlankRequest: false})}
+          >
+              <AlertF type="qtracker" text="At least one field is blank!" margin="5px"/>                            
+          </div>
+          <div className="qtrackerRequest__container">
+            <table>
+              <thead>
+                <tr>
+                  <th colSpan={3}>
+                    <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>Isometric</h3></center>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* Primer fila: Project - Carta - Priority */}
+                <tr>
+                    <td style={{textAlign: "left"}}>
+                      <label className="priority__label" for="projectSelect" >Project</label>                            
+                    </td>
+                    <td style={{textAlign: "left"}}>
+                      <label className="priority__label" for="carta">Carta</label>                            
+                    </td>
+                    <td style={{textAlign: "left"}}>
+                      <label className="priority__label" for="prioritySelect">Priority</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{textAlign: "left"}}>
+                      <select id="projectSelect" className="projectSelect">
+                          {this.state.projects.map(project =>(
+                              <option>{project}</option>
+                          ))}
+                      </select>
+                    </td>
+                    <td style={{textAlign: "left"}}>
+                      <input type="text" id="carta" className="carta__input" onChange={(e) => this.setState({carta: e.target.value})}></input>                      
+                    </td>
+                    <td style={{textAlign: "left"}}>
+                      <select id="prioritySelect" className="prioritySelect">    
+                              <option value="0">Low</option> 
+                              <option value="1">Medium</option>  
+                              <option value="2">High</option>                                
+                      </select>
+                    </td>
+                  </tr>
+                  {/* Segunda fila: Pipe */}
+                  <tr>
+                    <td style={{textAlign: "left"}}>
+                      <label className="priority__label" for="pipe">Pipe</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan={3}>
+                      <input data-for="pipe-help" data-tip="Pipe help" data-iscapture="true" type="text" id="pipe" className="qtrackerPopUp__input__text" ref="pipe" style={{marginBottom: "20px", color:'black'}} value={this.state.pipe} onChange={(e) => this.setState({pipe: e.target.value})} ></input>
+                      <ReactTooltip id="pipe-help" place="right" type="dark" effect="solid"/>
+                    </td>
+                  </tr>
+                  {/* Tercera fila: Description */}
+                  <tr>
+                    <td style={{textAlign: "left"}}>
+                      <label className="priority__label" for="description">Description</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan={3}>
+                      <textarea name="description" className="qtrackerPopUp__input__text" rows="5" ref="description" style={{marginBottom:"20px", color:"black"}} onChange={(e) => this.setState({description: e.target.value})}/>
+                    </td>
+                  </tr>
+                  {/* Cuarta fila: Attach */}
+                  <tr>
+                    <td style={{textAlign: "left"}}>
+                      <label for="attach" className="priority__label">Attach </label>
+                      <input type="file" id="attach"className="qtrackerPopUp__input__file"  ref="attach" style={{marginBottom: "30px"}}  onChange={(e) => this.setState({attach: e.target.files[0]})} ></input>
+                    </td>
+                  </tr>
 
-                            <textarea name="description" className="qtrackerPopUp__input__text" rows="5" placeholder="Description" ref="description" style={{marginBottom:"20px", color:"black"}} onChange={(e) => this.setState({description: e.target.value})}/>
-                            
-
-                            <input type="file" id="attach"className="qtrackerPopUp__input__file"  ref="attach" style={{marginBottom: "30px"}}  onChange={(e) => this.setState({attach: e.target.files[0]})} ></input>
-                            <label for="attach" className="attach__label">Attach: </label>
-                            <button class="btn btn-sm btn-success" onClick={() => this.request()} style={{marginRight:"5px", fontSize:"20px"}}>Submit</button>
-                            <button class="btn btn-sm btn-danger" onClick={() => this.closeModal()} style={{marginLeft:"5px", fontSize:"20px"}}>Cancel</button>
-                        </div>
-                    </Modal>
-                </div>
+              </tbody>
+            </table>
+            {/* Quinta fila: los dos botones */}
+            <button class="btn__submit" onClick={() => this.request()} >Submit</button>
+            <button class="btn__cancel" onClick={() => this.closeModal()} >Cancel</button>
             </div>
-        );
-    }
+           </Modal>
+        </div>
+      </div>
+    );
+  }
 }
