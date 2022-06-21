@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-awesome-modal';
+import '../qtrackerISSpecPopUp/qtrackerISSpecPopUp.css'
 
 export default class QtrackerNRBSpecPopUp extends Component {
     constructor(props) {
@@ -67,31 +68,31 @@ export default class QtrackerNRBSpecPopUp extends Component {
           .then(response => response.json())
           .then(json =>{
             if(json.filename){
-                this.setState({attachComponent:<tr className="specs__row">                   
-                <td style={{border: "0.28px solid #D2D2D2", width:"150px", verticalAlign:"middle", textAlign:"center", borderRadius:"0px 0px 0px 5px"}}>
-                    <p className="specs__spec__text">ATTACH</p>
-                </td>
-                <td style={{border: "0.28px solid #D2D2D2", width:"465px", verticalAlign:"middle", borderRadius:"0px 0px 5px 0px"}}>
-                    <p className="specs__description__text"> <a onClick={() => this.getAttach(json.filename)}>{json.filename}</a></p>
+                this.setState({attachComponent:<tr >                   
+                <th>
+                    <center className="th__text">ATTACH</center>
+                </th>
+                <td>
+                    <center className="td__text__attach"> <a onClick={() => this.getAttach(json.filename)}>{json.filename}</a></center>
                 </td>              
                 </tr>})
 
-                this.setState({descriptionComponent: <tr className="specs__row">                   
-                <td style={{border: "0.28px solid #D2D2D2", width:"150px", verticalAlign:"middle", textAlign:"center"}}>
-                    <p className="specs__spec__text">DESCRIPTION</p>
-                </td>
-                <td style={{border: "0.28px solid #D2D2D2", width:"465px", verticalAlign:"middle"}}>
-                    <p className="specs__description__text">{this.props.description}</p>
+                this.setState({descriptionComponent: <tr >                   
+                <th>
+                    <center className="th__text">DESCRIPTION</center>
+                </th>
+                <td >
+                    <center className="td__text">{this.props.description}</center>
                 </td>              
                 </tr>  })
                 
             }else{
-                this.setState({descriptionComponent: <tr className="specs__row">                   
-                <td style={{border: "0.28px solid #D2D2D2", width:"150px", verticalAlign:"middle", textAlign:"center", borderRadius:"0px 0px 0px 5px"}}>
-                    <p className="specs__spec__text">DESCRIPTION</p>
+                this.setState({descriptionComponent: <tr >                   
+                <td>
+                    <center className="th__text">DESCRIPTION</center>
                 </td>
-                <td style={{border: "0.28px solid #D2D2D2", width:"465px", verticalAlign:"middle", borderRadius:"0px 0px 5px 0px"}}>
-                    <p className="specs__description__text">{this.props.description}</p>
+                <td >
+                    <center className="td__text" >{this.props.description}</center>
                 </td>              
                 </tr>  })
             }
@@ -113,23 +114,31 @@ export default class QtrackerNRBSpecPopUp extends Component {
             <div style={{marginRight:"5px", marginLeft:"5px", float:"left"}}>
                 <button class="btn btn-info" style={{color:"white", backgroundColor: "#17a2b8", fontSize:"16px", padding:"2px 5px 2px 5px"}} onClick={() => this.openModal()}>Details</button>
                 <div>
-                    <Modal visible={this.state.visible} width="700" height="400" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                    <br></br>
-                    <center className="popUp__title"><h3><strong>{this.props.incidence_number}</strong></h3></center>
-                    
-                    <table className="specs__container">
-                        <tr className="specs__row">                   
-                        <td style={{border: "0.28px solid #D2D2D2", width:"150px", verticalAlign:"middle", textAlign:"center", borderRadius:"5px 0px 0px 0px"}}>
-                            <p className="specs__spec__text">PIPE</p>
-                        </td>
-                        <td style={{border: "0.28px solid #D2D2D2", width:"465px", verticalAlign:"middle", borderRadius:"0px 5px 0px 0px"}}>
-                            <p className="specs__description__text">{this.props.pipe}</p>
-                        </td>              
-                        </tr>
+                    <Modal visible={this.state.visible} width="700" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
 
-                        {this.state.descriptionComponent} 
-                        {this.state.attachComponent}
-                    </table>            
+                        <table className="table table-hover" style={{marginLeft: "50px", width: "600px", height: "280px", marginTop: "30px"}}>
+                            <thead>
+                                <tr>
+                                    <th colSpan={2}>
+                                        <center className="title__popUp">{this.props.incidence_number}</center>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>                   
+                                    <th>
+                                        <center className="th__text">PIPE</center>
+                                    </th>
+                                    <td >
+                                        <center className="td__text">{this.props.pipe}</center>
+                                    </td>
+                                </tr>
+
+                                {this.state.descriptionComponent} 
+                                {this.state.attachComponent}
+                            </tbody>
+
+                        </table>            
                                 
                     </Modal>
                 </div>
