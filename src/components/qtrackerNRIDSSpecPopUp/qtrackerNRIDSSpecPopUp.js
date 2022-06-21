@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-awesome-modal';
+import '../qtrackerISSpecPopUp/qtrackerISSpecPopUp.css'
 
 
 export default class QtrackerNRIDSSpecPopUp extends Component {
@@ -72,22 +73,26 @@ export default class QtrackerNRIDSSpecPopUp extends Component {
             <div style={{marginRight:"5px", marginLeft:"5px", float:"left"}}>
                 <button class="btn btn-info" style={{color:"white", backgroundColor: "#17a2b8", fontSize:"16px", padding:"2px 5px 2px 5px"}} onClick={() => this.openModal()}>Details</button>
                 <div>
-                    <Modal visible={this.state.visible} width="700" height="400" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                    <br></br>
-                    <center className="popUp__title"><h3><strong>{this.props.incidence_number}</strong></h3></center>
+                    <Modal visible={this.state.visible} width="700" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     
-                    <table className="specs__container">
-                        <tr className="specs__row">                   
-                        <td style={{border: "0.28px solid #D2D2D2", width:"150px", verticalAlign:"middle", textAlign:"center", borderRadius:"5px 0px 0px 5px"}}>
-                            <p className="specs__spec__text">NAME</p>
-                        </td>
-                        <td style={{border: "0.28px solid #D2D2D2", width:"465px", verticalAlign:"middle", borderRadius:"0px 5px 5px 0px"}}>
-                            <p className="specs__description__text">{this.props.name}</p>
-                        </td>              
-                        </tr>
-
-                        {this.state.descriptionComponent} 
-                        {this.state.attachComponent}
+                    <table className="table table-hover" style={{marginLeft: "50px", width: "600px", height: "80px", marginTop: "30px"}}>
+                        <thead>
+                            <tr>
+                                <th colSpan={2}>
+                                    <center className="title__popUp">{this.props.incidence_number}</center>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr >                   
+                                <th >
+                                    <center className="th__text">NAME</center>
+                                </th>
+                                <td >
+                                    <center className="td__text">{this.props.name}</center>
+                                </td>              
+                            </tr>
+                        </tbody>
                     </table>            
                                 
                     </Modal>

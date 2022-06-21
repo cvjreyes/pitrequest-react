@@ -1,0 +1,30 @@
+.td__text{
+    font-size: 18px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 400px;
+}
+
+.td__text:hover{
+    overflow: visible; 
+    white-space: normal;
+    height:auto;
+}
+
+.td__text__attach{
+    font-size: 18px;
+    color: blue;
+}
+
+.th__text{
+    font-size: 20px;
+}
+
+.title__popUp {
+    text-align: center; 
+    font-family: Arial; 
+    font-size: 30px; 
+    COLOR: #338DF1; 
+    margin-bottom: 10px;
+}

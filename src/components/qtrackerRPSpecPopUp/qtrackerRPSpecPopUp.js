@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-awesome-modal';
+import '../qtrackerISSpecPopUp/qtrackerISSpecPopUp.css'
 
 export default class QtrackerRPSpecPopUp extends Component {
     constructor(props) {
@@ -72,34 +73,43 @@ export default class QtrackerRPSpecPopUp extends Component {
                 <button class="btn btn-info" style={{color:"white", backgroundColor: "#17a2b8", fontSize:"16px", padding:"2px 5px 2px 5px"}} onClick={() => this.openModal()}>Details</button>
                 <div>
                     <Modal visible={this.state.visible} width="700" height="400" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                    <br></br>
-                    <center className="popUp__title"><h3><strong>{this.props.incidence_number}</strong></h3></center>
                     
-                    <table className="specs__container">
-                        <tr className="specs__row">                   
-                        <td style={{border: "0.28px solid #D2D2D2", width:"150px", verticalAlign:"middle", textAlign:"center", borderRadius:"5px 0px 0px 0px"}}>
-                            <p className="specs__spec__text">ITEMS</p>
-                        </td>
-                        <td style={{border: "0.28px solid #D2D2D2", width:"465px", verticalAlign:"middle", borderRadius:"0px 5px 0px 0px"}}>
-                            <p className="specs__description__text">{this.props.items}</p>
-                        </td>              
-                        </tr>
-                        <tr className="specs__row">                   
-                        <td style={{border: "0.28px solid #D2D2D2", width:"150px", verticalAlign:"middle", textAlign:"center"}}>
-                            <p className="specs__spec__text">SCOPE</p>
-                        </td>
-                        <td style={{border: "0.28px solid #D2D2D2", width:"465px", verticalAlign:"middle"}}>
-                            <p className="specs__description__text">{this.props.scope}</p>
-                        </td>              
-                        </tr>
-                        <tr className="specs__row">                   
-                        <td style={{border: "0.28px solid #D2D2D2", width:"150px", verticalAlign:"middle", textAlign:"center", borderRadius:"5px 0px 0px 0px"}}>
-                            <p className="specs__spec__text">DESCRIPTION</p>
-                        </td>
-                        <td style={{border: "0.28px solid #D2D2D2", width:"465px", verticalAlign:"middle", borderRadius:"0px 5px 0px 0px"}}>
-                            <p className="specs__description__text">{this.props.description}</p>
-                        </td>              
-                        </tr>
+                    <table className="table table-hover" style={{marginLeft: "50px", width: "600px", height: "280px", marginTop: "30px"}}>
+                        <thead>
+                            <tr>
+                                <th colSpan={2}>
+                                    <center className="title__popUp">{this.props.incidence_number}</center>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr >                   
+                                <th >
+                                    <center className="th__text">ITEMS</center>
+                                </th>
+                                <td >
+                                    <center className="td__text">{this.props.items}</center>
+                                </td>              
+                            </tr>
+                            <tr >                   
+                                <th >
+                                    <center className="th__text">SCOPE</center>
+                                </th>
+                                <td>
+                                    <center className="td__text">{this.props.scope}</center>
+                                </td>              
+                            </tr>
+                            <tr >                   
+                                <th >
+                                    <center className="th__text">DESCRIPTION</center>
+                                </th>
+                                <td >
+                                    <center className="td__text">{this.props.description}</center>
+                                </td>              
+                            </tr>
+
+                        </tbody>
                     </table>            
                                 
                     </Modal>
