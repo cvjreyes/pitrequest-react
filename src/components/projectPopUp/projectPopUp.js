@@ -289,7 +289,7 @@ export default class ProjectPopUp extends Component {
                         >
                             <AlertF type="qtracker" text="At least one field is blank!" margin="5px"/>                            
                         </div>
-                        <center className="title__popUp" style={{marginBottom: "30px", marginTop: "30px"}}>NEW PROJECT</center>
+                        <center className="title__popUp" style={{marginBottom: "30px", marginTop: "30px"}}>New Project</center>
                         <div className="qtrackerRequest__container">
                         <h4 className="project__subtitle">Project Name</h4>
                         <div>

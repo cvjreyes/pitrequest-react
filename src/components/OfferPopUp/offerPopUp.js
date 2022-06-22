@@ -277,7 +277,7 @@ export default class OfferPopUp extends Component {
                         >
                             <AlertF type="qtracker" text="At least one field is blank!" margin="5px"/>                            
                         </div>
-                        <center className="title__popUp" style={{marginBottom: "30px", marginTop: "30px"}}>NEW OFFER</center>
+                        <center className="title__popUp" style={{marginBottom: "30px", marginTop: "30px"}}> New Offer</center>
                         <div className="qtrackerRequest__container">
                         <h4 className="project__subtitle">Offer Name</h4>
                         <div>
