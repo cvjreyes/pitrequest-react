@@ -128,7 +128,7 @@ export default class AddUserPopUp extends Component {
             <section >
                 <input type="button"  value="Add user" className="action__btn" onClick={() => this.openModal()} />
                 <div>
-                    <Modal visible={this.state.visible} width="650" height="380" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="650" height="420" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div
                         className={`alert alert-success ${this.state.blankFields ? 'alert-shown' : 'alert-hidden'}`}
                         onTransitionEnd={() => this.setState({blankFields: false})}
@@ -137,7 +137,7 @@ export default class AddUserPopUp extends Component {
                       </div>
 
                     <div className="popUp__container" >
-                            <center className="popUp__title"><h3>Add a new user</h3></center>
+                            <center className="title__popUp__user">Add a new user</center>
                                 
                         </div>
                         <div className="popUp__input">
@@ -146,14 +146,14 @@ export default class AddUserPopUp extends Component {
                         </div>
                         
                         <div className="popUp__input">
-                            <input type="text" placeholder="Email" id="email"className="popUp__input__text" value={this.state.email} onChange={(e) => this.setState({email: e.target.value})} ></input>
-                            <select className="popUp_input_select" name="select" onChange={(e) => this.setState({selected: e.target.value})} value={this.state.selected}>
+                            <input type="text" id="email" className="popUp__input__text" value={this.state.email} onChange={(e) => this.setState({email: e.target.value})} style={{fontSize: "18px"}}></input>
+                            <select className="popUp_input_select" name="select" onChange={(e) => this.setState({selected: e.target.value})} value={this.state.selected} style={{fontSize: "18px"}}>
                                 <option value="@technipenergies.com" selected>@technipenergies.com</option>
                                 <option value="@external.technipenergies.com">@external.technipenergies.com</option>
                                 <option value="@tipiel.com.co">@tipiel.com.co</option>
                             </select>
                         </div>
-                        <div className="popUp__input">
+                        <div className="popUp__input" style={{marginTop: "25px", marginBottom: "-20px"}}>
                             <h4 style={{fontWeight:"bold"}}>Roles</h4>
                             
                         </div>
@@ -241,8 +241,8 @@ export default class AddUserPopUp extends Component {
                         </div>
                         */}
                         <div className="popUp__buttons__container__users">
-                            <button class="btn btn-sm btn-success" onClick={() => this.addUser()} style={{marginRight:"5px", fontSize:"16px"}}>Add user</button>
-                            <button class="btn btn-sm btn-danger" onClick={() => this.closeModal()} style={{marginLeft:"5px", fontSize:"16px"}}>Cancel</button>
+                            <button class="btn__addUser" onClick={() => this.addUser()}>Add user</button>
+                            <button class="btn__cancel__user" onClick={() => this.closeModal()}>Cancel</button>
                         </div>
                     </Modal>
                 </div>
