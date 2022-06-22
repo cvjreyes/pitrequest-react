@@ -569,7 +569,7 @@ class ProjectsTreeGrid extends Component {
                 colHeaders = {["<b>Software</b>", "<b>Task</b>"]}
                 rowHeaders={false}
                 width="1097"
-                height="150"
+                height="200"
                 className="custom__table__1"
                 rowHeights="25"
                 settings={settingsTasks} 
@@ -595,7 +595,7 @@ class ProjectsTreeGrid extends Component {
               />
             </div>
             <div style={{display: "flex", float:"left", marginTop:"20px"}}>
-              <div style={{marginLeft:"460px"}}>
+              <div style={{marginLeft:"460px", marginBottom: "20px"}}>
               <button className="projects__add__button" onClick={()=>this.addRowTasks()} style={{width:"70px", marginBottom:"50px", height:"10px", }}><p className="projects__add__button__text">+ Add</p></button>
               </div>
             </div>
