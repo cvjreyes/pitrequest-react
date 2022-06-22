@@ -117,11 +117,13 @@
 }
 
 .popUp__input__text{
-    width: 200px;
+    width: 250px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
     margin-left: 5px;
+    height: 30px;
+
 }
 
 .popUp_input_select{
@@ -136,11 +138,11 @@
 .popUp__input__checkbox{
     transform: scale(1.5);
     float: left;
-    margin-top: 5px;
+    margin-top: 10px;
 }
 
 .popUp__input__checkbox__label{
-    font-size: 16px;
+    font-size: 20px;
     margin-left: 8px;
     margin-right: 10px;
     margin-top: 0px;
@@ -170,3 +172,38 @@
   .checkbox{
       width: 150px;
   }
+
+.btn__addUser{
+    align-items: center;
+    color: #FFFFFF;
+    width: 100px;
+    height: 50px;
+    border: 1px solid #338DF1;
+    margin-left: 30px;
+    font-size: 17px;
+
+    background: #338DF1;
+    border-radius: 8px;
+}
+
+.btn__cancel__user{
+    align-items: center;
+    color: #0070ED;
+    width: 100px;
+    height: 50px;
+    border: 1px solid #0070ED;
+    margin-left: 30px;
+    font-size: 17px;
+
+    background: #FFFFFF;
+    border-radius: 8px;
+}
+
+.title__popUp__user {
+    text-align: center; 
+    font-family: Arial; 
+    font-size: 30px; 
+    COLOR: #338DF1; 
+    margin-bottom: 10px;
+    margin-top: 20px;
+}

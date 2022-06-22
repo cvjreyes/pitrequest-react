@@ -90,6 +90,7 @@
     border-radius: 8px;
 }
 
+
 .btn__cancel{
     /* Auto layout */
     align-items: center;
@@ -99,6 +100,38 @@
     height: 41px;
     border: 1px solid #0070ED;
     margin-left: 30px;
+    /* Secondary/azul 80% */
+    
+    background: #FFFFFF;
+    border-radius: 8px;
+}
+
+/* projectPopUp.js */
+.btn__submit__project{
+    align-items: center;
+    color: #FFFFFF;
+    width: 100px;
+    height: 50px;
+    border: 1px solid #338DF1;
+    margin-top: 540px;
+    margin-left: 30px;
+    font-size: 17px;
+
+    background: #338DF1;
+    border-radius: 8px;
+}
+
+/* projectPopUp.js */
+.btn__cancel__project{
+    /* Auto layout */
+    align-items: center;
+    color: #0070ED;
+    width: 100px;
+    height: 50px;
+    border: 1px solid #0070ED;
+    margin-left: 30px;
+    margin-top: 540px;
+    font-size: 17px;
     /* Secondary/azul 80% */
 
     background: #FFFFFF;

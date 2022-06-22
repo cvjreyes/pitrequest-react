@@ -11,6 +11,8 @@ import AlertF from "../../components/alert/alert"
 import ReactTooltip from "react-tooltip"
 import CheckboxTree from 'react-checkbox-tree';
 import 'react-checkbox-tree/lib/react-checkbox-tree.css';
+import '../qtrackerNWCPopUp/qtrackerNWCPopUp.css'
+import '../qtrackerISSpecPopUp/qtrackerISSpecPopUp.css'
 
 const CryptoJS = require("crypto-js");
     const SecureStorage = require("secure-web-storage");
@@ -268,22 +270,22 @@ export default class OfferPopUp extends Component {
                     </div>              
                     <div>
                     
-                    <Modal visible={this.state.visible} width="700" height="850" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="700" height="900" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                         <div
                         className={`alert alert-warning ${this.state.errorBlankRequest ? 'alert-shown' : 'alert-hidden'}`}
                         onTransitionEnd={() => this.setState({errorBlankRequest: false})}
                         >
                             <AlertF type="qtracker" text="At least one field is blank!" margin="5px"/>                            
                         </div>
-                        <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>NEW OFFER</h3></center>
+                        <center className="title__popUp" style={{marginBottom: "30px", marginTop: "30px"}}>NEW OFFER</center>
                         <div className="qtrackerRequest__container">
                         <h4 className="project__subtitle">Offer Name</h4>
                         <div>
-                        <input type="text" placeholder="Name" id="name" className="project__input__text" ref="name" style={{marginBottom: "20px", color:'black'}} value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} ></input>
+                        <input type="text" id="name" className="project__input__text" ref="name" style={{marginBottom: "20px", color:'black'}} value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} ></input>
                         <input type="text" placeholder="Code" id="code" className="code__input__text" ref="code" style={{marginBottom: "20px", color:'black'}} value={this.state.code} onChange={(e) => this.setState({code: e.target.value})} ></input>
                         </div>
                         <div className="estihrs__container">
-                          <label className="priority__label" for="hours">Estimated support hours:</label>
+                          <label className="priority__label" for="hours" style={{marginRight: "5px"}}><h5>Estimated support hours:</h5></label>
                           <input type="text" id="hours" className="carta__input" onChange={(e) => this.setState({hours: e.target.value})}></input>
                         </div>
                         <h4 className="project__subtitle">Initial tasks</h4>     
@@ -292,8 +294,8 @@ export default class OfferPopUp extends Component {
                         </div>
                             
                         </div>
-                        <button class="btn btn-sm btn-success" onClick={() => this.createOffer()} style={{marginLeft:"70px", marginTop:"540px", fontSize:"20px", position:"absolute"}}>Submit</button>
-                            <button class="btn btn-sm btn-danger" onClick={() => this.closeModal()} style={{marginLeft:"180px", marginTop:"540px", fontSize:"20px", position:"absolute"}}>Cancel</button>
+                        <button class="btn__submit__project" onClick={() => this.createOffer()} >Submit</button>
+                        <button class="btn__cancel__project" onClick={() => this.closeModal()} >Cancel</button>
                     </Modal>
                 </div>
             </div>

@@ -12,6 +12,9 @@ import ReactTooltip from "react-tooltip"
 import "./projectPopUp.css"
 import CheckboxTree from 'react-checkbox-tree';
 import 'react-checkbox-tree/lib/react-checkbox-tree.css';
+import '../qtrackerNWCPopUp/qtrackerNWCPopUp.css'
+import '../qtrackerISSpecPopUp/qtrackerISSpecPopUp.css'
+
 const CryptoJS = require("crypto-js");
     const SecureStorage = require("secure-web-storage");
     var SECRET_KEY = 'sanud2ha8shd72h';
@@ -279,38 +282,38 @@ export default class ProjectPopUp extends Component {
                     </div>               
                     <div>
                     
-                    <Modal visible={this.state.visible} width="700" height="950" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="700" height="1000" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                         <div
                         className={`alert alert-warning ${this.state.errorBlankRequest ? 'alert-shown' : 'alert-hidden'}`}
                         onTransitionEnd={() => this.setState({errorBlankRequest: false})}
                         >
                             <AlertF type="qtracker" text="At least one field is blank!" margin="5px"/>                            
                         </div>
-                        <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>NEW PROJECT</h3></center>
+                        <center className="title__popUp" style={{marginBottom: "30px", marginTop: "30px"}}>NEW PROJECT</center>
                         <div className="qtrackerRequest__container">
                         <h4 className="project__subtitle">Project Name</h4>
                         <div>
-                        <input type="text" placeholder="Name" id="name" className="project__input__text" ref="name" style={{marginBottom: "20px", color:'black'}} value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} ></input>
-                        <input type="text" placeholder="Code" id="code" className="code__input__text" ref="code" style={{marginBottom: "20px", color:'black'}} value={this.state.code} onChange={(e) => this.setState({code: e.target.value})} ></input>
-                        </div>
-                        <h4 className="project__subtitle">Administrator</h4>
-                        <select id="adminSelect" className="adminSelect">
-                                {this.state.admins.map(admin =>(
-                                    <option>{admin}</option>
-                                ))}
-                            </select>
-                        <div className="estihrs__container">
-                          <label className="priority__label" for="hours">Estimated support hours:</label>
-                          <input type="text" id="hours" className="carta__input" onChange={(e) => this.setState({hours: e.target.value})}></input>
-                        </div>
-                        <h4 className="project__subtitle">Initial tasks</h4>     
-                        <div className="menu__container">
-                        {tasks_tree}
-                        </div>
+                          <input type="text" id="name" className="project__input__text" ref="name" style={{marginBottom: "20px", color:'black'}} value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} ></input>
+                          <input type="text" placeholder="Code" id="code" className="code__input__text" ref="code" style={{marginBottom: "20px", color:'black'}} value={this.state.code} onChange={(e) => this.setState({code: e.target.value})} ></input>
+                          </div>
+                          <h4 className="project__subtitle">Administrator</h4>
+                          <select id="adminSelect" className="adminSelect">
+                                  {this.state.admins.map(admin =>(
+                                      <option>{admin}</option>
+                                  ))}
+                              </select>
+                          <div className="estihrs__container">
+                            <label className="priority__label" for="hours" style={{marginRight: "5px"}}><h5>Estimated support hours:</h5></label>
+                            <input type="text" id="hours" className="carta__input" onChange={(e) => this.setState({hours: e.target.value})}></input>
+                          </div>
+                          <h4 className="project__subtitle">Initial tasks</h4>     
+                          <div className="menu__container">
+                          {tasks_tree}
+                          </div>
                             
                         </div>
-                        <button class="btn btn-sm btn-success" onClick={() => this.createProject()} style={{marginLeft:"70px", marginTop:"540px", fontSize:"20px", position:"absolute"}}>Submit</button>
-                            <button class="btn btn-sm btn-danger" onClick={() => this.closeModal()} style={{marginLeft:"180px", marginTop:"540px", fontSize:"20px", position:"absolute"}}>Cancel</button>
+                        <button class="btn__submit__project" onClick={() => this.createProject()}>Submit</button>
+                        <button class="btn__cancel__project" onClick={() => this.closeModal()}>Cancel</button>
                     </Modal>
                 </div>
             </div>
