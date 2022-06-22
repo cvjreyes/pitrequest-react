@@ -579,7 +579,7 @@ class OffersTreeGrid extends Component {
               />
             </div>
             <div style={{display: "flex", float:"left", marginTop:"0px"}}>
-              <div style={{marginLeft:"440px"}}>
+              <div style={{marginLeft:"440px", marginBottom: "20px", marginTop: "20px"}}>
               <button className="projects__add__button" onClick={()=>this.addRowTasks()} style={{width:"70px", marginBottom:"50px", height:"10px", }}><p className="projects__add__button__text">+ Add</p></button>
               </div>
             </div>
@@ -614,7 +614,7 @@ class OffersTreeGrid extends Component {
                   ]}
               />
               <div style={{display: "flex", float:"left"}}>
-                <div style={{marginLeft:"440px"}}>
+                <div style={{marginLeft:"440px", marginTop: "-10px"}}>
                   <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px", height: "30px"}}><p className="projects__add__button__text">+ Add</p></button>
                 </div>
               </div>
