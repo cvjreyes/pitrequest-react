@@ -4,14 +4,13 @@
 }
 
 .excel__container{
-    width: 1090px;
-    margin-top: 30px;
+    width: 800px;
     text-align:"center";
+    display: flex;
 }
 
 .excel__container__2{
-    width: 1090px;
-    margin-top: 60px;
+    width: 800px;
     text-align:"center";
     display: flex;
 }
@@ -32,7 +31,6 @@
     width: 100px;
     border: 0;
     background-color: transparent;
-    margin-left: 10px;
     border-radius: 1em 1em 1em 1em;
     transition: 0.3s;
     font-family: 'Quicksand', sans-serif;
@@ -126,7 +124,6 @@
     padding: 18px 42px;
     gap: 8px;
 
-    margin-top: 10px;
 
     width: 134px;
     height: 32px;
@@ -156,6 +153,10 @@
 /*Columna 1 de la tabla de arriba*/
 
 /*tabla de en medio*/
+.custom__table__1 {
+    margin-bottom: 20px;
+}
+
 .custom__table__1 thead th:nth-child(1){
     border-radius: 7px 0px 0px 0px;
 }
@@ -167,7 +168,6 @@
 
 /*tabla de abajo*/
 .custom__table__3 {
-    margin-top: 70px;
     margin-bottom: 20px;
 }
 
@@ -180,3 +180,8 @@
     
     border-radius: 0px 8px 0px 0px;
 }
+
+/*Centrar el titulo de la tabla de la izquierda*/
+.ag-header-cell-label {
+    justify-content: center;
+ }
