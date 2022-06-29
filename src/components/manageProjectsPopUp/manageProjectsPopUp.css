@@ -201,3 +201,33 @@
     top: 430px;
     margin-left: 28px;
 }
+
+.btn__submit{
+    align-items: center;
+    color: #FFFFFF;
+    width: 120px;
+    height: 43px;
+    border: 1px solid #338DF1;
+    background: #338DF1;
+    border-radius: 8px;
+}
+
+.btn__cancel{
+    align-items: center;
+    color: #0070ED;
+    width: 120px;
+    height: 43px;
+    border: 1px solid #0070ED;
+    margin-left: 30px;
+    background: #FFFFFF;
+    border-radius: 8px;
+}
+
+.title__popUp {
+    text-align: center; 
+    font-family: Arial; 
+    font-size: 30px; 
+    COLOR: #338DF1; 
+    margin-bottom: 10px;
+    margin-top: 10px;
+}

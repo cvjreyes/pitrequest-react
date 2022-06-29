@@ -97,7 +97,7 @@ export default class ManageRolesPopUp extends Component {
             <section >
                 <input type="button"  value="PROJECTS" className="btn"  style={{padding:"2px 5px 2px 5px", marginRight:"5px", marginLeft:"5px", width:"70px", fontSize:"12px", float:"right", backgroundColor:"#78B28A", color:"white"}} onClick={() => this.openModal()} />
                 <div>
-                    <Modal visible={this.state.visible} width="350" height="480" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="350" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div
                         className={`alert alert-success ${this.state.blankFields ? 'alert-shown' : 'alert-hidden'}`}
                         onTransitionEnd={() => this.setState({blankFields: false})}
@@ -105,15 +105,15 @@ export default class ManageRolesPopUp extends Component {
                         <AlertF type="warning" text="Username or email missing!" popUp={true}/>
                       </div>
                     <div className="popUp__container" >
-                            <center className="popUp__title"><h3><strong>Manage projects</strong></h3></center>
+                            <center className="title__popUp">Manage Projects</center>
                                 
                         </div>
                         <div className="project__manager__container">
                             {this.state.projectsList}
                         </div>
                         <div className="popUp__buttons__container__manage__projects2">
-                            <button class="btn btn-sm btn-success" onClick={() => this.submitProjects()} style={{marginLeft:"75px", fontSize:"16px"}}>Submit</button>
-                            <button class="btn btn-sm btn-danger" onClick={() => this.closeModal()} style={{marginLeft:"12px", fontSize:"16px"}}>Cancel</button>
+                            <button class="btn__submit" onClick={() => this.submitProjects()}>Submit</button>
+                            <button class="btn__cancel" onClick={() => this.closeModal()}>Cancel</button>
                         </div>
                     </Modal>
                 </div>

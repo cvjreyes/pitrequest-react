@@ -319,7 +319,7 @@ export default class ManageRolesPopUp extends Component {
                         <AlertF type="warning" text="Username or email missing!" popUp={true}/>
                       </div>
                     <div className="popUp__container" >
-                            <center className="popUp__title"><h3><strong>Manage roles</strong></h3></center>
+                            <center className="title__popUp">Manage roles</center>
                                 
                         </div>
                         
@@ -333,8 +333,8 @@ export default class ManageRolesPopUp extends Component {
                             
                         </div>
                         <div className="popUp__buttons__container__manage" style={{marginTop:"30px"}}>
-                            <button class="btn btn-sm btn-success" onClick={() => this.submitRoles()} style={{marginRight:"5px", fontSize:"16px"}}>Submit</button>
-                            <button class="btn btn-sm btn-danger" onClick={() => this.closeModal()} style={{marginLeft:"5px", fontSize:"16px"}}>Cancel</button>
+                            <button class="btn__submit" onClick={() => this.submitRoles()}>Submit</button>
+                            <button class="btn__cancel" onClick={() => this.closeModal()}>Cancel</button>
                         </div>
                     </Modal>
                 </div>
