@@ -1,6 +1,6 @@
 .header-custom{
     font-size: 21px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .excel__container{
@@ -17,11 +17,11 @@
 
 .handsontable td{
     font-size: 20px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .handsontable th{
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 20px;
 }
 
@@ -33,8 +33,7 @@
     background-color: transparent;
     border-radius: 1em 1em 1em 1em;
     transition: 0.3s;
-    font-family: 'Quicksand', sans-serif;
-    
+    font-family: 'Montserrat', sans-serif;    
     background-color:#99C6F8;
     ;
 }
@@ -47,7 +46,7 @@
     background-color: transparent;
     border-radius: 1em 1em 1em 1em;
     transition: 0.3s;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;    
     color: white;
     background-color:#338DF1;
     font-weight: bold;
@@ -66,7 +65,7 @@
     background-color: transparent;
     border-radius: 1em 1em 1em 1em;
     transition: 0.3s;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;    
     color: #0070ED;;
     background-color:white;
     font-weight: bold;
@@ -85,7 +84,7 @@
     margin-left: 10px;
     border-radius: 1em 1em 1em 1em;
     transition: 0.3s;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;    
 }
 
 .projects__button:hover{
@@ -94,7 +93,7 @@
 .projects__button__text{
     font-size: 17px;
     margin-top: 9px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;    
 }
 
 /*Cuando pulso el boton de add project se vuelve transparente azulado*/
@@ -106,12 +105,12 @@
 .projects__button__text{
     font-size: 17px;
     margin-top: 9px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;    
 }
 
 .projects__add__button__text{
     font-size: 15px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;    
     color: #0070ED;
     font-style: normal;
     font-weight: bold;
@@ -185,3 +184,11 @@
 .ag-header-cell-label {
     justify-content: center;
  }
+
+.ag-group-value {
+    font-family: 'Montserrat', sans-serif;    
+}
+
+.ag-cell{
+    font-family: 'Montserrat', sans-serif;    
+}

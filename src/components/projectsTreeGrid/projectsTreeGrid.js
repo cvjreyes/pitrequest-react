@@ -507,9 +507,9 @@ class ProjectsTreeGrid extends Component{
         <TabContext value={this.state.tab}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} centered>
-              <Tab label="Projects" value="1" style={{fontSize: '22px', textTransform: 'capitalize'}} />
-              <Tab label="Software" value="2" style={{fontSize: '22px', textTransform: 'capitalize'}}/>
-              <Tab label="Tasks" value="3" style={{fontSize: '22px', textTransform: 'capitalize'}}/>
+              <Tab label="Projects" value="1" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}} />
+              <Tab label="Software" value="2" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
+              <Tab label="Tasks" value="3" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
             </TabList>
           </Box>
           <TabPanel value="1" centered>
