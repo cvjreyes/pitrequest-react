@@ -13,7 +13,6 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import Typography from '@mui/material/Typography';
 
 import SaveIcon2 from "../../assets/images/SaveIcon2.svg"
 import FolderIcon2 from "../../assets/images/FolderIcon2.svg"
@@ -518,7 +517,7 @@ class ProjectsTreeGrid extends Component{
               data={this.state.projects}
               colHeaders = {["<b>Project</b>", "<b>Default admin</b>", "<b>Estimated hours</b>"]}
               rowHeaders={false}
-              width="1800"
+              width="800"
               className="custom__table__2"
               height="750"
               rowHeights="38"
