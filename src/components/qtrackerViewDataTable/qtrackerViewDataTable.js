@@ -103,7 +103,9 @@ class QTrackerViewDataTable extends React.Component{
           var row = null
           if(json.rows){
             for(let i = 0; i < json.rows.length; i++){
-                //json.rows[i].description = json.rows[i].description.substring(0,20) + "..."
+                if (json.rows[i].description){
+
+                }
                 let carta = ""
                 if(json.rows[i].carta){
                   carta = " - " + json.rows[i].carta
@@ -559,9 +561,9 @@ class QTrackerViewDataTable extends React.Component{
                                 carta = " - " + json.rows[i].carta
                               }
                               if(json.rows[i].accept_reject_date != null){
-                                row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19), key: json.rows[i].incidence_number}
+                                row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: "", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19), key: json.rows[i].incidence_number}
                               }else{
-                                row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i], created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: "", key: json.rows[i].incidence_number}
+                                row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: "", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: "", key: json.rows[i].incidence_number}
                               }
                                 if(secureStorage.getItem("role") === "3D Admin"){
                                   row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
@@ -1360,9 +1362,9 @@ class QTrackerViewDataTable extends React.Component{
                                 carta = " - " + json.rows[i].carta
                               }
                               if(json.rows[i].accept_reject_date != null){
-                                row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19), key: json.rows[i].incidence_number}
+                                row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: "", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19), key: json.rows[i].incidence_number}
                               }else{
-                                row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: "", key: json.rows[i].incidence_number}
+                                row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: "", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNRIDSSpecPopUp incidence_number={json.rows[i].incidence_number} name={json.rows[i].name}/>, ar_date: "", key: json.rows[i].incidence_number}
                               }
                                 if(secureStorage.getItem("role") === "3D Admin"){
                                   row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
