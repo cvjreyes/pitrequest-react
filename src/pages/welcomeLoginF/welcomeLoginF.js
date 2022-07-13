@@ -80,6 +80,63 @@ const WelcomeLoginF = () =>{
             })               
         
     }
+
+    const downloadGuideES = () =>{
+        const options = {
+            method: "GET",
+        }
+        fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadGuideES", options)
+            .then(res => res.blob())
+            .then(async response => {
+                const file = new Blob([response], {
+                    type: "video/mp4"
+                });
+                //Build a URL from the file
+                const fileURL = URL.createObjectURL(file);
+        
+                    var fileLink = document.createElement('a');
+                    fileLink.href = fileURL;
+        
+                    // it forces the name of the downloaded file
+                    fileLink.download = "PITRequest_gui_ES.mp4";
+        
+                    // triggers the click event
+                    fileLink.click();
+            })
+        
+            .catch(error => {
+                setError(true);
+            })               
+        
+    }
+
+    const downloadGuideEN = () =>{
+        const options = {
+            method: "GET",
+        }
+        fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadGuideEN", options)
+            .then(res => res.blob())
+            .then(async response => {
+                const file = new Blob([response], {
+                    type: "video/mp4"
+                });
+                //Build a URL from the file
+                const fileURL = URL.createObjectURL(file);
+        
+                    var fileLink = document.createElement('a');
+                    fileLink.href = fileURL;
+        
+                    // it forces the name of the downloaded file
+                    fileLink.download = "PITRequest_gui_EN.mp4";
+        
+                    // triggers the click event
+                    fileLink.click();
+            })
+        
+            .catch(error => {
+                setError(true);
+            })            
+    }
     
     let logo = null
 
@@ -119,6 +176,8 @@ const WelcomeLoginF = () =>{
                 <div className="login__buttons">
                     <button className="login__button" onClick={handleLogin}>Log In</button>
                     {error && <p className="error__message" style={{color: "red", position:"absolute"}}>Email or password incorrect. Try again.</p>} 
+                    <button className="guide__button" onClick={downloadGuideES}>Descargar Guía (ES)</button>
+                    <button className="guide__button" style={{marginLeft: "7px"}} onClick={downloadGuideEN}>Download Guide (EN)</button>
             </div>
             </div>
             

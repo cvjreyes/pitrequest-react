@@ -906,7 +906,6 @@ class QTrackerViewDataTable extends React.Component{
           var row = null
           if(json.rows){
             for(let i = 0; i < json.rows.length; i++){
-              json.rows[i].description = json.rows[i].description.substring(0,20) + "..."
 
                 let carta = ""
                 if(json.rows[i].carta){

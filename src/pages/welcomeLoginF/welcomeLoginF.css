@@ -241,3 +241,15 @@
     mix-blend-mode: darken;
 
 }
+
+.guide__button{
+    background: white;
+    color: black;
+    border: 0.5px solid #979797;
+    border-radius: 10px;
+    width: 167px;
+    height: 48px;
+    font-size: 15px;
+    margin-top: 20px;
+    
+}
