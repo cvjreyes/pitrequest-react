@@ -164,14 +164,13 @@ export default class QtrackerISPopUp extends Component {
     }
     
     async request(){
-        
         if(this.state.sending && this.state.description && this.state.attach){
             
             const body ={
                 sending : this.state.sending,
                 description: this.state.description,
                 user: secureStorage.getItem("user"),
-                project: document.getElementById("projectSelect").value,
+                project: document.getElementById("projectSelect2").value,
                 priority: document.getElementById("prioritySelect").value,
                 carta: this.state.carta
               }
@@ -182,6 +181,7 @@ export default class QtrackerISPopUp extends Component {
                 },
                 body: JSON.stringify(body)
             }
+            
             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/requestIS", options)
             .then(response => response.json())
             .then(async json => {
@@ -234,7 +234,7 @@ export default class QtrackerISPopUp extends Component {
                 <thead>
                   <tr>
                     <th colSpan={3}>
-                      <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>Isometric</h3></center>
+                      <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>Interface sending</h3></center>
                     </th>
                   </tr>
                 </thead>
@@ -242,7 +242,7 @@ export default class QtrackerISPopUp extends Component {
                   {/* Primer fila: Project - Carta - Priority */}
                   <tr>
                     <td style={{textAlign: "left"}}>
-                      <label className="priority__label" for="projectSelect" >Project</label>                            
+                      <label className="priority__label" for="projectSelect2" >Project</label>                            
                     </td>
                     <td style={{textAlign: "left"}}>
                       <label className="priority__label" for="carta">Carta</label>                            
@@ -253,7 +253,7 @@ export default class QtrackerISPopUp extends Component {
                   </tr>
                   <tr>
                     <td style={{textAlign: "left"}}>
-                      <select id="projectSelect" className="projectSelect">
+                      <select id="projectSelect2" className="projectSelect">
                           {this.state.projects.map(project =>(
                               <option>{project}</option>
                           ))}

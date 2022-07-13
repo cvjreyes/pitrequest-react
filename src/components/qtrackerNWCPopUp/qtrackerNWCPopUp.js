@@ -167,7 +167,6 @@ export default class QtrackerNWCPopUp extends Component {
     }
 
     async request(){
-        
         if(this.state.spref && this.state.description){
 
             let has_attach

@@ -1721,13 +1721,13 @@ class QTrackerViewDataTable extends React.Component{
             for(let p = 0; p < auxDisplayData[i][fil].props.children.length; p++){
               if(auxDisplayData[i][fil].props.children[p].props.selected){
 
-                if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.children[p].props.children.includes(this.state.filterData[column])){
+                if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.children[p].props.children.toLowerCase().includes(this.state.filterData[column].toLowerCase())){
                   exists = false
                 }
               }
             }
           }else if(auxDisplayData[i][fil]){
-            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].includes(this.state.filterData[column])){
+            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
               exists = false
             }
           }else{
@@ -1739,13 +1739,13 @@ class QTrackerViewDataTable extends React.Component{
           if(auxDisplayData[i][fil].props){
             for(let p = 0; p < auxDisplayData[i][fil].props.children.length; p++){
               if(auxDisplayData[i][fil].props.children[p].props.selected){
-                if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.children[p].props.children.includes(this.state.filterData[column])){
+                if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.children[p].props.children.toLowerCase().includes(this.state.filterData[column].toLowerCase())){
                   exists = false
                 }
               }
             }
           }else if(auxDisplayData[i][fil]){
-            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].includes(this.state.filterData[column])){
+            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
               exists = false
             }
           }else{
@@ -1756,13 +1756,13 @@ class QTrackerViewDataTable extends React.Component{
         }else if(fil === "admin"){
           if(auxDisplayData[i][fil].props){
             if(auxDisplayData[i][fil].props.admin){
-              if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.admin.includes(this.state.filterData[column])){
+              if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.admin.toLowerCase().includes(this.state.filterData[column].toLowerCase())){
                 exists = false
               }
             }
             
           }else if(auxDisplayData[i][fil]){
-            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].includes(this.state.filterData[column])){
+            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
               exists = false
             }
           }else{
@@ -1773,7 +1773,7 @@ class QTrackerViewDataTable extends React.Component{
         }else{
           
           if(this.state.filterData[column]){
-            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].includes(this.state.filterData[column])){
+            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
               exists = false
             }
           }
@@ -1803,14 +1803,13 @@ class QTrackerViewDataTable extends React.Component{
       for(let column = 0; column < Object.keys(auxDisplayData[i]).length-1; column ++){
         
         fil = Object.keys(auxDisplayData[i])[column]
-          //console.log(fil, column)
+          console.log(fil, column)
           if(this.state.filterData[column]){
-            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].includes(this.state.filterData[column])){
+            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
               exists = false
             }
           }
       }
-      console.log(exists)
       if(exists){
         resultData.push(auxDisplayData[i])
       }

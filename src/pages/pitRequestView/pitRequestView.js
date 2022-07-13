@@ -29,7 +29,6 @@ const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
     const radius = innerRadius + (outerRadius - innerRadius) * 1.25;
     const x = cx + radius * Math.cos(-midAngle * RADIAN) + 1;
-    console.log(x)
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
     if(percent === 0){
