@@ -176,8 +176,8 @@ const WelcomeLoginF = () =>{
                 <div className="login__buttons">
                     <button className="login__button" onClick={handleLogin}>Log In</button>
                     {error && <p className="error__message" style={{color: "red", position:"absolute"}}>Email or password incorrect. Try again.</p>} 
-                    <button className="guide__button" onClick={downloadGuideES}>Descargar Guía (ES)</button>
-                    <button className="guide__button" style={{marginLeft: "7px"}} onClick={downloadGuideEN}>Download Guide (EN)</button>
+                    <button className="guide__button" onClick={downloadGuideES}>Ver Tutorial (ES)</button>
+                    <button className="guide__button" style={{marginLeft: "7px"}} onClick={downloadGuideEN}>Watch Tutorial (EN)</button>
             </div>
             </div>
             
