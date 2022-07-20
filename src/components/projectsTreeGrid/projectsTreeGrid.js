@@ -502,7 +502,7 @@ class ProjectsTreeGrid extends Component{
     }
 
     return <div>{ 
-      <Box sx={{ width: '100%', marginTop: '40px'}}>
+      <Box sx={{ width: '100%', marginTop: '3px'}}>
         <TabContext value={this.state.tab}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} centered>
@@ -519,7 +519,7 @@ class ProjectsTreeGrid extends Component{
               rowHeaders={false}
               width="800"
               className="custom__table__2"
-              height="750"
+              height="775"
               rowHeights="38"
               settings={settingsProjects} 
               manualColumnResize={true}
@@ -551,7 +551,7 @@ class ProjectsTreeGrid extends Component{
                 colHeaders = {["<b>Software</b>", "<b>Task</b>"]}
                 rowHeaders={false}
                 width="800"
-                height="680"
+                height="775"
                 className="custom__table__1"
                 rowHeights="38"
                 settings={settingsTasks} 
@@ -627,8 +627,6 @@ class ProjectsTreeGrid extends Component{
 
   render() {
     
-    console.log(this.state.rowData)
-    
     {/*let settingsTasks = {
       licenseKey: 'non-commercial-and-evaluation',
       colWidths: 538,
@@ -649,9 +647,9 @@ class ProjectsTreeGrid extends Component{
     const MyTabs = this._tabs();
 
     return (
-      <div>
+      <div style={{marginLeft: "60px"}}>
       <div style={{marginTop: "140px"}}>
-      <button className="projects__button__save" onClick={()=>this.saveChanges()} style={{width:"175px", marginLeft:"-1620px"}}><img src={SaveIcon2} alt="hold" className="navBar__icon__save" style={{marginRight:"-20px"}}></img><p className="projects__button__text">Save</p></button>
+      <button className="projects__button__save" onClick={()=>this.saveChanges()} style={{width:"175px", marginLeft:"-1570px"}}><img src={SaveIcon2} alt="hold" className="navBar__icon__save" style={{marginRight:"-20px"}}></img><p className="projects__button__text">Save</p></button>
       <button className="projects__button__task" onClick={()=>this.props.goToTasks()} style={{width:"155px", marginLeft:"20px"}}><img src={FolderIcon2} alt="hold" className="navBar__icon__task" style={{marginRight:"0px"}}></img><p className="projects__button__text">Tasks</p></button>
       </div>
       <div style={{display: "flex"}}>
@@ -680,7 +678,7 @@ class ProjectsTreeGrid extends Component{
             />
           </div>
         </div>
-        <div>
+        <div style={{marginLeft: "50px"}}>
           <MyTabs />
           {/*<div className="excel__container__2">
               <HotTable

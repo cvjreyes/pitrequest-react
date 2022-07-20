@@ -383,6 +383,7 @@ const PitRequestView = () => {
           .then(json =>{
             if(json.success){
                 setUpdateData(!updateData)
+                setSuccess(true)
             }
           })
     }
