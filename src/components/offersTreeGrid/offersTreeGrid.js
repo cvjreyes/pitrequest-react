@@ -492,7 +492,7 @@ class OffersTreeGrid extends Component {
     }
 
     return <div>{
-      <Box sx={{ width: '100%', marginTop: '40px'}}>
+      <Box sx={{ width: '100%', marginTop: '5px'}}>
         <TabContext value={this.state.tab}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} centered>
@@ -508,7 +508,7 @@ class OffersTreeGrid extends Component {
                   colHeaders = {["<b>Offer</b>", "<b>Estimated hours</b>"]}
                   rowHeaders={false}
                   width="1800"
-                  height="750"
+                  height="775"
                   className="custom__table__1"
                   rowHeights="38"
                   settings={settingsProjects} 
@@ -542,7 +542,7 @@ class OffersTreeGrid extends Component {
                 colHeaders = {["<b>Software</b>", "<b>Task</b>"]}
                 rowHeaders={false}
                 width="1092"
-                height="680"
+                height="710"
                 className="custom__table__1"
                 rowHeights="38"
                 settings={settingsTasks} 
@@ -581,7 +581,7 @@ class OffersTreeGrid extends Component {
                 rowHeaders={false}
                 width="800"
                 className="custom__table__3"
-                height="680"
+                height="710"
                 rowHeights="38"
                 settings={settingsSubtasks} 
                 manualColumnResize={true}

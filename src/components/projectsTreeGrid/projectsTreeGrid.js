@@ -551,7 +551,7 @@ class ProjectsTreeGrid extends Component{
                 colHeaders = {["<b>Software</b>", "<b>Task</b>"]}
                 rowHeaders={false}
                 width="800"
-                height="775"
+                height="710"
                 className="custom__table__1"
                 rowHeights="38"
                 settings={settingsTasks} 
@@ -589,7 +589,7 @@ class ProjectsTreeGrid extends Component{
                 colHeaders = {["<b>Task</b>", "<b>Subtask</b>", "<b>Hours</b>"]}
                 rowHeaders={false}
                 width="800"
-                height="680"
+                height="710"
                 className="custom__table__3"
                 rowHeights="38"
                 settings={settingsSubtasks} 
