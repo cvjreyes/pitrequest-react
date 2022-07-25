@@ -190,6 +190,18 @@
     border: 0px;
 }
 
+.request__button{
+    background: #94DCAA;
+    border-radius: 10px;
+    color:white;
+    font-weight: bold;
+    width:344px;
+    height: 48px;
+    font-size: 16px;
+    border: 0px;
+    margin-top: 23px
+}
+
 .navis__text{
     position: absolute;
     width: 320px;

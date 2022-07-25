@@ -8,6 +8,8 @@ import Eye from "../../assets/images/eye.png"
 import GreenCircle from "../../assets/images/green_circle.png"
 import BlueCircle from "../../assets/images/blue_circle.png"
 import {useNavigate} from "react-router";
+import RequestAccessPopUp from "../../components/requestAccessPopUp/requestAccessPopUp";
+import AlertF from "../../components/alert/alert"
 
 const CryptoJS = require("crypto-js");
 const SecureStorage = require("secure-web-storage");
@@ -45,6 +47,7 @@ const WelcomeLoginF = () =>{
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [error, setError] = useState(false);
+    const [success, setSuccess] = useState(false)
     const history = useNavigate();
 
     const togglePassword = () => {
@@ -137,6 +140,28 @@ const WelcomeLoginF = () =>{
                 setError(true);
             })            
     }
+
+    const submitRequest = async(email, project, otherproject) =>{
+        let body ={
+            email: email, 
+            project:project,
+            otherproject: otherproject
+        }
+        let options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        }
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitUserRequest", options)
+        .then(response => response.json())
+        .then(async json => {
+            if(json.success){
+                setSuccess(true)
+            }
+        })
+    }
     
     let logo = null
 
@@ -148,6 +173,12 @@ const WelcomeLoginF = () =>{
 
     return(
         <body>
+            <div style={{zIndex: 99999}}
+            className={`alert alert-success ${success? 'alert-shown' : 'alert-hidden'}`}
+            onTransitionEnd={() => setSuccess(false)}
+            >
+                <AlertF type="qtracker"/>
+            </div>
         <div className="background">
             <img src={TechnipLogo} alt="technipLogo" className="technipLogo__image"/>
             <img src={GreenCircle} alt="greenCircle" className="greenCircle__image"/>
@@ -176,6 +207,7 @@ const WelcomeLoginF = () =>{
                 <div className="login__buttons">
                     <button className="login__button" onClick={handleLogin}>Log In</button>
                     {error && <p className="error__message" style={{color: "red", position:"absolute"}}>Email or password incorrect. Try again.</p>} 
+                    <RequestAccessPopUp submitRequest={submitRequest.bind(this)}/>
                     <button className="guide__button" onClick={downloadGuideES}>Ver Tutorial (ES)</button>
                     <button className="guide__button" style={{marginLeft: "7px"}} onClick={downloadGuideEN}>Watch Tutorial (EN)</button>
             </div>
