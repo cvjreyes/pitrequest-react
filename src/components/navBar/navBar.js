@@ -130,7 +130,6 @@ const NavBar = (props) =>{
     
       let margin = 1850 - (username.length*6)
       margin = margin + "px"
-      console.log(window.location.href)
     
     return(
         <div ref={ref}>

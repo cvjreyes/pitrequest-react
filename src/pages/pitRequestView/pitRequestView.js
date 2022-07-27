@@ -22,6 +22,7 @@ import ProjectsHoursDataTable from '../../components/projectsHoursDataTable/proj
 
 
 import AlertF from "../../components/alert/alert"
+import RequestAccessDataTable from '../../components/requestAccessDataTable/requestAccessDataTable'
 
 const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#FF3358'];
 
@@ -104,6 +105,7 @@ const PitRequestView = () => {
     const [backToMenuButton, setBackToMenuButton] = useState(null)
     const [updatedRowsPrio, setUpdatedRowsPrio] = useState([])
     const [projectsButton, setProjectsButton] = useState(null)
+    const [requestAccessButton, setRequestAccessButton] = useState(null)
 
 
     const [success, setSuccess] = useState(false)
@@ -197,6 +199,7 @@ const PitRequestView = () => {
                 setExportUsersReport(null)
                 setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("Projects")}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
                 setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
+                setRequestAccessButton(null)
             }else if(currentTab === "Users"){
                 secureStorage.setItem("tab", "Users")
                 setExportUsersReport(<button className="action__btn" name="export" value="export" onClick={() => downloadUsersReport()}>Export</button>)
@@ -207,7 +210,18 @@ const PitRequestView = () => {
                 setUsersButton(null)
                 setContent(<UsersDataTable updateData={updateData} deleteUser={deleteUser.bind(this)} submitRoles={submitRoles.bind(this)} submitProjects={submitProjects.bind(this)}/>)
                 setBackToMenuButton(<button className="navBar__button" onClick={()=> setCurrentTab("View")} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
-
+                setRequestAccessButton(<button className="navBar__button" onClick={()=>setCurrentTab("Access")} style={{width:"170px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Access requests</p></button>)
+            }else if(currentTab === "Access"){
+                secureStorage.setItem("tab", "Access")
+                setExportUsersReport(null)
+                setExportReport(null)
+                setAddUserButton(null)
+                setProjectsButton(null)
+                setSaveButton(null)
+                setUsersButton(null)
+                setContent(<RequestAccessDataTable updateData={updateData} user={secureStorage.getItem("user")} acceptRequest={acceptRequest.bind(this)} rejectRequest={rejectRequest.bind(this)}/>)
+                setBackToMenuButton(<button className="navBar__button" onClick={()=> setCurrentTab("Users")} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
+                setRequestAccessButton(null)
             }else if(currentTab === "Projects"){
                 secureStorage.setItem("tab", "Projects")
                 setProjectsButton(null)
@@ -218,6 +232,7 @@ const PitRequestView = () => {
                 setExportReport(null)
                 setUsersButton(null)
                 setExportUsersReport(null)
+                setRequestAccessButton(null)
             }
         }else{
             setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
@@ -227,6 +242,7 @@ const PitRequestView = () => {
             setExportReport(null)
             setUsersButton(null)
             setExportUsersReport(null)
+            setRequestAccessButton(null)
         }
         
     }, [currentTab, updateData, currentRole])
@@ -873,10 +889,55 @@ const PitRequestView = () => {
         }
     }
 
+    async function acceptRequest(id){
+        let body = {
+            id: id,
+            user: currentUser
+          }
+          let options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+          }
+          
+          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/acceptAccessRequest", options)
+          .then(response => response.json())
+          .then(async json => {
+            if(json.success){
+                await setSuccess(true)
+                await setUpdateData(!updateData)
+            }
+          })
+    }
+
+    async function rejectRequest(id){
+        let body = {
+            id: id,
+            user: currentUser
+          }
+          let options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+          }
+          
+          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/rejectAccessRequest", options)
+          .then(response => response.json())
+          .then(async json => {
+            if(json.success){
+                await setSuccess(true)
+                await setUpdateData(!updateData)
+            }
+          })
+    }
+
     document.body.style.zoom = 0.8
 
     var dataTableHeight = "600px"
-
 
     return(
         
@@ -928,6 +989,7 @@ const PitRequestView = () => {
                                     {saveButton}
                                     {projectsButton}
                                     {usersButton}
+                                    {requestAccessButton}
                                   </div>
                                   
                               </div>                           

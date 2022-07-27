@@ -90,12 +90,6 @@
 .projects__button:hover{
     background-color: #0070ED;}
 
-.projects__button__text{
-    font-size: 17px;
-    margin-top: 9px;
-    font-family: 'Montserrat', sans-serif;    
-}
-
 /*Cuando pulso el boton de add project se vuelve transparente azulado*/
 .projects__add__button__text:hover{
     background-color: skyblue;
@@ -104,7 +98,7 @@
 
 .projects__button__text{
     font-size: 17px;
-    margin-top: 9px;
+    margin-top: 12px;
     font-family: 'Montserrat', sans-serif;    
 }
 
