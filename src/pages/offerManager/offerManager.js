@@ -48,6 +48,7 @@ const OfferManager = () =>{
 
     document.title= process.env.REACT_APP_APP_NAMEPROJ
     document.body.style.zoom = 0.8
+    document.body.style.height = "88%"
 
     function handleOnIdle(){
  

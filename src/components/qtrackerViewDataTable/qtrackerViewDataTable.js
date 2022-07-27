@@ -1898,6 +1898,7 @@ class QTrackerViewDataTable extends React.Component{
         sorter:{
           compare: (a, b) => a.description.localeCompare(b.description),
         },
+        width: "120px"
       },
       {
         title: <div className="dataTable__header__text">Date</div>,
@@ -1939,7 +1940,7 @@ class QTrackerViewDataTable extends React.Component{
         key: 'admin',
         align: "center",
         ...this.getColumnSearchProps('admin'),
-        width: "270px"
+        width: "320px"
       },
       {
         title: <center className="dataTable__header__text">Priority</center>,
@@ -1991,6 +1992,7 @@ class QTrackerViewDataTable extends React.Component{
           sorter:{
             compare: (a, b) => a.user.localeCompare(b.user),
           },
+          width: "270px"
         },
         {
           title: <center className="dataTable__header__text">Description</center>,
@@ -2000,6 +2002,7 @@ class QTrackerViewDataTable extends React.Component{
           sorter:{
             compare: (a, b) => a.description.localeCompare(b.description),
           },
+          width: "120px"
         },
         {
           title: <div className="dataTable__header__text">Date</div>,
@@ -2041,7 +2044,7 @@ class QTrackerViewDataTable extends React.Component{
           key: 'admin',
           align: "center",
           ...this.getColumnSearchProps('admin'),
-          width: "270px"
+          width: "300px"
         },
         {
           title: <center className="dataTable__header__text">Priority</center>,

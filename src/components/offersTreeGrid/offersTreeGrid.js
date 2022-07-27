@@ -476,23 +476,23 @@ class OffersTreeGrid extends Component {
 
     let settingsTasks = {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 400,
+      colWidths: 487,
       
       className:'excel'
     }
 
     let settingsSubtasks= {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 266,
+      colWidths: 326,
     }
 
     let settingsProjects = {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 400,
+      colWidths: 487,
     }
 
     return <div>{
-      <Box sx={{ width: '100%', marginTop: '5px'}}>
+      <Box sx={{ width: '1000px', marginTop: '5px'}}>
         <TabContext value={this.state.tab}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} centered>
@@ -507,7 +507,7 @@ class OffersTreeGrid extends Component {
                   data={this.state.offers}
                   colHeaders = {["<b>Offer</b>", "<b>Estimated hours</b>"]}
                   rowHeaders={false}
-                  width="1800"
+                  width="1000"
                   height="775"
                   className="custom__table__1"
                   rowHeights="38"
@@ -541,8 +541,8 @@ class OffersTreeGrid extends Component {
                 data={this.state.tasks}
                 colHeaders = {["<b>Software</b>", "<b>Task</b>"]}
                 rowHeaders={false}
-                width="1092"
-                height="710"
+                width="1000"
+                height="775"
                 className="custom__table__1"
                 rowHeights="38"
                 settings={settingsTasks} 
@@ -568,8 +568,8 @@ class OffersTreeGrid extends Component {
               />
             </div>
             <div style={{display: "flex", float:"left", marginTop:"0px"}}>
-              <div style={{marginLeft:"320px", marginBottom: "20px"}}>
-              <button className="projects__add__button" onClick={()=>this.addRowTasks()} style={{width:"70px", marginBottom:"50px", height:"10px", }}><p className="projects__add__button__text">+ Add</p></button>
+              <div style={{marginLeft:"380px", marginBottom: "20px"}}>
+              <button className="projects__add__button" onClick={()=>this.addRowTasks()} style={{width:"70px", marginBottom:"-50px", height:"10px", }}><p className="projects__add__button__text">+ Add</p></button>
               </div>
             </div>
           </TabPanel>
@@ -579,9 +579,9 @@ class OffersTreeGrid extends Component {
                 data={this.state.subtasks}
                 colHeaders = {["<b>Task</b>", "<b>Subtask</b>", "<b>Hours</b>"]}
                 rowHeaders={false}
-                width="800"
+                width="1000"
                 className="custom__table__3"
-                height="710"
+                height="775"
                 rowHeights="38"
                 settings={settingsSubtasks} 
                 manualColumnResize={true}
@@ -606,7 +606,7 @@ class OffersTreeGrid extends Component {
               />
             </div>
               <div style={{display: "flex", float:"left"}}>
-                <div style={{marginLeft:"320px"}}>
+                <div style={{marginLeft:"380px"}}>
                   <button className="offers__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px", height: "30px"}}><p className="projects__add__button__text">+ Add</p></button>
                 </div>
               </div>
@@ -639,9 +639,9 @@ class OffersTreeGrid extends Component {
     const MyTabs = this._tabs();
 
     return (
-      <div>
+      <div style={{marginLeft: "30px"}}>
         <div style={{marginTop: "140px"}}>
-          <button className="projects__button__save" onClick={()=>this.saveChanges()} style={{width:"175px", marginLeft:"-1800px"}}><img src={SaveIcon2} alt="hold" className="navBar__icon__save" style={{marginRight:"-20px"}}></img><p className="projects__button__text">Save</p></button>
+          <button className="projects__button__save" onClick={()=>this.saveChanges()} style={{width:"175px", marginLeft:"-1700px"}}><img src={SaveIcon2} alt="hold" className="navBar__icon__save" style={{marginRight:"-20px"}}></img><p className="projects__button__text">Save</p></button>
         </div>
         <div style={{display: "flex"}}>
           <div style={{ width: '40%', height: '70%', marginTop:"55px", marginLeft:"200px"}}>
