@@ -319,6 +319,7 @@ class UsersDataTable extends React.Component{
             sorter: {
                 compare: (a, b) => { return a.username.localeCompare(b.username)},
             },
+            width: "350px",
         },
           
       {
@@ -347,7 +348,7 @@ class UsersDataTable extends React.Component{
         title: <div className="dataTable__header__text">Actions</div>,
         dataIndex: 'actions',
         key: 'actions',
-        width: '250px',
+        width: '270px',
         ...this.getColumnSearchProps('actions'),
       }
     ];

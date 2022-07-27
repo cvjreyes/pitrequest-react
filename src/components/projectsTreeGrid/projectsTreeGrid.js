@@ -487,18 +487,18 @@ class ProjectsTreeGrid extends Component{
 
     let settingsProjects = {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 266,
+      colWidths: 293,
     }
 
     let settingsTasks = {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 400,
+      colWidths: 439,
       className:'excel'
     }
 
     let settingsSubtasks= {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 266,
+      colWidths: 293,
     }
 
     return <div>{ 
@@ -517,7 +517,7 @@ class ProjectsTreeGrid extends Component{
               data={this.state.projects}
               colHeaders = {["<b>Project</b>", "<b>Default admin</b>", "<b>Estimated hours</b>"]}
               rowHeaders={false}
-              width="800"
+              width="900"
               className="custom__table__2"
               height="775"
               rowHeights="38"
@@ -550,8 +550,8 @@ class ProjectsTreeGrid extends Component{
                 data={this.state.tasks}
                 colHeaders = {["<b>Software</b>", "<b>Task</b>"]}
                 rowHeaders={false}
-                width="800"
-                height="710"
+                width="900"
+                height="775"
                 className="custom__table__1"
                 rowHeights="38"
                 settings={settingsTasks} 
@@ -577,7 +577,7 @@ class ProjectsTreeGrid extends Component{
               />
             </div>
             <div style={{display: "flex", float:"center"}} >
-              <div style={{marginLeft: "300px"}}>
+              <div style={{marginLeft: "360px"}}>
                 <button className="projects__add__button" type="button" onClick={()=> this.addRowTasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
               </div>
             </div>
@@ -588,8 +588,8 @@ class ProjectsTreeGrid extends Component{
                 data={this.state.subtasks}
                 colHeaders = {["<b>Task</b>", "<b>Subtask</b>", "<b>Hours</b>"]}
                 rowHeaders={false}
-                width="800"
-                height="710"
+                width="900"
+                height="775"
                 className="custom__table__3"
                 rowHeights="38"
                 settings={settingsSubtasks} 
@@ -615,7 +615,7 @@ class ProjectsTreeGrid extends Component{
               />
               </div>
               <div style={{display: "flex"}}>
-                <div style={{marginLeft:"300px"}}>
+                <div style={{marginLeft:"360px"}}>
                   <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
                 </div>
               </div>
@@ -647,7 +647,7 @@ class ProjectsTreeGrid extends Component{
     const MyTabs = this._tabs();
 
     return (
-      <div style={{marginLeft: "60px"}}>
+      <div style={{marginLeft: "30px"}}>
       <div style={{marginTop: "140px"}}>
       <button className="projects__button__save" onClick={()=>this.saveChanges()} style={{width:"175px", marginLeft:"-1570px"}}><img src={SaveIcon2} alt="hold" className="navBar__icon__save" style={{marginRight:"-20px"}}></img><p className="projects__button__text">Save</p></button>
       <button className="projects__button__task" onClick={()=>this.props.goToTasks()} style={{width:"155px", marginLeft:"20px"}}><img src={FolderIcon2} alt="hold" className="navBar__icon__task" style={{marginRight:"0px"}}></img><p className="projects__button__text">Tasks</p></button>

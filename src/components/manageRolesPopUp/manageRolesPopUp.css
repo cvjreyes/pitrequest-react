@@ -5,7 +5,6 @@
     background-color: #6B9DBB;
 }
 .popUp__container{
-    margin-left: 40px;
     margin-right: 40px;
     position: relative;
     text-align: left;
@@ -176,6 +175,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-left: 120px;
+    margin-top: -15px;
 }
 
 .checkbox__container_mange:after {
@@ -214,6 +215,5 @@
     font-family: Arial; 
     font-size: 30px; 
     COLOR: #338DF1; 
-    margin-bottom: 10px;
-    margin-top: 10px;
+    margin-left: -100px;
 }

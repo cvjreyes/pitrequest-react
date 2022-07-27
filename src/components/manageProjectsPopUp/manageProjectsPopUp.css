@@ -9,6 +9,7 @@
     margin-right: 40px;
     position: relative;
     text-align: left;
+    width: 410px;
 }
 
 .popUp__title{
@@ -190,7 +191,7 @@
   .project__manager__container{
       height:330px;
       overflow-y: scroll;
-      width:290px;
+      width:450px;
   }
 
   .popUp__buttons__container__manage__projects2{
@@ -200,6 +201,7 @@
     position: absolute;
     top: 430px;
     margin-left: 28px;
+    width: 450px;
 }
 
 .btn__submit{
