@@ -136,6 +136,7 @@ export default function MenuListPITList(props) {
 
     const [options, setOptions] = useState(null)
     const [currentMenu, setcurrentMenu] = useState("main")
+    const [backMenu, setBackMenu] = useState("")
 
     const history = useNavigate()
 
@@ -287,6 +288,13 @@ export default function MenuListPITList(props) {
       <div className='mainmenu__item__container'>
         <span style={{display:"flex"}} onClick={()=> setcurrentMenu("piping")}><div style={{width:"260px"}}><text className='mainmenu__item'>Piping Spec Materials</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
       </div></div>)
+      if(currentMenu === "aveva_eng"){
+        setBackMenu("aveva_eng")
+      }else if (currentMenu === "aveva_diag"){
+        setBackMenu("aveva_diag")
+      } else if (currentMenu === "aveva_e3d"){
+        setBackMenu("aveva_e3d")
+      }
     }else if(currentMenu === "int_smart_inst" || currentMenu === "int_smart_3D"){
       await setOptions(<div><div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>SOFTWARE</text></div></span></div>
       <div className='mainmenu__item__container' style={{marginTop:"40px"}}>
@@ -294,7 +302,12 @@ export default function MenuListPITList(props) {
       </div>
       <div className='mainmenu__item__container'>
         <span style={{display:"flex"}} onClick={()=> setcurrentMenu("issues")}><div style={{width:"260px"}}><text className='mainmenu__item'>Issues</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
-      </div></div>)    
+      </div></div>)
+      if(currentMenu === "int_smart_inst"){
+        setBackMenu("int_smart_inst")
+      }else if (currentMenu === "int_smart_3D"){
+        setBackMenu("int_smart_3D")
+      }    
     }else if(currentMenu === "auto_auto" || currentMenu === "auto_revit"){
       await setOptions(<div><div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>SOFTWARE</text></div></span></div>
       <div className='mainmenu__item__container'>
@@ -303,26 +316,33 @@ export default function MenuListPITList(props) {
       <div className='mainmenu__item__container'>
         <span style={{display:"flex"}} onClick={()=> setcurrentMenu("piping")}><div style={{width:"260px"}}><text className='mainmenu__item'>Piping Spec Materials</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
       </div></div>)
+      if(currentMenu === "auto_auto"){
+        setBackMenu("auto_auto")
+      }else if (currentMenu === "auto_revit"){
+        setBackMenu("auto_revit")
+      } 
     }else if(currentMenu === "iso"){
       await setOptions(<div><div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>SOFTWARE</text></div></span></div>
       <div className='mainmenu__item__container'>
         <span style={{display:"flex"}} onClick={()=> setcurrentMenu("issues")}><div style={{width:"260px"}}><text className='mainmenu__item'>Issues</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
       </div></div>)
-    
+      if(currentMenu === "iso"){
+        setBackMenu("iso")
+      }
     }else if(currentMenu === "request"){
-        await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>SOFTWARE</text></div></span>
+        await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>REQUEST ITEM</text></div></span>
 
         <QtrackerRRPopUp success={success.bind(this)}/>
         <QtrackerNRIDSPopUp success={success.bind(this)}/>
         <QtrackerISPopUp success={success.bind(this)}/></div>)
       }else if(currentMenu === "issues"){
-        await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>SOFTWARE</text></div></span>
+        await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>ISSUES</text></div></span>
 
         <QtrackerNWCPopUp success={success.bind(this)}/>
         <QtrackerNVNPopUp success={success.bind(this)}/>
         <QtrackerNRIPopUp success={success.bind(this)}/></div>)
       }else if(currentMenu === "piping"){
-        await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>SOFTWARE</text></div></span>
+        await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><text className='back__text'>PIPING SPEC MATERIALS</text></div></span>
 
         <div className='mainmenu__item__container'>
           <span style={{display:"flex", width:"260px"}} onClick={()=> handleCADpmcClick()}><div style={{width:"260px", marginTop:"5px"}}><text className='mainmenu__item'>CADPMC</text></div></span>

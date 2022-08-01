@@ -221,6 +221,12 @@ h4{
     width: 170px;
 }
 
+.back__item__container__piping{
+    margin-top: 5px;
+    cursor: pointer;
+    width: 250px;
+}
+
 .vector__image{
     width: 9px;
     height: 20px;
