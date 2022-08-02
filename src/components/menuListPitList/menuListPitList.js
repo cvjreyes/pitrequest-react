@@ -178,6 +178,10 @@ export default function MenuListPITList(props) {
     }
 
     useEffect(async ()=>{
+      setcurrentMenu("main")
+    }, [props.goMainMenu])
+
+    useEffect(async ()=>{
 
       if(currentMenu === "main"){
         const options = {
