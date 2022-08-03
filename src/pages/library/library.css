@@ -1,10 +1,11 @@
 .container {
 	background: #fff;
 	width: 100%;
-	max-width: 80%;
+	max-width: 77%;
 	margin: 20px auto;
     margin-left: 20%;
 	margin-top: 5%;
+	zoom: 1.20;
 }
 
 .menu ul {
@@ -90,4 +91,21 @@
 
 .active {
 	border-bottom: 4px solid #E62117;
+}
+
+.container__left__library{
+	margin-top: -150px;
+	float: left;
+}
+
+.container__filters__left{
+	display: block;
+}
+
+.sub__checkbox{
+	margin-left: 100px;
+}
+
+.parent__checkbox{
+	margin-left: -90px;
 }

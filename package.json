@@ -63,5 +63,9 @@
       "last 1 safari version"
     ],
     "homepage": "http://es001vs0103/pitrequest"
+  },
+  "devDependencies": {
+    "flow-bin": "^0.183.1",
+    "typescript": "^4.7.4"
   }
 }
