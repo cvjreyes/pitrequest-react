@@ -89,7 +89,9 @@ const ProjectManager = () =>{
                 debounce={250}
             />
             <div >
-                <NavBar/>
+                <div style={{zoom:1.125}}>
+                    <NavBar/>
+                </div>
                 <ProjectsTreeGrid back={back.bind(this)} success={successAlert.bind(this)} error={errorAlert.bind(this)} goToTasks={goToTasks.bind(this)}/>
                 
 

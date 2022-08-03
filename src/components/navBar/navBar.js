@@ -64,6 +64,7 @@ const NavBar = (props) =>{
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const ref = useRef()
     const [hoverbutton, setHoverbutton] = React.useState(null);
+    const [marginMenu, setMarginMenu] = React.useState();
 
     const handleClickUser = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -87,6 +88,7 @@ const NavBar = (props) =>{
         history("/"+process.env.REACT_APP_PROJECT+"/pitrequests")
     }
 
+
     useEffect(() => {
         const checkIfClickedOutside = e => {
           // If the menu is open and the clicked target is not within the menu,
@@ -97,10 +99,18 @@ const NavBar = (props) =>{
           }
         }
 
+        
+
         if(window.location.href.includes("/projectManager") || window.location.href.includes("/offersManager")) {
-            setHoverbutton (<button className="projects__button__back" onClick={()=>back()} style={{width:"175px", marginLeft:"115px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="projects__button__text">Back to menu</p></button>) 
+            setHoverbutton (<button className="projects__button__back" onClick={()=>back()} style={{width:"175px", marginLeft:"115px", marginRight:"-300px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="projects__button__text">Back to menu</p></button>)
         } else {
             setHoverbutton (null)
+        }
+
+        if(window.location.href.includes("/projectManager") || window.location.href.includes("/offersManager") || window.location.href.includes("/pitrequestsview")) {
+            setMarginMenu('translateX(+280%)')
+        } else {
+            setMarginMenu('translateX(+120%)')
         }
 
         const bodyUsername = {
@@ -128,7 +138,7 @@ const NavBar = (props) =>{
         }
       }, [isMenuOpen])
     
-      let margin = 1850 - (username.length*6)
+      let margin = 1950 - (username.length*6)
       margin = margin + "px"
     
     return(
@@ -156,8 +166,8 @@ const NavBar = (props) =>{
                         onClose={handleCloseUser}
                         PaperProps={{
                             style: {
-                            left: '50%',
-                            transform: 'translateX(+120%)',
+                                left: '50%',
+                                transform: marginMenu,
                             }
                         }}
                     >

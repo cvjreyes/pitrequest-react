@@ -85,11 +85,11 @@ const OfferManager = () =>{
                 onIdle={handleOnIdle}
                 debounce={250}
             />
-            <div >
-                <NavBar/>
+            <div>
+                <div style={{zoom:1.125}}>
+                    <NavBar/>
+                </div>
                 <OffersTreeGrid back={back.bind(this)} success={successAlert.bind(this)} error={errorAlert.bind(this)}/>
-                
-
             </div>
         </div>
         
