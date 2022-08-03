@@ -960,7 +960,9 @@ const PitRequestView = () => {
                 onIdle={handleOnIdle}
                 debounce={250}
             />
-            <NavBar onChange={value => setCurrentTab(currentTab)}/>
+            <div style={{zoom:1.125}}>
+                <NavBar onChange={value => setCurrentTab(currentTab)}/>
+            </div>
             
             <div className="isotracker__row">
                   <div className="isotracker__column">
