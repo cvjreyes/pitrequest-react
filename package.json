@@ -22,6 +22,7 @@
     "crypto-js": "^4.1.1",
     "file-saver": "^2.0.5",
     "handsontable": "^11.1.0",
+    "jquery": "^3.6.0",
     "react": "^17.0.2",
     "react-awesome-modal": "^2.0.5",
     "react-bootstrap": "^2.1.2",
