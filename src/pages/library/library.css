@@ -8,76 +8,6 @@
 	zoom: 1.20;
 }
 
-.menu ul {
-	list-style: none;
-	width: 100%;
-	display: table;
-}
-
-.menu ul li {
-	display: table-cell;
-	width: calc(30px * 5)
-}
-
-.menu ul li:hover {
-	background: rgba(0,0,0,.9);
-}
-
-.menu ul li a {
-	text-decoration: none;
-	display: block;
-	color: #fff;
-	padding: 20px 0;
-	text-align: center;
-}
-
-.menu ul .todos {background: #3691be;}
-.menu ul .laptop {background: #106288;}
-.menu ul .camara {background: #0b4661;}
-.menu ul .iphone {background: #093144;}
-.menu ul .audifono {background: #022535;}
-
-.galeria {
-	width: 100%;
-	padding: 20px;
-	margin-top: 20px;
-	display: flex;;
-	flex-wrap: wrap;
-	flex-direction: row;
-}
-
-.galeria .title-img {
-	width: 100%;
-	border-top: 4px solid #46ABDF;
-}
-
-.galeria .title-img h3 {
-	font-size: 30px;
-	text-align: center;
-	padding: 10px 0;
-	color: #636363;
-	font-weight: 100;
-}
-
-.galeria .box-img {
-	width: calc(88px * 3);
-	margin: 10px;
-	border-radius: 2px;
-	box-shadow: 0 0 7px 0 rgba(0,0,0,.6);
-	overflow: hidden;
-}
-
-.galeria .box-img img {
-	width: 100%;
-	vertical-align: top;
-	cursor: pointer;
-	transition: all .5s ease;
-}
-
-.galeria .box-img img:hover {
-	transform: scale(1.2);
-}
-
 .button__description{
     height: 50px;
     width: 100px;
@@ -89,23 +19,7 @@
     font-family: 'Quicksand', sans-serif;
 }
 
-.active {
-	border-bottom: 4px solid #E62117;
-}
-
 .container__left__library{
-	margin-top: -150px;
+	margin-top: -120px;
 	float: left;
-}
-
-.container__filters__left{
-	display: block;
-}
-
-.sub__checkbox{
-	margin-left: 100px;
-}
-
-.parent__checkbox{
-	margin-left: -90px;
 }

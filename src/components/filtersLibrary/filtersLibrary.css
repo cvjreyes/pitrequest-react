@@ -1,0 +1,18 @@
+.sub__checkbox{
+	margin-left: 100px;
+}
+
+.parent__checkbox{
+	text-align: left;
+	margin-left: 90px;
+}
+
+.text__checkbox__library {
+	display: inline;
+	font-size: 18px;
+	font-weight: 500;
+}
+
+.container__checkbox {
+	text-align: left;
+}
