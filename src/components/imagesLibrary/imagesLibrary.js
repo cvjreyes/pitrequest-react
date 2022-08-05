@@ -43,11 +43,14 @@ const ImagesLibrary = () => {
             let env_server = process.env.REACT_APP_NODE_PORT
             let dos_puntos = ":"
             let inicioSrc = "http://"
+            let one_library_info = []
+            let one_library_info2 = []
+            
 
             for(let i = 0; i < library_all.length; i++){
                 let srcName = library_all[i].image_path
 
-                setAllLibrary( ...allLibrary, [{
+                /*setAllLibrary( ...allLibrary, [{
                     id: library_all[i].id,
                     project_type: library_all[i].project_type,
                     component_type: library_all[i].component_type,
@@ -56,9 +59,20 @@ const ImagesLibrary = () => {
                     component_code: library_all[i].component_code,
                     component_name: library_all[i].component_name,
                     component_description: library_all[i].component_description,
-                }])
+                }])*/
 
-				compt_library.push(
+                let one_library_id = library_all[i].id
+                let one_library_project_type = library_all[i].project_type
+                let one_library_component_type = library_all[i].component_type
+                let one_library_component_brand = library_all[i].component_brand
+                let one_library_component_discipline = library_all[i].component_discipline
+                let one_library_component_code = library_all[i].component_code
+                let one_library_component_name = library_all[i].component_name
+                let one_library_component_description = library_all[i].component_description
+
+                //one_library_info = ["id: " + {one_library_id} + ", project_type: " + {one_library_project_type} + ", component_type: " + {one_library_component_type} + ", component_brand: " + {one_library_component_brand} + " component_discipline: " + {one_library_component_discipline} + ", component_code: " + {one_library_component_code} + ", component_name: " + {one_library_component_name} + ", component_description: " + {one_library_component_description}]
+				one_library_info2 = JSON.stringify({library_all})
+                compt_library.push(
                     <div class="box-img">
                         <img key={i} onClick={openModal} src={inicioSrc + app_server + dos_puntos + env_server + srcName} width="100" height="200" alt=""/>
                         <h6>{library_all[i].component_name}</h6>
@@ -66,6 +80,7 @@ const ImagesLibrary = () => {
                     </div>
                 )
 			}
+            await setAllLibrary(one_library_info2)
             await setImgSrc(compt_library)
             await setArrayData(compt_library)
         })   
@@ -118,7 +133,10 @@ const ImagesLibrary = () => {
             >
                 <div>
                     <h3> Details </h3>
-                    <ul>{
+                    <p>
+                        {allLibrary}
+                    </p>
+                    {/*<ul>{
                         allLibrary.map(pObj =>(
                             <li key={pObj.id}>Project Type: {pObj.project_type}</li>,
                             <li key={pObj.id+1}>Component Type: {pObj.component_type}</li>,
@@ -128,7 +146,7 @@ const ImagesLibrary = () => {
                             <li key={pObj.id}>Component Disciplina: {pObj.component_discipline}</li>,
                             <li key={pObj.id}>Component Name: {pObj.component_name}</li>
                         ))
-                    }</ul>
+                    }</ul>*/}
 
                 </div>
             </Modal>
