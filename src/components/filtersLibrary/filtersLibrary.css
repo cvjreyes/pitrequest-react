@@ -16,3 +16,23 @@
 .container__checkbox {
 	text-align: left;
 }
+
+/* Estilos Buscador */
+
+.container__search{
+	margin-left: 22%;
+	width: 100%;
+	display: flex;
+	margin-bottom: 5%;
+}
+
+@media (max-width: 988px){
+  
+	.input__search{
+	  width: 100% !important;
+	}
+  
+	.container__checkbox{
+		padding-bottom: 15px;
+	}
+  }

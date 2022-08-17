@@ -11,6 +11,7 @@ import ImagesLibrary from '../../components/imagesLibrary/imagesLibrary';
 
 const Library = () =>{    
 
+	const [state, setState] = useState(false)
 	const history = useNavigate();
 
 	document.body.style.zoom = 0.8
@@ -20,6 +21,8 @@ const Library = () =>{
 	function back(){
         history("/"+process.env.REACT_APP_PROJECT+"/pitrequests")
     }	
+
+
 
     return (
 		<div>
@@ -31,10 +34,10 @@ const Library = () =>{
 					<img src={PITLogo} alt="PITLogo" className="isoTrackerLogo__image2" style={{height:"110px", marginLeft:60}}/>
 				</div>
 				{/* Componente filtros izquierda libreria */}
-				<FiltersLibrary />
+				<FiltersLibrary setState={setState}/>
 			</div>
-			<div class="container">
-				<ImagesLibrary/>
+			<div className="container">
+				<ImagesLibrary state={state}/>
 			</div>
 		</div>
     )

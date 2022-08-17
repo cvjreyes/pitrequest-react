@@ -48,3 +48,24 @@
 .container__pagination{
     position: absolute;
 }
+
+.modal__titulo{
+	text-align: center; 
+    font-family: Arial; 
+    font-size: 40px; 
+    COLOR: #338DF1; 
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.modal__description{
+	font-size: 24px;
+	font-family: 'Montserrat', sans-serif;
+	text-align: center;
+	margin-bottom: 2%;
+}
+
+.modal__li{
+	font-size: 22px;
+	font-family: 'Montserrat', sans-serif;
+}
