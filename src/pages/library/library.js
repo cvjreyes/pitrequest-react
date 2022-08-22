@@ -1,7 +1,5 @@
 import NavBar from '../../components/navBar/navBar';
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import {useNavigate} from "react-router";
+import React, { useState } from 'react';
 import './library.css'
 import PITLogo from "../../assets/images/pitlogo.svg"
 
@@ -11,22 +9,18 @@ import ImagesLibrary from '../../components/imagesLibrary/imagesLibrary';
 
 const Library = () =>{    
 
-	const [filtersLibrary, setFiltersLibrary] = useState(<FiltersLibrary filterSearcher={filterSearcher.bind(this)}/>)
+	const [filtersLibrary, setFiltersLibrary] = useState(<FiltersLibrary filterSearcher={filterSearcher.bind(this)} filterCheckbox={filterCheckbox.bind(this)} />)
 	const [imagesLibrary, setImagesLibrary] = useState(<ImagesLibrary array_filtrado_buscador={[]} />)
-	const history = useNavigate();
 
 	document.body.style.zoom = 0.8
     document.body.style.height = "90%"
 
-	/* Es para volver al menu principal */
-	function back(){
-        history("/"+process.env.REACT_APP_PROJECT+"/pitrequests")
-    }	
-
 	function filterSearcher (array_filtrado_buscador) {
 		setImagesLibrary(<ImagesLibrary array_filtrado_buscador={array_filtrado_buscador}/> )
+	}
 
-
+	function filterCheckbox (array_filtrado_checkbox) {
+		setImagesLibrary(<ImagesLibrary array_filtrado_checkbox={array_filtrado_checkbox}/> )
 	}
 
     return (

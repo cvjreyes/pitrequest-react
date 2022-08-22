@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import './filtersLibrary.css';
-import Checkbox from '@mui/material/Checkbox';
 import { getComponentDisciplines, getComponentsBrands, getComponentsTypes, getProjectTypes, getLibrary } from '../../ApiRequest';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import ImagesLibrary from '../imagesLibrary/imagesLibrary';
+import { FormControlLabel, FormGroup, Checkbox, Box } from '@mui/material';
 
 const FiltersLibrary = (props) =>{
 
@@ -26,8 +25,14 @@ const FiltersLibrary = (props) =>{
     /* Configuracion busqueda */
     const [busqueda, setBusqueda] = useState("")
     const [newSearchLibrary, setNewSearchLibrary] = useState([])
-    const [sinResultadosBuscador, setSinResultadosBuscador] = useState(true)
-     
+
+    /* Configuracion checkbox */
+    const [newCheckboxLibraryDisciplinas, setNewCheckboxLibraryDisciplinas] = useState([])
+    const [newCheckboxLibraryMarcas, setNewCheckboxLibraryMarcas] = useState([])
+    const [newCheckboxLibraryFamilias, setNewCheckboxLibraryFamilias] = useState([])
+    const [newCheckboxLibraryTipoP, setNewCheckboxLibraryTipoP] = useState([])
+    const [checked, setChecked] = useState(false)
+
     /* Todos los datos de las imagenes */
     // Recoger path de la imagenes
     useEffect(async()=>{
@@ -60,7 +65,16 @@ const FiltersLibrary = (props) =>{
 
 				compt_types.push(
                     <div key={i} className='container__checkbox'>
-                        <Checkbox onClick={() => handleChangeCheckbox([label])}/> <p className="text__checkbox__library">{label}</p>
+                        <FormControlLabel
+                            label={label}
+                            control={
+                                <Checkbox 
+                                    value={label} 
+                                    checked={newCheckboxLibraryFamilias.includes(label)}
+                                    onChange={handleChangeCheckboxFamilias} 
+                                    />                            
+                            }
+                        />
                     </div>
                 )
 			}
@@ -86,7 +100,16 @@ const FiltersLibrary = (props) =>{
                 
 				compt_brand.push(
                     <div key={i} className='container__checkbox'>
-                        <Checkbox onClick={() => handleChangeCheckbox([label])}/> <p className="text__checkbox__library">{label}</p>
+                        <FormControlLabel
+                            label={label}
+                            control={
+                                <Checkbox 
+                                    value={label} 
+                                    checked={newCheckboxLibraryMarcas.includes(label)}
+                                    onChange={handleChangeCheckboxMarcas} 
+                                    />                            
+                            }
+                        />
                     </div>
                 )
 			}
@@ -113,7 +136,16 @@ const FiltersLibrary = (props) =>{
 
 				compt_project.push(
                     <div key={i} className='container__checkbox'>
-                        <Checkbox onClick={() => handleChangeCheckbox([label])}/> <p className="text__checkbox__library">{label}</p>
+                        <FormControlLabel
+                            label={label}
+                            control={
+                                <Checkbox 
+                                    value={label} 
+                                    checked={newCheckboxLibraryTipoP.includes(label)}
+                                    onChange={handleChangeCheckboxTipoP} 
+                                    />                            
+                            }
+                        />
                     </div>
                 )
 			}
@@ -141,7 +173,16 @@ const FiltersLibrary = (props) =>{
 
 				compt_disc.push(
                     <div key={i} className='container__checkbox'>
-                        <Checkbox onClick={() => handleChangeCheckbox([label])} /> <p className="text__checkbox__library">{label}</p>
+                        <FormControlLabel
+                            label={label}
+                            control={
+                                <Checkbox 
+                                    value={label2} 
+                                    checked={newCheckboxLibraryDisciplinas.includes(label2)}
+                                    onChange={handleChangeCheckboxDisciplinas} 
+                                    />                            
+                            }
+                        />
                     </div>
                 )
 			}
@@ -149,66 +190,18 @@ const FiltersLibrary = (props) =>{
         })   
 	}, [])
 
-    /* Funcion para los filtros checkbox*/
-    const handleChangeCheckbox = (e) => {
-
-        let array_checkbox_filter = []
-
-        for (let pos = 0; pos < allLibrary.length; pos++) {
-
-            if (
-                allLibrary[0][pos].component_brand.toString().includes(e)
-                || allLibrary[0][pos].component_discipline.toString().includes(e)
-                || allLibrary[0][pos].component_type.toString().includes(e)
-                || allLibrary[0][pos].component_code.toString().includes(e)
-                || allLibrary[0][pos].project_type.toString().includes(e)
-                || allLibrary[0][pos].component_name.toString().includes(e)
-            ){
-                array_checkbox_filter.push(allLibrary[0][pos])
-            }
-        }
-        console.log('====================================');
-        console.log("Array checkbox");
-        console.log(array_checkbox_filter);
-        console.log('====================================');
-        // setHandleCheck({...filterKeys, [e.target]: e.checked})
-        // console.log('====================================');
-        // console.log("Handle Check despues");
-        // console.log({...filterKeys, [e]: e.checked});
-        // console.log('====================================');
-
-    }
-
-   useEffect(() => {
-        function filterbyName (value) {
-
-            if(handleCheck !== undefined) {
-
-                return filterKeys.every(function(key) {
-                    return !handleCheck[key] || value[key];
-                });
-            } else {
-                return value
-            }
-        }
-    
-        setNewLibrary(
-            allLibrary.filter(filterbyName)
-        )
-   }, [handleCheck, allLibrary])
-
     /* Metodos para filtro busqueda */
-    const handleChangeSearch=e=>{
+    const handleChangeSearch = e => {
         setBusqueda(e.target.value);
         console.log("Busqueda: " + e.target.value);
     }
-
+ 
     function arrayBuscador() {
-
+ 
         let array_filtro = []
         
         allLibrary.filter((elemento)=>{
-
+ 
             for (let index = 0; index < elemento.length; index++) {
                 if(elemento[index].component_brand.toString().toLowerCase().includes(busqueda.toLowerCase())
                 || elemento[index].component_discipline.toString().toLowerCase().includes(busqueda.toLowerCase())
@@ -222,9 +215,70 @@ const FiltersLibrary = (props) =>{
                 
             }
         });
-
+ 
         setNewSearchLibrary(array_filtro);
         props.filterSearcher(array_filtro)
+    }
+
+    /* Funcion para los filtros checkbox Familias*/
+    const handleChangeCheckboxFamilias = (event) => {
+        const index = newCheckboxLibraryFamilias.indexOf(event.target.value)
+        console.log(event.target.value);
+        if (index === -1){
+            setNewCheckboxLibraryFamilias([...newCheckboxLibraryFamilias, event.target.value])
+        } else {
+            setNewCheckboxLibraryFamilias(newCheckboxLibraryFamilias.filter((newCheckboxLibraryFamilias) => newCheckboxLibraryFamilias !== event.target.value))
+        }
+        console.log("Familias");
+        console.log(newCheckboxLibraryFamilias);
+    }
+
+    /* Funcion para los filtros checkbox Marcas*/
+    const handleChangeCheckboxMarcas = (event) => {
+        const index = newCheckboxLibraryMarcas.indexOf(event.target.value)
+        console.log(event.target.value);
+
+        if (index === -1){
+            setNewCheckboxLibraryMarcas([...newCheckboxLibraryMarcas, event.target.value])
+        } else {
+            setNewCheckboxLibraryMarcas(newCheckboxLibraryMarcas.filter((newCheckboxLibraryMarcas) => newCheckboxLibraryMarcas !== event.target.value))
+        }
+        console.log("Marcas");
+        console.log(newCheckboxLibraryMarcas);
+    }
+
+    /* Funcion para los filtros checkbox Tipo Proyectos*/
+    const handleChangeCheckboxTipoP = (event) => {
+        const index = newCheckboxLibraryTipoP.indexOf(event.target.value)
+        console.log(event.target.value);
+
+        if (index === -1){
+            setNewCheckboxLibraryTipoP([...newCheckboxLibraryTipoP, event.target.value])
+        } else {
+            setNewCheckboxLibraryTipoP(newCheckboxLibraryTipoP.filter((newCheckboxLibraryTipoP) => newCheckboxLibraryTipoP !== event.target.value))
+        }
+        console.log("Tipo P");
+        console.log(newCheckboxLibraryTipoP);
+    }
+
+    /* Funcion para los filtros checkbox Disciplinas*/
+    const handleChangeCheckboxDisciplinas = (event) => {
+        const index = newCheckboxLibraryDisciplinas.indexOf(event.target.value)
+        console.log(event.target.value);
+    
+        if (index === -1){
+            setNewCheckboxLibraryDisciplinas([...newCheckboxLibraryDisciplinas, event.target.value])
+            console.log("if dentro" + newCheckboxLibraryDisciplinas);
+        } else {
+            console.log("else dentro" + newCheckboxLibraryDisciplinas);
+            setNewCheckboxLibraryDisciplinas(newCheckboxLibraryDisciplinas.filter((newCheckboxLibraryDisciplinas) => newCheckboxLibraryDisciplinas !== event.target.value))
+        }
+        console.log("Disciplinas");
+        console.log(newCheckboxLibraryDisciplinas);
+    }
+
+    function arrayCheckbox() {
+
     }
 
     return(
@@ -251,8 +305,15 @@ const FiltersLibrary = (props) =>{
                     </div>
                 </div>
                 <div className='sub__checkbox'>
-                    {families}
+                    <Box>
+                        <Box>
+                            <FormGroup>
+                                {families}
+                            </FormGroup>
+                        </Box>
+                    </Box>
                 </div>
+
 
                 {/* Filtros Marcas */}
                 <div>
@@ -261,7 +322,13 @@ const FiltersLibrary = (props) =>{
                     </div>
                 </div>
                 <div className='sub__checkbox'>
-                    {marcas}
+                    <Box>
+                        <Box>
+                            <FormGroup>
+                                {marcas}
+                            </FormGroup>
+                        </Box>
+                    </Box>
                 </div>
 
                 {/* Filtros Tipos de proyecto */}
@@ -271,7 +338,14 @@ const FiltersLibrary = (props) =>{
                     </div>
                 </div>
                 <div className='sub__checkbox'>
-                    {tipoP}
+                    <Box>
+
+                        <Box>
+                            <FormGroup>
+                                {tipoP}
+                            </FormGroup>
+                        </Box>
+                    </Box>
                 </div>
 
                 {/* Filtros Disciplinas */}
@@ -281,7 +355,14 @@ const FiltersLibrary = (props) =>{
                     </div>
                 </div>
                 <div className='sub__checkbox'>
-                    {disciplina}
+                    <Box>
+
+                    <Box>  
+                        <FormGroup>
+                            {disciplina}
+                        </FormGroup>
+                    </Box>
+                    </Box>
                 </div>
 
 			</div>

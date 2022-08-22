@@ -3,7 +3,6 @@ import './imagesLibrary.css'
 import ReactPaginate from 'react-paginate';
 import Modal from 'react-modal';
 import { getGroupProjects, getLibrary } from '../../ApiRequest';
-import FiltersLibrary from '../filtersLibrary/filtersLibrary';
 
 const ImagesLibrary = (props) => {
 
@@ -56,6 +55,20 @@ const ImagesLibrary = (props) => {
         })   
 	}, [])
 
+    // else if(props.array_filtrado_checkbox.length>0){
+    //     /* Bucle donde se printa las imagenes con el filtro de los checkbox */
+    //     for(let i = 0; i < props.array_filtrado_checkbox.length; i++){
+    //         let srcName = props.array_filtrado_checkbox[i].image_path
+    //         compt_library.push(
+    //             <div key={i} className="box-img">
+    //                 <img onClick={() => openModal(props.array_filtrado_checkbox[i])} src={urlImage + srcName} width="100" height="200" alt=""/>
+    //                 <h6>{props.array_filtrado_checkbox[i].component_name}</h6>
+    //                 {/*<h6><b>Tipos de proyecto:</b><br/>{groupProject[i]}</h6>*/}
+    //             </div>
+    //         )
+    //     }
+    // }
+
     // Recoger path de todas las imagenes
     useEffect(async()=>{
 
@@ -77,10 +90,6 @@ const ImagesLibrary = (props) => {
                         </div>
                     )
                 }
-                console.log('====================================');
-                console.log("Filtered Library entra");
-                console.log(compt_library);
-                console.log('====================================');
             } else {
                 /* Bucle donde se printa todas las imagenes */
                 for(let i = 0; i < library_all.length; i++){
@@ -93,10 +102,6 @@ const ImagesLibrary = (props) => {
                         </div>
                     )
                 }
-                console.log('====================================');
-                console.log("Library all entra");
-                console.log(compt_library);
-                console.log('====================================');
             }
             await setImgSrc(compt_library)
         })   
