@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 import { getGroupProjects, getLibrary } from '../../ApiRequest';
 import FiltersLibrary from '../filtersLibrary/filtersLibrary';
 
-const ImagesLibrary = (state) => {
+const ImagesLibrary = (props) => {
 
     // Toda la informacion de las imagenes
     const [imgSrc, setImgSrc] = useState("");
@@ -20,14 +20,11 @@ const ImagesLibrary = (state) => {
     const [arrayData, setArrayData] = useState([])
 
     // Los usestate para poder printar el filtro de busqueda
-    const [filteredLibraryEmpty, setFilteredLibraryEmpty] = useState(true)
     const [filteredLibrary, setFilteredLibrary] = useState([])
-    let array_buscador = <FiltersLibrary arrayBuscador = {filteredLibrary && filteredLibraryEmpty} />
-    
     
     //url imagen
     const urlImage = "http://" + process.env.REACT_APP_SERVER + ":" + process.env.REACT_APP_NODE_PORT + "/"
-    
+
     const customStyles = {
         content: {
           top: '50%',
@@ -61,37 +58,49 @@ const ImagesLibrary = (state) => {
 
     // Recoger path de todas las imagenes
     useEffect(async()=>{
-        
-        getLibrary()
+
+        await getLibrary()
         .then(response => response.json())
         .then(async json => {
             let library_all = json.library
             let compt_library =[]
-
-            // console.log('====================================');
-            // console.log("Filtered Array");
-            // console.log(filteredLibrary);
-            // console.log('====================================');
-
-            // console.log('====================================');
-            // console.log("Filtered booleana");
-            // console.log(filteredLibraryEmpty);
-            // console.log('====================================');
-
-            /* Bucle donde se printa las imagenes */
-            for(let i = 0; i < library_all.length; i++){
-                let srcName = library_all[i].image_path
-                compt_library.push(
-                    <div key={i} className="box-img">
-                        <img onClick={() => openModal(library_all[i])} src={urlImage + srcName} width="100" height="200" alt=""/>
-                        <h6>{library_all[i].component_name}</h6>
-                        {/*<h6><b>Tipos de proyecto:</b><br/>{groupProject[i]}</h6>*/}
-                    </div>
-                )
-			}
+            
+            if(props.array_filtrado_buscador.length>0){
+                /* Bucle donde se printa las imagenes con el filtro busqueda */
+                for(let i = 0; i < props.array_filtrado_buscador.length; i++){
+                    let srcName = props.array_filtrado_buscador[i].image_path
+                    compt_library.push(
+                        <div key={i} className="box-img">
+                            <img onClick={() => openModal(props.array_filtrado_buscador[i])} src={urlImage + srcName} width="100" height="200" alt=""/>
+                            <h6>{props.array_filtrado_buscador[i].component_name}</h6>
+                            {/*<h6><b>Tipos de proyecto:</b><br/>{groupProject[i]}</h6>*/}
+                        </div>
+                    )
+                }
+                console.log('====================================');
+                console.log("Filtered Library entra");
+                console.log(compt_library);
+                console.log('====================================');
+            } else {
+                /* Bucle donde se printa todas las imagenes */
+                for(let i = 0; i < library_all.length; i++){
+                    let srcName = library_all[i].image_path
+                    compt_library.push(
+                        <div key={i} className="box-img">
+                            <img onClick={() => openModal(library_all[i])} src={urlImage + srcName} width="100" height="200" alt=""/>
+                            <h6>{library_all[i].component_name}</h6>
+                            {/*<h6><b>Tipos de proyecto:</b><br/>{groupProject[i]}</h6>*/}
+                        </div>
+                    )
+                }
+                console.log('====================================');
+                console.log("Library all entra");
+                console.log(compt_library);
+                console.log('====================================');
+            }
             await setImgSrc(compt_library)
         })   
-	}, [groupProject])
+	}, [groupProject, props])
 
     /* Configuracion de los modales */
     function openModal(valueLibrary) {
@@ -119,7 +128,7 @@ const ImagesLibrary = (state) => {
             <div className="title-img">
                 <h2>Galeria</h2>
             </div>
-            
+
             {imgSrc}            
 
             <Modal
@@ -155,9 +164,9 @@ const ImagesLibrary = (state) => {
                     previousLabel={'Previous'}
                     pageCount={25}
                     marginPagesDisplayed={1}
-                    pageRangeDisplayed={1}
+                    pageRangeDisplayed={2}
                     onPageChange={handlePageClick}
-                    containerClassName={'pagination '}
+                    containerClassName={'pagination'}
                     pageClassName={'page-item'}
                     pageLinkClassName={'page-link'}
                     previousClassName={'page-item'}

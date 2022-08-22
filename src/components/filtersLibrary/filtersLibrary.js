@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import ImagesLibrary from '../imagesLibrary/imagesLibrary';
 
-const FiltersLibrary = (props, setState) =>{
+const FiltersLibrary = (props) =>{
 
     /* Rellenar arrays filtros */
 	const [families, setFamilies] = useState([])
@@ -22,11 +22,25 @@ const FiltersLibrary = (props, setState) =>{
     const [allLibrary, setAllLibrary] = useState([])
     const [newLibrary, setNewLibrary] = useState([])
     const [handleCheck, setHandleCheck] = useState({});
-    const [sinResultadosBuscador, setSinResultadosBuscador] = useState(true)
-
+    
     /* Configuracion busqueda */
     const [busqueda, setBusqueda] = useState("")
     const [newSearchLibrary, setNewSearchLibrary] = useState([])
+    const [sinResultadosBuscador, setSinResultadosBuscador] = useState(true)
+     
+    /* Todos los datos de las imagenes */
+    // Recoger path de la imagenes
+    useEffect(async()=>{
+        
+        getLibrary()
+        .then(response => response.json())
+        .then(async json => {
+            let library_all = json.library
+            let compt_library =[library_all]                     
+            
+            await setAllLibrary(compt_library)
+        })   
+	}, [])
 
 	/* Familias */
 	useEffect(async()=>{
@@ -46,7 +60,7 @@ const FiltersLibrary = (props, setState) =>{
 
 				compt_types.push(
                     <div key={i} className='container__checkbox'>
-                        <Checkbox onClick={() => handleChange([label])}/> <p className="text__checkbox__library">{label}</p>
+                        <Checkbox onClick={() => handleChangeCheckbox([label])}/> <p className="text__checkbox__library">{label}</p>
                     </div>
                 )
 			}
@@ -72,7 +86,7 @@ const FiltersLibrary = (props, setState) =>{
                 
 				compt_brand.push(
                     <div key={i} className='container__checkbox'>
-                        <Checkbox onClick={() => handleChange([label])}/> <p className="text__checkbox__library">{label}</p>
+                        <Checkbox onClick={() => handleChangeCheckbox([label])}/> <p className="text__checkbox__library">{label}</p>
                     </div>
                 )
 			}
@@ -99,7 +113,7 @@ const FiltersLibrary = (props, setState) =>{
 
 				compt_project.push(
                     <div key={i} className='container__checkbox'>
-                        <Checkbox onClick={() => handleChange([label])}/> <p className="text__checkbox__library">{label}</p>
+                        <Checkbox onClick={() => handleChangeCheckbox([label])}/> <p className="text__checkbox__library">{label}</p>
                     </div>
                 )
 			}
@@ -127,56 +141,48 @@ const FiltersLibrary = (props, setState) =>{
 
 				compt_disc.push(
                     <div key={i} className='container__checkbox'>
-                        <Checkbox onClick={() => handleChange([label])} /> <p className="text__checkbox__library">{label}</p>
+                        <Checkbox onClick={() => handleChangeCheckbox([label])} /> <p className="text__checkbox__library">{label}</p>
                     </div>
                 )
 			}
 			await setDisciplina(compt_disc)
         })   
 	}, [])
- 
-    /* Todos los datos de las imagenes */
-    // Recoger path de la imagenes
-    useEffect(async()=>{
-        
-        getLibrary()
-        .then(response => response.json())
-        .then(async json => {
-            let library_all = json.library
-            let compt_library =[library_all]                     
-            
-            await setAllLibrary(compt_library)
-        })   
-	}, [])
 
-    /* Funcion para los filtros */
-    const handleChange =  (e) => {
+    /* Funcion para los filtros checkbox*/
+    const handleChangeCheckbox = (e) => {
+
+        let array_checkbox_filter = []
+
+        for (let pos = 0; pos < allLibrary.length; pos++) {
+
+            if (
+                allLibrary[0][pos].component_brand.toString().includes(e)
+                || allLibrary[0][pos].component_discipline.toString().includes(e)
+                || allLibrary[0][pos].component_type.toString().includes(e)
+                || allLibrary[0][pos].component_code.toString().includes(e)
+                || allLibrary[0][pos].project_type.toString().includes(e)
+                || allLibrary[0][pos].component_name.toString().includes(e)
+            ){
+                array_checkbox_filter.push(allLibrary[0][pos])
+            }
+        }
         console.log('====================================');
-        console.log("Handle Check antes");
-        console.log(handleCheck);
+        console.log("Array checkbox");
+        console.log(array_checkbox_filter);
         console.log('====================================');
-        setHandleCheck({...handleCheck, [e.target.id]: e.target.checked})
-        console.log('====================================');
-        console.log("Handle Check despues");
-        console.log(handleCheck);
-        console.log('====================================');
+        // setHandleCheck({...filterKeys, [e.target]: e.checked})
+        // console.log('====================================');
+        // console.log("Handle Check despues");
+        // console.log({...filterKeys, [e]: e.checked});
+        // console.log('====================================');
 
     }
 
    useEffect(() => {
         function filterbyName (value) {
 
-            // console.log('====================================');
-            // console.log("AllLibrary");
-            // console.log(allLibrary);
-            // console.log('====================================');
-
             if(handleCheck !== undefined) {
-                
-                // console.log('====================================');
-                // console.log("filtersKeys");
-                // console.log(filterKeys);
-                // console.log('====================================');
 
                 return filterKeys.every(function(key) {
                     return !handleCheck[key] || value[key];
@@ -194,71 +200,31 @@ const FiltersLibrary = (props, setState) =>{
     /* Metodos para filtro busqueda */
     const handleChangeSearch=e=>{
         setBusqueda(e.target.value);
-        filtrar(e.target.value)
         console.log("Busqueda: " + e.target.value);
     }
 
-    const filtrar=(terminoBusqueda)=>{
+    function arrayBuscador() {
+
         let array_filtro = []
         
         allLibrary.filter((elemento)=>{
 
-            // console.log('====================================');
-            // console.log("Booleana en total");
-            // console.log(elemento);
-            // console.log('====================================');
-
             for (let index = 0; index < elemento.length; index++) {
-                if(elemento[index].component_brand.toString().toLowerCase().includes(terminoBusqueda.toLowerCase())
-                || elemento[index].component_discipline.toString().toLowerCase().includes(terminoBusqueda.toLowerCase())
-                || elemento[index].component_type.toString().toLowerCase().includes(terminoBusqueda.toLowerCase())
-                || elemento[index].component_code.toString().toLowerCase().includes(terminoBusqueda.toLowerCase())
-                || elemento[index].project_type.toString().toLowerCase().includes(terminoBusqueda.toLowerCase())
-                || elemento[index].component_name.toString().toLowerCase().includes(terminoBusqueda.toLowerCase())
+                if(elemento[index].component_brand.toString().toLowerCase().includes(busqueda.toLowerCase())
+                || elemento[index].component_discipline.toString().toLowerCase().includes(busqueda.toLowerCase())
+                || elemento[index].component_type.toString().toLowerCase().includes(busqueda.toLowerCase())
+                || elemento[index].component_code.toString().toLowerCase().includes(busqueda.toLowerCase())
+                || elemento[index].project_type.toString().toLowerCase().includes(busqueda.toLowerCase())
+                || elemento[index].component_name.toString().toLowerCase().includes(busqueda.toLowerCase())
                 ){
-                    // console.log('====================================');
-                    // console.log("Marcas en total");
-                    // console.log(elemento[index]);
-                    // console.log('====================================');
                     array_filtro.push(elemento[index]);
                 }
                 
             }
-            return array_filtro;
         });
 
-        // console.log('====================================');
-        // console.log("Resultados de la Busqueda");
-        // console.log(array_filtro);
-        // console.log('====================================');
         setNewSearchLibrary(array_filtro);
-        // console.log('====================================');
-        // console.log("newSearchLibrary");
-        // console.log(newSearchLibrary);
-        // console.log('====================================');
-    }
-
-    function arrayBuscador(arrayFiltrado, sinResultados) {
-
-        if(newSearchLibrary!=null){
-            console.log("entra if");
-            arrayFiltrado = newSearchLibrary;
-            sinResultados = false
-        } else {
-            console.log("entra else");
-            sinResultados = true
-        }
-
-        // console.log('====================================');
-        // console.log("Boton new Search Library");
-        // console.log(arrayFiltrado);
-        // console.log('====================================');
-        // console.log('====================================');
-        // console.log("Boton sin resultados buscador");
-        // console.log(sinResultados);
-        // console.log('====================================');
-
-        return arrayFiltrado, sinResultados;
+        props.filterSearcher(array_filtro)
     }
 
     return(
@@ -273,7 +239,7 @@ const FiltersLibrary = (props, setState) =>{
                     placeholder="Search"
                     onChange={handleChangeSearch}
                     />
-                    <button className="btn btn-success" onClick={() => arrayBuscador(newSearchLibrary, sinResultadosBuscador)}>
+                    <button className="btn btn-success" onClick={() => arrayBuscador()}>
                         <FontAwesomeIcon icon={faSearch}/>
                     </button>
                 </div>

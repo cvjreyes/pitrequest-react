@@ -11,18 +11,23 @@ import ImagesLibrary from '../../components/imagesLibrary/imagesLibrary';
 
 const Library = () =>{    
 
-	const [state, setState] = useState(false)
+	const [filtersLibrary, setFiltersLibrary] = useState(<FiltersLibrary filterSearcher={filterSearcher.bind(this)}/>)
+	const [imagesLibrary, setImagesLibrary] = useState(<ImagesLibrary array_filtrado_buscador={[]} />)
 	const history = useNavigate();
 
 	document.body.style.zoom = 0.8
-	document.body.style.height = -70%
+    document.body.style.height = "90%"
 
 	/* Es para volver al menu principal */
 	function back(){
         history("/"+process.env.REACT_APP_PROJECT+"/pitrequests")
     }	
 
+	function filterSearcher (array_filtrado_buscador) {
+		setImagesLibrary(<ImagesLibrary array_filtrado_buscador={array_filtrado_buscador}/> )
 
+
+	}
 
     return (
 		<div>
@@ -34,10 +39,10 @@ const Library = () =>{
 					<img src={PITLogo} alt="PITLogo" className="isoTrackerLogo__image2" style={{height:"110px", marginLeft:60}}/>
 				</div>
 				{/* Componente filtros izquierda libreria */}
-				<FiltersLibrary setState={setState}/>
+				{filtersLibrary}
 			</div>
 			<div className="container">
-				<ImagesLibrary state={state}/>
+				{imagesLibrary}
 			</div>
 		</div>
     )
