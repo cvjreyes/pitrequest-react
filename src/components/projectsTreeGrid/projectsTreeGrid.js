@@ -137,10 +137,10 @@ class ProjectsTreeGrid extends Component{
         let projects = []
         if(json.projects){
           for(let i = 0; i < json.projects.length; i++){
-            projects.push({"Project": json.projects[i].name, "Admin" : json.projects[i].admin, "Hours": json.projects[i].sup_estihrs, "id": json.projects[i].id})
+            projects.push({"Project": json.projects[i].name, "Admin" : json.projects[i].admin, "Hours": json.projects[i].sup_estihrs, "id": json.projects[i].id, "Active": Boolean(json.projects[i].active)})
           }
         }else{
-          projects.push({"Project": null, "Admin" : null, "Hours": null, "id": null})
+          projects.push({"Project": null, "Admin" : null, "Hours": null, "id": null, "Active": null})
         }
         
         await this.setState({projects : projects});
@@ -246,6 +246,8 @@ class ProjectsTreeGrid extends Component{
   }
   
   async saveChanges(){
+
+    console.log(this.state.projects)
 
     await this.setState({error: false})
 
@@ -464,10 +466,10 @@ class ProjectsTreeGrid extends Component{
         let projects = []
         if(json.projects){
           for(let i = 0; i < json.projects.length; i++){
-            projects.push({"Project": json.projects[i].name, "Admin" : json.projects[i].admin, "Hours": json.projects[i].sup_estihrs, "id": json.projects[i].id})
+            projects.push({"Project": json.projects[i].name, "Admin" : json.projects[i].admin, "Hours": json.projects[i].sup_estihrs, "id": json.projects[i].id, "Active": Boolean(json.projects[i].active)})
           }
         }else{
-          projects.push({"Project": null, "Admin" : null, "Hours": null, "id": null})
+          projects.push({"Project": null, "Admin" : null, "Hours": null, "id": null, "Active":null})
         }
         await this.setState({projects : projects});
       })
@@ -487,7 +489,7 @@ class ProjectsTreeGrid extends Component{
 
     let settingsProjects = {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 293,
+      colWidths: [261, 261, 261, 91],
     }
 
     let settingsTasks = {
@@ -515,7 +517,7 @@ class ProjectsTreeGrid extends Component{
           <div className="excel__container__2">
             <HotTable
               data={this.state.projects}
-              colHeaders = {["<b>Project</b>", "<b>Default admin</b>", "<b>Estimated hours</b>"]}
+              colHeaders = {["<b>Project</b>", "<b>Default admin</b>", "<b>Estimated hours</b>", "<b>Active</b>"]}
               rowHeaders={false}
               width="900"
               className="custom__table__2"
@@ -524,7 +526,7 @@ class ProjectsTreeGrid extends Component{
               settings={settingsProjects} 
               manualColumnResize={true}
               manualRowResize={true}
-              columns= { [{data: "Project", editor: false}, {data: "Admin", type: Handsontable.cellTypes.dropdown, strict:true, source: this.state.admins}, {data: "Hours"}]}
+              columns= { [{data: "Project", editor: false}, {data: "Admin", type: Handsontable.cellTypes.dropdown, strict:true, source: this.state.admins}, {data: "Hours"}, {data: "Active", type: "checkbox"}]}
               filters={true}
               dropdownMenu= {[
                   'make_read_only',
