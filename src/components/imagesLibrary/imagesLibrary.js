@@ -55,20 +55,6 @@ const ImagesLibrary = (props) => {
         })   
 	}, [])
 
-    // else if(props.array_filtrado_checkbox.length>0){
-    //     /* Bucle donde se printa las imagenes con el filtro de los checkbox */
-    //     for(let i = 0; i < props.array_filtrado_checkbox.length; i++){
-    //         let srcName = props.array_filtrado_checkbox[i].image_path
-    //         compt_library.push(
-    //             <div key={i} className="box-img">
-    //                 <img onClick={() => openModal(props.array_filtrado_checkbox[i])} src={urlImage + srcName} width="100" height="200" alt=""/>
-    //                 <h6>{props.array_filtrado_checkbox[i].component_name}</h6>
-    //                 {/*<h6><b>Tipos de proyecto:</b><br/>{groupProject[i]}</h6>*/}
-    //             </div>
-    //         )
-    //     }
-    // }
-
     // Recoger path de todas las imagenes
     useEffect(async()=>{
         await getLibrary()
@@ -77,6 +63,8 @@ const ImagesLibrary = (props) => {
             let library_all = json.library
             let compt_library =[]
             
+            console.log("problema del length: " + props.array_filtrado_checkbox.length);
+
             if(props.array_filtrado_buscador.length>0){
                 setMaxPages(Math.ceil(props.array_filtrado_buscador.length/10))
                 /* Bucle donde se printa las imagenes con el filtro busqueda */
@@ -86,6 +74,19 @@ const ImagesLibrary = (props) => {
                         <div key={i} className="box-img">
                             <img onClick={() => openModal(props.array_filtrado_buscador[i])} src={urlImage + srcName} width="100" height="200" alt=""/>
                             <h6>{props.array_filtrado_buscador[i].component_name}</h6>
+                            {/*<h6><b>Tipos de proyecto:</b><br/>{groupProject[i]}</h6>*/}
+                        </div>
+                    )
+                }
+            } else if(props.array_filtrado_checkbox.length>0){
+                setMaxPages(Math.ceil(props.array_filtrado_checkbox.length/10))
+                /* Bucle donde se printa las imagenes con el filtro de los checkbox */
+                for(let i = currentPage*10; i < props.array_filtrado_checkbox.length && i < currentPage*10 + 10; i++){
+                    let srcName = props.array_filtrado_checkbox[i].image_path
+                    compt_library.push(
+                        <div key={i} className="box-img">
+                            <img onClick={() => openModal(props.array_filtrado_checkbox[i])} src={urlImage + srcName} width="100" height="200" alt=""/>
+                            <h6>{props.array_filtrado_checkbox[i].component_name}</h6>
                             {/*<h6><b>Tipos de proyecto:</b><br/>{groupProject[i]}</h6>*/}
                         </div>
                     )

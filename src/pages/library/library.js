@@ -10,7 +10,7 @@ import ImagesLibrary from '../../components/imagesLibrary/imagesLibrary';
 const Library = () =>{    
 
 	const [filtersLibrary, setFiltersLibrary] = useState(<FiltersLibrary filterSearcher={filterSearcher.bind(this)} filterCheckbox={filterCheckbox.bind(this)} />)
-	const [imagesLibrary, setImagesLibrary] = useState(<ImagesLibrary array_filtrado_buscador={[]} />)
+	const [imagesLibrary, setImagesLibrary] = useState(<ImagesLibrary array_filtrado_buscador={[]} array_filtrado_checkbox={[]} />)
 
 	document.body.style.zoom = 0.8
     document.body.style.height = "90%"
