@@ -117,7 +117,8 @@ export default class QtrackerNRBPopUp extends Component {
             description: null,
             priority: null,
             errorBlankRequest: false,
-            projects: []
+            projects: [],
+            projectName: ""
         }
     }
     async componentDidMount(){
@@ -135,7 +136,7 @@ export default class QtrackerNRBPopUp extends Component {
           for(let i = 0; i < json.projects.length; i++){
             projects.push(json.projects[i].name)
           }
-          this.setState({projects:projects})
+          this.setState({projects:projects, projectName: projects[0]})
         })
     }
 
@@ -181,7 +182,7 @@ export default class QtrackerNRBPopUp extends Component {
             description: this.state.description,
             has_attach: has_attach,
             user: secureStorage.getItem("user"),
-            project: document.getElementById("projectSelect").value,
+            project: this.state.projectName,
             priority: document.getElementById("prioritySelect").value
           }
           const options = {
@@ -241,7 +242,7 @@ export default class QtrackerNRBPopUp extends Component {
                         </div>
                         <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>NOT REPORTING IN BFILE</h3></center>
                         <div className="qtrackerRequest__container">
-                        <select id="projectSelect" className="projectSelect">
+                        <select id="projectSelect" className="projectSelect" onChange={(e) => this.setState({projectName: e.target.value})}>
                                 {this.state.projects.map(project =>(
                                     <option>{project}</option>
                                 ))}
