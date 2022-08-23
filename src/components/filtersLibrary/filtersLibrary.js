@@ -56,6 +56,10 @@ const FiltersLibrary = (props) =>{
         .then(async json => {
 			let types = json.component_types
 			let compt_types = []
+
+            console.log("dentro del check Familias");
+            console.log(newCheckboxLibraryFamilias);
+
             for(let i = 0; i < types.length; i++){
                 let label = types[i].type
 
@@ -71,10 +75,10 @@ const FiltersLibrary = (props) =>{
                             control={
                                 <Checkbox 
                                     value={label} 
-                                    checked={newCheckboxLibraryFamilias.includes(label)}
+                                    checked={newCheckboxLibraryFamilias?.includes(label)}
                                     onChange={handleChangeCheckboxFamilias} 
                                     />                            
-                            }
+                            } 
                         />
                     </div>
                 )
@@ -91,6 +95,10 @@ const FiltersLibrary = (props) =>{
         .then(async json => {
 			let brands = json.component_brands
 			let compt_brand = []
+
+            console.log("dentro del check Marcas");
+            console.log(newCheckboxLibraryMarcas);
+
             for(let i = 0; i < brands.length; i++){
                 let label = brands[i].brand
                 
@@ -127,6 +135,9 @@ const FiltersLibrary = (props) =>{
 			let project_types = json.project_types
 			let compt_project = []
 
+            console.log("dentro del check tipo proyecto");
+            console.log(newCheckboxLibraryTipoP);
+
             for(let i = 0; i < project_types.length; i++){
                 let label = project_types[i].project_type
 
@@ -162,11 +173,10 @@ const FiltersLibrary = (props) =>{
         .then(async json => {
 			let disciplinas = json.component_disciplines
 			let compt_disc = []
-            let arrayCheckDisc = []
-            arrayCheckDisc.push(newCheckboxLibraryDisciplinas)
 
-            console.log("dentro del check supremo");
-            console.log(arrayCheckDisc);
+
+            console.log("dentro del check disciplinas");
+            console.log(newCheckboxLibraryDisciplinas);
 
             for(let i = 0; i < disciplinas.length; i++){
                 let label = disciplinas[i].discipline + " (" + disciplinas[i].code + ")"
@@ -176,8 +186,6 @@ const FiltersLibrary = (props) =>{
                 if(!filterKeys.includes(label2)){
                     filterKeys.push(label2)
                 }
-
-
 
 				compt_disc.push(
                     <div key={i} className='container__checkbox'>
@@ -254,7 +262,6 @@ const FiltersLibrary = (props) =>{
         console.log("Marcas");
         console.log(newCheckboxLibraryMarcas);
     }
-
 
     /* Funcion para los filtros checkbox Tipo Proyectos*/
     const handleChangeCheckboxTipoP = event => {

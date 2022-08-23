@@ -3,7 +3,6 @@ import './imagesLibrary.css'
 import ReactPaginate from 'react-paginate';
 import Modal from 'react-modal';
 import { getGroupProjects, getLibrary } from '../../ApiRequest';
-import { library } from '@fortawesome/fontawesome-svg-core';
 
 const ImagesLibrary = (props) => {
 
@@ -17,12 +16,10 @@ const ImagesLibrary = (props) => {
     const [oneGroupProject, setOneGroupProject] = useState({})
     
     // Paginacion
-    const [arrayData, setArrayData] = useState([])
+    const [maxPages, setMaxPages] = useState()
 
     // Los usestate para poder printar el filtro de busqueda
-    const [filteredLibrary, setFilteredLibrary] = useState([])
     const [currentPage, setCurrentPage] = useState(0)
-    const [maxPages, setMaxPages] = useState()
     
     //url imagen
     const urlImage = "http://" + process.env.REACT_APP_SERVER + ":" + process.env.REACT_APP_NODE_PORT + "/"
@@ -96,7 +93,6 @@ const ImagesLibrary = (props) => {
             } else {
                 /* Bucle donde se printa todas las imagenes */
                 setMaxPages(Math.ceil(library_all.length/10))
-                console.log(library_all)
                 for(let i = currentPage*10; i < library_all.length && i < currentPage*10 + 10; i++){
                     let srcName = library_all[i].image_path
                     compt_library.push(
@@ -108,7 +104,6 @@ const ImagesLibrary = (props) => {
                     )
                 }
             }
-            console.log("lib ", compt_library)
             await setImgSrc(compt_library)
         })   
 	}, [groupProject, props, currentPage])
