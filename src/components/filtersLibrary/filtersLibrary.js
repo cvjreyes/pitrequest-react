@@ -8,6 +8,7 @@ import { FormControlLabel, FormGroup, Checkbox, Box } from '@mui/material';
 
 const FiltersLibrary = (props) =>{
 
+
     /* Rellenar arrays filtros */
 	const [families, setFamilies] = useState([])
 	const [marcas, setMarcas] = useState([])
@@ -221,7 +222,7 @@ const FiltersLibrary = (props) =>{
     }
 
     /* Funcion para los filtros checkbox Familias*/
-    const handleChangeCheckboxFamilias = (event) => {
+    const handleChangeCheckboxFamilias = event => {
         const index = newCheckboxLibraryFamilias.indexOf(event.target.value)
         console.log(event.target.value);
         if (index === -1){
@@ -229,14 +230,16 @@ const FiltersLibrary = (props) =>{
         } else {
             setNewCheckboxLibraryFamilias(newCheckboxLibraryFamilias.filter((newCheckboxLibraryFamilias) => newCheckboxLibraryFamilias !== event.target.value))
         }
+        setNewCheckboxLibraryFamilias([...newCheckboxLibraryFamilias, event.target.value])
         console.log("Familias");
         console.log(newCheckboxLibraryFamilias);
     }
 
     /* Funcion para los filtros checkbox Marcas*/
-    const handleChangeCheckboxMarcas = (event) => {
+    const handleChangeCheckboxMarcas = event => {
         const index = newCheckboxLibraryMarcas.indexOf(event.target.value)
         console.log(event.target.value);
+        console.log(event);
 
         if (index === -1){
             setNewCheckboxLibraryMarcas([...newCheckboxLibraryMarcas, event.target.value])
@@ -248,7 +251,7 @@ const FiltersLibrary = (props) =>{
     }
 
     /* Funcion para los filtros checkbox Tipo Proyectos*/
-    const handleChangeCheckboxTipoP = (event) => {
+    const handleChangeCheckboxTipoP = event => {
         const index = newCheckboxLibraryTipoP.indexOf(event.target.value)
         console.log(event.target.value);
 
@@ -262,15 +265,15 @@ const FiltersLibrary = (props) =>{
     }
 
     /* Funcion para los filtros checkbox Disciplinas*/
-    const handleChangeCheckboxDisciplinas = (event) => {
+    const handleChangeCheckboxDisciplinas = event => {
         const index = newCheckboxLibraryDisciplinas.indexOf(event.target.value)
         console.log(event.target.value);
     
         if (index === -1){
             setNewCheckboxLibraryDisciplinas([...newCheckboxLibraryDisciplinas, event.target.value])
-            console.log("if dentro" + newCheckboxLibraryDisciplinas);
+            console.log("if dentro " + newCheckboxLibraryDisciplinas);
         } else {
-            console.log("else dentro" + newCheckboxLibraryDisciplinas);
+            console.log("else dentro " + newCheckboxLibraryDisciplinas);
             setNewCheckboxLibraryDisciplinas(newCheckboxLibraryDisciplinas.filter((newCheckboxLibraryDisciplinas) => newCheckboxLibraryDisciplinas !== event.target.value))
         }
         console.log("Disciplinas");
