@@ -3,6 +3,7 @@ import './imagesLibrary.css'
 import ReactPaginate from 'react-paginate';
 import Modal from 'react-modal';
 import { getGroupProjects, getLibrary } from '../../ApiRequest';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 const ImagesLibrary = (props) => {
 
@@ -20,6 +21,8 @@ const ImagesLibrary = (props) => {
 
     // Los usestate para poder printar el filtro de busqueda
     const [filteredLibrary, setFilteredLibrary] = useState([])
+    const [currentPage, setCurrentPage] = useState(0)
+    const [maxPages, setMaxPages] = useState()
     
     //url imagen
     const urlImage = "http://" + process.env.REACT_APP_SERVER + ":" + process.env.REACT_APP_NODE_PORT + "/"
@@ -71,7 +74,6 @@ const ImagesLibrary = (props) => {
 
     // Recoger path de todas las imagenes
     useEffect(async()=>{
-
         await getLibrary()
         .then(response => response.json())
         .then(async json => {
@@ -79,8 +81,9 @@ const ImagesLibrary = (props) => {
             let compt_library =[]
             
             if(props.array_filtrado_buscador.length>0){
+                setMaxPages(Math.ceil(props.array_filtrado_buscador.length/10))
                 /* Bucle donde se printa las imagenes con el filtro busqueda */
-                for(let i = 0; i < props.array_filtrado_buscador.length; i++){
+                for(let i = currentPage*10; i < props.array_filtrado_buscador.length && i < currentPage*10 + 10; i++){
                     let srcName = props.array_filtrado_buscador[i].image_path
                     compt_library.push(
                         <div key={i} className="box-img">
@@ -92,7 +95,9 @@ const ImagesLibrary = (props) => {
                 }
             } else {
                 /* Bucle donde se printa todas las imagenes */
-                for(let i = 0; i < library_all.length; i++){
+                setMaxPages(Math.ceil(library_all.length/10))
+                console.log(library_all)
+                for(let i = currentPage*10; i < library_all.length && i < currentPage*10 + 10; i++){
                     let srcName = library_all[i].image_path
                     compt_library.push(
                         <div key={i} className="box-img">
@@ -103,9 +108,10 @@ const ImagesLibrary = (props) => {
                     )
                 }
             }
+            console.log("lib ", compt_library)
             await setImgSrc(compt_library)
         })   
-	}, [groupProject, props])
+	}, [groupProject, props, currentPage])
 
     /* Configuracion de los modales */
     function openModal(valueLibrary) {
@@ -121,11 +127,7 @@ const ImagesLibrary = (props) => {
 
     //Pagination
     const handlePageClick = async (data) => {
-        console.log("click");
-        console.log(data.selected);
-        let currentP = data.selected + 1
-
-        setImgSrc(arrayData)
+        await setCurrentPage(data.selected)
     }
 
     return (
@@ -167,7 +169,7 @@ const ImagesLibrary = (props) => {
                     breakLabel="***"
                     nextLabel={'Next'}
                     previousLabel={'Previous'}
-                    pageCount={25}
+                    pageCount={maxPages}
                     marginPagesDisplayed={1}
                     pageRangeDisplayed={2}
                     onPageChange={handlePageClick}
