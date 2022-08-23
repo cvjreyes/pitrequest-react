@@ -85,7 +85,7 @@ const FiltersLibrary = (props) =>{
 			}
 			await setFamilies(compt_types)
         })   
-	}, [])
+	}, [newCheckboxLibraryFamilias])
 
     /* Marcas */
 	useEffect(async()=>{
@@ -124,7 +124,7 @@ const FiltersLibrary = (props) =>{
 			}
 			await setMarcas(compt_brand)
         })   
-	}, [])
+	}, [newCheckboxLibraryMarcas])
 
     /* Tipos de proyecto */
 	useEffect(async()=>{
@@ -163,7 +163,7 @@ const FiltersLibrary = (props) =>{
 			}
 			await setTipoP(compt_project)
         })   
-	}, [])
+	}, [newCheckboxLibraryTipoP])
 
     /* Disciplinas */
 	useEffect(async()=>{
@@ -187,6 +187,7 @@ const FiltersLibrary = (props) =>{
                     filterKeys.push(label2)
                 }
 
+
 				compt_disc.push(
                     <div key={i} className='container__checkbox'>
                         <FormControlLabel
@@ -204,7 +205,7 @@ const FiltersLibrary = (props) =>{
 			}
 			await setDisciplina(compt_disc)
         })   
-	}, [])
+	}, [newCheckboxLibraryDisciplinas])
 
     /* Metodos para filtro busqueda */
     const handleChangeSearch = e => {
@@ -241,7 +242,7 @@ const FiltersLibrary = (props) =>{
         const index = newCheckboxLibraryFamilias.indexOf(event.target.value)
         console.log(event.target.value);
         if (index === -1){
-            newCheckboxLibraryFamilias.push(event.target.value)
+            setNewCheckboxLibraryFamilias([...newCheckboxLibraryFamilias, event.target.value])
         } else {
             setNewCheckboxLibraryFamilias(newCheckboxLibraryFamilias.filter((newCheckboxLibraryFamilias) => newCheckboxLibraryFamilias !== event.target.value))
         }
@@ -249,13 +250,14 @@ const FiltersLibrary = (props) =>{
         console.log(newCheckboxLibraryFamilias);
     }
 
+
     /* Funcion para los filtros checkbox Marcas*/
     const handleChangeCheckboxMarcas = event => {
         const index = newCheckboxLibraryMarcas.indexOf(event.target.value)
         console.log(event.target.value);
 
         if (index === -1){
-            newCheckboxLibraryMarcas.push(event.target.value)
+            setNewCheckboxLibraryMarcas([...newCheckboxLibraryMarcas, event.target.value])
         } else {
             setNewCheckboxLibraryMarcas(newCheckboxLibraryMarcas.filter((newCheckboxLibraryMarcas) => newCheckboxLibraryMarcas !== event.target.value))
         }
@@ -269,7 +271,7 @@ const FiltersLibrary = (props) =>{
         console.log(event.target.value);
 
         if (index === -1){
-            newCheckboxLibraryTipoP.push(event.target.value)
+            setNewCheckboxLibraryTipoP([...newCheckboxLibraryTipoP, event.target.value])
         } else {
             setNewCheckboxLibraryTipoP(newCheckboxLibraryTipoP.filter((newCheckboxLibraryTipoP) => newCheckboxLibraryTipoP !== event.target.value))
         }
@@ -284,7 +286,7 @@ const FiltersLibrary = (props) =>{
 
         if (index === -1){
             //setNewCheckboxLibraryDisciplinas([...newCheckboxLibraryDisciplinas, event.target.value])
-            newCheckboxLibraryDisciplinas.push(event.target.value)
+            setNewCheckboxLibraryDisciplinas([...newCheckboxLibraryDisciplinas, event.target.value])
             console.log("if dentro " + newCheckboxLibraryDisciplinas);
         } else {
             console.log("else dentro " + newCheckboxLibraryDisciplinas);
