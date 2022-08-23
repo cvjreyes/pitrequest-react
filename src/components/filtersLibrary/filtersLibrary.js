@@ -162,7 +162,12 @@ const FiltersLibrary = (props) =>{
         .then(async json => {
 			let disciplinas = json.component_disciplines
 			let compt_disc = []
-            
+            let arrayCheckDisc = []
+            arrayCheckDisc.push(newCheckboxLibraryDisciplinas)
+
+            console.log("dentro del check supremo");
+            console.log(arrayCheckDisc);
+
             for(let i = 0; i < disciplinas.length; i++){
                 let label = disciplinas[i].discipline + " (" + disciplinas[i].code + ")"
                 let label2 = disciplinas[i].discipline
@@ -171,6 +176,8 @@ const FiltersLibrary = (props) =>{
                 if(!filterKeys.includes(label2)){
                     filterKeys.push(label2)
                 }
+
+
 
 				compt_disc.push(
                     <div key={i} className='container__checkbox'>
@@ -226,11 +233,10 @@ const FiltersLibrary = (props) =>{
         const index = newCheckboxLibraryFamilias.indexOf(event.target.value)
         console.log(event.target.value);
         if (index === -1){
-            setNewCheckboxLibraryFamilias([...newCheckboxLibraryFamilias, event.target.value])
+            newCheckboxLibraryFamilias.push(event.target.value)
         } else {
             setNewCheckboxLibraryFamilias(newCheckboxLibraryFamilias.filter((newCheckboxLibraryFamilias) => newCheckboxLibraryFamilias !== event.target.value))
         }
-        setNewCheckboxLibraryFamilias([...newCheckboxLibraryFamilias, event.target.value])
         console.log("Familias");
         console.log(newCheckboxLibraryFamilias);
     }
@@ -239,10 +245,9 @@ const FiltersLibrary = (props) =>{
     const handleChangeCheckboxMarcas = event => {
         const index = newCheckboxLibraryMarcas.indexOf(event.target.value)
         console.log(event.target.value);
-        console.log(event);
 
         if (index === -1){
-            setNewCheckboxLibraryMarcas([...newCheckboxLibraryMarcas, event.target.value])
+            newCheckboxLibraryMarcas.push(event.target.value)
         } else {
             setNewCheckboxLibraryMarcas(newCheckboxLibraryMarcas.filter((newCheckboxLibraryMarcas) => newCheckboxLibraryMarcas !== event.target.value))
         }
@@ -250,13 +255,14 @@ const FiltersLibrary = (props) =>{
         console.log(newCheckboxLibraryMarcas);
     }
 
+
     /* Funcion para los filtros checkbox Tipo Proyectos*/
     const handleChangeCheckboxTipoP = event => {
         const index = newCheckboxLibraryTipoP.indexOf(event.target.value)
         console.log(event.target.value);
 
         if (index === -1){
-            setNewCheckboxLibraryTipoP([...newCheckboxLibraryTipoP, event.target.value])
+            newCheckboxLibraryTipoP.push(event.target.value)
         } else {
             setNewCheckboxLibraryTipoP(newCheckboxLibraryTipoP.filter((newCheckboxLibraryTipoP) => newCheckboxLibraryTipoP !== event.target.value))
         }
@@ -268,9 +274,10 @@ const FiltersLibrary = (props) =>{
     const handleChangeCheckboxDisciplinas = event => {
         const index = newCheckboxLibraryDisciplinas.indexOf(event.target.value)
         console.log(event.target.value);
-    
+
         if (index === -1){
-            setNewCheckboxLibraryDisciplinas([...newCheckboxLibraryDisciplinas, event.target.value])
+            //setNewCheckboxLibraryDisciplinas([...newCheckboxLibraryDisciplinas, event.target.value])
+            newCheckboxLibraryDisciplinas.push(event.target.value)
             console.log("if dentro " + newCheckboxLibraryDisciplinas);
         } else {
             console.log("else dentro " + newCheckboxLibraryDisciplinas);
@@ -281,6 +288,7 @@ const FiltersLibrary = (props) =>{
     }
 
     function arrayCheckbox() {
+
 
     }
 
