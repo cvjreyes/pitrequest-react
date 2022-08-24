@@ -5,6 +5,7 @@ import PITLogo from "../../assets/images/pitlogo.svg"
 
 import FiltersLibrary from '../../components/filtersLibrary/filtersLibrary';
 import ImagesLibrary from '../../components/imagesLibrary/imagesLibrary';
+import CreateComponentPopUp from '../../components/createComponentPopUp/createComponentPopUp';
 
 
 const Library = () =>{    
@@ -36,6 +37,7 @@ const Library = () =>{
 				{filtersLibrary}
 			</div>
 			<div className="container">
+				<CreateComponentPopUp/>
 				{imagesLibrary}
 			</div>
 		</div>
