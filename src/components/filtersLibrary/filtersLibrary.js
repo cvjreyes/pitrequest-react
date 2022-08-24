@@ -72,7 +72,7 @@ const FiltersLibrary = (props) =>{
                             control={
                                 <Checkbox 
                                     value={label} 
-                                    checked={newCheckboxLibraryFamilias?.includes(label)}
+                                    checked={newCheckboxLibraryFamilias.includes(label)}
                                     onChange={handleChangeCheckboxFamilias} 
                                     onClick={() => arrayCheckbox()}
                                     />                            
@@ -124,7 +124,7 @@ const FiltersLibrary = (props) =>{
 			await setMarcas(compt_brand)
         })   
 	}, [newCheckboxLibraryMarcas])
-    
+
     /* Tipos de proyecto */
 	useEffect(async()=>{
         
