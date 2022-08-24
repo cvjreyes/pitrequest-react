@@ -12,3 +12,38 @@
     margin-top: 25px;
     z-index: 999;
 }
+
+.create__project__select{
+    font-size: 16px;
+    height: 37px;
+    width: 200px;
+    margin-bottom: 17px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.component__container{
+    text-align: center;
+}
+
+.name__input{
+    font-size: 18px;
+    height: 37px;
+    width: 200px;
+    margin-bottom: 17px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.project_type_label{
+    font-size: 16px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.component__description__input__text{
+    width: 100%;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid #D2D2D2;
+    border-radius: 4px;
+    font-size: 16px;
+}
