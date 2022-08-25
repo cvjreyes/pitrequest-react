@@ -9,18 +9,14 @@ import ImagesLibrary from '../../components/imagesLibrary/imagesLibrary';
 
 const Library = () =>{    
 
-	const [filtersLibrary, setFiltersLibrary] = useState(<FiltersLibrary filterSearcher={filterSearcher.bind(this)} filterCheckbox={filterCheckbox.bind(this)} />)
-	const [imagesLibrary, setImagesLibrary] = useState(<ImagesLibrary array_filtrado_buscador={[]} array_filtrado_checkbox={[]} />)
+	const [filtersLibrary, setFiltersLibrary] = useState(<FiltersLibrary filtersAllLibrary={filtersAllLibrary.bind(this)}/>)
+	const [imagesLibrary, setImagesLibrary] = useState(<ImagesLibrary array_filtrado={[]} />)
 
 	document.body.style.zoom = 0.8
     document.body.style.height = "90%"
 
-	function filterSearcher (array_filtrado_buscador) {
-		setImagesLibrary(<ImagesLibrary array_filtrado_buscador={array_filtrado_buscador}/> )
-	}
-
-	function filterCheckbox (array_filtrado_checkbox) {
-		setImagesLibrary(<ImagesLibrary array_filtrado_checkbox={array_filtrado_checkbox}/> )
+	function filtersAllLibrary (array_filtrado) {
+		setImagesLibrary(<ImagesLibrary array_filtrado={array_filtrado} /> )
 	}
 
     return (
