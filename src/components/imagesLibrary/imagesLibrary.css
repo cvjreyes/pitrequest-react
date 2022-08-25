@@ -69,3 +69,10 @@
 	font-size: 22px;
 	font-family: 'Montserrat', sans-serif;
 }
+
+.download__rfa__btn{
+	font-size: 22px;
+	border: none;
+	background-color: white;
+	color: #338DF1;
+}

@@ -105,6 +105,40 @@ const ImagesLibrary = (props) => {
         await setCurrentPage(data.selected)
     }
 
+    function downloadRFA(name){
+
+        const options = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/pdf"
+            }
+        }
+
+        fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getComponentRFA/"+name, options)
+        .then(res => res.blob())
+        .then(response => {
+          const file = new Blob([response], {
+            type: "application/file"
+          });
+          //Build a URL from the file
+          const fileURL = URL.createObjectURL(file);
+            // create <a> tag dinamically
+            var fileLink = document.createElement('a');
+            fileLink.href = fileURL;
+    
+            // it forces the name of the downloaded file
+            fileLink.download = name + ".rfa";
+    
+            // triggers the click event
+            fileLink.click();
+    
+    
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+
     return (
         <div className="galeria">
             <div className="title-img">
@@ -122,7 +156,7 @@ const ImagesLibrary = (props) => {
             >
                 <div>
                     <div className="card" style={{width: "30rem"}}>
-                    <img src={urlImage + oneLibrary.image_path} height="400" width="100" className="card-img-top" alt="..."/>
+                    <img src={urlImage + oneLibrary.image_path} height="440" width="100" className="card-img-top" alt="..."/>
                         <div className="card-body" style={{	borderBottom: "1px solid black"}}>
                             <h3 className="modal__titulo">Details</h3>
                             <p className="modal__description"><i>{oneLibrary.component_description}</i></p>
@@ -135,6 +169,7 @@ const ImagesLibrary = (props) => {
                             <li className="list-group-item modal__li"><b>Disciplina: </b>{oneLibrary.component_discipline}</li>
                             <li className="list-group-item modal__li"><b>Codigo: </b>{oneLibrary.component_code}</li>
                         </ul>
+                        <button className="download__rfa__btn" onClick={() => downloadRFA(oneLibrary.component_name)}>Download</button>
                     </div>
                 </div>
             </Modal>
