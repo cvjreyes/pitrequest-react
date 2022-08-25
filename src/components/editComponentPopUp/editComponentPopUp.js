@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Modal from 'react-awesome-modal';
-import './createComponentPopUp.css';
 import AlertF from "../../components/alert/alert"
 import { NumericCellType } from 'handsontable/cellTypes';
+import Edit from "../../assets/images/edit.png"
+import './editComponentPopUp.css'
 
 const CryptoJS = require("crypto-js");
     const SecureStorage = require("secure-web-storage");
@@ -30,17 +31,18 @@ const CryptoJS = require("crypto-js");
         }
     });
 
-export default class CreateComponentPopUp extends Component {
+export default class EditComponentPopUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
             visible : false,
-            name: null,
-            description: null,
-            component_type: null,
-            brand: null,
-            discipline: null,
-            project_types: [],
+            id: this.props.id,
+            name: this.props.component.component_name,
+            description: this.props.component.component_description,
+            component_type: this.props.component.component_type_id,
+            brand: this.props.component.component_brand_id,
+            discipline: this.props.component.component_discipline_id,
+            project_types: this.props.projects[this.props.id-1],
             component_types_array: [],
             component_brands_array: [],
             component_disciplines_array: [],
@@ -99,48 +101,28 @@ export default class CreateComponentPopUp extends Component {
                     }) 
                 }) 
             }) 
-        }) 
+        })        
     
     }
 
     async openModal() {
+        console.log(this.props.projects)
         let typesCheckboxes = <div id="projectTypeSelect" style={{display: "flex"}}>
-            {this.state.project_types_array.map(type =>(
-                <div style={{width:"150px"}}><label className='project_type_label'><input type="checkbox" className="project_type_checkbox" onChange={() => this.manageProjectTypes(type.id)}/> {type.project_type}</label></div>
+            {this.state.project_types_array.map(type =>( this.state.project_types.toString().includes(type.id) ?
+                <div style={{width:"150px"}}><label className='project_type_label'><input type="checkbox" defaultChecked className="project_type_checkbox" onChange={() => this.manageProjectTypes(type.id)}/> {type.project_type}</label></div> : <div style={{width:"150px"}}><label className='project_type_label'><input type="checkbox" className="project_type_checkbox" onChange={() => this.manageProjectTypes(type.id)}/> {type.project_type}</label></div> 
             ))}
         </div>
         
         this.setState({typesCheckboxes: typesCheckboxes})
         await this.setState({
             visible : true,
-            name: null,
-            description: null,
-            type: null,
-            brand: null,
-            discipline: null,
-            project_types: []
         });
     }
 
     async closeModal() {
-        document.getElementById("name").value = null
-        document.getElementById("description").value = null
-        document.getElementById("typeSelect").value = null
-        document.getElementById("brandSelect").value = null
-        document.getElementById("disciplineSelect").value = null
-        document.getElementById("projectTypeSelect").value = null
-        document.getElementById("image").value = null
-        document.getElementById("rfa").value = null
 
         await this.setState({
             visible : false,
-            name: null,
-            description: null,
-            type: null,
-            brand: null,
-            discipline: null,
-            project_types: [],
-            typesCheckboxes: null
         });
     }
 
@@ -155,8 +137,9 @@ export default class CreateComponentPopUp extends Component {
 
     async request(){
         
-        if(this.state.name && this.state.description && this.state.component_type && this.state.brand && this.state.discipline && this.state.project_types.length > 0 && this.state.image && this.state.rfa){
+        if(this.state.name && this.state.description && this.state.component_type && this.state.brand && this.state.discipline && this.state.project_types.length > 0){
             const body ={
+                componentId: this.state.id,
                 componentName : this.state.name,
                 componentDescription: this.state.description,
                 componentTypeId: this.state.component_type,
@@ -171,13 +154,14 @@ export default class CreateComponentPopUp extends Component {
                 },
                 body: JSON.stringify(body)
             }
-              await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/createComponent", options)
+            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/updateComponent", options)
                   .then(response => response.json())
                   .then(async json => {
                       if(json.success){
+                        if(this.state.image){
                         const extension = this.state.image.name.split('.').pop();
                         const file  = new FormData(); 
-                        file.append('file', this.state.image, json.filename + "." + extension);
+                        file.append('file', this.state.image, this.state.name + "." + extension);
                         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/uploadComponentImage", {
                             method: 'POST',
                             body: file,
@@ -186,21 +170,23 @@ export default class CreateComponentPopUp extends Component {
                                     //this.props.success()
                                 }
                             })
-                        const fileRFA  = new FormData(); 
-                        fileRFA.append('file', this.state.rfa, json.filename + ".rfa");
-                        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/uploadComponentRFA", {
-                            method: 'POST',
-                            body: fileRFA,
-                            }).then(response =>{
-                                if (response.status === 200){
-                                    //this.props.success()
-                                }
-                            })
-                        this.props.success()   
-                      }else{
-                          this.props.error()
-                      }
-                  })
+                        }
+                        if(this.state.rfa){
+                            const fileRFA  = new FormData(); 
+                            fileRFA.append('file', this.state.rfa, this.state.name + ".rfa");
+                            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/uploadComponentRFA", {
+                                method: 'POST',
+                                body: fileRFA,
+                                }).then(response =>{
+                                    if (response.status === 200){
+                                        //this.props.success()
+                                    }
+                                })
+                                  
+                            }
+                        }
+                        this.props.updateSuccess()
+                    })
                   this.closeModal()
         }else{
             this.setState({blankRequest: true})
@@ -208,15 +194,12 @@ export default class CreateComponentPopUp extends Component {
         
     }
 
-    
-
     render() {       
-        
         return (
             <div style={{marginRight:"5px", marginLeft:"5px", float:"right"}}>
-                <button className="create__component__btn" onClick={() => this.openModal()}>New item</button>
+                <button className="btn" style={{height:"40px", width:"40px", position:"absolute", backgroundColor:"#338DF1", color:"white", marginLeft:"36px"}} onClick={() => this.openModal()}><img src={Edit} alt="edit" className='delete__component__img'></img></button>
                 <div>
-                    <Modal visible={this.state.visible} width="550" height="670" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="510" height="670" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div style={{marginTop: "40px"}}
                     className={`alert alert-success ${this.state.blankRequest ? 'alert-shown' : 'alert-error-hidden'}`}
                     onTransitionEnd={() => this.setState({blankRequest: false})}
@@ -228,7 +211,7 @@ export default class CreateComponentPopUp extends Component {
                         <thead>
                             <tr>
                             <th colSpan={3}>
-                                <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>New Item</h3></center>
+                                <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>Edit {this.props.component.component_name}</h3></center>
                             </th>
                             </tr>
                         </thead>
@@ -244,12 +227,12 @@ export default class CreateComponentPopUp extends Component {
                             </tr>
                             <tr>
                                 <td style={{textAlign: "left"}}>
-                                <input type="text" id="name" className="name__input" onChange={(e) => this.setState({name: e.target.value})}></input>                      
+                                <input type="text" id="name" className="edit__name__input" value={this.state.name} onChange={(e) => this.setState({name: e.target.value})}></input>                      
                                 </td>
                                 <td style={{textAlign: "left"}}>
-                                <select id="typeSelect" className="create__project__select" onChange={(e) => this.setState({component_type: e.target.value})}>
-                                    {this.state.component_types_array.map(comp =>(
-                                        <option value={comp.id}>{comp.type}</option>
+                                <select id="typeSelect" className="edit__project__select" onChange={(e) => this.setState({component_type: e.target.value})}>
+                                    {this.state.component_types_array.map(comp =>(comp.id == this.state.component_type ? 
+                                        <option selected value={comp.id}>{comp.type}</option> : <option value={comp.id}>{comp.type}</option>
                                     ))}
                                 </select>
                                 </td>
@@ -265,16 +248,16 @@ export default class CreateComponentPopUp extends Component {
                             </tr>
                             <tr>
                             <td style={{textAlign: "left"}}>
-                                <select id="disciplineSelect" className="create__project__select" onChange={(e) => this.setState({discipline: e.target.value})}>
-                                    {this.state.component_disciplines_array.map(disc =>(
-                                        <option value={disc.id}>{disc.discipline}</option>
+                                <select id="disciplineSelect" className="edit__project__select" onChange={(e) => this.setState({discipline: e.target.value})}>
+                                    {this.state.component_disciplines_array.map(disc =>( disc.id == this.state.discipline ?
+                                        <option selected value={disc.id}>{disc.discipline}</option> : <option value={disc.id}>{disc.discipline}</option>
                                     ))}
                                 </select>
                                 </td>
                                 <td style={{textAlign: "left"}}>
-                                <select id="brandSelect" className="create__project__select" onChange={(e) => this.setState({brand: e.target.value})}>
-                                    {this.state.component_brands_array.map(brand =>(
-                                        <option value={brand.id}>{brand.brand}</option>
+                                <select id="brandSelect" className="edit__project__select" onChange={(e) => this.setState({brand: e.target.value})}>
+                                    {this.state.component_brands_array.map(brand =>( brand.id == this.state.brand ?
+                                        <option selected value={brand.id}>{brand.brand}</option> : <option value={brand.id}>{brand.brand}</option>
                                     ))}
                                 </select>
                                 </td>
@@ -298,15 +281,15 @@ export default class CreateComponentPopUp extends Component {
                             </tr>
                             <tr>
                                 <td colSpan={3}>
-                                <textarea id="description" name="description" className="component__description__input__text" rows="3" ref="description" style={{marginBottom:"5px", color:"black"}} onChange={(e) => this.setState({description: e.target.value})}/>
+                                <textarea id="description" name="description" className="component__description__input__text" rows="3" ref="description" style={{marginBottom:"5px", color:"black"}} value={this.state.description} onChange={(e) => this.setState({description: e.target.value})}/>
                                 </td>
                             </tr>
                             {/* Quinta fila: Attach */}
                             <tr>
                                 <td style={{textAlign: "left"}}>
-                                <label for="attach" className="priority__label" style={{marginBottom:"5px"}}>Image</label>
+                                <label for="attach" className="priority__label" style={{marginBottom:"5px"}}>New image</label>
                                 <input type="file" id="image" className="qtrackerPopUp__input__file"  ref="attach" style={{marginBottom: "5px"}}  onChange={(e) => this.setState({image: e.target.files[0]})} ></input>
-                                <label for="rfa" className="priority__label" style={{marginBottom:"5px"}}>RFA</label>
+                                <label for="rfa" className="priority__label" style={{marginBottom:"5px"}}>New RFA</label>
                                 <input type="file" id="rfa" className="qtrackerPopUp__input__file"  ref="rfa" style={{marginBottom: "10px"}}  onChange={(e) => this.setState({rfa: e.target.files[0]})} ></input>
                                 </td>
                             </tr>

@@ -261,7 +261,6 @@ const FiltersLibrary = (props) =>{
 
         if(!newCheckboxLibraryDisciplinas && !newCheckboxLibraryFamilias && !newCheckboxLibraryMarcas && !newCheckboxLibraryTipoP){
             array_filtros = allLibrary
-            console.log("ASDAS")
         }else{
             allLibrary.filter((elementoAllLibrary) => {
                 for (let index = 0; index < elementoAllLibrary.length; index++) {
