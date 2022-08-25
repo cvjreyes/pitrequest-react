@@ -1,9 +1,9 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import './filtersLibrary.css';
-import { getComponentDisciplines, getComponentsBrands, getComponentsTypes, getProjectTypes, getLibrary } from '../../ApiRequest';
+import { getComponentDisciplines, getComponentsBrands, getComponentsTypes, getProjectTypes, getLibrary, getGroupProjects } from '../../ApiRequest';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faEraser, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FormControlLabel, FormGroup, Checkbox, Box } from '@mui/material';
 
 const FiltersLibrary = (props) =>{
@@ -19,6 +19,8 @@ const FiltersLibrary = (props) =>{
 
     /* Datos almacenados donde recoger datos para los filtros */
     const [allLibrary, setAllLibrary] = useState([])
+    const [groupProject, setGroupProject] = useState([])
+    const [oneGroupProject, setOneGroupProject] = useState({})
     
     /* Configuracion busqueda */
     const [busqueda, setBusqueda] = useState("")
@@ -42,6 +44,23 @@ const FiltersLibrary = (props) =>{
             let library_all = json.library
             let compt_library =[library_all]  
             setAllLibrary(compt_library)
+        })   
+	}, [])
+
+    /* Grupos de projectos */
+	useEffect(async()=>{
+
+        getGroupProjects()
+        .then(response => response.json())
+        .then(async json => {
+			let group = json.group_projects
+			let compt_group_project = []
+
+            for(let i = 0; i < group.length; i++){
+                let label = group[i].grupo_projectos
+                compt_group_project.push(label)
+			}
+			await setGroupProject(compt_group_project)
         })   
 	}, [])
 
@@ -257,32 +276,34 @@ const FiltersLibrary = (props) =>{
     useEffect(() => {
         
         let array_filtros = []
-        let array_filtros_repaso = []
 
-        if(!newCheckboxLibraryDisciplinas && !newCheckboxLibraryFamilias && !newCheckboxLibraryMarcas && !newCheckboxLibraryTipoP){
+        if(groupProject.length === 0) {
             array_filtros = allLibrary
-            console.log("ASDAS")
         }else{
-            allLibrary.filter((elementoAllLibrary) => {
-                for (let index = 0; index < elementoAllLibrary.length; index++) {
-
-                    if((newCheckboxLibraryMarcas.toString().includes(elementoAllLibrary[index].component_brand.toString()) || newCheckboxLibraryMarcas.length === 0)
-                    && (newCheckboxLibraryDisciplinas.toString().includes(elementoAllLibrary[index].component_discipline.toString()) || newCheckboxLibraryDisciplinas.length === 0)
-                    && (newCheckboxLibraryFamilias.toString().includes(elementoAllLibrary[index].component_type.toString()) || newCheckboxLibraryFamilias.length === 0)
-                    && (newCheckboxLibraryTipoP.toString().includes(elementoAllLibrary[index].project_type.toString()) || newCheckboxLibraryTipoP.length === 0)
-                    && (elementoAllLibrary[index].component_name.toString().toLowerCase().includes(busqueda.toLowerCase()) || busqueda === "")
-                    ){
-                        array_filtros.push(elementoAllLibrary[index]);
+            if(!newCheckboxLibraryDisciplinas && !newCheckboxLibraryFamilias && !newCheckboxLibraryMarcas && !newCheckboxLibraryTipoP){
+                array_filtros = allLibrary
+            }else{
+                allLibrary.filter((elementoAllLibrary) => {
+                    for (let index = 0; index < elementoAllLibrary.length; index++) {
+                        
+                        if(((newCheckboxLibraryMarcas.toString().includes(elementoAllLibrary[index].component_brand.toString()) && newCheckboxLibraryMarcas.length === 1) || newCheckboxLibraryMarcas.length === 0) 
+                        && ((newCheckboxLibraryDisciplinas.toString().includes(elementoAllLibrary[index].component_discipline.toString()) && newCheckboxLibraryDisciplinas.length === 1 ) || newCheckboxLibraryDisciplinas.length === 0)
+                        && ((newCheckboxLibraryFamilias.toString().includes(elementoAllLibrary[index].component_type.toString()) && newCheckboxLibraryFamilias.length === 1 ) || newCheckboxLibraryFamilias.length === 0)
+                        && (newCheckboxLibraryTipoP.toString().toLowerCase().split('').sort().join('').includes(groupProject[index].toString().toLowerCase().split('').sort().join('')) || newCheckboxLibraryTipoP.length === 0)
+                        && (elementoAllLibrary[index].component_name.toString().toLowerCase().includes(busqueda.toLowerCase()) || busqueda === "")
+                        ){
+                            array_filtros.push(elementoAllLibrary[index]);
+                        }
                     }
-                }
-            })
+                })
+            }
         }
 
-        console.log("Filtros array 1 filters: " + array_filtros.length);
-        console.log("Filtros array filters: " + array_filtros_repaso.length);
+        console.log("Filtros array filters: " + array_filtros);
         setAllFilter(array_filtros)
         props.filtersAllLibrary(array_filtros)
-    }, [allLibrary, newCheckboxLibraryDisciplinas, newCheckboxLibraryFamilias, newCheckboxLibraryMarcas, newCheckboxLibraryTipoP, busqueda])
+
+    }, [allLibrary, groupProject, newCheckboxLibraryDisciplinas, newCheckboxLibraryFamilias, newCheckboxLibraryMarcas, newCheckboxLibraryTipoP, busqueda])
 
     return(
         <div>
@@ -296,8 +317,8 @@ const FiltersLibrary = (props) =>{
                     placeholder="Search"
                     onChange={handleChangeSearch}
                     />
-                    <button className="btn btn-success" >
-                        <FontAwesomeIcon icon={faSearch}/>
+                    <button style={{marginLeft: "1%"}}className="btn btn-outline-danger" onClick={() => setBusqueda(() => "")}>
+                        <FontAwesomeIcon icon={faEraser}/>
                     </button>
                 </div>
 
