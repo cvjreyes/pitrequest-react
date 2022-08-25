@@ -1,5 +1,6 @@
 import NavBar from '../../components/navBar/navBar';
 import React, { useState } from 'react';
+import {useNavigate} from "react-router";
 import './library.css'
 import PITLogo from "../../assets/images/pitlogo.svg"
 
@@ -8,6 +9,8 @@ import ImagesLibrary from '../../components/imagesLibrary/imagesLibrary';
 import CreateComponentPopUp from '../../components/createComponentPopUp/createComponentPopUp';
 import AlertF from "../../components/alert/alert"
 
+import LibraryFiltersView from '../libraryFiltersView/libraryFiltersView';
+
 
 const Library = () =>{    
 
@@ -15,6 +18,8 @@ const Library = () =>{
 	const [imagesLibrary, setImagesLibrary] = useState(<ImagesLibrary array_filtrado={[]} />)
 	const [success, setSuccess] = useState(false)
 	const [error, setError] = useState(false)
+	const history = useNavigate();
+
 
 	document.body.style.zoom = 0.8
     document.body.style.height = "90%"
@@ -22,6 +27,10 @@ const Library = () =>{
 	function filtersAllLibrary (array_filtrado) {
 		setImagesLibrary(<ImagesLibrary array_filtrado={array_filtrado} /> )
 	}
+
+	function libraryFiltersViewGo(){
+        history("/"+process.env.REACT_APP_PROJECT+"/libraryFiltersView")
+    }
 
     return (
 		<div>
@@ -45,7 +54,7 @@ const Library = () =>{
 					<img src={PITLogo} alt="PITLogo" className="isoTrackerLogo__image2" style={{height:"110px", marginLeft:60}}/>
 				</div>
 				{/* Componente filtros izquierda libreria */}
-				<h3>Filtros</h3>
+				<button style={{width:"55%", marginBottom:"1%"}} className="btn btn-primary btn-lg active" onClick={() => libraryFiltersViewGo()}>Filtros</button>
 				{filtersLibrary}
 			</div>
 			<div className="container">

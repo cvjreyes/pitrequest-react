@@ -99,13 +99,13 @@ const NavBar = (props) =>{
           }
         }
 
-        if(window.location.href.includes("/projectManager") || window.location.href.includes("/offersManager") || window.location.href.includes("/library")){
+        if(window.location.href.includes("/projectManager") || window.location.href.includes("/offersManager") || window.location.href.includes("/library") || window.location.href.includes("/libraryFiltersView")){
             setHoverbutton (<button className="projects__button__back" onClick={()=>back()} style={{width:"175px", marginLeft:"115px", marginRight:"-300px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="projects__button__text">Back to menu</p></button>)
         } else {
             setHoverbutton (null)
         }
 
-        if(window.location.href.includes("/projectManager") || window.location.href.includes("/offersManager") || window.location.href.includes("/pitrequestsview") || window.location.href.includes("/library")) {
+        if(window.location.href.includes("/projectManager") || window.location.href.includes("/offersManager") || window.location.href.includes("/pitrequestsview") || window.location.href.includes("/library") || window.location.href.includes("/libraryFiltersView")) {
             setMarginMenu('translateX(+280%)')
         } else {
             setMarginMenu('translateX(+120%)')
