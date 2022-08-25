@@ -23,10 +23,6 @@ const Library = () =>{
 		setImagesLibrary(<ImagesLibrary array_filtrado={array_filtrado} /> )
 	}
 
-	function filterCheckbox (array_filtrado_checkbox) {
-		setImagesLibrary(<ImagesLibrary array_filtrado_checkbox={array_filtrado_checkbox}/>)
-	}
-
     return (
 		<div>
 			<div style={{zIndex: "9999", marginTop:"-150px"}}

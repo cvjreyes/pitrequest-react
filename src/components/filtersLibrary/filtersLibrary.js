@@ -82,7 +82,7 @@ const FiltersLibrary = (props) =>{
 			}
 			await setFamilies(compt_types)
         })   
-	}, [newCheckboxLibraryFamilias, ])
+	}, [newCheckboxLibraryFamilias, allCheckbox, newSearchLibrary])
 
     /* Marcas */
 	useEffect(async()=>{
@@ -121,13 +121,8 @@ const FiltersLibrary = (props) =>{
 			}
 			await setMarcas(compt_brand)
         })   
-<<<<<<< HEAD
-	}, [newCheckboxLibraryMarcas])
-
-=======
 	}, [newCheckboxLibraryMarcas, allCheckbox, newSearchLibrary])
     
->>>>>>> library-start
     /* Tipos de proyecto */
 	useEffect(async()=>{
         
@@ -282,21 +277,6 @@ const FiltersLibrary = (props) =>{
                 }
             })
         }
-
-        // console.log("Filtros array 1 filters antes: " + array_filtros.length);
-
-        // for (let index = 0; index < array_filtros.length; index++) {
-        //     console.log("entra");
-        //     if(array_filtros[index].component_brand.toString().toLowerCase().includes(busqueda.toLowerCase())
-        //     || array_filtros[index].component_discipline.toString().toLowerCase().includes(busqueda.toLowerCase())
-        //     || array_filtros[index].component_type.toString().toLowerCase().includes(busqueda.toLowerCase())
-        //     || array_filtros[index].component_code.toString().toLowerCase().includes(busqueda.toLowerCase())
-        //     || array_filtros[index].project_type.toString().toLowerCase().includes(busqueda.toLowerCase())
-        //     || array_filtros[index].component_name.toString().toLowerCase().includes(busqueda.toLowerCase())
-        //     ){
-        //         array_filtros_repaso.push(array_filtros[index]);
-        //     }
-        // }
 
         console.log("Filtros array 1 filters: " + array_filtros.length);
         console.log("Filtros array filters: " + array_filtros_repaso.length);

@@ -63,13 +63,6 @@ const ImagesLibrary = (props) => {
             let library_all = json.library
             let compt_library = []
 
-            // console.log("problema del buscador: " + props.array_filtrado_buscador);
-            // console.log("problema del checkbox: " + props.array_filtrado_checkbox);
-
-
-            // console.log("problema del length buscador: " + props.array_filtrado_buscador.length);
-            // console.log("problema del length checkbox: " + props.array_filtrado_checkbox.length);
-
             if(props.array_filtrado.length>0){
                 /* Bucle donde se printa las imagenes con los filtros */
                 setMaxPages(Math.ceil(props.array_filtrado.length/10))
