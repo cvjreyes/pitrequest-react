@@ -48,8 +48,6 @@ const ImagesLibrary = (props) => {
     const [componentUpdated, setComponentUpdated] = useState(false)
     
     //Botones para admin
-    const [editComponentBtn, setEditComponentBtn] = useState(null)
-    const [deleteComponentBtn, setDeleteComponentBtn] = useState(null)
     const [isAdmin, setIsAdmin] = useState(true)
 
     // Paginacion
@@ -117,7 +115,8 @@ const ImagesLibrary = (props) => {
             await setGroupProjectIds(compt_group_project_ids)
            
         })   
-	}, [componentUpdated])
+
+	}, [componentUpdated, props.updateGroups])
 
     // Recoger path de todas las imagenes
     useEffect(async()=>{

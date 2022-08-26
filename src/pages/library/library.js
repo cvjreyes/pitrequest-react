@@ -38,6 +38,7 @@ var secureStorage = new SecureStorage(localStorage, {
 
 const Library = () =>{    
 
+	const [updateGroups, setUpdateGroups] = useState(false)
 	const [imagesLibrary, setImagesLibrary] = useState(<ImagesLibrary array_filtrado={[]} deleteSuccess={() => setDeleteSuccess(true)}/>)
 	const [success, setSuccess] = useState(false)
 	const [error, setError] = useState(false)
@@ -58,9 +59,9 @@ const Library = () =>{
 			getLibrary()
 			.then(response => response.json())
 			.then(async json => {
-				let library_all = json.library
-				let compt_library =[library_all]  
-				setImagesLibrary(<ImagesLibrary array_filtrado={library_all} deleteSuccess={() => setDeleteSuccess(true)} updateSuccess={() => setUpdateSuccess(true)}/>)	
+				let library_all = json.library  
+				setImagesLibrary(<ImagesLibrary array_filtrado={library_all} updateGroups={!updateGroups} deleteSuccess={() => setDeleteSuccess(true)} updateSuccess={() => setUpdateSuccess(true)}/>)	
+				setUpdateGroups(!updateGroups)
 			}) 
 			
 		 } 

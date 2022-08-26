@@ -4,6 +4,8 @@ import AlertF from "../../components/alert/alert"
 import { NumericCellType } from 'handsontable/cellTypes';
 import Edit from "../../assets/images/edit.png"
 import './editComponentPopUp.css'
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 
 const CryptoJS = require("crypto-js");
     const SecureStorage = require("secure-web-storage");
@@ -106,11 +108,38 @@ export default class EditComponentPopUp extends Component {
     }
 
     async openModal() {
-        console.log(this.props.projects)
-        let typesCheckboxes = <div id="projectTypeSelect" style={{display: "flex"}}>
-            {this.state.project_types_array.map(type =>( this.state.project_types.toString().includes(type.id) ?
-                <div style={{width:"150px"}}><label className='project_type_label'><input type="checkbox" defaultChecked className="project_type_checkbox" onChange={() => this.manageProjectTypes(type.id)}/> {type.project_type}</label></div> : <div style={{width:"150px"}}><label className='project_type_label'><input type="checkbox" className="project_type_checkbox" onChange={() => this.manageProjectTypes(type.id)}/> {type.project_type}</label></div> 
-            ))}
+        const animatedComponents = makeAnimated();
+
+        let array_group_project = []
+
+        for (let index = 0; index < this.state.project_types_array.length; index++) {
+            let objeto_group_project = {}
+            objeto_group_project["value"] = this.state.project_types_array[index].id
+            objeto_group_project["label"] = this.state.project_types_array[index].project_type
+            array_group_project.push(objeto_group_project)        
+        }
+
+        let default_selected_types = []
+
+        for (let index = 0; index < this.state.project_types.length; index++) {
+            let objeto_group_project = {}
+            objeto_group_project["value"] = this.state.project_types_array[this.state.project_types[index]-1].id
+            objeto_group_project["label"] = this.state.project_types_array[this.state.project_types[index]-1].project_type
+            default_selected_types.push(objeto_group_project)        
+        }
+        
+        
+        let typesCheckboxes = <div id="projectTypeSelect" style={{width:"100px"}} >
+            <Select
+                closeMenuOnSelect={false}
+                components={animatedComponents}
+                isMulti
+                className='select__group__project__edit'
+                defaultValue={default_selected_types}
+                options={array_group_project}
+                onChange={(types)=>this.manageProjectTypes(types)}
+                
+            />
         </div>
         
         this.setState({typesCheckboxes: typesCheckboxes})
@@ -126,13 +155,12 @@ export default class EditComponentPopUp extends Component {
         });
     }
 
-    async manageProjectTypes(type){
-        const index = this.state.project_types.indexOf(type)
-        if (index === -1){
-            this.setState({project_types: [...this.state.project_types, type]})
-        } else {
-            this.setState({project_types: this.state.project_types.filter((project_types) => project_types !==type)})
+    async manageProjectTypes(types){
+        let types_array = []
+        for (let i = 0; i < types.length; i++) {
+            types_array.push(types[i].value)
         }
+        this.setState({project_types: types_array})
     }
 
     async request(){
@@ -199,7 +227,7 @@ export default class EditComponentPopUp extends Component {
             <div style={{marginRight:"5px", marginLeft:"5px", float:"right"}}>
                 <button className="btn" style={{height:"40px", width:"40px", position:"absolute", backgroundColor:"#338DF1", color:"white", marginLeft:"36px"}} onClick={() => this.openModal()}><img src={Edit} alt="edit" className='delete__component__img'></img></button>
                 <div>
-                    <Modal visible={this.state.visible} width="510" height="670" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="510" height="680" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div style={{marginTop: "40px"}}
                     className={`alert alert-success ${this.state.blankRequest ? 'alert-shown' : 'alert-error-hidden'}`}
                     onTransitionEnd={() => this.setState({blankRequest: false})}

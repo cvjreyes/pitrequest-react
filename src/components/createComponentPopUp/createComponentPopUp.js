@@ -32,6 +32,8 @@ const CryptoJS = require("crypto-js");
         }
     });
 
+
+
 export default class CreateComponentPopUp extends Component {
     constructor(props) {
         super(props);
@@ -53,6 +55,8 @@ export default class CreateComponentPopUp extends Component {
             typesCheckboxes: null
         }
     }
+
+    
 
     async componentDidMount(){
         const options = {
@@ -115,10 +119,9 @@ export default class CreateComponentPopUp extends Component {
             let objeto_group_project = {}
             objeto_group_project["value"] = this.state.project_types_array[index].id
             objeto_group_project["label"] = this.state.project_types_array[index].project_type
-            array_group_project.push(objeto_group_project)
-            
+            array_group_project.push(objeto_group_project)            
         }
-
+        
         let typesCheckboxes = <div id="projectTypeSelect" >
             <Select
                 closeMenuOnSelect={false}
@@ -126,7 +129,8 @@ export default class CreateComponentPopUp extends Component {
                 isMulti
                 className='select__group__project'
                 options={array_group_project}
-                onInputChange={this.manageProjectTypes}
+                onChange={(types)=>this.manageProjectTypes(types)}
+                
             />
         </div>
 
@@ -168,14 +172,12 @@ export default class CreateComponentPopUp extends Component {
         });
     }
 
-    async manageProjectTypes(type){
-        console.log("type: " + type);
-        const index = this.state.project_types.indexOf(type)
-        if (index === -1){
-            this.setState({project_types: [...this.state.project_types, type]})
-        } else {
-            this.setState({project_types: this.state.project_types.filter((project_types) => project_types !==type)})
+    async manageProjectTypes(types){
+        let types_array = []
+        for (let i = 0; i < types.length; i++) {
+            types_array.push(types[i].value)
         }
+        this.setState({project_types: types_array})
     }
 
     async request(){ 
