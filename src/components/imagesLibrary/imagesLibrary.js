@@ -95,7 +95,7 @@ const ImagesLibrary = (props) => {
     function openModal(valueLibrary) 
     {
         setOneLibrary(valueLibrary)
-        setOneGroupProject(groupProject[valueLibrary.id-1])
+        setOneGroupProject(groupProject[props.array_filtrado.indexOf(valueLibrary)])
         setIsOpen(true);
     }
 
