@@ -10,6 +10,32 @@ import AlertF from "../../components/alert/alert"
 
 import { getLibrary } from '../../ApiRequest';
 
+const CryptoJS = require("crypto-js");
+const SecureStorage = require("secure-web-storage");
+var SECRET_KEY = 'sanud2ha8shd72h';
+ 
+var secureStorage = new SecureStorage(localStorage, {
+    hash: function hash(key) {
+        key = CryptoJS.SHA256(key, SECRET_KEY);
+ 
+        return key.toString();
+    },
+    encrypt: function encrypt(data) {
+        data = CryptoJS.AES.encrypt(data, SECRET_KEY);
+ 
+        data = data.toString();
+ 
+        return data;
+    },
+    decrypt: function decrypt(data) {
+        data = CryptoJS.AES.decrypt(data, SECRET_KEY);
+ 
+        data = data.toString(CryptoJS.enc.Utf8);
+ 
+        return data;
+    }
+});
+
 const Library = () =>{    
 
 	const [imagesLibrary, setImagesLibrary] = useState(<ImagesLibrary array_filtrado={[]} deleteSuccess={() => setDeleteSuccess(true)}/>)
@@ -17,8 +43,9 @@ const Library = () =>{
 	const [error, setError] = useState(false)
 	const [deleteSuccess, setDeleteSuccess] = useState(false)
 	const [updateSuccess, setUpdateSuccess] = useState(false) 
-	const [updatedGroups, setUpdatedGroups] = useState(false)
-	const [filtersLibrary, setFiltersLibrary] = useState(<FiltersLibrary filtersAllLibrary={filtersAllLibrary.bind(this)} updatedGroups={updatedGroups}/>)
+	const [filtersLibrary, setFiltersLibrary] = useState(<FiltersLibrary filtersAllLibrary={filtersAllLibrary.bind(this)}/>)
+	const [isAdmin, setIsAdmin] = useState(false)
+	const [createElement, setCreateElement] = useState(null)
 
 	document.body.style.zoom = 0.8
     document.body.style.height = "90%"
@@ -33,15 +60,31 @@ const Library = () =>{
 			.then(response => response.json())
 			.then(async json => {
 				let library_all = json.library
-				console.log(library_all)
 				let compt_library =[library_all]  
 				setImagesLibrary(<ImagesLibrary array_filtrado={library_all} deleteSuccess={() => setDeleteSuccess(true)} updateSuccess={() => setUpdateSuccess(true)}/>)	
-				setFiltersLibrary(<FiltersLibrary filtersAllLibrary={filtersAllLibrary.bind(this)} updatedGroups={!updatedGroups}/>)
-				setUpdatedGroups(!updatedGroups)
 			}) 
 			
 		 } 
 	}, [success, deleteSuccess, updateSuccess])
+
+	useEffect(async()=>{
+
+		const options = {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		  }
+
+		await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/isAdmin/" + secureStorage.getItem("user"), options)
+          .then(response => response.json())
+          .then(async json => {
+            if(json.isAdmin){
+				setIsAdmin(true)
+
+			}
+		})
+   }, [])
 
     return (
 		<div>
