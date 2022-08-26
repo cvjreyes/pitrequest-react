@@ -6,6 +6,34 @@ import { getGroupProjects, getLibrary } from '../../ApiRequest';
 import DeleteComponentConfirmPopUp from '../deleteComponentConfirmPopUp/deleteComponentConfirmPopUp';
 import EditComponentPopUp from '../editComponentPopUp/editComponentPopUp';
 
+
+const CryptoJS = require("crypto-js");
+const SecureStorage = require("secure-web-storage");
+var SECRET_KEY = 'sanud2ha8shd72h';
+ 
+var secureStorage = new SecureStorage(localStorage, {
+    hash: function hash(key) {
+        key = CryptoJS.SHA256(key, SECRET_KEY);
+ 
+        return key.toString();
+    },
+    encrypt: function encrypt(data) {
+        data = CryptoJS.AES.encrypt(data, SECRET_KEY);
+ 
+        data = data.toString();
+ 
+        return data;
+    },
+    decrypt: function decrypt(data) {
+        data = CryptoJS.AES.decrypt(data, SECRET_KEY);
+ 
+        data = data.toString(CryptoJS.enc.Utf8);
+ 
+        return data;
+    }
+});
+
+
 const ImagesLibrary = (props) => {
 
     // Toda la informacion de las imagenes
@@ -19,6 +47,11 @@ const ImagesLibrary = (props) => {
     const [groupProjectIds, setGroupProjectIds] = useState({})
     const [componentUpdated, setComponentUpdated] = useState(false)
     
+    //Botones para admin
+    const [editComponentBtn, setEditComponentBtn] = useState(null)
+    const [deleteComponentBtn, setDeleteComponentBtn] = useState(null)
+    const [isAdmin, setIsAdmin] = useState(true)
+
     // Paginacion
     const [maxPages, setMaxPages] = useState()
 
@@ -39,6 +72,27 @@ const ImagesLibrary = (props) => {
           width: '22%'
         },
     };
+
+    /* Si es admin se muestran los botones */
+	useEffect(async()=>{
+        
+        const options = {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		  }
+
+		await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/isAdmin/" + secureStorage.getItem("user"), options)
+          .then(response => response.json())
+          .then(async json => {
+            if(json.isAdmin){
+                setIsAdmin(true)
+            }
+		})
+        
+
+	}, [oneLibrary, groupProjectIds, props, groupProject])
 
     /* Grupos de projectos */
 	useEffect(async()=>{
@@ -135,7 +189,7 @@ const ImagesLibrary = (props) => {
         closeModal()
     }
 
-    function downloadRFA(name){
+    function downloadRFA(name, filename){
 
         const options = {
             method: "GET",
@@ -157,7 +211,7 @@ const ImagesLibrary = (props) => {
             fileLink.href = fileURL;
     
             // it forces the name of the downloaded file
-            fileLink.download = name + ".rfa";
+            fileLink.download = filename + ".rfa";
     
             // triggers the click event
             fileLink.click();
@@ -186,8 +240,9 @@ const ImagesLibrary = (props) => {
             >
                 <div>
                     <div className="card" style={{width: "30rem"}}>
-                    <DeleteComponentConfirmPopUp component={oneLibrary.component_name} id={oneLibrary.id} deleteComponent={deleteComponent.bind(this)}/>
-                    <EditComponentPopUp component={oneLibrary} projects={groupProjectIds} id={oneLibrary.id} updateSuccess={updateSuccess.bind(this)}/>
+                    {isAdmin ? <EditComponentPopUp component={oneLibrary} projects={groupProjectIds} id={oneLibrary.id} updateSuccess={updateSuccess.bind(this)}/> : null}
+                    {isAdmin ? <DeleteComponentConfirmPopUp component={oneLibrary.component_name} id={oneLibrary.id} deleteComponent={deleteComponent.bind(this)}/> : null}
+
                     <img src={urlImage + oneLibrary.image_path} height="440" width="100" className="card-img-top" alt="..."/>
                         <div className="card-body" style={{	borderBottom: "1px solid black"}}>
                             <h3 className="modal__titulo">Details</h3>
@@ -201,7 +256,7 @@ const ImagesLibrary = (props) => {
                             <li className="list-group-item modal__li"><b>Disciplina: </b>{oneLibrary.component_discipline}</li>
                             <li className="list-group-item modal__li"><b>Codigo: </b>{oneLibrary.component_code}</li>
                         </ul>
-                        <button className="download__rfa__btn" onClick={() => downloadRFA(oneLibrary.component_code)}>Download</button>
+                        <button className="download__rfa__btn" onClick={() => downloadRFA(oneLibrary.component_code, oneLibrary.component_name)}>Download</button>
                     </div>
                 </div>
             </Modal>

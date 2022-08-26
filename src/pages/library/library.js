@@ -44,7 +44,6 @@ const Library = () =>{
 	const [deleteSuccess, setDeleteSuccess] = useState(false)
 	const [updateSuccess, setUpdateSuccess] = useState(false) 
 	const [filtersLibrary, setFiltersLibrary] = useState(<FiltersLibrary filtersAllLibrary={filtersAllLibrary.bind(this)}/>)
-	const [isAdmin, setIsAdmin] = useState(false)
 	const [createElement, setCreateElement] = useState(null)
 
 	document.body.style.zoom = 0.8
@@ -80,8 +79,7 @@ const Library = () =>{
           .then(response => response.json())
           .then(async json => {
             if(json.isAdmin){
-				setIsAdmin(true)
-
+				setCreateElement(<CreateComponentPopUp success={() => setSuccess(true)} error={() => setError(true)}/>)
 			}
 		})
    }, [])
@@ -124,7 +122,7 @@ const Library = () =>{
 				{filtersLibrary}
 			</div>
 			<div className="container">
-				<CreateComponentPopUp success={() => setSuccess(true)} error={() => setError(true)}/>
+				{createElement}
 				{imagesLibrary}
 			</div>
 		</div>

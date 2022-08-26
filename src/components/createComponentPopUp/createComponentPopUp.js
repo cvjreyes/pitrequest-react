@@ -63,7 +63,7 @@ export default class CreateComponentPopUp extends Component {
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getComponentTypes", options)
         .then(response => response.json())
         .then(async json => {
-            let components = [{id: -1, type:"------"}]
+            let components = []
             for(let i = 0; i < json.component_types.length; i++){
                 components.push({id: json.component_types[i].id, type: json.component_types[i].type})
             }
@@ -72,7 +72,7 @@ export default class CreateComponentPopUp extends Component {
             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getComponentBrands", options)
             .then(response => response.json())
             .then(async json => {
-                let component_brands = [{id: -1, brand:"------"}]
+                let component_brands = []
                 for(let i = 0; i < json.component_brands.length; i++){
                     component_brands.push({id: json.component_brands[i].id, brand: json.component_brands[i].brand})
                 }
@@ -81,7 +81,7 @@ export default class CreateComponentPopUp extends Component {
                 await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getComponentDisciplines", options)
                 .then(response => response.json())
                 .then(async json => {
-                    let component_disciplines = [{id: -1, discipline:"------"}]
+                    let component_disciplines = []
                     for(let i = 0; i < json.component_disciplines.length; i++){
                         component_disciplines.push({id: json.component_disciplines[i].id, discipline: json.component_disciplines[i].discipline})
                     }
@@ -109,6 +109,10 @@ export default class CreateComponentPopUp extends Component {
                 <div style={{width:"150px"}}><label className='project_type_label'><input type="checkbox" className="project_type_checkbox" onChange={() => this.manageProjectTypes(type.id)}/> {type.project_type}</label></div>
             ))}
         </div>
+
+        document.getElementById("typeSelect").value = null
+        document.getElementById("brandSelect").value = null
+        document.getElementById("disciplineSelect").value = null
         
         this.setState({typesCheckboxes: typesCheckboxes})
         await this.setState({
