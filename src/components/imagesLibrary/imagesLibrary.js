@@ -3,6 +3,8 @@ import './imagesLibrary.css'
 import ReactPaginate from 'react-paginate';
 import Modal from 'react-modal';
 import { getGroupProjects, getLibrary } from '../../ApiRequest';
+import DeleteComponentConfirmPopUp from '../deleteComponentConfirmPopUp/deleteComponentConfirmPopUp';
+import EditComponentPopUp from '../editComponentPopUp/editComponentPopUp';
 
 const ImagesLibrary = (props) => {
 
@@ -14,19 +16,20 @@ const ImagesLibrary = (props) => {
     // Array Grupo de proyectos
     const [groupProject, setGroupProject] = useState([])
     const [oneGroupProject, setOneGroupProject] = useState({})
+    const [groupProjectIds, setGroupProjectIds] = useState([])
+    const [componentUpdated, setComponentUpdated] = useState(false)
     
     // Paginacion
     const [maxPages, setMaxPages] = useState()
 
     // Los usestate para poder printar el filtro de busqueda
     const [currentPage, setCurrentPage] = useState(0)
-    
     //url imagen
     const urlImage = "http://" + process.env.REACT_APP_SERVER + ":" + process.env.REACT_APP_NODE_PORT + "/"
 
     const customStyles = {
         content: {
-          top: '50%',
+          top: '52%',
           left: '50%',
           right: 'auto',
           bottom: 'auto',
@@ -45,12 +48,19 @@ const ImagesLibrary = (props) => {
         .then(async json => {
 			let group = json.group_projects
 			let compt_group_project = []
+            let compt_group_project_ids = []
             for(let i = 0; i < group.length; i++){
                 let label = group[i].grupo_projectos
 
                 compt_group_project.push(label)
+                let ids_string = group[i].grupo_projectos_ids.split(',')
+                let ids = ids_string.map(function (x) { 
+                    return parseInt(x, 10); 
+                });
+                compt_group_project_ids.push(ids)
 			}
 			await setGroupProject(compt_group_project)
+            await setGroupProjectIds(compt_group_project_ids)
            
         })   
 	}, [])
@@ -79,14 +89,35 @@ const ImagesLibrary = (props) => {
             }
             await setImgSrc(compt_library)
         })   
-	}, [groupProject, props, currentPage])
+	}, [groupProject, props, currentPage, componentUpdated])
 
     /* Configuracion de los modales */
-    function openModal(valueLibrary) {
+    function openModal(valueLibrary) 
+    {
         setOneLibrary(valueLibrary)
-        setOneGroupProject(groupProject[valueLibrary.id-1])
+        setOneGroupProject(groupProject[props.array_filtrado.indexOf(valueLibrary)])
         setIsOpen(true);
-        
+    }
+
+    async function deleteComponent(id){
+        const body ={
+            id: id
+          }
+          const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        }
+          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/deleteComponent", options)
+              .then(response => response.json())
+              .then(async json => {
+                if(json.success){
+                    setIsOpen(false);
+                    props.deleteSuccess()
+                }
+              })
     }
     
     function closeModal() {
@@ -96,6 +127,12 @@ const ImagesLibrary = (props) => {
     //Pagination
     const handlePageClick = async (data) => {
         await setCurrentPage(data.selected)
+    }
+
+    function updateSuccess() {
+        props.updateSuccess()
+        setComponentUpdated(!componentUpdated)
+        closeModal()
     }
 
     function downloadRFA(name){
@@ -149,6 +186,8 @@ const ImagesLibrary = (props) => {
             >
                 <div>
                     <div className="card" style={{width: "30rem"}}>
+                    <DeleteComponentConfirmPopUp component={oneLibrary.component_name} id={oneLibrary.id} deleteComponent={deleteComponent.bind(this)}/>
+                    <EditComponentPopUp component={oneLibrary} projects={groupProjectIds} id={oneLibrary.id} updateSuccess={updateSuccess.bind(this)}/>
                     <img src={urlImage + oneLibrary.image_path} height="440" width="100" className="card-img-top" alt="..."/>
                         <div className="card-body" style={{	borderBottom: "1px solid black"}}>
                             <h3 className="modal__titulo">Details</h3>
@@ -162,7 +201,7 @@ const ImagesLibrary = (props) => {
                             <li className="list-group-item modal__li"><b>Disciplina: </b>{oneLibrary.component_discipline}</li>
                             <li className="list-group-item modal__li"><b>Codigo: </b>{oneLibrary.component_code}</li>
                         </ul>
-                        <button className="download__rfa__btn" onClick={() => downloadRFA(oneLibrary.component_name)}>Download</button>
+                        <button className="download__rfa__btn" onClick={() => downloadRFA(oneLibrary.component_code)}>Download</button>
                     </div>
                 </div>
             </Modal>

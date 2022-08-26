@@ -27,7 +27,7 @@ export default class Alert extends Component {
                 <img src={SuccessIcon} className="alert__icon" alt="success"></img>
                 <div className="text__alert__container">
                     <text className="alert__title">Excellent!</text>
-                    <text className="alert__text" style={{marginLeft:"0px"}}>{this.props.text}</text>
+                    <text className="alert__text" style={{marginLeft:0}}>{this.props.text}</text>
                 </div>
             
             </div>
@@ -41,7 +41,7 @@ export default class Alert extends Component {
                                     <img src={SuccessIcon} className="alert__icon" alt="success2"></img>
                                     <div className="text__alert__container">
                                         <text className="alert__title">Excellent!</text>
-                                        <text className="alert__text" style={{marginLeft:"-45px"}}>{this.props.text}</text>
+                                        <text className="alert__text" style={{marginLeft:"-25px"}}>{this.props.text}</text>
                                     </div>
                                 
                                 </div>
