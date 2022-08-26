@@ -247,8 +247,6 @@ class ProjectsTreeGrid extends Component{
   
   async saveChanges(){
 
-    console.log(this.state.projects)
-
     await this.setState({error: false})
 
     let new_nodes = []
@@ -526,7 +524,7 @@ class ProjectsTreeGrid extends Component{
               settings={settingsProjects} 
               manualColumnResize={true}
               manualRowResize={true}
-              columns= { [{data: "Project", editor: false}, {data: "Admin", type: Handsontable.cellTypes.dropdown, strict:true, source: this.state.admins}, {data: "Hours"}, {data: "Active", type: "checkbox"}]}
+              columns= { [{data: "Project"}, {data: "Admin", type: Handsontable.cellTypes.dropdown, strict:true, source: this.state.admins}, {data: "Hours"}, {data: "Active", type: "checkbox"}]}
               filters={true}
               dropdownMenu= {[
                   'make_read_only',

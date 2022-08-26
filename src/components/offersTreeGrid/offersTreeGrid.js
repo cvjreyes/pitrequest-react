@@ -514,7 +514,7 @@ class OffersTreeGrid extends Component {
                   settings={settingsProjects} 
                   manualColumnResize={true}
                   manualRowResize={true}
-                  columns= { [{data: "Offer", editor: false}, {data: "Hours"}]}
+                  columns= { [{data: "Offer"}, {data: "Hours"}]}
                   filters={true}
                   dropdownMenu= {[
                       'make_read_only',
