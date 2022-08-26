@@ -9,8 +9,8 @@ import ImagesLibrary from '../../components/imagesLibrary/imagesLibrary';
 import CreateComponentPopUp from '../../components/createComponentPopUp/createComponentPopUp';
 import AlertF from "../../components/alert/alert"
 
-import LibraryFiltersView from '../libraryFiltersView/libraryFiltersView';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
 
 const Library = () =>{    
 
@@ -54,7 +54,7 @@ const Library = () =>{
 					<img src={PITLogo} alt="PITLogo" className="isoTrackerLogo__image2" style={{height:"110px", marginLeft:60}}/>
 				</div>
 				{/* Componente filtros izquierda libreria */}
-				<button style={{width:"55%", marginBottom:"1%"}} className="btn btn-primary btn-lg active" onClick={() => libraryFiltersViewGo()}>Filtros</button>
+				<button className="library__button" onClick={()=>libraryFiltersViewGo()} style={{width:"205px", marginRight:"10px", marginTop:"10px", marginBottom:"10px"}}><FontAwesomeIcon className='icon__book' icon={faBook} />Library Filters</button>
 				{filtersLibrary}
 			</div>
 			<div className="container">

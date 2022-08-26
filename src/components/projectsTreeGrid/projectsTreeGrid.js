@@ -115,7 +115,7 @@ class ProjectsTreeGrid extends Component{
               tasksNames.push(ts[0][0])
             }
             for(let j = 1; j < ts.length; j++){
-              if(ts[j][0] != "software"){
+              if(ts[j][0] !== "software"){
                 fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSubtaskHours/"+ts[j][1], options)
                 .then(response => response.json())
                 .then(json => {
@@ -376,7 +376,7 @@ class ProjectsTreeGrid extends Component{
             tasksNames.push(ts[0][0])
           }
           for(let j = 1; j < ts.length; j++){
-            if(ts[j][0] != "software"){
+            if(ts[j][0] !== "software"){
               fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSubtaskHours/"+ts[j][1], options)
               .then(response => response.json())
               .then(json => {
@@ -626,164 +626,43 @@ class ProjectsTreeGrid extends Component{
   }
 
   render() {
-    
-    {/*let settingsTasks = {
-      licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 538,
-      
-      className:'excel'
-    }
-
-    let settingsSubtasks= {
-      licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 358,
-    }
-
-    let settingsProjects = {
-      licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 356,
-    }*/}
 
     const MyTabs = this._tabs();
 
     return (
       <div style={{marginLeft: "30px"}}>
-      <div style={{marginTop: "140px"}}>
-      <button className="projects__button__save" onClick={()=>this.saveChanges()} style={{width:"175px", marginLeft:"-1570px"}}><img src={SaveIcon2} alt="hold" className="navBar__icon__save" style={{marginRight:"-20px"}}></img><p className="projects__button__text">Save</p></button>
-      <button className="projects__button__task" onClick={()=>this.props.goToTasks()} style={{width:"155px", marginLeft:"20px"}}><img src={FolderIcon2} alt="hold" className="navBar__icon__task" style={{marginRight:"0px"}}></img><p className="projects__button__text">Tasks</p></button>
-      </div>
-      <div style={{display: "flex"}}>
-        
-        <div style={{ width: '40%', marginTop:"55px", marginLeft:"200px"}}>
-          <div
-            style={{
-              height: '800px',
-              width: '800px',
-            }}
-            className="ag-theme-alpine"
-          >
-            <AgGridReact
-              columnDefs={this.state.columnDefs}
-              defaultColDef={this.state.defaultColDef}
-              autoGroupColumnDef={this.state.autoGroupColumnDef}
-              rowSelection={this.state.rowSelection}
-              suppressRowClickSelection={true}
-              suppressAggFuncInHeader={true}
-              onGridReady={this.onGridReady}
-              rowData={this.state.rowData}
-              animateRows={true}
-              isRowSelectable={this.isRowSelectable}
-              rowStyle={this.state.rowStyle}
-              groupSelectsChildren={true}
-            />
-          </div>
+        <div style={{marginTop: "140px"}}>
+          <button className="projects__button__save" onClick={()=>this.saveChanges()} style={{width:"175px", marginLeft:"-1570px"}}><img src={SaveIcon2} alt="hold" className="navBar__icon__save" style={{marginRight:"-20px"}}></img><p className="projects__button__text">Save</p></button>
+          <button className="projects__button__task" onClick={()=>this.props.goToTasks()} style={{width:"155px", marginLeft:"20px"}}><img src={FolderIcon2} alt="hold" className="navBar__icon__task" style={{marginRight:"0px"}}></img><p className="projects__button__text">Tasks</p></button>
         </div>
-        <div style={{marginLeft: "50px"}}>
-          <MyTabs />
-          {/*<div className="excel__container__2">
-              <HotTable
-              data={this.state.projects}
-              colHeaders = {["<b>Project</b>", "<b>Default admin</b>", "<b>Estimated hours</b>"]}
-              rowHeaders={false}
-              width="1310"
-              className="custom__table__2"
-              height="200"
-              rowHeights="25"
-              settings={settingsProjects} 
-              manualColumnResize={true}
-              manualRowResize={true}
-              columns= { [{data: "Project", editor: false}, {data: "Admin", type: Handsontable.cellTypes.dropdown, strict:true, source: this.state.admins}, {data: "Hours"}]}
-              filters={true}
-              dropdownMenu= {[
-                  'make_read_only',
-                  '---------',
-                  'alignment',
-                  '---------',
-                  'filter_by_condition',
-                  '---------',
-                  'filter_operators',
-                  '---------',
-                  'filter_by_condition2',
-                  '---------',
-                  'filter_by_value',
-                  '---------',
-                  'filter_action_bar',
-                ]}
-            />
-              
-            <div id="hot-app" className="excel__container">
-            <HotTable
-                data={this.state.tasks}
-                colHeaders = {["<b>Software</b>", "<b>Task</b>"]}
-                rowHeaders={false}
-                width="1097"
-                height="200"
-                className="custom__table__1"
-                rowHeights="25"
-                settings={settingsTasks} 
-                manualColumnResize={true}
-                manualRowResize={true}
-                columns= { [{data: "Software", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.softwares},{data: "Task"}]}
-                filters={false}
-                dropdownMenu= {[
-                  'make_read_only',
-                    '---------',
-                    'alignment',
-                    '---------',
-                    'filter_by_condition',
-                    '---------',
-                    'filter_operators',
-                    '---------',
-                    'filter_by_condition2',
-                    '---------',
-                    'filter_by_value',
-                    '---------',
-                    'filter_action_bar',
-                  ]}
+        <div style={{display: "flex"}}>
+          
+          <div style={{ width: '40%', marginTop:"55px", marginLeft:"200px"}}>
+            <div
+              style={{
+                height: '800px',
+                width: '800px',
+              }}
+              className="ag-theme-alpine"
+            >
+              <AgGridReact
+                columnDefs={this.state.columnDefs}
+                defaultColDef={this.state.defaultColDef}
+                autoGroupColumnDef={this.state.autoGroupColumnDef}
+                rowSelection={this.state.rowSelection}
+                suppressRowClickSelection={true}
+                suppressAggFuncInHeader={true}
+                onGridReady={this.onGridReady}
+                rowData={this.state.rowData}
+                animateRows={true}
+                isRowSelectable={this.isRowSelectable}
+                rowStyle={this.state.rowStyle}
+                groupSelectsChildren={true}
               />
             </div>
-            <div style={{display: "flex", float:"left", marginTop:"20px"}}>
-              <div style={{marginLeft:"460px", marginBottom: "20px"}}>
-              <button className="projects__add__button" onClick={()=>this.addRowTasks()} style={{width:"70px", marginBottom:"50px", height:"10px", }}><p className="projects__add__button__text">+ Add</p></button>
-              </div>
-            </div>
-            <div id="hot-app" className="excel__container">
-              <HotTable
-                data={this.state.subtasks}
-                colHeaders = {["<b>Task</b>", "<b>Subtask</b>", "<b>Hours</b>"]}
-                rowHeaders={false}
-                width="1097"
-                height="170"
-                className="custom__table__3"
-                rowHeights="25"
-                settings={settingsSubtasks} 
-                manualColumnResize={true}
-                manualRowResize={true}
-                columns= { [{data: "Task", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.tasksNames}, {data: "Subtask"}, {data: "Hours"}]}
-                filters={true}
-                dropdownMenu= {[
-                    'make_read_only',
-                    '---------',
-                    'alignment',
-                    '---------',
-                    'filter_by_condition',
-                    '---------',
-                    'filter_operators',
-                    '---------',
-                    'filter_by_condition2',
-                    '---------',
-                    'filter_by_value',
-                    '---------',
-                    'filter_action_bar',
-                  ]}
-              />
-              <div style={{display: "flex", float:"left"}}>
-                <div style={{marginLeft:"460px"}}>
-                  <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px", height: "50px"}}><p className="projects__add__button__text">+ Add</p></button>
-                </div>
-              </div> 
-            </div>  
-                </div>*/}
+          </div>
+          <div style={{marginLeft: "50px"}}>
+              <MyTabs />
           </div>
         </div>
       </div>
