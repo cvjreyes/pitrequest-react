@@ -42,7 +42,7 @@ export default class EditComponentPopUp extends Component {
             component_type: this.props.component.component_type_id,
             brand: this.props.component.component_brand_id,
             discipline: this.props.component.component_discipline_id,
-            project_types: this.props.projects[this.props.id-1],
+            project_types: this.props.projects[this.props.id],
             component_types_array: [],
             component_brands_array: [],
             component_disciplines_array: [],

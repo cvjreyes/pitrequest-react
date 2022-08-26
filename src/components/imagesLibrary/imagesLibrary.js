@@ -16,7 +16,7 @@ const ImagesLibrary = (props) => {
     // Array Grupo de proyectos
     const [groupProject, setGroupProject] = useState([])
     const [oneGroupProject, setOneGroupProject] = useState({})
-    const [groupProjectIds, setGroupProjectIds] = useState([])
+    const [groupProjectIds, setGroupProjectIds] = useState({})
     const [componentUpdated, setComponentUpdated] = useState(false)
     
     // Paginacion
@@ -47,23 +47,23 @@ const ImagesLibrary = (props) => {
         .then(response => response.json())
         .then(async json => {
 			let group = json.group_projects
-			let compt_group_project = []
-            let compt_group_project_ids = []
+			let compt_group_project = {}
+            let compt_group_project_ids = {}
             for(let i = 0; i < group.length; i++){
                 let label = group[i].grupo_projectos
 
-                compt_group_project.push(label)
+                compt_group_project[group[i].family_id] = label
                 let ids_string = group[i].grupo_projectos_ids.split(',')
                 let ids = ids_string.map(function (x) { 
                     return parseInt(x, 10); 
                 });
-                compt_group_project_ids.push(ids)
+                compt_group_project_ids[group[i].family_id] = ids
 			}
 			await setGroupProject(compt_group_project)
             await setGroupProjectIds(compt_group_project_ids)
            
         })   
-	}, [])
+	}, [componentUpdated])
 
     // Recoger path de todas las imagenes
     useEffect(async()=>{
@@ -95,7 +95,7 @@ const ImagesLibrary = (props) => {
     function openModal(valueLibrary) 
     {
         setOneLibrary(valueLibrary)
-        setOneGroupProject(groupProject[props.array_filtrado.indexOf(valueLibrary)])
+        setOneGroupProject(groupProject[valueLibrary.id])
         setIsOpen(true);
     }
 

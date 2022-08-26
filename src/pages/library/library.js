@@ -12,12 +12,13 @@ import { getLibrary } from '../../ApiRequest';
 
 const Library = () =>{    
 
-	const [filtersLibrary, setFiltersLibrary] = useState(<FiltersLibrary filtersAllLibrary={filtersAllLibrary.bind(this)}/>)
 	const [imagesLibrary, setImagesLibrary] = useState(<ImagesLibrary array_filtrado={[]} deleteSuccess={() => setDeleteSuccess(true)}/>)
 	const [success, setSuccess] = useState(false)
 	const [error, setError] = useState(false)
 	const [deleteSuccess, setDeleteSuccess] = useState(false)
 	const [updateSuccess, setUpdateSuccess] = useState(false) 
+	const [updatedGroups, setUpdatedGroups] = useState(false)
+	const [filtersLibrary, setFiltersLibrary] = useState(<FiltersLibrary filtersAllLibrary={filtersAllLibrary.bind(this)} updatedGroups={updatedGroups}/>)
 
 	document.body.style.zoom = 0.8
     document.body.style.height = "90%"
@@ -34,7 +35,9 @@ const Library = () =>{
 				let library_all = json.library
 				console.log(library_all)
 				let compt_library =[library_all]  
-				setImagesLibrary(<ImagesLibrary array_filtrado={library_all} deleteSuccess={() => setDeleteSuccess(true)} updateSuccess={() => setUpdateSuccess(true)}/>)
+				setImagesLibrary(<ImagesLibrary array_filtrado={library_all} deleteSuccess={() => setDeleteSuccess(true)} updateSuccess={() => setUpdateSuccess(true)}/>)	
+				setFiltersLibrary(<FiltersLibrary filtersAllLibrary={filtersAllLibrary.bind(this)} updatedGroups={!updatedGroups}/>)
+				setUpdatedGroups(!updatedGroups)
 			}) 
 			
 		 } 

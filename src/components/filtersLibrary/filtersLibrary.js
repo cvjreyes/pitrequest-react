@@ -62,7 +62,7 @@ const FiltersLibrary = (props) =>{
 			}
 			await setGroupProject(compt_group_project)
         })   
-	}, [])
+	}, [props.updatedGroups])
 
 	/* Familias */
 	useEffect(async()=>{
@@ -285,11 +285,11 @@ const FiltersLibrary = (props) =>{
             }else{
                 allLibrary.filter((elementoAllLibrary) => {
                     for (let index = 0; index < elementoAllLibrary.length; index++) {
-                        
+                        console.log(newCheckboxLibraryTipoP.sort().toString(), groupProject[index].split(',').sort().toString())
                         if(((newCheckboxLibraryMarcas.toString().includes(elementoAllLibrary[index].component_brand.toString()) && newCheckboxLibraryMarcas.length === 1) || newCheckboxLibraryMarcas.length === 0) 
                         && ((newCheckboxLibraryDisciplinas.toString().includes(elementoAllLibrary[index].component_discipline.toString()) && newCheckboxLibraryDisciplinas.length === 1 ) || newCheckboxLibraryDisciplinas.length === 0)
                         && ((newCheckboxLibraryFamilias.toString().includes(elementoAllLibrary[index].component_type.toString()) && newCheckboxLibraryFamilias.length === 1 ) || newCheckboxLibraryFamilias.length === 0)
-                        && (newCheckboxLibraryTipoP.toString().toLowerCase().split('').sort().join('').includes(groupProject[index].toString().toLowerCase().split('').sort().join('')) || newCheckboxLibraryTipoP.length === 0)
+                        && (groupProject[index].split(',').sort().toString().includes(newCheckboxLibraryTipoP.sort().toString()) || newCheckboxLibraryTipoP.length === 0)
                         && (elementoAllLibrary[index].component_name.toString().toLowerCase().includes(busqueda.toLowerCase()) || busqueda === "")
                         ){
                             array_filtros.push(elementoAllLibrary[index]);
