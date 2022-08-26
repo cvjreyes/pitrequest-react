@@ -3,6 +3,8 @@ import Modal from 'react-awesome-modal';
 import './createComponentPopUp.css';
 import AlertF from "../../components/alert/alert"
 import { NumericCellType } from 'handsontable/cellTypes';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 
 const CryptoJS = require("crypto-js");
     const SecureStorage = require("secure-web-storage");
@@ -104,10 +106,28 @@ export default class CreateComponentPopUp extends Component {
     }
 
     async openModal() {
-        let typesCheckboxes = <div id="projectTypeSelect" style={{display: "flex"}}>
-            {this.state.project_types_array.map(type =>(
-                <div style={{width:"150px"}}><label className='project_type_label'><input type="checkbox" className="project_type_checkbox" onChange={() => this.manageProjectTypes(type.id)}/> {type.project_type}</label></div>
-            ))}
+
+        const animatedComponents = makeAnimated();
+
+        let array_group_project = []
+
+        for (let index = 0; index < this.state.project_types_array.length; index++) {
+            let objeto_group_project = {}
+            objeto_group_project["value"] = this.state.project_types_array[index].id
+            objeto_group_project["label"] = this.state.project_types_array[index].project_type
+            array_group_project.push(objeto_group_project)
+            
+        }
+
+        let typesCheckboxes = <div id="projectTypeSelect" >
+            <Select
+                closeMenuOnSelect={false}
+                components={animatedComponents}
+                isMulti
+                className='select__group__project'
+                options={array_group_project}
+                onInputChange={this.manageProjectTypes}
+            />
         </div>
 
         document.getElementById("typeSelect").value = null
@@ -149,6 +169,7 @@ export default class CreateComponentPopUp extends Component {
     }
 
     async manageProjectTypes(type){
+        console.log("type: " + type);
         const index = this.state.project_types.indexOf(type)
         if (index === -1){
             this.setState({project_types: [...this.state.project_types, type]})
@@ -157,8 +178,8 @@ export default class CreateComponentPopUp extends Component {
         }
     }
 
-    async request(){
-        
+    async request(){ 
+        console.log("REsquest: " + this.state.project_types);
         if(this.state.name && this.state.description && this.state.component_type && this.state.brand && this.state.discipline && this.state.project_types.length > 0 && this.state.image && this.state.rfa){
             const body ={
                 componentName : this.state.name,
@@ -220,7 +241,7 @@ export default class CreateComponentPopUp extends Component {
             <div style={{marginRight:"5px", marginLeft:"5px", float:"right"}}>
                 <button className="create__component__btn" onClick={() => this.openModal()}>New item</button>
                 <div>
-                    <Modal visible={this.state.visible} width="550" height="670" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="550" height="770" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div style={{marginTop: "40px"}}
                     className={`alert alert-success ${this.state.blankRequest ? 'alert-shown' : 'alert-error-hidden'}`}
                     onTransitionEnd={() => this.setState({blankRequest: false})}
@@ -290,8 +311,8 @@ export default class CreateComponentPopUp extends Component {
                                 </td>
                             </tr>
                             <tr>
-                            <td style={{textAlign: "left"}}>
-                                {this.state.typesCheckboxes}
+                                <td colSpan={3} style={{textAlign: "left"}}>
+                                    {this.state.typesCheckboxes}
                                 </td>
                             </tr>
                             {/* Cuarta fila: Description */}

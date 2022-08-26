@@ -40,6 +40,7 @@
     "react-pagination": "^1.0.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
+    "react-select": "^5.4.0",
     "react-tooltip": "^4.2.21",
     "recharts": "^2.1.9",
     "secure-web-storage": "^1.0.2",
