@@ -130,24 +130,24 @@ class LibraryTreeGrid extends Component{
 
         let settingsFamilies = {
             licenseKey: 'non-commercial-and-evaluation',
-            colWidths: 350,
+            colWidths: 300,
         }
     
         let settingsBrands = {
             licenseKey: 'non-commercial-and-evaluation',
-            colWidths: 350,
+            colWidths: 300,
         className:'excel'
         }
     
         let settingsTipoP= {
             licenseKey: 'non-commercial-and-evaluation',
-            colWidths: 350,
+            colWidths: 300,
         className:'excel'
         }    
     
         let settingsDisciplines= {
             licenseKey: 'non-commercial-and-evaluation',
-            colWidths: 350,
+            colWidths: 300,
         className:'excel'
         }
 
@@ -163,7 +163,7 @@ class LibraryTreeGrid extends Component{
                             data={this.state.component_types}
                             colHeaders = {["<b>Families</b>"]}
                             rowHeaders={false}
-                            width="350"
+                            width="322"
                             height="400"
                             className="custom__table__familias"
                             rowHeights="38"
@@ -180,7 +180,7 @@ class LibraryTreeGrid extends Component{
                             data={this.state.component_brands}
                             colHeaders = {["<b>Marcas</b>"]}
                             rowHeaders={false}
-                            width="350"
+                            width="322"
                             height="400"
                             className="custom__table__marcas"
                             rowHeights="38"
@@ -197,7 +197,7 @@ class LibraryTreeGrid extends Component{
                             data={this.state.project_types}
                             colHeaders = {["<b>Tipo de proyecto</b>"]}
                             rowHeaders={false}
-                            width="350"
+                            width="322"
                             height="400"
                             className="custom__table__marcas"
                             rowHeights="38"
@@ -209,14 +209,14 @@ class LibraryTreeGrid extends Component{
                         />
                     </div>
 
-                    <div id="hot-app" className="excel__container__marcas">
+                    <div id="hot-app" className="excel__container__disciplinas">
                         <HotTable
                             data={this.state.component_disciplines}
                             colHeaders = {["<b>Disciplina</b>", "<b>Codigo</b>"]}
                             rowHeaders={false}
-                            width="350"
+                            width="622"
                             height="400"
-                            className="custom__table__marcas"
+                            className="custom__table__disciplinas"
                             rowHeights="38"
                             settings={settingsDisciplines} 
                             manualColumnResize={true}
@@ -229,26 +229,26 @@ class LibraryTreeGrid extends Component{
 
                 <div className='button__add__library'>
                     
-                    <div style={{display: "flex", float:"center"}} >
-                        <div style={{marginLeft: "300px"}}>
+                    <div style={{display: "flex", float:"center", marginLeft:"-415%"}} >
+                        <div>
                             <button className="projects__add__button" type="button" onClick={()=> this.addRowFamilies()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
                         </div>
                     </div>
 
-                    <div style={{display: "flex", float:"center"}} >
-                        <div style={{marginLeft: "480px"}}>
+                    <div style={{display: "flex", float:"center", marginLeft: "130%"}} >
+                        <div>
                             <button className="projects__add__button" type="button" onClick={()=> this.addRowBrands()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
                         </div>
                     </div>
 
-                    <div style={{display: "flex", float:"center"}} >
-                        <div style={{marginLeft: "490px"}}>
+                    <div style={{display: "flex", float:"center", marginLeft: "130%"}} >
+                        <div>
                             <button className="projects__add__button" type="button" onClick={()=> this.addRowTipoP()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
                         </div>
                     </div>
 
-                    <div style={{display: "flex", float:"center"}} >
-                        <div style={{marginLeft: "490px"}}>
+                    <div style={{display: "flex", float:"center", marginLeft: "180%"}} >
+                        <div>
                             <button className="projects__add__button" type="button" onClick={()=> this.addRowDisciplines()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
                         </div>
                     </div>

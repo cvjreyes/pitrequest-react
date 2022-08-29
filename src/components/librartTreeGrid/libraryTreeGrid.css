@@ -38,7 +38,25 @@
     text-align:"center";
     display: flex;
     margin-top: 3%;
-    margin-left: 9%;
+    margin-left: 5%;
+    float: left;
+}
+
+/*tabla de disciplinas */
+.custom__table__disciplinas thead th:nth-child(1){
+    border-radius: 7px 0px 0px 0px;
+}
+
+.custom__table__disciplinas thead th:nth-child(2){
+    border-radius: 0px 8px 0px 0px;
+}
+
+.excel__container__disciplinas{
+    width: 650px;
+    text-align:"center";
+    display: flex;
+    margin-top: 3%;
+    margin-left: 5%;
     float: left;
 }
 
