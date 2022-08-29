@@ -1,6 +1,7 @@
 import NavBar from '../../components/navBar/navBar';
 import React, { useState } from 'react';
 import './libraryFiltersView.css'
+import LibraryTreeGrid from '../../components/librartTreeGrid/libraryTreeGrid.js';
 
 import AlertF from "../../components/alert/alert"
 import { useNavigate } from 'react-router-dom';
@@ -45,7 +46,9 @@ const LibraryFiltersView = () => {
                     <button className="projects__button__save" onClick={()=>this.saveChanges()} style={{width:"175px", marginLeft:"-1570px"}}><img src={SaveIcon2} alt="hold" className="navBar__icon__save" style={{marginRight:"-20px"}}></img><p className="projects__button__text">Save</p></button>
                     <button className="library__button" onClick={()=>goToLibrary()} style={{width:"175px", marginLeft:"20px"}}><FontAwesomeIcon className='icon__book' icon={faBook} />Library</button>
                 </div>
-				
+				<div>
+                    <LibraryTreeGrid />
+                </div>
 			</div>
 		</div>
     )
