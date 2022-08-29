@@ -1,4 +1,5 @@
 import NavBar from '../../components/navBar/navBar';
+import {useNavigate} from "react-router";
 import React, { useEffect, useState } from 'react';
 import './library.css'
 import PITLogo from "../../assets/images/pitlogo.svg"
@@ -7,6 +8,9 @@ import FiltersLibrary from '../../components/filtersLibrary/filtersLibrary';
 import ImagesLibrary from '../../components/imagesLibrary/imagesLibrary';
 import CreateComponentPopUp from '../../components/createComponentPopUp/createComponentPopUp';
 import AlertF from "../../components/alert/alert"
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
 
 import { getLibrary } from '../../ApiRequest';
 
@@ -42,10 +46,13 @@ const Library = () =>{
 	const [imagesLibrary, setImagesLibrary] = useState(<ImagesLibrary array_filtrado={[]} deleteSuccess={() => setDeleteSuccess(true)}/>)
 	const [success, setSuccess] = useState(false)
 	const [error, setError] = useState(false)
+	const history = useNavigate();
+
 	const [deleteSuccess, setDeleteSuccess] = useState(false)
 	const [updateSuccess, setUpdateSuccess] = useState(false) 
 	const [filtersLibrary, setFiltersLibrary] = useState(<FiltersLibrary filtersAllLibrary={filtersAllLibrary.bind(this)}/>)
 	const [createElement, setCreateElement] = useState(null)
+	const [libraryFiltersButton, setLibraryFiltersButton] = useState(null)
 
 	document.body.style.zoom = 0.8
     document.body.style.height = "90%"
@@ -53,6 +60,10 @@ const Library = () =>{
 	function filtersAllLibrary (array_filtrado) {
 		setImagesLibrary(<ImagesLibrary array_filtrado={array_filtrado} deleteSuccess={() => setDeleteSuccess(true)} updateSuccess={() => setUpdateSuccess(true)}/> )
 	}
+
+	function libraryFiltersViewGo(){
+        history("/"+process.env.REACT_APP_PROJECT+"/libraryFiltersView")
+    }
 
 	useEffect(async()=>{
          if(success || deleteSuccess || updateSuccess){
@@ -81,6 +92,7 @@ const Library = () =>{
           .then(async json => {
             if(json.isAdmin){
 				setCreateElement(<CreateComponentPopUp success={() => setSuccess(true)} error={() => setError(true)}/>)
+				setLibraryFiltersButton(<button className="library__button" onClick={()=>libraryFiltersViewGo()} style={{width:"205px", marginRight:"10px", marginTop:"10px", marginBottom:"10px"}}><FontAwesomeIcon className='icon__book' icon={faBook} />Library Filters</button>)
 			}
 		})
    }, [])
@@ -119,7 +131,7 @@ const Library = () =>{
 					<img src={PITLogo} alt="PITLogo" className="isoTrackerLogo__image2" style={{height:"110px", marginLeft:60}}/>
 				</div>
 				{/* Componente filtros izquierda libreria */}
-				<h3>Filtros</h3>
+				{libraryFiltersButton}
 				{filtersLibrary}
 			</div>
 			<div className="container">
