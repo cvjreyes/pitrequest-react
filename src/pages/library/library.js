@@ -1,10 +1,6 @@
 import NavBar from '../../components/navBar/navBar';
-<<<<<<< HEAD
-import React, { useState } from 'react';
 import {useNavigate} from "react-router";
-=======
 import React, { useEffect, useState } from 'react';
->>>>>>> library-start
 import './library.css'
 import PITLogo from "../../assets/images/pitlogo.svg"
 
@@ -13,10 +9,9 @@ import ImagesLibrary from '../../components/imagesLibrary/imagesLibrary';
 import CreateComponentPopUp from '../../components/createComponentPopUp/createComponentPopUp';
 import AlertF from "../../components/alert/alert"
 
-<<<<<<< HEAD
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
-=======
+
 import { getLibrary } from '../../ApiRequest';
 
 const CryptoJS = require("crypto-js");
@@ -44,7 +39,6 @@ var secureStorage = new SecureStorage(localStorage, {
         return data;
     }
 });
->>>>>>> library-start
 
 const Library = () =>{    
 
@@ -52,15 +46,12 @@ const Library = () =>{
 	const [imagesLibrary, setImagesLibrary] = useState(<ImagesLibrary array_filtrado={[]} deleteSuccess={() => setDeleteSuccess(true)}/>)
 	const [success, setSuccess] = useState(false)
 	const [error, setError] = useState(false)
-<<<<<<< HEAD
 	const history = useNavigate();
 
-=======
 	const [deleteSuccess, setDeleteSuccess] = useState(false)
 	const [updateSuccess, setUpdateSuccess] = useState(false) 
 	const [filtersLibrary, setFiltersLibrary] = useState(<FiltersLibrary filtersAllLibrary={filtersAllLibrary.bind(this)}/>)
 	const [createElement, setCreateElement] = useState(null)
->>>>>>> library-start
 
 	document.body.style.zoom = 0.8
     document.body.style.height = "90%"
@@ -69,11 +60,10 @@ const Library = () =>{
 		setImagesLibrary(<ImagesLibrary array_filtrado={array_filtrado} deleteSuccess={() => setDeleteSuccess(true)} updateSuccess={() => setUpdateSuccess(true)}/> )
 	}
 
-<<<<<<< HEAD
 	function libraryFiltersViewGo(){
         history("/"+process.env.REACT_APP_PROJECT+"/libraryFiltersView")
     }
-=======
+
 	useEffect(async()=>{
          if(success || deleteSuccess || updateSuccess){
 			getLibrary()
@@ -104,7 +94,6 @@ const Library = () =>{
 			}
 		})
    }, [])
->>>>>>> library-start
 
     return (
 		<div>
