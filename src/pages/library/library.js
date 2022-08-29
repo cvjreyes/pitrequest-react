@@ -52,6 +52,7 @@ const Library = () =>{
 	const [updateSuccess, setUpdateSuccess] = useState(false) 
 	const [filtersLibrary, setFiltersLibrary] = useState(<FiltersLibrary filtersAllLibrary={filtersAllLibrary.bind(this)}/>)
 	const [createElement, setCreateElement] = useState(null)
+	const [libraryFiltersButton, setLibraryFiltersButton] = useState(null)
 
 	document.body.style.zoom = 0.8
     document.body.style.height = "90%"
@@ -91,6 +92,7 @@ const Library = () =>{
           .then(async json => {
             if(json.isAdmin){
 				setCreateElement(<CreateComponentPopUp success={() => setSuccess(true)} error={() => setError(true)}/>)
+				setLibraryFiltersButton(<button className="library__button" onClick={()=>libraryFiltersViewGo()} style={{width:"205px", marginRight:"10px", marginTop:"10px", marginBottom:"10px"}}><FontAwesomeIcon className='icon__book' icon={faBook} />Library Filters</button>)
 			}
 		})
    }, [])
@@ -129,7 +131,7 @@ const Library = () =>{
 					<img src={PITLogo} alt="PITLogo" className="isoTrackerLogo__image2" style={{height:"110px", marginLeft:60}}/>
 				</div>
 				{/* Componente filtros izquierda libreria */}
-				<button className="library__button" onClick={()=>libraryFiltersViewGo()} style={{width:"205px", marginRight:"10px", marginTop:"10px", marginBottom:"10px"}}><FontAwesomeIcon className='icon__book' icon={faBook} />Library Filters</button>
+				{libraryFiltersButton}
 				{filtersLibrary}
 			</div>
 			<div className="container">

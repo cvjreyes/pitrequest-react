@@ -36,18 +36,14 @@ const LibraryFiltersView = () => {
                 className={`alert alert-success ${error ? 'alert-shown' : 'alert-hidden'}`}
                 onTransitionEnd={() => setError(false)}
                 >
-                <AlertF type="error" subtext="A problem occurred while creating the component!" />
+                <AlertF type="error" subtext="A problem occurred while saving the filters!" />
             </div>
 			<div style={{zoom:1.125}}>
 				<NavBar/>
 			</div>
 			<div>
-                <div style={{marginTop: "140px"}}>
-                    <button className="projects__button__save" onClick={()=>this.saveChanges()} style={{width:"175px", marginLeft:"-1570px"}}><img src={SaveIcon2} alt="hold" className="navBar__icon__save" style={{marginRight:"-20px"}}></img><p className="projects__button__text">Save</p></button>
-                    <button className="library__button" onClick={()=>goToLibrary()} style={{width:"175px", marginLeft:"20px"}}><FontAwesomeIcon className='icon__book' icon={faBook} />Library</button>
-                </div>
 				<div>
-                    <LibraryTreeGrid />
+                    <LibraryTreeGrid goToLibrary={goToLibrary.bind(this)} error={()=> setError(true)} success={()=> setSuccess(true)}/>
                 </div>
 			</div>
 		</div>
