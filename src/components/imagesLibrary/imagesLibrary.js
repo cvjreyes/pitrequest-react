@@ -3,6 +3,36 @@ import './imagesLibrary.css'
 import ReactPaginate from 'react-paginate';
 import Modal from 'react-modal';
 import { getGroupProjects, getLibrary } from '../../ApiRequest';
+import DeleteComponentConfirmPopUp from '../deleteComponentConfirmPopUp/deleteComponentConfirmPopUp';
+import EditComponentPopUp from '../editComponentPopUp/editComponentPopUp';
+
+
+const CryptoJS = require("crypto-js");
+const SecureStorage = require("secure-web-storage");
+var SECRET_KEY = 'sanud2ha8shd72h';
+ 
+var secureStorage = new SecureStorage(localStorage, {
+    hash: function hash(key) {
+        key = CryptoJS.SHA256(key, SECRET_KEY);
+ 
+        return key.toString();
+    },
+    encrypt: function encrypt(data) {
+        data = CryptoJS.AES.encrypt(data, SECRET_KEY);
+ 
+        data = data.toString();
+ 
+        return data;
+    },
+    decrypt: function decrypt(data) {
+        data = CryptoJS.AES.decrypt(data, SECRET_KEY);
+ 
+        data = data.toString(CryptoJS.enc.Utf8);
+ 
+        return data;
+    }
+});
+
 
 const ImagesLibrary = (props) => {
 
@@ -14,19 +44,23 @@ const ImagesLibrary = (props) => {
     // Array Grupo de proyectos
     const [groupProject, setGroupProject] = useState([])
     const [oneGroupProject, setOneGroupProject] = useState({})
+    const [groupProjectIds, setGroupProjectIds] = useState({})
+    const [componentUpdated, setComponentUpdated] = useState(false)
     
+    //Botones para admin
+    const [isAdmin, setIsAdmin] = useState(true)
+
     // Paginacion
     const [maxPages, setMaxPages] = useState()
 
     // Los usestate para poder printar el filtro de busqueda
     const [currentPage, setCurrentPage] = useState(0)
-    
     //url imagen
     const urlImage = "http://" + process.env.REACT_APP_SERVER + ":" + process.env.REACT_APP_NODE_PORT + "/"
 
     const customStyles = {
         content: {
-          top: '50%',
+          top: '52%',
           left: '50%',
           right: 'auto',
           bottom: 'auto',
@@ -37,6 +71,27 @@ const ImagesLibrary = (props) => {
         },
     };
 
+    /* Si es admin se muestran los botones */
+	useEffect(async()=>{
+        
+        const options = {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		  }
+
+		await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/isAdmin/" + secureStorage.getItem("user"), options)
+          .then(response => response.json())
+          .then(async json => {
+            if(json.isAdmin){
+                setIsAdmin(true)
+            }
+		})
+        
+
+	}, [oneLibrary, groupProjectIds, props, groupProject])
+
     /* Grupos de projectos */
 	useEffect(async()=>{
 
@@ -44,16 +99,24 @@ const ImagesLibrary = (props) => {
         .then(response => response.json())
         .then(async json => {
 			let group = json.group_projects
-			let compt_group_project = []
+			let compt_group_project = {}
+            let compt_group_project_ids = {}
             for(let i = 0; i < group.length; i++){
                 let label = group[i].grupo_projectos
 
-                compt_group_project.push(label)
+                compt_group_project[group[i].family_id] = label
+                let ids_string = group[i].grupo_projectos_ids.split(',')
+                let ids = ids_string.map(function (x) { 
+                    return parseInt(x, 10); 
+                });
+                compt_group_project_ids[group[i].family_id] = ids
 			}
 			await setGroupProject(compt_group_project)
+            await setGroupProjectIds(compt_group_project_ids)
            
         })   
-	}, [])
+
+	}, [componentUpdated, props.updateGroups])
 
     // Recoger path de todas las imagenes
     useEffect(async()=>{
@@ -79,14 +142,35 @@ const ImagesLibrary = (props) => {
             }
             await setImgSrc(compt_library)
         })   
-	}, [groupProject, props, currentPage])
+	}, [groupProject, props, currentPage, componentUpdated])
 
     /* Configuracion de los modales */
-    function openModal(valueLibrary) {
+    function openModal(valueLibrary) 
+    {
         setOneLibrary(valueLibrary)
-        setOneGroupProject(groupProject[valueLibrary.id-1])
+        setOneGroupProject(groupProject[valueLibrary.id])
         setIsOpen(true);
-        
+    }
+
+    async function deleteComponent(id){
+        const body ={
+            id: id
+          }
+          const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        }
+          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/deleteComponent", options)
+              .then(response => response.json())
+              .then(async json => {
+                if(json.success){
+                    setIsOpen(false);
+                    props.deleteSuccess()
+                }
+              })
     }
     
     function closeModal() {
@@ -98,7 +182,13 @@ const ImagesLibrary = (props) => {
         await setCurrentPage(data.selected)
     }
 
-    function downloadRFA(name){
+    function updateSuccess() {
+        props.updateSuccess()
+        setComponentUpdated(!componentUpdated)
+        closeModal()
+    }
+
+    function downloadRFA(name, filename){
 
         const options = {
             method: "GET",
@@ -120,7 +210,7 @@ const ImagesLibrary = (props) => {
             fileLink.href = fileURL;
     
             // it forces the name of the downloaded file
-            fileLink.download = name + ".rfa";
+            fileLink.download = filename + ".rfa";
     
             // triggers the click event
             fileLink.click();
@@ -149,6 +239,9 @@ const ImagesLibrary = (props) => {
             >
                 <div>
                     <div className="card" style={{width: "30rem"}}>
+                    {isAdmin ? <EditComponentPopUp component={oneLibrary} projects={groupProjectIds} id={oneLibrary.id} updateSuccess={updateSuccess.bind(this)}/> : null}
+                    {isAdmin ? <DeleteComponentConfirmPopUp component={oneLibrary.component_name} id={oneLibrary.id} deleteComponent={deleteComponent.bind(this)}/> : null}
+
                     <img src={urlImage + oneLibrary.image_path} height="440" width="100" className="card-img-top" alt="..."/>
                         <div className="card-body" style={{	borderBottom: "1px solid black"}}>
                             <h3 className="modal__titulo">Details</h3>
@@ -162,7 +255,7 @@ const ImagesLibrary = (props) => {
                             <li className="list-group-item modal__li"><b>Disciplina: </b>{oneLibrary.component_discipline}</li>
                             <li className="list-group-item modal__li"><b>Codigo: </b>{oneLibrary.component_code}</li>
                         </ul>
-                        <button className="download__rfa__btn" onClick={() => downloadRFA(oneLibrary.component_name)}>Download</button>
+                        <button className="download__rfa__btn" onClick={() => downloadRFA(oneLibrary.component_code, oneLibrary.component_name)}>Download</button>
                     </div>
                 </div>
             </Modal>

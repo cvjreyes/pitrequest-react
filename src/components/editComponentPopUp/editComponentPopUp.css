@@ -1,0 +1,19 @@
+.edit__name__input{
+    font-size: 18px;
+    height: 37px;
+    width: 160px;
+    margin-bottom: 17px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.edit__project__select{
+    font-size: 16px;
+    height: 37px;
+    width: 160px;
+    margin-bottom: 17px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.select__group__project__edit{
+    width: 457px;
+}
