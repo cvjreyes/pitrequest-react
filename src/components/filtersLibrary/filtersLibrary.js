@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEraser, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FormControlLabel, FormGroup, Checkbox, Box } from '@mui/material';
+import { CoPresentOutlined } from '@mui/icons-material';
 
 const FiltersLibrary = (props) =>{
 
@@ -285,14 +286,25 @@ const FiltersLibrary = (props) =>{
             }else{
                 allLibrary.filter((elementoAllLibrary) => {
                     for (let index = 0; index < elementoAllLibrary.length; index++) {
-                        
                         if(((newCheckboxLibraryMarcas.toString().includes(elementoAllLibrary[index].component_brand.toString()) && newCheckboxLibraryMarcas.length === 1) || newCheckboxLibraryMarcas.length === 0) 
                         && ((newCheckboxLibraryDisciplinas.toString().includes(elementoAllLibrary[index].component_discipline.toString()) && newCheckboxLibraryDisciplinas.length === 1 ) || newCheckboxLibraryDisciplinas.length === 0)
                         && ((newCheckboxLibraryFamilias.toString().includes(elementoAllLibrary[index].component_type.toString()) && newCheckboxLibraryFamilias.length === 1 ) || newCheckboxLibraryFamilias.length === 0)
-                        && (!groupProject[index] || groupProject[index].split(',').sort().toString().includes(newCheckboxLibraryTipoP.sort().toString()) || newCheckboxLibraryTipoP.length === 0)
                         && (elementoAllLibrary[index].component_name.toString().toLowerCase().includes(busqueda.toLowerCase()) || busqueda === "")
                         ){
-                            array_filtros.push(elementoAllLibrary[index]);
+                            //(!groupProject[index] || groupProject[index].split(',').sort().toString().includes(newCheckboxLibraryTipoP.sort().toString()) || newCheckboxLibraryTipoP.length === 0)
+                            if(!groupProject[index]){
+                                array_filtros.push(elementoAllLibrary[index])
+                            }else{
+                                let meets = true
+                                for(let i = 0; i < newCheckboxLibraryTipoP.length; i++){
+                                    if(!groupProject[index].includes(newCheckboxLibraryTipoP[i].toString())){
+                                        meets = false
+                                    }
+                                }
+                                if(meets){
+                                    array_filtros.push(elementoAllLibrary[index]);
+                                }
+                            }                            
                         }
                     }
                 })
