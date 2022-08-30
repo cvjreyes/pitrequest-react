@@ -1,0 +1,71 @@
+/*tabla de familias*/
+.custom__table__familias {
+    margin-bottom: 20px;
+}
+
+.custom__table__familias thead th:nth-child(1){
+    border-radius: 7px 0px 0px 0px;
+}
+
+.custom__table__familias thead th:nth-child(2){
+    border-radius: 0px 8px 0px 0px;
+}
+
+.excel__container__familias{
+    width: 350px;
+    text-align:"center";
+    display: flex;
+    margin-top: 3%;
+    margin-left: 9%;
+    float: left;
+}
+
+/*tabla de marcas */
+.custom__table__marcas {
+    margin-bottom: 20px;
+}
+
+.custom__table__marcas thead th:nth-child(1){
+    border-radius: 7px 0px 0px 0px;
+}
+
+.custom__table__marcas thead th:nth-child(2){
+    border-radius: 0px 8px 0px 0px;
+}
+
+.excel__container__marcas{
+    width: 350px;
+    text-align:"center";
+    display: flex;
+    margin-top: 3%;
+    margin-left: 5%;
+    float: left;
+}
+
+/*tabla de disciplinas */
+.custom__table__disciplinas thead th:nth-child(1){
+    border-radius: 7px 0px 0px 0px;
+}
+
+.custom__table__disciplinas thead th:nth-child(2){
+    border-radius: 0px 8px 0px 0px;
+}
+
+.excel__container__disciplinas{
+    width: 650px;
+    text-align:"center";
+    display: flex;
+    margin-top: 3%;
+    margin-left: 5%;
+    float: left;
+}
+
+/*botones add abajo */
+.button__add__library{
+    width: 300px;
+    text-align:"center";
+    display: flex;
+    margin-top: 1%;
+    margin-left: 1%;
+    float: left;
+}

@@ -22,7 +22,7 @@ const MenuListPIT = (props) =>{
 
     return(
 
-        <div class="panel__container">
+        <div className="panel__container">
 
             <div className="panel__heading__container">
                 <img src={PITLogo} alt="PITLogo" className="pit__image" onClick={()=>mainMenu()}/>

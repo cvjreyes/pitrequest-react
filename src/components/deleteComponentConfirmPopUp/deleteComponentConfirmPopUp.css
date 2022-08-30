@@ -1,0 +1,21 @@
+.delete__component__img{
+    height: 35px;
+    width: auto;
+    margin-left: -10px;
+    margin-top: -3px;
+    cursor: pointer;
+}
+
+.delete__comp__popUp__container{
+    text-align: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+
+.delete__comp__title__popUp {
+    text-align: center; 
+    font-family: Arial; 
+    font-size: 30px; 
+    COLOR: #338DF1; 
+}

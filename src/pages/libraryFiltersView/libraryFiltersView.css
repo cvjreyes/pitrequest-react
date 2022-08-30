@@ -1,0 +1,30 @@
+/*Boton de Tasks*/
+.library__button{
+    height: 50px;
+    width: 100px;
+    border: 1px solid #0070ED;;
+    background-color: transparent;
+    border-radius: 1em 1em 1em 1em;
+    transition: 0.3s;
+    font-family: 'Montserrat', sans-serif;    
+    color: #0070ED;;
+    background-color:white;
+    font-weight: bold;
+    margin-top: -100px;
+    font-size: 17px;
+}
+
+.library__button:hover{
+    background-color: #99C6F8;
+    color: black;
+}
+
+.icon__book{
+    height: 20px;
+    width: 20px;
+    position:relative; 
+    right:20px; 
+    top:2px;
+    fill: aquamarine;
+}
+

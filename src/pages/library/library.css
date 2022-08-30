@@ -1,0 +1,25 @@
+.container {
+	background: #fff;
+	width: 100%;
+	max-width: 77%;
+	margin: 20px auto;
+    margin-left: 20%;
+	margin-top: 5%;
+	zoom: 1.20;
+}
+
+.button__description{
+    height: 50px;
+    width: 100px;
+    border: 0;
+    background-color: transparent;
+    margin-left: 10px;
+    border-radius: 1em 1em 1em 1em;
+    transition: 0.3s;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.container__left__library{
+	margin-top: -120px;
+	float: left;
+}

@@ -172,6 +172,10 @@ export default function MenuListPITList(props) {
       history("/"+process.env.REACT_APP_PROJECT+"/sptracker")
     }
 
+    function handleLibraryClick(){
+      history("/"+process.env.REACT_APP_PROJECT+"/library")
+    }
+    
     function handleUsersViewClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/pitrequestsview")
       secureStorage.setItem("tab", "Users")
@@ -201,6 +205,11 @@ export default function MenuListPITList(props) {
               <div className='mainmenu__item__container'>
                 <span style={{display:"flex", width:"260px"}} onClick={()=> handlePitViewClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Requests Dashboard</text></div></span>
               </div>
+
+              <div className='mainmenu__item__container'>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleLibraryClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Library</text></div></span>
+              </div>
+
               <div className='mainmenu__item__container'>
                 <span style={{display:"flex", width:"260px"}} onClick={()=> handleUsersViewClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>User Management</text></div></span>
               </div>
@@ -214,6 +223,9 @@ export default function MenuListPITList(props) {
               </div>
               <div className='mainmenu__item__container'>
                 <span style={{display:"flex", width:"260px"}} onClick={()=> handlePitViewClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Requests Dashboard</text></div></span>
+              </div>
+              <div className='mainmenu__item__container'>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleLibraryClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Library</text></div></span>
               </div></div>)
             }
             /*
