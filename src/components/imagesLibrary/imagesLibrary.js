@@ -239,10 +239,10 @@ const ImagesLibrary = (props) => {
             >
                 <div>
                     <div className="card" style={{width: "30rem"}}>
-                    {isAdmin ? <EditComponentPopUp component={oneLibrary} projects={groupProjectIds} id={oneLibrary.id} updateSuccess={updateSuccess.bind(this)}/> : null}
-                    {isAdmin ? <DeleteComponentConfirmPopUp component={oneLibrary.component_name} id={oneLibrary.id} deleteComponent={deleteComponent.bind(this)}/> : null}
+                        {isAdmin ? <EditComponentPopUp component={oneLibrary} projects={groupProjectIds} id={oneLibrary.id} updateSuccess={updateSuccess.bind(this)}/> : null}
+                        {isAdmin ? <DeleteComponentConfirmPopUp component={oneLibrary.component_name} id={oneLibrary.id} deleteComponent={deleteComponent.bind(this)}/> : null}
 
-                    <img src={urlImage + oneLibrary.image_path} height="440" width="100" className="card-img-top" alt="..."/>
+                        <img src={urlImage + oneLibrary.image_path} height="440" width="100" className="card-img-top" alt="..."/>
                         <div className="card-body" style={{	borderBottom: "1px solid black"}}>
                             <h3 className="modal__titulo">Details</h3>
                             <p className="modal__description"><i>{oneLibrary.component_description}</i></p>

@@ -129,7 +129,7 @@ export default class EditComponentPopUp extends Component {
         }
         
         
-        let typesCheckboxes = <div id="projectTypeSelect" style={{width:"100px"}} >
+        let typesCheckboxes = <div id="projectTypeSelect"  >
             <Select
                 closeMenuOnSelect={false}
                 components={animatedComponents}
@@ -236,93 +236,92 @@ export default class EditComponentPopUp extends Component {
                     </div>
                     <div className="qtrackerRequest__container">
                         <table>
-                        <thead>
-                            <tr>
-                            <th colSpan={3}>
-                                <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>Edit {this.props.component.component_name}</h3></center>
-                            </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {/* Primer fila: Project - Carta - Priority */}
-                            <tr>
-                                <td style={{textAlign: "left"}}>
-                                <label className="priority__label" for="typeSelect" >Name</label>                            
-                                </td>
-                                <td style={{textAlign: "left"}}>
-                                <label className="priority__label" for="name">Type</label>                            
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style={{textAlign: "left"}}>
-                                <input type="text" id="name" className="edit__name__input" value={this.state.name} onChange={(e) => this.setState({name: e.target.value})}></input>                      
-                                </td>
-                                <td style={{textAlign: "left"}}>
-                                <select id="typeSelect" className="edit__project__select" onChange={(e) => this.setState({component_type: e.target.value})}>
-                                    {this.state.component_types_array.map(comp =>(comp.id == this.state.component_type ? 
-                                        <option selected value={comp.id}>{comp.type}</option> : <option value={comp.id}>{comp.type}</option>
-                                    ))}
-                                </select>
-                                </td>
-                            </tr>
-                            {/* Segunda fila: Pipe */}
-                            <tr>
-                                <td style={{textAlign: "left"}}>
-                                <label className="priority__label" for="disciplineSelect" >Discipline</label>                            
-                                </td>
-                                <td style={{textAlign: "left"}}>
-                                <label className="priority__label" for="brandSelect">Brand</label>                            
-                                </td>
-                            </tr>
-                            <tr>
-                            <td style={{textAlign: "left"}}>
-                                <select id="disciplineSelect" className="edit__project__select" onChange={(e) => this.setState({discipline: e.target.value})}>
-                                    {this.state.component_disciplines_array.map(disc =>( disc.id == this.state.discipline ?
-                                        <option selected value={disc.id}>{disc.discipline}</option> : <option value={disc.id}>{disc.discipline}</option>
-                                    ))}
-                                </select>
-                                </td>
-                                <td style={{textAlign: "left"}}>
-                                <select id="brandSelect" className="edit__project__select" onChange={(e) => this.setState({brand: e.target.value})}>
-                                    {this.state.component_brands_array.map(brand =>( brand.id == this.state.brand ?
-                                        <option selected value={brand.id}>{brand.brand}</option> : <option value={brand.id}>{brand.brand}</option>
-                                    ))}
-                                </select>
-                                </td>
-                            </tr>
-                            {/*Tercera fila*/}
-                            <tr>
-                                <td style={{textAlign: "left"}}>
-                                <label className="priority__label" for="disciplineSelect" >Project type</label>                            
-                                </td>
-                            </tr>
-                            <tr>
-                            <td style={{textAlign: "left"}}>
-                                {this.state.typesCheckboxes}
-                                </td>
-                            </tr>
-                            {/* Cuarta fila: Description */}
-                            <tr>
-                                <td style={{textAlign: "left"}}>
-                                <label className="priority__label" for="description">Description</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colSpan={3}>
-                                <textarea id="description" name="description" className="component__description__input__text" rows="3" ref="description" style={{marginBottom:"5px", color:"black"}} value={this.state.description} onChange={(e) => this.setState({description: e.target.value})}/>
-                                </td>
-                            </tr>
-                            {/* Quinta fila: Attach */}
-                            <tr>
-                                <td style={{textAlign: "left"}}>
-                                <label for="attach" className="priority__label" style={{marginBottom:"5px"}}>New image</label>
-                                <input type="file" id="image" className="qtrackerPopUp__input__file"  ref="attach" style={{marginBottom: "5px"}}  onChange={(e) => this.setState({image: e.target.files[0]})} ></input>
-                                <label for="rfa" className="priority__label" style={{marginBottom:"5px"}}>New RFA</label>
-                                <input type="file" id="rfa" className="qtrackerPopUp__input__file"  ref="rfa" style={{marginBottom: "10px"}}  onChange={(e) => this.setState({rfa: e.target.files[0]})} ></input>
-                                </td>
-                            </tr>
-
-                        </tbody>
+                            <thead>
+                                <tr>
+                                    <th colSpan={2}>
+                                        <center className="qtracker__popUp__title" style={{marginBottom: "30px"}}><h3>Edit {this.props.component.component_name}</h3></center>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {/* Primer fila: Project - Carta - Priority */}
+                                <tr>
+                                    <td style={{textAlign: "left"}}>
+                                        <label className="priority__label" for="typeSelect" >Name</label>                            
+                                    </td>
+                                    <td style={{textAlign: "left"}}>
+                                        <label className="priority__label" for="name">Type</label>                            
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style={{textAlign: "left"}}>
+                                        <input type="text" id="name" className="edit__name__input" value={this.state.name} onChange={(e) => this.setState({name: e.target.value})}></input>                      
+                                    </td>
+                                    <td style={{textAlign: "left"}}>
+                                        <select id="typeSelect" className="edit__project__select" onChange={(e) => this.setState({component_type: e.target.value})}>
+                                            {this.state.component_types_array.map(comp =>(comp.id == this.state.component_type ? 
+                                                <option selected value={comp.id}>{comp.type}</option> : <option value={comp.id}>{comp.type}</option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                </tr>
+                                {/* Segunda fila: Pipe */}
+                                <tr>
+                                    <td style={{textAlign: "left"}}>
+                                        <label className="priority__label" for="disciplineSelect" >Discipline</label>                            
+                                    </td>
+                                    <td style={{textAlign: "left"}}>
+                                        <label className="priority__label" for="brandSelect">Brand</label>                            
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style={{textAlign: "left"}}>
+                                        <select id="disciplineSelect" className="edit__project__select" onChange={(e) => this.setState({discipline: e.target.value})}>
+                                            {this.state.component_disciplines_array.map(disc =>( disc.id == this.state.discipline ?
+                                                <option selected value={disc.id}>{disc.discipline}</option> : <option value={disc.id}>{disc.discipline}</option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                    <td style={{textAlign: "left"}}>
+                                        <select id="brandSelect" className="edit__project__select" onChange={(e) => this.setState({brand: e.target.value})}>
+                                            {this.state.component_brands_array.map(brand =>( brand.id == this.state.brand ?
+                                                <option selected value={brand.id}>{brand.brand}</option> : <option value={brand.id}>{brand.brand}</option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                </tr>
+                                {/*Tercera fila: Project type*/}
+                                <tr>
+                                    <td colSpan={2} style={{textAlign: "left"}}>
+                                        <label className="priority__label" for="disciplineSelect" >Project type</label>                            
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={2} style={{textAlign: "left"}}>
+                                        {this.state.typesCheckboxes}
+                                    </td>
+                                </tr>
+                                {/* Cuarta fila: Description */}
+                                <tr>
+                                    <td colSpan={2} style={{textAlign: "left"}}>
+                                        <label className="priority__label" for="description">Description</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={2}>
+                                        <textarea id="description" name="description" className="component__description__input__text" ref="description" style={{marginBottom:"5px", color:"black"}} value={this.state.description} onChange={(e) => this.setState({description: e.target.value})}/>
+                                    </td>
+                                </tr>
+                                {/* Quinta fila: Attach */}
+                                <tr>
+                                    <td style={{textAlign: "left"}}>
+                                        <label for="attach" className="priority__label" style={{marginBottom:"5px"}}>New image</label>
+                                        <input type="file" id="image" className="qtrackerPopUp__input__file"  ref="attach" style={{marginBottom: "5px"}}  onChange={(e) => this.setState({image: e.target.files[0]})} ></input>
+                                        <label for="rfa" className="priority__label" style={{marginBottom:"5px"}}>New RFA</label>
+                                        <input type="file" id="rfa" className="qtrackerPopUp__input__file"  ref="rfa" style={{marginBottom: "10px"}}  onChange={(e) => this.setState({rfa: e.target.files[0]})} ></input>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                         {/* Sexta fila: los dos botones */}
                         <button class="btn__submit" onClick={() => this.request()} >Submit</button>
