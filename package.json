@@ -29,6 +29,7 @@
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
+    "react-animate-height": "^3.0.4",
     "react-awesome-modal": "^2.0.5",
     "react-bootstrap": "^2.1.2",
     "react-checkbox-tree": "^1.7.2",

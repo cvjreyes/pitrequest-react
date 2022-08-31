@@ -55,6 +55,8 @@ const ImagesLibrary = (props) => {
 
     // Los usestate para poder printar el filtro de busqueda
     const [currentPage, setCurrentPage] = useState(0)
+    const [booleanPagination, setBooleanPagination] = useState(true)
+
     //url imagen
     const urlImage = "http://" + process.env.REACT_APP_SERVER + ":" + process.env.REACT_APP_NODE_PORT + "/"
 
@@ -142,7 +144,11 @@ const ImagesLibrary = (props) => {
             }
             await setImgSrc(compt_library)
         })   
-	}, [groupProject, props, currentPage, componentUpdated])
+	}, [groupProject, props, currentPage, componentUpdated, booleanPagination])
+
+    // useEffect(() => {
+    //     setCurrentPage(0)
+    // }, [props])
 
     /* Configuracion de los modales */
     function openModal(valueLibrary) 

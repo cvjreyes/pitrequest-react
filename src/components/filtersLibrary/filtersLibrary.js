@@ -1,11 +1,12 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './filtersLibrary.css';
 import { getComponentDisciplines, getComponentsBrands, getComponentsTypes, getProjectTypes, getLibrary, getGroupProjects } from '../../ApiRequest';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEraser, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FormControlLabel, FormGroup, Checkbox, Box } from '@mui/material';
-import { CoPresentOutlined } from '@mui/icons-material';
+import AnimateHeight from 'react-animate-height';
+
 
 const FiltersLibrary = (props) =>{
 
@@ -21,7 +22,6 @@ const FiltersLibrary = (props) =>{
     /* Datos almacenados donde recoger datos para los filtros */
     const [allLibrary, setAllLibrary] = useState([])
     const [groupProject, setGroupProject] = useState([])
-    const [oneGroupProject, setOneGroupProject] = useState({})
     
     /* Configuracion busqueda */
     const [busqueda, setBusqueda] = useState("")
@@ -34,6 +34,55 @@ const FiltersLibrary = (props) =>{
     const [newCheckboxLibraryTipoP, setNewCheckboxLibraryTipoP] = useState([])
     const [allCheckbox, setAllCheckbox] = useState([])
     const [allFilter, setAllFilter] = useState([])
+
+    /* Configuracion transicion */
+    //menu desplegable Familias
+    const [menuFamilias, setMenuFamilias ] = useState( false )
+    const [heightFamilias, setHeightFamilias] = useState(0)
+    const toggleMenuFamilias = () => {
+        setMenuFamilias ( !menuFamilias )
+        if(!menuFamilias===true){
+            setHeightFamilias('auto')
+        } else {
+            setHeightFamilias(0)
+        }
+    }
+
+    //menu desplegable Marcas
+    const [menuMarcas, setMenuMarcas ] = useState( false )
+    const [heightMarcas, setHeightMarcas] = useState(0)
+    const toggleMenuMarcas = () => {
+        setMenuMarcas ( !menuMarcas )
+        if(!menuMarcas===true){
+            setHeightMarcas('auto')
+        } else {
+            setHeightMarcas(0)
+        }
+    }
+
+    //menu desplegable Tipo de proyecto
+    const [menuTipoP, setMenuTipoP ] = useState( false )
+    const [heightTipoP, setHeightTipoP] = useState(0)
+    const toggleMenuTipoP = () => {
+        setMenuTipoP ( !menuTipoP )
+        if(!menuTipoP===true){
+            setHeightTipoP('auto')
+        } else {
+            setHeightTipoP(0)
+        }
+    }
+
+    //menu desplegable Disciplina
+    const [menuDisciplinas, setMenuDisciplinas ] = useState( false )
+    const [heightDisciplinas, setHeightDisciplinas] = useState(0)
+    const toggleMenuDisciplinas = () => {
+        setMenuDisciplinas ( !menuDisciplinas )
+        if(!menuDisciplinas===true){
+            setHeightDisciplinas('auto')
+        } else {
+            setHeightDisciplinas(0)
+        }
+    }
     
     /* Todos los datos de las imagenes */
     // Recoger path de la imagenes
@@ -335,71 +384,88 @@ const FiltersLibrary = (props) =>{
                 </div>
 
                 {/* Filtros Familias */}
-                <div>
-                    <div className='parent__checkbox'>
-                        <h4>Familias</h4>
+                <div >
+                    <div className='parent__checkbox' >
+                        <h4 className='panel__heading' onClick={toggleMenuFamilias}>Familias</h4>
                     </div>
                 </div>
-                <div className='sub__checkbox'>
-                    <Box>
+                <AnimateHeight
+                    duration={ 500 }
+                    height={ heightFamilias }
+                >
+                    <div className="sub__checkbox__familias">
                         <Box>
-                            <FormGroup>
-                                {families}
-                            </FormGroup>
+                            <Box>
+                                <FormGroup>
+                                    {families}
+                                </FormGroup>
+                            </Box>
                         </Box>
-                    </Box>
-                </div>
-
+                    </div>
+                </AnimateHeight>
 
                 {/* Filtros Marcas */}
-                <div>
+                <div >
                     <div className='parent__checkbox'>
-                        <h4>Marca</h4>
+                        <h4 className='panel__heading' onClick={toggleMenuMarcas}>Marca</h4>
                     </div>
                 </div>
-                <div className='sub__checkbox'>
-                    <Box>
+                <AnimateHeight
+                    duration={ 500 }
+                    height={ heightMarcas }
+                >
+                    <div className="sub__checkbox__marcas">
                         <Box>
-                            <FormGroup>
-                                {marcas}
-                            </FormGroup>
+                            <Box>
+                                <FormGroup>
+                                    {marcas}
+                                </FormGroup>
+                            </Box>
                         </Box>
-                    </Box>
-                </div>
+                    </div>
+                </AnimateHeight>
 
                 {/* Filtros Tipos de proyecto */}
-                <div>
+                <div >
                     <div className='parent__checkbox'>
-                        <h4>Tipo de proyecto</h4>
+                        <h4 className='panel__heading' onClick={toggleMenuTipoP}>Tipo de proyecto</h4>
                     </div>
                 </div>
-                <div className='sub__checkbox'>
-                    <Box>
-
+                <AnimateHeight
+                    duration={ 500 }
+                    height={ heightTipoP }
+                >
+                    <div className="sub__checkbox__tipoP">
                         <Box>
-                            <FormGroup>
-                                {tipoP}
-                            </FormGroup>
+                            <Box>
+                                <FormGroup>
+                                    {tipoP}
+                                </FormGroup>
+                            </Box>
                         </Box>
-                    </Box>
-                </div>
+                    </div>
+                </AnimateHeight>
 
                 {/* Filtros Disciplinas */}
-                <div>
+                <div >
                     <div className='parent__checkbox'>
-                        <h4>Disciplina</h4>
+                        <h4 className='panel__heading' onClick={toggleMenuDisciplinas}>Disciplina</h4>
                     </div>
                 </div>
-                <div className='sub__checkbox'>
-                    <Box>
-
-                    <Box>  
-                        <FormGroup>
-                            {disciplina}
-                        </FormGroup>
-                    </Box>
-                    </Box>
-                </div>
+                <AnimateHeight
+                    duration={ 500 }
+                    height={ heightDisciplinas }
+                >
+                    <div className="sub__checkbox__disciplinas">
+                        <Box>
+                            <Box>  
+                                <FormGroup>
+                                    {disciplina}
+                                </FormGroup>
+                            </Box>
+                        </Box>
+                    </div>
+                </AnimateHeight>
 
 			</div>
         </div>
