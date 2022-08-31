@@ -6,11 +6,6 @@ import LibraryTreeGrid from '../../components/librartTreeGrid/libraryTreeGrid.js
 import AlertF from "../../components/alert/alert"
 import { useNavigate } from 'react-router-dom';
 
-import SaveIcon2 from "../../assets/images/SaveIcon2.svg"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
-
-
 const LibraryFiltersView = () => {
 
     const [success, setSuccess] = useState(false)

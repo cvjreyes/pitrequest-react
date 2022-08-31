@@ -1,10 +1,26 @@
-.sub__checkbox{
+.sub__checkbox__familias{
 	margin-left: 100px;
+}
+
+.sub__checkbox__marcas{
+	margin-left: 100px;
+
+}
+
+.sub__checkbox__tipoP{
+	margin-left: 100px;
+
+}
+
+.sub__checkbox__disciplinas{
+	margin-left: 100px;
+
 }
 
 .parent__checkbox{
 	text-align: left;
 	margin-left: 90px;
+	border-bottom: 1px solid black;
 }
 
 .text__checkbox__library {
@@ -27,12 +43,17 @@
 }
 
 @media (max-width: 988px){
-  
+	
 	.input__search{
-	  width: 100% !important;
+		width: 100% !important;
 	}
-  
+	
 	.container__checkbox{
 		padding-bottom: 15px;
 	}
-  }
+}
+
+/* Filters container transition */
+.panel__heading{
+	cursor: pointer;
+}
