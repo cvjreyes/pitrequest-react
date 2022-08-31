@@ -201,7 +201,7 @@ export default class EditComponentPopUp extends Component {
                         }
                         if(this.state.rfa){
                             const fileRFA  = new FormData(); 
-                            fileRFA.append('file', this.state.rfa, this.state.name + ".rfa");
+                            fileRFA.append('file', this.state.rfa, this.props.component.component_code + "." + this.state.rfa.name.split('.').pop());
                             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/uploadComponentRFA", {
                                 method: 'POST',
                                 body: fileRFA,

@@ -214,7 +214,7 @@ export default class CreateComponentPopUp extends Component {
                                 }
                             })
                         const fileRFA  = new FormData(); 
-                        fileRFA.append('file', this.state.rfa, json.filename + ".rfa");
+                        fileRFA.append('file', this.state.rfa, json.filename + "." + this.state.rfa.name.split('.').pop());
                         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/uploadComponentRFA", {
                             method: 'POST',
                             body: fileRFA,
