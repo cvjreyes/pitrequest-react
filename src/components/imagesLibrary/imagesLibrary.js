@@ -55,7 +55,6 @@ const ImagesLibrary = (props) => {
 
     // Los usestate para poder printar el filtro de busqueda
     const [currentPage, setCurrentPage] = useState(0)
-    const [booleanPagination, setBooleanPagination] = useState(true)
 
     //url imagen
     const urlImage = "http://" + process.env.REACT_APP_SERVER + ":" + process.env.REACT_APP_NODE_PORT + "/"
@@ -130,8 +129,8 @@ const ImagesLibrary = (props) => {
 
             if(props.array_filtrado.length>0){
                 /* Bucle donde se printa las imagenes con los filtros */
-                setMaxPages(Math.ceil(props.array_filtrado.length/10))
-                for(let i = currentPage*10; i < props.array_filtrado.length && i < currentPage*10 + 10; i++){
+                setMaxPages(Math.ceil(props.array_filtrado.length/12))
+                for(let i = currentPage*12; i < props.array_filtrado.length && i < currentPage*12 + 12; i++){
                     let srcName = props.array_filtrado[i].image_path
                     compt_library.push(
                         <div key={i} className="box-img">
@@ -144,7 +143,7 @@ const ImagesLibrary = (props) => {
             }
             await setImgSrc(compt_library)
         })   
-	}, [groupProject, props, currentPage, componentUpdated, booleanPagination])
+	}, [groupProject, props, currentPage, componentUpdated])
 
     // useEffect(() => {
     //     setCurrentPage(0)
@@ -231,7 +230,7 @@ const ImagesLibrary = (props) => {
     return (
         <div className="galeria">
             <div className="title-img">
-                <h2>Galeria</h2>
+                <h2>CAD Library</h2>
             </div>
 
             {imgSrc}            
@@ -254,12 +253,12 @@ const ImagesLibrary = (props) => {
                             <p className="modal__description"><i>{oneLibrary.component_description}</i></p>
                         </div>
                         <ul className="list-group list-group-flush">
-                            <li className="list-group-item modal__li"><b>Nombre: </b>{oneLibrary.component_name}</li>
-                            <li className="list-group-item modal__li"><b>Familia: </b>{oneLibrary.component_type}</li>
-                            <li className="list-group-item modal__li"><b>Marca: </b>{oneLibrary.component_brand}</li>
-                            <li className="list-group-item modal__li"><b>Tipo de proyecto: </b>{oneGroupProject}</li>
-                            <li className="list-group-item modal__li"><b>Disciplina: </b>{oneLibrary.component_discipline}</li>
-                            <li className="list-group-item modal__li"><b>Codigo: </b>{oneLibrary.component_code}</li>
+                            <li className="list-group-item modal__li"><b>Name: </b>{oneLibrary.component_name}</li>
+                            <li className="list-group-item modal__li"><b>Family: </b>{oneLibrary.component_type}</li>
+                            <li className="list-group-item modal__li"><b>Brand: </b>{oneLibrary.component_brand}</li>
+                            <li className="list-group-item modal__li"><b>Type of project: </b>{oneGroupProject}</li>
+                            <li className="list-group-item modal__li"><b>Discipline: </b>{oneLibrary.component_discipline}</li>
+                            <li className="list-group-item modal__li"><b>Code: </b>{oneLibrary.component_code}</li>
                         </ul>
                         <button className="download__rfa__btn" onClick={() => downloadRFA(oneLibrary.component_code, oneLibrary.component_name)}>Download</button>
                     </div>

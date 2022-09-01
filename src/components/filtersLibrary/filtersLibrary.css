@@ -1,26 +1,22 @@
 .sub__checkbox__familias{
-	margin-left: 100px;
+	margin-left: 150px;
 }
 
 .sub__checkbox__marcas{
-	margin-left: 100px;
-
+	margin-left: 150px;
 }
 
 .sub__checkbox__tipoP{
-	margin-left: 100px;
-
+	margin-left: 150px;
 }
 
 .sub__checkbox__disciplinas{
-	margin-left: 100px;
-
+	margin-left: 150px;
 }
 
 .parent__checkbox{
 	text-align: left;
-	margin-left: 90px;
-	border-bottom: 1px solid black;
+	margin-left: 120px;
 }
 
 .text__checkbox__library {
@@ -31,18 +27,20 @@
 
 .container__checkbox {
 	text-align: left;
+	font-family: 'Montserrat', sans-serif;
 }
 
 /* Estilos Buscador */
 
 .container__search{
-	margin-left: 22%;
-	width: 100%;
+	margin-left: 20%;
+	width: 80%;
 	display: flex;
 	margin-bottom: 5%;
+	font-size: 18px;
 }
 
-@media (max-width: 988px){
+@media (max-width: 700px){
 	
 	.input__search{
 		width: 100% !important;
@@ -50,10 +48,12 @@
 	
 	.container__checkbox{
 		padding-bottom: 15px;
+		font-family: 'Montserrat', sans-serif;
 	}
 }
 
 /* Filters container transition */
 .panel__heading{
 	cursor: pointer;
+	font-weight: normal;
 }

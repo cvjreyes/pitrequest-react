@@ -1,17 +1,20 @@
 .galeria {
-	width: 100%;
+	width: 80%;
 	padding: 20px;
 	margin-top: 20px;
 	display: flex;;
 	flex-wrap: wrap;
 	flex-direction: row;
     position: relative;
+	margin-left: 150px;
+	font-family: 'Montserrat', sans-serif;
 }
 
 .galeria .title-img {
 	width: 100%;
 	border-bottom: 4px solid #46ABDF;
 	margin-bottom: 10px;
+	font-family: 'Montserrat', sans-serif;
 }
 
 .galeria .title-img h3 {
@@ -20,6 +23,8 @@
 	padding: 10px 0;
 	color: #636363;
 	font-weight: 100;
+	font-family: 'Montserrat', sans-serif;
+
 }
 
 .galeria .box-img {
@@ -56,6 +61,8 @@
     COLOR: #338DF1; 
     margin-bottom: 10px;
     margin-top: 10px;
+	font-family: 'Montserrat', sans-serif;
+
 }
 
 .modal__description{

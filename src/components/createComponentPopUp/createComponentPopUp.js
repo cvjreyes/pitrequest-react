@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import Modal from 'react-awesome-modal';
 import './createComponentPopUp.css';
 import AlertF from "../../components/alert/alert"
-import { NumericCellType } from 'handsontable/cellTypes';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const CryptoJS = require("crypto-js");
     const SecureStorage = require("secure-web-storage");
@@ -241,7 +242,7 @@ export default class CreateComponentPopUp extends Component {
         
         return (
             <div style={{marginRight:"5px", marginLeft:"5px", float:"right"}}>
-                <button className="create__component__btn" onClick={() => this.openModal()}>New item</button>
+                <button className="new__library__button" onClick={() => this.openModal()}><FontAwesomeIcon className='icon__book' icon={faPlus} />New item</button>
                 <div>
                     <Modal visible={this.state.visible} width="550" height="770" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div style={{marginTop: "40px"}}

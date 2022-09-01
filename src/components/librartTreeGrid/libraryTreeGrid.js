@@ -178,7 +178,7 @@ class LibraryTreeGrid extends Component{
                     <div id="hot-app" className="excel__container__marcas">
                         <HotTable
                             data={this.state.component_brands}
-                            colHeaders = {["<b>Marcas</b>"]}
+                            colHeaders = {["<b>Brands</b>"]}
                             rowHeaders={false}
                             width="322"
                             height="400"
@@ -195,7 +195,7 @@ class LibraryTreeGrid extends Component{
                     <div id="hot-app" className="excel__container__marcas">
                         <HotTable
                             data={this.state.project_types}
-                            colHeaders = {["<b>Tipo de proyecto</b>"]}
+                            colHeaders = {["<b>Type of project</b>"]}
                             rowHeaders={false}
                             width="322"
                             height="400"
@@ -212,7 +212,7 @@ class LibraryTreeGrid extends Component{
                     <div id="hot-app" className="excel__container__disciplinas">
                         <HotTable
                             data={this.state.component_disciplines}
-                            colHeaders = {["<b>Disciplina</b>", "<b>Codigo</b>"]}
+                            colHeaders = {["<b>Disciplines</b>", "<b>Code</b>"]}
                             rowHeaders={false}
                             width="622"
                             height="400"

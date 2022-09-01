@@ -3,7 +3,7 @@ import './filtersLibrary.css';
 import { getComponentDisciplines, getComponentsBrands, getComponentsTypes, getProjectTypes, getLibrary, getGroupProjects } from '../../ApiRequest';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEraser, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faChevronDown, faChevronRight, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FormControlLabel, FormGroup, Checkbox, Box } from '@mui/material';
 import AnimateHeight from 'react-animate-height';
 
@@ -366,27 +366,45 @@ const FiltersLibrary = (props) =>{
 
     }, [allLibrary, groupProject, newCheckboxLibraryDisciplinas, newCheckboxLibraryFamilias, newCheckboxLibraryMarcas, newCheckboxLibraryTipoP, busqueda])
 
+    function clearFilters () {
+        setBusqueda("");
+        setNewCheckboxLibraryFamilias([]);
+        setNewCheckboxLibraryMarcas([]);
+        setNewCheckboxLibraryTipoP([]);
+        setNewCheckboxLibraryDisciplinas([]);
+    }
+
     return(
         <div>
             <div className='container__filters__left'>
 
+                {/* Clear Filters */}
+                <div style={{float: "right", marginBottom:"5px"}}>
+                    <button style={{color: "#606060", fontSize: "20px"}} className="btn btn-primary-outline" onClick={clearFilters}>
+                        Clear Filters <FontAwesomeIcon icon={faXmark}/>
+                    </button>
+                </div>
+
                 {/* Filtros Buscador */}
-                <div className='container__search'>
+                <div className='container__search form-control'>
+                    
+                    <FontAwesomeIcon style={{float:"right", color:"#7B8794", fontSize:"25px", marginRight:"10px", marginTop:"10px"}} icon={faMagnifyingGlass}/>
+                    
                     <input 
+                    style={{fontSize:"20px", border:"0px"}}
                     className='form-control input__search'
                     value={busqueda}
                     placeholder="Search"
                     onChange={handleChangeSearch}
                     />
-                    <button style={{marginLeft: "1%"}}className="btn btn-outline-danger" onClick={() => setBusqueda(() => "")}>
-                        <FontAwesomeIcon icon={faEraser}/>
-                    </button>
+
                 </div>
 
                 {/* Filtros Familias */}
-                <div >
+                <div style={{marginTop: "10px"}}>
                     <div className='parent__checkbox' >
-                        <h4 className='panel__heading' onClick={toggleMenuFamilias}>Familias</h4>
+                        {menuFamilias ? <h4 className='panel__heading' onClick={toggleMenuFamilias}>Families <FontAwesomeIcon style={{float:"right"}} icon={faChevronDown}/> </h4> : <h4 className='panel__heading' onClick={toggleMenuFamilias}>Families <FontAwesomeIcon style={{float:"right"}} icon={faChevronRight}/> </h4>}
+                        
                     </div>
                 </div>
                 <AnimateHeight
@@ -407,7 +425,7 @@ const FiltersLibrary = (props) =>{
                 {/* Filtros Marcas */}
                 <div >
                     <div className='parent__checkbox'>
-                        <h4 className='panel__heading' onClick={toggleMenuMarcas}>Marca</h4>
+                        {menuMarcas ? <h4 className='panel__heading' onClick={toggleMenuMarcas}>Brands <FontAwesomeIcon style={{float:"right"}} icon={faChevronDown}/> </h4> : <h4 className='panel__heading' onClick={toggleMenuMarcas}>Brands <FontAwesomeIcon style={{float:"right"}} icon={faChevronRight}/> </h4>}
                     </div>
                 </div>
                 <AnimateHeight
@@ -428,7 +446,7 @@ const FiltersLibrary = (props) =>{
                 {/* Filtros Tipos de proyecto */}
                 <div >
                     <div className='parent__checkbox'>
-                        <h4 className='panel__heading' onClick={toggleMenuTipoP}>Tipo de proyecto</h4>
+                        {menuTipoP ? <h4 className='panel__heading' onClick={toggleMenuTipoP}>Type of project <FontAwesomeIcon style={{float:"right"}} icon={faChevronDown}/> </h4> : <h4 className='panel__heading' onClick={toggleMenuTipoP}>Type of project <FontAwesomeIcon style={{float:"right"}} icon={faChevronRight}/> </h4>}
                     </div>
                 </div>
                 <AnimateHeight
@@ -449,7 +467,8 @@ const FiltersLibrary = (props) =>{
                 {/* Filtros Disciplinas */}
                 <div >
                     <div className='parent__checkbox'>
-                        <h4 className='panel__heading' onClick={toggleMenuDisciplinas}>Disciplina</h4>
+                        {menuDisciplinas ? <h4 className='panel__heading' onClick={toggleMenuDisciplinas}>Disciplines <FontAwesomeIcon style={{float:"right"}} icon={faChevronDown}/> </h4> : <h4 className='panel__heading' onClick={toggleMenuDisciplinas}>Disciplines <FontAwesomeIcon style={{float:"right"}} icon={faChevronRight}/> </h4> }
+                        
                     </div>
                 </div>
                 <AnimateHeight
