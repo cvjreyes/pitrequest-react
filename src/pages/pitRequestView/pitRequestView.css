@@ -94,14 +94,6 @@
     
 }
 
-.navBar__icon{
-    height: 35px;
-    width: auto;
-    margin-right: -10px;
-    margin-top: 5px;
-    margin-left: 5px
-}
-
 .navBar__icon__save{
     height: 35px;
     width: 23px;

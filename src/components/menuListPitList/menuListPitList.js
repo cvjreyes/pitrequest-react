@@ -207,7 +207,7 @@ export default function MenuListPITList(props) {
               </div>
 
               <div className='mainmenu__item__container'>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> handleLibraryClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Library</text></div></span>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleLibraryClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>CAD Library</text></div></span>
               </div>
 
               <div className='mainmenu__item__container'>
@@ -225,7 +225,7 @@ export default function MenuListPITList(props) {
                 <span style={{display:"flex", width:"260px"}} onClick={()=> handlePitViewClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Requests Dashboard</text></div></span>
               </div>
               <div className='mainmenu__item__container'>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> handleLibraryClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Library</text></div></span>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleLibraryClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>CAD Library</text></div></span>
               </div></div>)
             }
             /*
