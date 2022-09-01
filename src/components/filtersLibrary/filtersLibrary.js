@@ -403,7 +403,7 @@ const FiltersLibrary = (props) =>{
                 {/* Filtros Familias */}
                 <div style={{marginTop: "10px"}}>
                     <div className='parent__checkbox' >
-                        {menuFamilias ? <h4 className='panel__heading' onClick={toggleMenuFamilias}>Familias <FontAwesomeIcon style={{float:"right"}} icon={faChevronDown}/> </h4> : <h4 className='panel__heading' onClick={toggleMenuFamilias}>Familias <FontAwesomeIcon style={{float:"right"}} icon={faChevronRight}/> </h4>}
+                        {menuFamilias ? <h4 className='panel__heading' onClick={toggleMenuFamilias}>Families <FontAwesomeIcon style={{float:"right"}} icon={faChevronDown}/> </h4> : <h4 className='panel__heading' onClick={toggleMenuFamilias}>Families <FontAwesomeIcon style={{float:"right"}} icon={faChevronRight}/> </h4>}
                         
                     </div>
                 </div>
@@ -425,7 +425,7 @@ const FiltersLibrary = (props) =>{
                 {/* Filtros Marcas */}
                 <div >
                     <div className='parent__checkbox'>
-                        {menuMarcas ? <h4 className='panel__heading' onClick={toggleMenuMarcas}>Marca <FontAwesomeIcon style={{float:"right"}} icon={faChevronDown}/> </h4> : <h4 className='panel__heading' onClick={toggleMenuMarcas}>Marca <FontAwesomeIcon style={{float:"right"}} icon={faChevronRight}/> </h4>}
+                        {menuMarcas ? <h4 className='panel__heading' onClick={toggleMenuMarcas}>Brand <FontAwesomeIcon style={{float:"right"}} icon={faChevronDown}/> </h4> : <h4 className='panel__heading' onClick={toggleMenuMarcas}>Brand <FontAwesomeIcon style={{float:"right"}} icon={faChevronRight}/> </h4>}
                     </div>
                 </div>
                 <AnimateHeight
@@ -446,7 +446,7 @@ const FiltersLibrary = (props) =>{
                 {/* Filtros Tipos de proyecto */}
                 <div >
                     <div className='parent__checkbox'>
-                        {menuTipoP ? <h4 className='panel__heading' onClick={toggleMenuTipoP}>Tipo de proyecto <FontAwesomeIcon style={{float:"right"}} icon={faChevronDown}/> </h4> : <h4 className='panel__heading' onClick={toggleMenuTipoP}>Tipo de proyecto <FontAwesomeIcon style={{float:"right"}} icon={faChevronRight}/> </h4>}
+                        {menuTipoP ? <h4 className='panel__heading' onClick={toggleMenuTipoP}>Type of project <FontAwesomeIcon style={{float:"right"}} icon={faChevronDown}/> </h4> : <h4 className='panel__heading' onClick={toggleMenuTipoP}>Type of project <FontAwesomeIcon style={{float:"right"}} icon={faChevronRight}/> </h4>}
                     </div>
                 </div>
                 <AnimateHeight
@@ -467,7 +467,7 @@ const FiltersLibrary = (props) =>{
                 {/* Filtros Disciplinas */}
                 <div >
                     <div className='parent__checkbox'>
-                        {menuDisciplinas ? <h4 className='panel__heading' onClick={toggleMenuDisciplinas}>Disciplina <FontAwesomeIcon style={{float:"right"}} icon={faChevronDown}/> </h4> : <h4 className='panel__heading' onClick={toggleMenuDisciplinas}>Disciplina <FontAwesomeIcon style={{float:"right"}} icon={faChevronRight}/> </h4> }
+                        {menuDisciplinas ? <h4 className='panel__heading' onClick={toggleMenuDisciplinas}>Disciplines <FontAwesomeIcon style={{float:"right"}} icon={faChevronDown}/> </h4> : <h4 className='panel__heading' onClick={toggleMenuDisciplinas}>Disciplines <FontAwesomeIcon style={{float:"right"}} icon={faChevronRight}/> </h4> }
                         
                     </div>
                 </div>
