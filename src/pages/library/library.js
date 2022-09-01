@@ -10,7 +10,7 @@ import CreateComponentPopUp from '../../components/createComponentPopUp/createCo
 import AlertF from "../../components/alert/alert"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
 import { getLibrary } from '../../ApiRequest';
 
@@ -92,7 +92,7 @@ const Library = () =>{
           .then(async json => {
             if(json.isAdmin){
 				setCreateElement(<CreateComponentPopUp success={() => setSuccess(true)} error={() => setError(true)}/>)
-				setLibraryFiltersButton(<button className="library__button" onClick={()=>libraryFiltersViewGo()} style={{width:"205px", marginRight:"10px", marginTop:"10px", marginBottom:"10px"}}><FontAwesomeIcon className='icon__book' icon={faBook} />Library Filters</button>)
+				setLibraryFiltersButton(<button className="library__button" onClick={()=>libraryFiltersViewGo()} style={{width:"205px", marginLeft:"80px", marginTop:"10px", marginBottom:"10px"}}><FontAwesomeIcon className='icon__book' icon={faPenToSquare} />Edit Filters</button>)
 			}
 		})
    }, [])
@@ -132,10 +132,10 @@ const Library = () =>{
 				</div>
 				{/* Componente filtros izquierda libreria */}
 				{libraryFiltersButton}
+				{createElement}
 				{filtersLibrary}
 			</div>
 			<div className="container">
-				{createElement}
 				{imagesLibrary}
 			</div>
 		</div>

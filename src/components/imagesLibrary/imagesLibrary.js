@@ -55,7 +55,6 @@ const ImagesLibrary = (props) => {
 
     // Los usestate para poder printar el filtro de busqueda
     const [currentPage, setCurrentPage] = useState(0)
-    const [booleanPagination, setBooleanPagination] = useState(true)
 
     //url imagen
     const urlImage = "http://" + process.env.REACT_APP_SERVER + ":" + process.env.REACT_APP_NODE_PORT + "/"
@@ -130,8 +129,8 @@ const ImagesLibrary = (props) => {
 
             if(props.array_filtrado.length>0){
                 /* Bucle donde se printa las imagenes con los filtros */
-                setMaxPages(Math.ceil(props.array_filtrado.length/10))
-                for(let i = currentPage*10; i < props.array_filtrado.length && i < currentPage*10 + 10; i++){
+                setMaxPages(Math.ceil(props.array_filtrado.length/12))
+                for(let i = currentPage*12; i < props.array_filtrado.length && i < currentPage*12 + 12; i++){
                     let srcName = props.array_filtrado[i].image_path
                     compt_library.push(
                         <div key={i} className="box-img">
@@ -144,7 +143,7 @@ const ImagesLibrary = (props) => {
             }
             await setImgSrc(compt_library)
         })   
-	}, [groupProject, props, currentPage, componentUpdated, booleanPagination])
+	}, [groupProject, props, currentPage, componentUpdated])
 
     // useEffect(() => {
     //     setCurrentPage(0)
@@ -231,7 +230,7 @@ const ImagesLibrary = (props) => {
     return (
         <div className="galeria">
             <div className="title-img">
-                <h2>Galeria</h2>
+                <h2>CAD Library</h2>
             </div>
 
             {imgSrc}            
