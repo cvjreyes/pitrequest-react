@@ -253,12 +253,12 @@ const ImagesLibrary = (props) => {
                             <p className="modal__description"><i>{oneLibrary.component_description}</i></p>
                         </div>
                         <ul className="list-group list-group-flush">
-                            <li className="list-group-item modal__li"><b>Nombre: </b>{oneLibrary.component_name}</li>
-                            <li className="list-group-item modal__li"><b>Familia: </b>{oneLibrary.component_type}</li>
-                            <li className="list-group-item modal__li"><b>Marca: </b>{oneLibrary.component_brand}</li>
-                            <li className="list-group-item modal__li"><b>Tipo de proyecto: </b>{oneGroupProject}</li>
-                            <li className="list-group-item modal__li"><b>Disciplina: </b>{oneLibrary.component_discipline}</li>
-                            <li className="list-group-item modal__li"><b>Codigo: </b>{oneLibrary.component_code}</li>
+                            <li className="list-group-item modal__li"><b>Name: </b>{oneLibrary.component_name}</li>
+                            <li className="list-group-item modal__li"><b>Family: </b>{oneLibrary.component_type}</li>
+                            <li className="list-group-item modal__li"><b>Brand: </b>{oneLibrary.component_brand}</li>
+                            <li className="list-group-item modal__li"><b>Type of project: </b>{oneGroupProject}</li>
+                            <li className="list-group-item modal__li"><b>Discipline: </b>{oneLibrary.component_discipline}</li>
+                            <li className="list-group-item modal__li"><b>Code: </b>{oneLibrary.component_code}</li>
                         </ul>
                         <button className="download__rfa__btn" onClick={() => downloadRFA(oneLibrary.component_code, oneLibrary.component_name)}>Download</button>
                     </div>
