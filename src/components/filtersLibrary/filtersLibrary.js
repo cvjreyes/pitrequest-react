@@ -425,7 +425,7 @@ const FiltersLibrary = (props) =>{
                 {/* Filtros Marcas */}
                 <div >
                     <div className='parent__checkbox'>
-                        {menuMarcas ? <h4 className='panel__heading' onClick={toggleMenuMarcas}>Brand <FontAwesomeIcon style={{float:"right"}} icon={faChevronDown}/> </h4> : <h4 className='panel__heading' onClick={toggleMenuMarcas}>Brand <FontAwesomeIcon style={{float:"right"}} icon={faChevronRight}/> </h4>}
+                        {menuMarcas ? <h4 className='panel__heading' onClick={toggleMenuMarcas}>Brands <FontAwesomeIcon style={{float:"right"}} icon={faChevronDown}/> </h4> : <h4 className='panel__heading' onClick={toggleMenuMarcas}>Brands <FontAwesomeIcon style={{float:"right"}} icon={faChevronRight}/> </h4>}
                     </div>
                 </div>
                 <AnimateHeight
