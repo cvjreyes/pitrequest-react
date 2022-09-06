@@ -382,20 +382,13 @@ const FiltersLibrary = (props) =>{
         <div>
             <div className='container__filters__left'>
 
-                {/* Clear Filters */}
-                <div style={{float: "right", marginBottom:"5px"}}>
-                    <button style={{color: "#606060", fontSize: "20px"}} className="btn btn-primary-outline" onClick={clearFilters}>
-                        Clear Filters <FontAwesomeIcon icon={faXmark}/>
-                    </button>
-                </div>
-
                 {/* Filtros Buscador */}
                 <div className='container__search form-control'>
                     
                     <FontAwesomeIcon style={{float:"right", color:"#7B8794", fontSize:"25px", marginRight:"10px", marginTop:"10px"}} icon={faMagnifyingGlass}/>
                     
                     <input 
-                    style={{fontSize:"20px", border:"0px"}}
+                    style={{fontSize:"20px", border:"0px", borderRadius:"100px"}}
                     className='form-control input__search'
                     value={busqueda}
                     placeholder="Search"
@@ -403,6 +396,15 @@ const FiltersLibrary = (props) =>{
                     />
 
                 </div>
+
+                {/* Clear Filters */}
+                <div style={{float: "right", marginRight:"-2%"}}>
+                    <button style={{color: "#606060", fontSize: "20px"}} className="btn btn-primary-outline" onClick={clearFilters}>
+                        Clear Filters <FontAwesomeIcon icon={faXmark}/>
+                    </button>
+                </div>
+                <br/>
+                <br/>
 
                 {/* Filtros Familias */}
                 <div style={{marginTop: "10px"}}>
