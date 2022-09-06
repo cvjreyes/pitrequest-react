@@ -138,6 +138,7 @@ const FiltersLibrary = (props) =>{
                     <div key={i} className='container__checkbox'>
                         <FormControlLabel
                             label={label}
+                            disableTypography="false"
                             control={
                                 <Checkbox 
                                     value={label} 
@@ -177,6 +178,7 @@ const FiltersLibrary = (props) =>{
                     <div key={i} className='container__checkbox'>
                         <FormControlLabel
                             label={label}
+                            disableTypography="false"
                             control={
                                 <Checkbox 
                                     value={label} 
@@ -216,6 +218,7 @@ const FiltersLibrary = (props) =>{
                     <div key={i} className='container__checkbox'>
                         <FormControlLabel
                             label={label}
+                            disableTypography="false"
                             control={
                                 <Checkbox 
                                     value={label} 
@@ -257,6 +260,7 @@ const FiltersLibrary = (props) =>{
                     <div key={i} className='container__checkbox'>
                         <FormControlLabel
                             label={label}
+                            disableTypography="false"
                             control={
                                 <Checkbox 
                                     value={label2} 
