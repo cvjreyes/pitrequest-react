@@ -210,12 +210,7 @@ export default class CSPTrackerRequestPopUp extends Component {
                                         <input type="text" id="sptag" className="popUp__input__text" ref="sptag" style={{color:"black"}} value={this.state.sptag} onChange={(e) => this.setState({sptag: e.target.value})} ></input>
                                     </td>
                                 </tr>
-                            </table>
-                            {/* Line ID */}
-
-
-
-                            
+                            </table>                            
                         </div>
                         <div className="popUp__buttons__container__manage" style={{marginTop:"30px"}}>    
                             <button class="btn__submit" onClick={() => this.request()} style={{marginRight:"5px", fontSize:"16px"}}>Submit</button>
