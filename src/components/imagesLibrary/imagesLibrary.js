@@ -215,7 +215,7 @@ const ImagesLibrary = (props) => {
             fileLink.href = fileURL;
     
             // it forces the name of the downloaded file
-            fileLink.download = filename + ".rfa";
+            fileLink.download = filename + "." + oneLibrary.rfa_path.split('.').pop();
     
             // triggers the click event
             fileLink.click();

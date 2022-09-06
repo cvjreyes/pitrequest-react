@@ -2,5 +2,10 @@
     position: relative;
     width: 200px;
     text-align: center;
-    margin-left: 115px;
+    margin-left: 60px;
+}
+
+.tabla__sptracker{
+    border-collapse: separate;
+    border-spacing: 10px 20px;
 }

@@ -88,7 +88,6 @@ class QTrackerViewDataTable extends React.Component{
 
 
   async componentDidMount(){
-
     const options = {
         method: "GET",
         headers: {
@@ -873,6 +872,9 @@ class QTrackerViewDataTable extends React.Component{
                 
                                 this.setState({data : rows, displayData: rows});
                                 await this.setState({filters : filterRow})
+                                if(this.props.currentProject !== "All"){
+                                  this.filter(1, this.props.currentProject)
+                                }
 
                             })
 
@@ -1671,6 +1673,9 @@ class QTrackerViewDataTable extends React.Component{
                                 }                
                                 this.setState({data : rows, displayData: rows});
                                 await this.setState({filters : filterRow})
+                                if(this.props.currentProject !== "All"){
+                                  this.filter(1, this.props.currentProject)
+                                }
 
                             })
 
@@ -1695,6 +1700,7 @@ class QTrackerViewDataTable extends React.Component{
   
 
   async filter(column, value){
+    console.log(column)
     let fd = this.state.filterData
     fd[column] = value
     await this.setState({filterData: fd})
@@ -1802,7 +1808,6 @@ class QTrackerViewDataTable extends React.Component{
       for(let column = 0; column < Object.keys(auxDisplayData[i]).length-1; column ++){
         
         fil = Object.keys(auxDisplayData[i])[column]
-          console.log(fil, column)
           if(this.state.filterData[column]){
             if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
               exists = false

@@ -117,7 +117,8 @@ export default class QtrackerNRIPopUp extends Component {
             description: null,
             errorBlankRequest: false,
             projects: [],
-            carta: null
+            carta: null,
+            projectName: ""
         }
     }
 
@@ -136,7 +137,7 @@ export default class QtrackerNRIPopUp extends Component {
           for(let i = 0; i < json.projects.length; i++){
             projects.push(json.projects[i].name)
           }
-          this.setState({projects:projects})
+          this.setState({projects:projects, projectName: projects[0]})
         })
     }
 
@@ -179,7 +180,7 @@ export default class QtrackerNRIPopUp extends Component {
                 description: this.state.description,
                 has_attach: has_attach,
                 user: secureStorage.getItem("user"),
-                project: document.getElementById("projectSelect").value,
+                project: this.state.projectName,
                 priority: document.getElementById("prioritySelect").value,
                 carta: this.state.carta
               }
@@ -255,7 +256,7 @@ export default class QtrackerNRIPopUp extends Component {
                   </tr>
                   <tr>
                     <td style={{textAlign: "left"}}>
-                      <select id="projectSelect" className="projectSelect">
+                    <select id="projectSelect" className="projectSelect" onChange={(e) => this.setState({projectName: e.target.value})}>
                           {this.state.projects.map(project =>(
                               <option>{project}</option>
                           ))}

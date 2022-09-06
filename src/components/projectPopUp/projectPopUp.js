@@ -233,7 +233,6 @@ export default class ProjectPopUp extends Component {
     async createProject(){
         
       if(this.state.name && this.state.code){
-
         let body ={
             name : this.state.name,
             code: this.state.code,

@@ -117,7 +117,8 @@ export default class QtrackerISPopUp extends Component {
             description: null,
             errorBlankRequest: false,
             projects: [],
-            carta: null
+            carta: null,
+            projectName: ""
         }
     }
 
@@ -136,7 +137,7 @@ export default class QtrackerISPopUp extends Component {
           for(let i = 0; i < json.projects.length; i++){
             projects.push(json.projects[i].name)
           }
-          this.setState({projects:projects})
+          this.setState({projects:projects, projectName: projects[0]})
         })
     }
 
@@ -170,7 +171,7 @@ export default class QtrackerISPopUp extends Component {
                 sending : this.state.sending,
                 description: this.state.description,
                 user: secureStorage.getItem("user"),
-                project: document.getElementById("projectSelect2").value,
+                project: this.state.projectName,
                 priority: document.getElementById("prioritySelect").value,
                 carta: this.state.carta
               }
@@ -242,7 +243,7 @@ export default class QtrackerISPopUp extends Component {
                   {/* Primer fila: Project - Carta - Priority */}
                   <tr>
                     <td style={{textAlign: "left"}}>
-                      <label className="priority__label" for="projectSelect2" >Project</label>                            
+                      <label className="priority__label" for="projectSelect" >Project</label>                            
                     </td>
                     <td style={{textAlign: "left"}}>
                       <label className="priority__label" for="carta">Carta</label>                            
@@ -253,7 +254,7 @@ export default class QtrackerISPopUp extends Component {
                   </tr>
                   <tr>
                     <td style={{textAlign: "left"}}>
-                      <select id="projectSelect2" className="projectSelect">
+                    <select id="projectSelect" className="projectSelect" onChange={(e) => this.setState({projectName: e.target.value})}>
                           {this.state.projects.map(project =>(
                               <option>{project}</option>
                           ))}

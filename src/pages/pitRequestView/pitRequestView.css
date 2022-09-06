@@ -94,14 +94,6 @@
     
 }
 
-.navBar__icon{
-    height: 35px;
-    width: auto;
-    margin-right: -10px;
-    margin-top: 5px;
-    margin-left: 5px
-}
-
 .navBar__icon__save{
     height: 35px;
     width: 23px;
@@ -226,4 +218,19 @@
   .discplines__table__table{
     border: 1px solid lightgray;
     display: block;
+}
+
+.projectFilterSelect{
+    color: black;
+    margin-left: 15px;
+    font-size: 18px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.project__label{
+    font-size: 15px;
+    margin-top: 3px;
+    margin-left: 30px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
 }

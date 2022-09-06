@@ -106,6 +106,9 @@ const PitRequestView = () => {
     const [updatedRowsPrio, setUpdatedRowsPrio] = useState([])
     const [projectsButton, setProjectsButton] = useState(null)
     const [requestAccessButton, setRequestAccessButton] = useState(null)
+    const [projectFilter, setProjectFilter] = useState([])
+    const [projectDropDown, setProjectDropDown] = useState(null)
+    const [currentProject, setCurrentProject] = useState("All")
 
 
     const [success, setSuccess] = useState(false)
@@ -122,6 +125,21 @@ const PitRequestView = () => {
         if(secureStorage.getItem("tab") === "Users"){
             setCurrentTab("Users")
         }
+        let options = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        } 
+        fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAllProjects", options)
+            .then(response => response.json())
+            .then(async json => {
+                let projects = ["All"]
+                for(let i = 0; i < json.projects.length; i++){
+                    projects.push(json.projects[i].name)
+                }
+                setProjectFilter(projects)
+            })
     }, [])
 
     var currentUser = secureStorage.getItem('user')
@@ -188,6 +206,7 @@ const PitRequestView = () => {
     },[updateData])
 
     useEffect(async () =>{
+        
         if(currentRole === "3D Admin"){
             if(currentTab === "View"){
                 secureStorage.setItem("tab", "View")
@@ -195,11 +214,16 @@ const PitRequestView = () => {
                 setAddUserButton(null)
                 setExportReport(<button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button>)
                 setUsersButton(<button className="navBar__button" onClick={()=>setCurrentTab("Users")} style={{width:"100px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Users</p></button>)
-                setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
+                setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject}/>)
                 setExportUsersReport(null)
                 setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("Projects")}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
                 setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
                 setRequestAccessButton(null)
+                setProjectDropDown(<div style={{display:"flex", float:"right", marginTop:"10px"}}><label for="projectFilter" className="project__label">Project: </label><select id="projectFilter" className="projectFilterSelect" onChange={(e) => setCurrentProject(e.target.value)}>
+                    {projectFilter.map(project =>(
+                        <option>{project}</option>
+                    ))}
+                </select></div>)
             }else if(currentTab === "Users"){
                 secureStorage.setItem("tab", "Users")
                 setExportUsersReport(<button className="action__btn" name="export" value="export" onClick={() => downloadUsersReport()}>Export</button>)
@@ -211,6 +235,7 @@ const PitRequestView = () => {
                 setContent(<UsersDataTable updateData={updateData} deleteUser={deleteUser.bind(this)} submitRoles={submitRoles.bind(this)} submitProjects={submitProjects.bind(this)}/>)
                 setBackToMenuButton(<button className="navBar__button" onClick={()=> setCurrentTab("View")} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
                 setRequestAccessButton(<button className="navBar__button" onClick={()=>setCurrentTab("Access")} style={{width:"170px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Access requests</p></button>)
+                setProjectDropDown(null)
             }else if(currentTab === "Access"){
                 secureStorage.setItem("tab", "Access")
                 setExportUsersReport(null)
@@ -222,6 +247,7 @@ const PitRequestView = () => {
                 setContent(<RequestAccessDataTable updateData={updateData} user={secureStorage.getItem("user")} acceptRequest={acceptRequest.bind(this)} rejectRequest={rejectRequest.bind(this)}/>)
                 setBackToMenuButton(<button className="navBar__button" onClick={()=> setCurrentTab("Users")} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
                 setRequestAccessButton(null)
+                setProjectDropDown(null)
             }else if(currentTab === "Projects"){
                 secureStorage.setItem("tab", "Projects")
                 setProjectsButton(null)
@@ -233,9 +259,10 @@ const PitRequestView = () => {
                 setUsersButton(null)
                 setExportUsersReport(null)
                 setRequestAccessButton(null)
+                setProjectDropDown(null)
             }
         }else{
-            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
+            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject}/>)
             setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
             setSaveBtn(null)
             setAddUserButton(null)
@@ -243,9 +270,10 @@ const PitRequestView = () => {
             setUsersButton(null)
             setExportUsersReport(null)
             setRequestAccessButton(null)
+            setProjectDropDown(null)
         }
         
-    }, [currentTab, updateData, currentRole])
+    }, [currentTab, updateData, currentRole, currentProject])
 
     function back(){
         history("/"+process.env.REACT_APP_PROJECT+"/pitrequests")
@@ -992,6 +1020,7 @@ const PitRequestView = () => {
                                     {projectsButton}
                                     {usersButton}
                                     {requestAccessButton}
+                                    {projectDropDown}
                                   </div>
                                   
                               </div>                           
