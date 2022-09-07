@@ -172,6 +172,18 @@ export default function MenuListPITList(props) {
       history("/"+process.env.REACT_APP_PROJECT+"/sptracker")
     }
 
+    function handleSPGeneralClick(){
+      history("/"+process.env.REACT_APP_PROJECT+"/pipingGeneral")
+    }
+
+    function handleSPPSVClick(){
+      history("/"+process.env.REACT_APP_PROJECT+"/pipingPSV")
+    }
+
+    function handleSPSpecialClick(){
+      history("/"+process.env.REACT_APP_PROJECT+"/pipingSpecial")
+    }
+
     function handleLibraryClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/library")
     }
@@ -359,13 +371,31 @@ export default function MenuListPITList(props) {
         <QtrackerNRIPopUp success={success.bind(this)}/></div>)
       }else if(currentMenu === "piping"){
         await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><text className='back__text'>PIPING SPEC MATERIALS</text></div></span>
-
-        <div className='mainmenu__item__container'>
-          <span style={{display:"flex", width:"260px"}} onClick={()=> handleCADpmcClick()}><div style={{width:"260px", marginTop:"5px"}}><text className='mainmenu__item'>CADPMC</text></div></span>
-        </div>
-        <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
-          <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>SPTracker</text></div></span>
-        </div></div>)
+          <div className='mainmenu__item__container'>
+            <span style={{display:"flex", width:"260px"}} onClick={()=> handleCADpmcClick()}><div style={{width:"260px", marginTop:"5px"}}><text className='mainmenu__item'>CADPMC</text></div></span>
+          </div>
+          <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+            <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>SPTracker</text></div></span>
+          </div>
+          <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+            <span style={{display:"flex", width:"260px"}} onClick={()=> setcurrentMenu("instruments")}><div style={{width:"260px"}}><text className='mainmenu__item'>Instruments</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+          </div>
+          <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+            <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Expansion Joins</text></div></span>
+          </div>
+        </div>)
+      }else if(currentMenu === "instruments"){
+        await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><text className='back__text'>PIPING INSTRUMENT</text></div></span>
+          <div className='mainmenu__item__container'>
+            <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px", marginTop:"5px"}}><text className='mainmenu__item'>General</text></div></span>
+          </div>
+          <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+            <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>PSV</text></div></span>
+          </div>
+          <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+            <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Special</text></div></span>
+          </div>
+        </div>)
       }else if(currentMenu === "itplan"){
         await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>MAIN MENU</text></div></span>
 
