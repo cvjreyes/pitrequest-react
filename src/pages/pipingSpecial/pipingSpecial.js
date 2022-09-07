@@ -1,4 +1,4 @@
-import "./pipingGeneral.css"
+import "./pipingSpecial.css"
 import React, { useState , useEffect} from 'react'
 import NavBar from '../../components/navBar/navBar'
 import CSPTrackerLogo from "../../assets/images/csptracker.svg"
@@ -33,7 +33,7 @@ var secureStorage = new SecureStorage(localStorage, {
     }
 });
 
-const PipingGeneral = () => {
+const PipingSpecial = () => {
 
     const history = useNavigate();
 
@@ -44,7 +44,7 @@ const PipingGeneral = () => {
         history("/"+process.env.REACT_APP_PROJECT+"/pitrequests")
     }
 
-    return(
+    return (
         <div>
 			<div style={{zoom:1.125}}>
 				<NavBar/>
@@ -62,4 +62,4 @@ const PipingGeneral = () => {
     )
 }
 
-export default PipingGeneral;
+export default PipingSpecial;
