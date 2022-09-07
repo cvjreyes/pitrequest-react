@@ -55,7 +55,7 @@ class ProjectsHoursDataTable extends React.Component{
         let rows = []
         let row = {}
         for(let i = 0; i < json.projects.length; i++){
-            row = {project: <div style={{display: "flex", height: "30px"}}><p>{json.projects[i].name}</p><button className="copy__users__button" onClick={()=>this.copyUsersByProject(json.projects[i].id)}><img src={CopyIcon} alt="save" className="copy__icon"></img></button></div>, hours: json.projects[i].hours, estimated: json.projects[i].estimated}
+            row = {project: <div style={{display: "flex", height: "30px"}}><button className="copy__users__button" onClick={()=>this.copyUsersByProject(json.projects[i].id)}><img src={CopyIcon} alt="save" className="copy__icon"></img></button><p>{json.projects[i].name}</p></div>, hours: json.projects[i].hours, estimated: json.projects[i].estimated}
             rows.push(row)
         }
         await this.setState({data : rows, selectedRows: []});
