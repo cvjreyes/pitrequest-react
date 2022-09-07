@@ -1676,6 +1676,92 @@ class QTrackerViewDataTable extends React.Component{
                                 if(this.props.currentProject !== "All"){
                                   this.filter(1, this.props.currentProject)
                                 }
+                                let auxDisplayData = this.state.data
+                                let resultData = []
+                                let fil, exists = null
+                                
+                                for(let i = 0; i < auxDisplayData.length; i++){
+                                  exists = true
+                                  
+                                  for(let column = 0; column < Object.keys(auxDisplayData[i]).length-1; column ++){
+                                    
+                                    fil = Object.keys(auxDisplayData[i])[column]
+                                    if(secureStorage.getItem("role") !== "3D Admin" && column === 8){
+                                        column = 11
+                                    }
+                                    if(fil === "specifications"){
+                                      fil = "status"
+                                    }
+                                    if(fil === "status"){
+                                      if(auxDisplayData[i][fil].props){
+                                        for(let p = 0; p < auxDisplayData[i][fil].props.children.length; p++){
+                                          if(auxDisplayData[i][fil].props.children[p].props.selected){
+
+                                            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.children[p].props.children.toLowerCase().includes(this.state.filterData[column].toLowerCase())){
+                                              exists = false
+                                            }
+                                          }
+                                        }
+                                      }else if(auxDisplayData[i][fil]){
+                                        if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
+                                          exists = false
+                                        }
+                                      }else{
+                                        if(this.state.filterData[column] !== "" && this.state.filterData[column]){
+                                          exists = false
+                                        }
+                                      }
+                                    }else if(fil === "priority"){
+                                      if(auxDisplayData[i][fil].props){
+                                        for(let p = 0; p < auxDisplayData[i][fil].props.children.length; p++){
+                                          if(auxDisplayData[i][fil].props.children[p].props.selected){
+                                            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.children[p].props.children.toLowerCase().includes(this.state.filterData[column].toLowerCase())){
+                                              exists = false
+                                            }
+                                          }
+                                        }
+                                      }else if(auxDisplayData[i][fil]){
+                                        if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
+                                          exists = false
+                                        }
+                                      }else{
+                                        if(this.state.filterData[column] !== "" && this.state.filterData[column]){
+                                          exists = false
+                                        }
+                                      }
+                                    }else if(fil === "admin"){
+                                      if(auxDisplayData[i][fil].props){
+                                        if(auxDisplayData[i][fil].props.admin){
+                                          if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.admin.toLowerCase().includes(this.state.filterData[column].toLowerCase())){
+                                            exists = false
+                                          }
+                                        }
+                                        
+                                      }else if(auxDisplayData[i][fil]){
+                                        if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
+                                          exists = false
+                                        }
+                                      }else{
+                                        if(this.state.filterData[column] !== "" && this.state.filterData[column]){
+                                          exists = false
+                                        }
+                                      }
+                                    }else{
+                                      
+                                      if(this.state.filterData[column]){
+                                        if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
+                                          exists = false
+                                        }
+                                      }
+                                      
+                                    }
+                                    
+                                  }
+                                  if(exists){
+                                    resultData.push(auxDisplayData[i])
+                                  }
+                                }
+                                await this.setState({displayData: resultData})
 
                             })
 
@@ -1700,7 +1786,6 @@ class QTrackerViewDataTable extends React.Component{
   
 
   async filter(column, value){
-    console.log(column)
     let fd = this.state.filterData
     fd[column] = value
     await this.setState({filterData: fd})

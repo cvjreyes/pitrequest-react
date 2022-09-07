@@ -1,0 +1,19 @@
+.copy__users__button{
+    background-color: #17A2B8;
+    margin-left: 10px;
+    border-radius: 0.5em;
+    color: white;
+    border: none;
+}
+
+.copy__users__button:hover{
+    opacity: 0.8;
+}
+
+.copy__users__button:hover:active{
+    opacity: 0.5;
+  }
+.copy__icon{
+    height: 25px;
+    width: auto;
+}

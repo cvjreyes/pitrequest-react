@@ -2,7 +2,7 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import { Table } from 'antd';
 import './projectsHoursDataTable.css'
-import ChangeAdminPopUp from '../changeAdminPopUp/changeAdminPopUp';
+import CopyIcon from "../../assets/images/Notepad.png"
 
 const CryptoJS = require("crypto-js");
     const SecureStorage = require("secure-web-storage");
@@ -55,7 +55,7 @@ class ProjectsHoursDataTable extends React.Component{
         let rows = []
         let row = {}
         for(let i = 0; i < json.projects.length; i++){
-            row = {project: json.projects[i].name, hours: json.projects[i].hours, estimated: json.projects[i].estimated}
+            row = {project: <div style={{display: "flex", height: "30px"}}><p>{json.projects[i].name}</p><button className="copy__users__button" onClick={()=>this.copyUsersByProject(json.projects[i].id)}><img src={CopyIcon} alt="save" className="copy__icon"></img></button></div>, hours: json.projects[i].hours, estimated: json.projects[i].estimated}
             rows.push(row)
         }
         await this.setState({data : rows, selectedRows: []});
@@ -90,6 +90,24 @@ class ProjectsHoursDataTable extends React.Component{
     
   };
   
+  async copyUsersByProject(project_id){
+    const options = {
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json"
+      },
+    }
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getUsersByProject/" + project_id, options)
+        .then(response => response.json())
+        .then(async json => {
+          let emails = ""
+          for (let i = 0; i < json.emails.length; i++) {
+            emails += " " + json.emails[i].email + ";"
+          }
+          navigator.clipboard.writeText(emails)
+        })
+  }
 
   render() {
 
