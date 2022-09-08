@@ -452,7 +452,7 @@ const PipingGeneral = () => {
 
     var dataTableHeight = "570px"
 
-    let editBtn, addRowBtn, saveBtn, exportBtn, requestBtn, notificationsBtn, designNotificationsBtn, backBtn = null
+    let editBtn, addRowBtn, saveBtn, exportBtn, notificationsBtn, designNotificationsBtn, backBtn = null
     let table = <CSPTrackerGeneralDataTable currentRole = {currentRole} updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} uploadDrawingSuccess = {uploadSuccess.bind(this)} updateDrawingSuccess = {updateSuccess.bind(this)} drawingUploadError={drawingUploadError.bind(this)}/>
     if(currentRole === "Materials"){
         editBtn = <label class="switchBtn" style={{width:"145px"}}>
@@ -490,7 +490,6 @@ const PipingGeneral = () => {
 
     if(currentRole === "Design"){
         backBtn = <button className="navBar__button" onClick={()=>back()} style={{width:"100px", marginTop:"5px"}}><img src={Back} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>
-        requestBtn = <CSPTrackerRequestPopUp errorBlankRequest={errorBlankRequest.bind(this)} successRequest={successRequest.bind(this)} existsErrorRequest={existsErrorRequest.bind(this)} errorPidRequest={errorPidRequest.bind(this)}/>
     }
 
 
@@ -638,7 +637,6 @@ const PipingGeneral = () => {
                       <tr className="isotracker__table__navBar__container" style={{height:"65px "}}>
                           <th  className="isotracker__table__navBar">
                               <div style={{display:"flex"}}>
-                                {requestBtn}
                                 {editBtn}
                                 {notificationsBtn}
                                 {designNotificationsBtn}
