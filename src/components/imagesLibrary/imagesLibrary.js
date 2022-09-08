@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './imagesLibrary.css'
 import ReactPaginate from 'react-paginate';
 import Modal from 'react-modal';
-import { getGroupProjects, getLibrary } from '../../ApiRequest';
+import { getLibrary } from '../../ApiRequest';
 import DeleteComponentConfirmPopUp from '../deleteComponentConfirmPopUp/deleteComponentConfirmPopUp';
 import EditComponentPopUp from '../editComponentPopUp/editComponentPopUp';
 
@@ -42,9 +42,6 @@ const ImagesLibrary = (props) => {
     const [oneLibrary, setOneLibrary] = useState({})
 
     // Array Grupo de proyectos
-    const [groupProject, setGroupProject] = useState([])
-    const [oneGroupProject, setOneGroupProject] = useState({})
-    const [groupProjectIds, setGroupProjectIds] = useState({})
     const [componentUpdated, setComponentUpdated] = useState(false)
     
     //Botones para admin
@@ -91,33 +88,9 @@ const ImagesLibrary = (props) => {
 		})
         
 
-	}, [oneLibrary, groupProjectIds, props, groupProject])
+	}, [oneLibrary, props])
 
-    /* Grupos de projectos */
-	useEffect(async()=>{
-
-        getGroupProjects()
-        .then(response => response.json())
-        .then(async json => {
-			let group = json.group_projects
-			let compt_group_project = {}
-            let compt_group_project_ids = {}
-            for(let i = 0; i < group.length; i++){
-                let label = group[i].grupo_projectos
-
-                compt_group_project[group[i].family_id] = label
-                let ids_string = group[i].grupo_projectos_ids.split(',')
-                let ids = ids_string.map(function (x) { 
-                    return parseInt(x, 10); 
-                });
-                compt_group_project_ids[group[i].family_id] = ids
-			}
-			await setGroupProject(compt_group_project)
-            await setGroupProjectIds(compt_group_project_ids)
-           
-        })   
-
-	}, [componentUpdated, props.updateGroups])
+    
 
     // Recoger path de todas las imagenes
     useEffect(async()=>{
@@ -136,24 +109,18 @@ const ImagesLibrary = (props) => {
                         <div key={i} className="box-img">
                             <img onClick={() => openModal(props.array_filtrado[i])} src={urlImage + srcName} width="100" height="200" alt=""/>
                             <h6>{props.array_filtrado[i].component_name}</h6>
-                            {/*<h6><b>Tipos de proyecto:</b><br/>{groupProject[i]}</h6>*/}
                         </div>
                     )
                 }
             }
             await setImgSrc(compt_library)
         })   
-	}, [groupProject, props, currentPage, componentUpdated])
-
-    // useEffect(() => {
-    //     setCurrentPage(0)
-    // }, [props])
+	}, [props, currentPage, componentUpdated])
 
     /* Configuracion de los modales */
     function openModal(valueLibrary) 
     {
         setOneLibrary(valueLibrary)
-        setOneGroupProject(groupProject[valueLibrary.id])
         setIsOpen(true);
     }
 
@@ -244,7 +211,7 @@ const ImagesLibrary = (props) => {
             >
                 <div>
                     <div className="card" style={{width: "30rem"}}>
-                        {isAdmin ? <EditComponentPopUp component={oneLibrary} projects={groupProjectIds} id={oneLibrary.id} updateSuccess={updateSuccess.bind(this)}/> : null}
+                        {isAdmin ? <EditComponentPopUp component={oneLibrary} id={oneLibrary.id} updateSuccess={updateSuccess.bind(this)}/> : null}
                         {isAdmin ? <DeleteComponentConfirmPopUp component={oneLibrary.component_name} id={oneLibrary.id} deleteComponent={deleteComponent.bind(this)}/> : null}
 
                         <img src={urlImage + oneLibrary.image_path} height="440" width="100" className="card-img-top" alt="..."/>
@@ -256,7 +223,6 @@ const ImagesLibrary = (props) => {
                             <li className="list-group-item modal__li"><b>Name: </b>{oneLibrary.component_name}</li>
                             <li className="list-group-item modal__li"><b>Family: </b>{oneLibrary.component_type}</li>
                             <li className="list-group-item modal__li"><b>Brand: </b>{oneLibrary.component_brand}</li>
-                            <li className="list-group-item modal__li"><b>Type of project: </b>{oneGroupProject}</li>
                             <li className="list-group-item modal__li"><b>Discipline: </b>{oneLibrary.component_discipline}</li>
                             <li className="list-group-item modal__li"><b>Code: </b>{oneLibrary.component_code}</li>
                         </ul>
