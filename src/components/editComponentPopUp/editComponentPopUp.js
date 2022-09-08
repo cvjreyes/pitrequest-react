@@ -26,6 +26,7 @@ export default class EditComponentPopUp extends Component {
     }
 
     async componentDidMount(){
+        console.log(this.state.component_type)
         const options = {
             method: "GET",
             headers: {
@@ -175,8 +176,8 @@ export default class EditComponentPopUp extends Component {
                                     </td>
                                     <td style={{textAlign: "left"}}>
                                         <select id="typeSelect" className="create__project__select" onChange={(e) => this.setState({component_type: e.target.value})}>
-                                            {this.state.component_types_array.map(comp =>(
-                                                <option value={comp.id}>{comp.type}</option>
+                                            {this.state.component_types_array.map(comp =>(comp.id == this.state.component_type ?
+                                                <option selected value={comp.id}>{comp.type}</option> : <option value={comp.id}>{comp.type}</option>
                                              ))}
                                         </select>
                                     </td>
