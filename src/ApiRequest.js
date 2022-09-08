@@ -11,11 +11,6 @@ export const getLibrary = async() => {
     return await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getLibrary", options)
 }
 
-//Todos los projectos en grupo
-export const getGroupProjects = async() => {
-    return await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getGroupProjects", options)
-}
-
 //Las Familias
 export const getComponentsTypes = async() => {
     return await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getComponentTypes", options)
@@ -24,11 +19,6 @@ export const getComponentsTypes = async() => {
 //Las Marcas
 export const getComponentsBrands = async() => {
     return await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getComponentBrands", options)
-}
-
-//Los tipos de proyecto
-export const getProjectTypes = async() => {
-    return await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectTypes", options)
 }
 
 //Las Disciplinas

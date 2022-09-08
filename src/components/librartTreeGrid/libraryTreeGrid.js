@@ -1,13 +1,11 @@
-import React, { useState, Component, useEffect } from 'react';
+import React, { Component } from 'react';
 import 'ag-grid-enterprise';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import './libraryTreeGrid.css'
 import { HotTable } from '@handsontable/react';
 import 'handsontable/dist/handsontable.full.css';
-import Handsontable from 'handsontable'
-import LibraryFiltersView from '../../pages/libraryFiltersView/libraryFiltersView.js';
-import { getComponentDisciplines, getComponentsBrands, getComponentsTypes, getProjectTypes } from '../../ApiRequest';
+import { getComponentDisciplines, getComponentsBrands, getComponentsTypes } from '../../ApiRequest';
 
 import SaveIcon2 from "../../assets/images/SaveIcon2.svg"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -66,18 +64,6 @@ class LibraryTreeGrid extends Component{
 			await this.setState({component_brands: compt_brands})
         })  
 
-        getProjectTypes()
-        .then(response => response.json())
-        .then(async json => {
-			let project_types = json.project_types
-			let compt_project_types = []
-
-            for(let i = 0; i < project_types.length; i++){
-                compt_project_types.push({project_type: project_types[i].project_type, id: project_types[i].id})
-
-			}
-			await this.setState({project_types: compt_project_types})
-        })  
     }
 
     async addRowFamilies(){
@@ -92,10 +78,6 @@ class LibraryTreeGrid extends Component{
         this.setState({component_brands: [...this.state.component_brands, {brand: "", id: ""}]}) 
     }
 
-    async addRowTipoP(){
-        this.setState({project_types: [...this.state.project_types, {project_type: "", id: ""}]}) 
-    }
-
     async goToLibrary(){
         this.props.goToLibrary()
     }
@@ -105,7 +87,6 @@ class LibraryTreeGrid extends Component{
             component_types: this.state.component_types,
             component_brands: this.state.component_brands,
             component_disciplines: this.state.component_disciplines,
-            project_types: this.state.project_types,
           }
           const options = {
             method: "POST",
@@ -137,13 +118,7 @@ class LibraryTreeGrid extends Component{
             licenseKey: 'non-commercial-and-evaluation',
             colWidths: 300,
         className:'excel'
-        }
-    
-        let settingsTipoP= {
-            licenseKey: 'non-commercial-and-evaluation',
-            colWidths: 300,
-        className:'excel'
-        }    
+        }   
     
         let settingsDisciplines= {
             licenseKey: 'non-commercial-and-evaluation',
@@ -192,23 +167,6 @@ class LibraryTreeGrid extends Component{
                         />
                     </div>
 
-                    <div id="hot-app" className="excel__container__marcas">
-                        <HotTable
-                            data={this.state.project_types}
-                            colHeaders = {["<b>Type of project</b>"]}
-                            rowHeaders={false}
-                            width="322"
-                            height="400"
-                            className="custom__table__marcas"
-                            rowHeights="38"
-                            settings={settingsTipoP} 
-                            manualColumnResize={true}
-                            manualRowResize={true}
-                            columns= { [{data: "project_type"}]}
-                            filters={false}
-                        />
-                    </div>
-
                     <div id="hot-app" className="excel__container__disciplinas">
                         <HotTable
                             data={this.state.component_disciplines}
@@ -241,17 +199,12 @@ class LibraryTreeGrid extends Component{
                         </div>
                     </div>
 
-                    <div style={{display: "flex", float:"center", marginLeft: "130%"}} >
+                    <div style={{display: "flex", float:"center", marginLeft: "175%"}} >
                         <div>
                             <button className="projects__add__button" type="button" onClick={()=> this.addRowTipoP()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
                         </div>
                     </div>
 
-                    <div style={{display: "flex", float:"center", marginLeft: "180%"}} >
-                        <div>
-                            <button className="projects__add__button" type="button" onClick={()=> this.addRowDisciplines()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
-                        </div>
-                    </div>
                 </div>
             </div>
         );

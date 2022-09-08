@@ -2,38 +2,8 @@ import React, { Component } from 'react';
 import Modal from 'react-awesome-modal';
 import './createComponentPopUp.css';
 import AlertF from "../../components/alert/alert"
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-
-const CryptoJS = require("crypto-js");
-    const SecureStorage = require("secure-web-storage");
-    var SECRET_KEY = 'sanud2ha8shd72h';
-
-    var secureStorage = new SecureStorage(localStorage, {
-        hash: function hash(key) {
-            key = CryptoJS.SHA256(key, SECRET_KEY);
-    
-            return key.toString();
-        },
-        encrypt: function encrypt(data) {
-            data = CryptoJS.AES.encrypt(data, SECRET_KEY);
-    
-            data = data.toString();
-    
-            return data;
-        },
-        decrypt: function decrypt(data) {
-            data = CryptoJS.AES.decrypt(data, SECRET_KEY);
-    
-            data = data.toString(CryptoJS.enc.Utf8);
-    
-            return data;
-        }
-    });
-
-
 
 export default class CreateComponentPopUp extends Component {
     constructor(props) {
@@ -45,15 +15,12 @@ export default class CreateComponentPopUp extends Component {
             component_type: null,
             brand: null,
             discipline: null,
-            project_types: [],
             component_types_array: [],
             component_brands_array: [],
             component_disciplines_array: [],
-            project_types_array: [],
             image: null,
             rfa: null,
             blankRequest: false,
-            typesCheckboxes: null
         }
     }
 
@@ -95,15 +62,7 @@ export default class CreateComponentPopUp extends Component {
 
                     await this.setState({component_disciplines_array: component_disciplines})
 
-                    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectTypes", options)
-                    .then(response => response.json())
-                    .then(async json => {
-                        let project_types = []
-                        for(let i = 0; i < json.project_types.length; i++){
-                            project_types.push({id: json.project_types[i].id, project_type: json.project_types[i].project_type})
-                        }
-                        await this.setState({project_types_array: project_types})
-                    }) 
+                    
                 }) 
             }) 
         }) 
@@ -112,34 +71,10 @@ export default class CreateComponentPopUp extends Component {
 
     async openModal() {
 
-        const animatedComponents = makeAnimated();
-
-        let array_group_project = []
-
-        for (let index = 0; index < this.state.project_types_array.length; index++) {
-            let objeto_group_project = {}
-            objeto_group_project["value"] = this.state.project_types_array[index].id
-            objeto_group_project["label"] = this.state.project_types_array[index].project_type
-            array_group_project.push(objeto_group_project)            
-        }
-        
-        let typesCheckboxes = <div id="projectTypeSelect" >
-            <Select
-                closeMenuOnSelect={false}
-                components={animatedComponents}
-                isMulti
-                className='select__group__project'
-                options={array_group_project}
-                onChange={(types)=>this.manageProjectTypes(types)}
-                
-            />
-        </div>
-
         document.getElementById("typeSelect").value = null
         document.getElementById("brandSelect").value = null
         document.getElementById("disciplineSelect").value = null
         
-        this.setState({typesCheckboxes: typesCheckboxes})
         await this.setState({
             visible : true,
             name: null,
@@ -147,7 +82,6 @@ export default class CreateComponentPopUp extends Component {
             type: null,
             brand: null,
             discipline: null,
-            project_types: []
         });
     }
 
@@ -157,7 +91,6 @@ export default class CreateComponentPopUp extends Component {
         document.getElementById("typeSelect").value = null
         document.getElementById("brandSelect").value = null
         document.getElementById("disciplineSelect").value = null
-        document.getElementById("projectTypeSelect").value = null
         document.getElementById("image").value = null
         document.getElementById("rfa").value = null
 
@@ -168,29 +101,17 @@ export default class CreateComponentPopUp extends Component {
             type: null,
             brand: null,
             discipline: null,
-            project_types: [],
-            typesCheckboxes: null
         });
     }
 
-    async manageProjectTypes(types){
-        let types_array = []
-        for (let i = 0; i < types.length; i++) {
-            types_array.push(types[i].value)
-        }
-        this.setState({project_types: types_array})
-    }
-
     async request(){ 
-        console.log("REsquest: " + this.state.project_types);
-        if(this.state.name && this.state.description && this.state.component_type && this.state.brand && this.state.discipline && this.state.project_types.length > 0 && this.state.image && this.state.rfa){
+        if(this.state.name && this.state.description && this.state.component_type && this.state.brand && this.state.discipline && this.state.image && this.state.rfa){
             const body ={
                 componentName : this.state.name,
                 componentDescription: this.state.description,
                 componentTypeId: this.state.component_type,
                 componentBrandId: this.state.brand,
                 componentDisciplineId: this.state.discipline,
-                project_types: this.state.project_types,
               }
               const options = {
                 method: "POST",
@@ -211,7 +132,6 @@ export default class CreateComponentPopUp extends Component {
                             body: file,
                             }).then(response =>{
                                 if (response.status === 200){
-                                    //this.props.success()
                                 }
                             })
                         const fileRFA  = new FormData(); 
@@ -221,7 +141,6 @@ export default class CreateComponentPopUp extends Component {
                             body: fileRFA,
                             }).then(response =>{
                                 if (response.status === 200){
-                                    //this.props.success()
                                 }
                             })
                         this.props.success()   
@@ -244,7 +163,7 @@ export default class CreateComponentPopUp extends Component {
             <div style={{marginRight:"5px", marginLeft:"5px", float:"right"}}>
                 <button className="new__library__button" onClick={() => this.openModal()}><FontAwesomeIcon className='icon__book' icon={faPlus} />New item</button>
                 <div>
-                    <Modal visible={this.state.visible} width="550" height="770" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="550" height="650" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div style={{marginTop: "40px"}}
                     className={`alert alert-success ${this.state.blankRequest ? 'alert-shown' : 'alert-error-hidden'}`}
                     onTransitionEnd={() => this.setState({blankRequest: false})}
@@ -261,7 +180,7 @@ export default class CreateComponentPopUp extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* Primer fila: Project - Carta - Priority */}
+                            {/* Primer fila: Name and Family */}
                             <tr>
                                 <td style={{textAlign: "left"}}>
                                 <label className="priority__label" for="typeSelect" >Name</label>                            
@@ -307,18 +226,8 @@ export default class CreateComponentPopUp extends Component {
                                 </select>
                                 </td>
                             </tr>
-                            {/*Tercera fila*/}
-                            <tr>
-                                <td style={{textAlign: "left"}}>
-                                <label className="priority__label" for="disciplineSelect" >Project type</label>                            
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colSpan={3} style={{textAlign: "left"}}>
-                                    {this.state.typesCheckboxes}
-                                </td>
-                            </tr>
-                            {/* Cuarta fila: Description */}
+                            
+                            {/* Tercera fila: Description */}
                             <tr>
                                 <td style={{textAlign: "left"}}>
                                 <label className="priority__label" for="description">Description</label>
@@ -329,7 +238,7 @@ export default class CreateComponentPopUp extends Component {
                                 <textarea id="description" name="description" className="component__description__input__text" rows="3" ref="description" style={{marginBottom:"5px", color:"black"}} onChange={(e) => this.setState({description: e.target.value})}/>
                                 </td>
                             </tr>
-                            {/* Quinta fila: Attach */}
+                            {/* Cuarta fila: Attach */}
                             <tr>
                                 <td style={{textAlign: "left"}}>
                                 <label for="attach" className="priority__label" style={{marginBottom:"5px"}}>Image</label>
@@ -341,7 +250,8 @@ export default class CreateComponentPopUp extends Component {
 
                         </tbody>
                         </table>
-                        {/* Sexta fila: los dos botones */}
+                        {/* Quinta fila: los dos botones */}
+                        <br/>
                         <button class="btn__submit" onClick={() => this.request()} >Submit</button>
                         <button class="btn__cancel" onClick={() => this.closeModal()} >Cancel</button>
                         </div>
