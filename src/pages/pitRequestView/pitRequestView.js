@@ -109,6 +109,7 @@ const PitRequestView = () => {
     const [projectFilter, setProjectFilter] = useState([])
     const [projectDropDown, setProjectDropDown] = useState(null)
     const [currentProject, setCurrentProject] = useState("All")
+    const [showAll, setShowAll] = useState(false)
 
 
     const [success, setSuccess] = useState(false)
@@ -205,6 +206,10 @@ const PitRequestView = () => {
 
     },[updateData])
 
+    useEffect(async ()=>{
+        setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll}/>)
+    },[showAll])
+
     useEffect(async () =>{
         
         if(currentRole === "3D Admin"){
@@ -214,7 +219,7 @@ const PitRequestView = () => {
                 setAddUserButton(null)
                 setExportReport(<button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button>)
                 setUsersButton(<button className="navBar__button" onClick={()=>setCurrentTab("Users")} style={{width:"100px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Users</p></button>)
-                setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject}/>)
+                setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll}/>)
                 setExportUsersReport(null)
                 setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("Projects")}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
                 setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
@@ -262,7 +267,7 @@ const PitRequestView = () => {
                 setProjectDropDown(null)
             }
         }else{
-            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject}/>)
+            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll}/>)
             setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
             setSaveBtn(null)
             setAddUserButton(null)
@@ -282,7 +287,6 @@ const PitRequestView = () => {
     async function submitRoles(id, roles){
         
         localStorage.setItem("update", true)
-        console.log(roles)
         const body = {
             id: id,
             roles: roles
@@ -660,7 +664,6 @@ const PitRequestView = () => {
                                     const ws = XLSX.utils.json_to_sheet(apiData);   
                                     ws["!cols"] = wscols
                                     for(let i = 0; i < headers.length; i++){
-                                        console.log(ws[header_cells[i]])
                                         ws[header_cells[i]].v = headers[i]
                                     }
                                     const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
@@ -913,7 +916,7 @@ const PitRequestView = () => {
         setCurrentRole(value)
         await setUpdateData(!updateData)
         if(currentTab === "View"){
-            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)}/>)
+            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} showAll={showAll}/>)
         }
     }
 
@@ -1020,7 +1023,13 @@ const PitRequestView = () => {
                                     {projectsButton}
                                     {usersButton}
                                     {requestAccessButton}
+                                    <div style={{display:"flex", float:"right"}}><label class="showAllSwitchBtn">
+                                    <p className="showAll__text">Completed</p>
+                                    <input type="checkbox" id="edit" style={{marginLeft: "30px"}} onClick={()=> setShowAll(!showAll)}/>
+                                    <div class="slide round"></div>
+                                    </label></div>
                                     {projectDropDown}
+                                    
                                   </div>
                                   
                               </div>                           

@@ -20,7 +20,6 @@ class LibraryTreeGrid extends Component{
             component_types: [],
             component_brands: [],
             component_disciplines: [],
-            project_types: [],
         }
     }
 
@@ -201,7 +200,11 @@ class LibraryTreeGrid extends Component{
 
                     <div style={{display: "flex", float:"center", marginLeft: "175%"}} >
                         <div>
+<<<<<<< HEAD
                             <button className="projects__add__button" type="button" onClick={()=> this.addRowTipoP()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
+=======
+                            <button className="projects__add__button" type="button" onClick={()=> this.addRowDisciplines()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
+>>>>>>> master
                         </div>
                     </div>
 

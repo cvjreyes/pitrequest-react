@@ -45,6 +45,7 @@ class QTrackerViewDataTable extends React.Component{
     searchedColumn: '',
     data: [],
     displayData: [],
+    pendingData: [],
     filterData: ["", "", "", "", "", "", "", ""],
     observations: {},
     tab: this.props.currentTab,
@@ -56,6 +57,7 @@ class QTrackerViewDataTable extends React.Component{
     steps: [],
     filters: [],
     hours: {},
+    showAll: this.props.showAll,
   };
 
   async statusChange(incidence_number, status, project, type){
@@ -99,6 +101,7 @@ class QTrackerViewDataTable extends React.Component{
         .then(response => response.json())
         .then(async json => {
           var rows = []
+          var pendingRows = []
           var row = null
           if(json.rows){
             for(let i = 0; i < json.rows.length; i++){
@@ -211,6 +214,9 @@ class QTrackerViewDataTable extends React.Component{
                 }
                 
                 rows.push(row)
+                if(json.rows[i].status < 2){
+                  pendingRows.push(row)
+                }
             }
           }
             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVNByProjects/"+secureStorage.getItem("user"), options)
@@ -322,6 +328,9 @@ class QTrackerViewDataTable extends React.Component{
                       row.observations = json.rows[i].observations
                     }
                     rows.push(row)
+                    if(json.rows[i].status < 2){
+                      pendingRows.push(row)
+                    }
                 }
               }
                 
@@ -434,6 +443,9 @@ class QTrackerViewDataTable extends React.Component{
                           row.observations = json.rows[i].observations
                         }
                         rows.push(row)
+                        if(json.rows[i].status < 2){
+                          pendingRows.push(row)
+                        }
                     }
                   }
                     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRBByProjects/"+secureStorage.getItem("user"), options)
@@ -546,6 +558,9 @@ class QTrackerViewDataTable extends React.Component{
                               row.observations = json.rows[i].observations
                             }
                             rows.push(row)
+                            if(json.rows[i].status < 2){
+                              pendingRows.push(row)
+                            }
                         }
                       }
                         
@@ -649,6 +664,9 @@ class QTrackerViewDataTable extends React.Component{
                                   row.observations = json.rows[i].observations
                                 }
                                 rows.push(row)
+                                if(json.rows[i].status < 2){
+                                  pendingRows.push(row)
+                                }
                             }
                           }
                             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getRPByProjects/"+secureStorage.getItem("user"), options)
@@ -751,6 +769,9 @@ class QTrackerViewDataTable extends React.Component{
                                       row.observations = json.rows[i].observations
                                     }
                                     rows.push(row)
+                                    if(json.rows[i].status < 2){
+                                      pendingRows.push(row)
+                                    }
                                 }
                               }
                               await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getISByProjects/"+secureStorage.getItem("user"), options)
@@ -853,6 +874,9 @@ class QTrackerViewDataTable extends React.Component{
                                       row.observations = json.rows[i].observations
                                     }
                                     rows.push(row)
+                                    if(json.rows[i].status < 2){
+                                      pendingRows.push(row)
+                                    }
                                 }
                               }
                               
@@ -870,7 +894,7 @@ class QTrackerViewDataTable extends React.Component{
                                   filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filterD(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filterD(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filterD(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filterD(4,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filterD(6,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filterD(8,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filterD(10,e.target.value)}/></div>, priority: <div><input type="text" className="filter__input" placeholder="Priority" onChange={(e) => this.filterD(9,e.target.value)}/></div>}]                  
                                 }
                 
-                                this.setState({data : rows, displayData: rows});
+                                this.setState({data : rows, pendingData: pendingRows, displayData: pendingRows});
                                 await this.setState({filters : filterRow})
                                 if(this.props.currentProject !== "All"){
                                   this.filter(1, this.props.currentProject)
@@ -894,6 +918,15 @@ class QTrackerViewDataTable extends React.Component{
   async componentDidUpdate(prevProps, prevState){
     if(prevProps !== this.props){
 
+    if(prevProps.showAll !== this.props.showAll){
+      if(this.props.showAll){
+        this.setState({displayData: this.state.data})
+      }else{
+        this.setState({displayData: this.state.pendingData})
+      }
+    }else{
+
+    
       const options = {
         method: "GET",
         headers: {
@@ -905,6 +938,7 @@ class QTrackerViewDataTable extends React.Component{
         .then(response => response.json())
         .then(async json => {
           var rows = []
+          var pendingRows = []
           var row = null
           if(json.rows){
             for(let i = 0; i < json.rows.length; i++){
@@ -1015,6 +1049,9 @@ class QTrackerViewDataTable extends React.Component{
                 }
                 
                 rows.push(row)
+                if(json.rows[i].status < 2){
+                  pendingRows.push(row)
+                }
             }
           }
             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVNByProjects/"+secureStorage.getItem("user"), options)
@@ -1125,6 +1162,9 @@ class QTrackerViewDataTable extends React.Component{
                       row.observations = json.rows[i].observations
                     }
                     rows.push(row)
+                    if(json.rows[i].status < 2){
+                      pendingRows.push(row)
+                    }
                 }
               }
                 
@@ -1237,6 +1277,9 @@ class QTrackerViewDataTable extends React.Component{
                           row.observations = json.rows[i].observations
                         }
                         rows.push(row)
+                        if(json.rows[i].status < 2){
+                          pendingRows.push(row)
+                        }
                     }
                   }
                     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRBByProjects/"+secureStorage.getItem("user"), options)
@@ -1349,6 +1392,9 @@ class QTrackerViewDataTable extends React.Component{
                               row.observations = json.rows[i].observations
                             }
                             rows.push(row)
+                            if(json.rows[i].status < 2){
+                              pendingRows.push(row)
+                            }
                         }
                       }
                         
@@ -1452,6 +1498,9 @@ class QTrackerViewDataTable extends React.Component{
                                   row.observations = json.rows[i].observations
                                 }
                                 rows.push(row)
+                                if(json.rows[i].status < 2){
+                                  pendingRows.push(row)
+                                }
                             }
                           }
                             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getRPByProjects/"+secureStorage.getItem("user"), options)
@@ -1554,6 +1603,9 @@ class QTrackerViewDataTable extends React.Component{
                                       row.observations = json.rows[i].observations
                                     }
                                     rows.push(row)
+                                    if(json.rows[i].status < 2){
+                                      pendingRows.push(row)
+                                    }
                                 }
                               }
                               await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getISByProjects/"+secureStorage.getItem("user"), options)
@@ -1656,6 +1708,9 @@ class QTrackerViewDataTable extends React.Component{
                                       row.observations = json.rows[i].observations
                                     }
                                     rows.push(row)
+                                    if(json.rows[i].status < 2){
+                                      pendingRows.push(row)
+                                    }
                                 }
                               }
 
@@ -1671,11 +1726,105 @@ class QTrackerViewDataTable extends React.Component{
                                 }else{
                                   filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filterD(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filterD(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filterD(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filterD(4,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filterD(6,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filterD(8,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filterD(10,e.target.value)}/></div>, priority: <div><input type="text" className="filter__input" placeholder="Priority" onChange={(e) => this.filterD(9,e.target.value)}/></div>}]               
                                 }                
-                                this.setState({data : rows, displayData: rows});
+                                this.setState({data : rows, pendingData: pendingRows});
+                                let auxDisplayData
+                                if(this.props.showAll){
+                                  this.setState({displayData: rows})
+                                  auxDisplayData = this.state.data
+                                }else{
+                                  this.setState({displayData: pendingRows})
+                                  auxDisplayData = this.state.pendingData
+                                }
                                 await this.setState({filters : filterRow})
                                 if(this.props.currentProject !== "All"){
                                   this.filter(1, this.props.currentProject)
                                 }
+                                 
+                                let resultData = []
+                                let fil, exists = null
+                                
+                                for(let i = 0; i < auxDisplayData.length; i++){
+                                  exists = true
+                                  
+                                  for(let column = 0; column < Object.keys(auxDisplayData[i]).length-1; column ++){
+                                    
+                                    fil = Object.keys(auxDisplayData[i])[column]
+                                    if(secureStorage.getItem("role") !== "3D Admin" && column === 8){
+                                        column = 11
+                                    }
+                                    if(fil === "specifications"){
+                                      fil = "status"
+                                    }
+                                    if(fil === "status"){
+                                      if(auxDisplayData[i][fil].props){
+                                        for(let p = 0; p < auxDisplayData[i][fil].props.children.length; p++){
+                                          if(auxDisplayData[i][fil].props.children[p].props.selected){
+
+                                            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.children[p].props.children.toLowerCase().includes(this.state.filterData[column].toLowerCase())){
+                                              exists = false
+                                            }
+                                          }
+                                        }
+                                      }else if(auxDisplayData[i][fil]){
+                                        if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
+                                          exists = false
+                                        }
+                                      }else{
+                                        if(this.state.filterData[column] !== "" && this.state.filterData[column]){
+                                          exists = false
+                                        }
+                                      }
+                                    }else if(fil === "priority"){
+                                      if(auxDisplayData[i][fil].props){
+                                        for(let p = 0; p < auxDisplayData[i][fil].props.children.length; p++){
+                                          if(auxDisplayData[i][fil].props.children[p].props.selected){
+                                            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.children[p].props.children.toLowerCase().includes(this.state.filterData[column].toLowerCase())){
+                                              exists = false
+                                            }
+                                          }
+                                        }
+                                      }else if(auxDisplayData[i][fil]){
+                                        if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
+                                          exists = false
+                                        }
+                                      }else{
+                                        if(this.state.filterData[column] !== "" && this.state.filterData[column]){
+                                          exists = false
+                                        }
+                                      }
+                                    }else if(fil === "admin"){
+                                      if(auxDisplayData[i][fil].props){
+                                        if(auxDisplayData[i][fil].props.admin){
+                                          if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.admin.toLowerCase().includes(this.state.filterData[column].toLowerCase())){
+                                            exists = false
+                                          }
+                                        }
+                                        
+                                      }else if(auxDisplayData[i][fil]){
+                                        if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
+                                          exists = false
+                                        }
+                                      }else{
+                                        if(this.state.filterData[column] !== "" && this.state.filterData[column]){
+                                          exists = false
+                                        }
+                                      }
+                                    }else{
+                                      
+                                      if(this.state.filterData[column]){
+                                        if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
+                                          exists = false
+                                        }
+                                      }
+                                      
+                                    }
+                                    
+                                  }
+                                  if(exists){
+                                    resultData.push(auxDisplayData[i])
+                                  }
+                                }
+                                await this.setState({displayData: resultData})
 
                             })
 
@@ -1688,6 +1837,7 @@ class QTrackerViewDataTable extends React.Component{
             })
             
         })
+      }
 
       }
     
@@ -1700,12 +1850,17 @@ class QTrackerViewDataTable extends React.Component{
   
 
   async filter(column, value){
-    console.log(column)
     let fd = this.state.filterData
     fd[column] = value
     await this.setState({filterData: fd})
 
-    let auxDisplayData = this.state.data
+    let auxDisplayData
+    if(this.props.showAll){
+      auxDisplayData = this.state.data
+    }else{
+      auxDisplayData = this.state.pendingData
+    }
+
     let resultData = []
     let fil, exists = null
     
@@ -1798,7 +1953,13 @@ class QTrackerViewDataTable extends React.Component{
     fd[column] = value
     await this.setState({filterData: fd})
 
-    let auxDisplayData = this.state.data
+    let auxDisplayData
+    if(this.props.showAll){
+      auxDisplayData = this.state.data
+    }else{
+      auxDisplayData = this.state.pendingData
+    }
+    
     let resultData = []
     let fil, exists = null
     
@@ -2081,9 +2242,13 @@ class QTrackerViewDataTable extends React.Component{
     var totalElements = null;
     if (this.state.data.length === 0){
       totalElements = null;
-    }else{
+    }else if(this.props.showAll){
       totalElements = (<div style={{position: "absolute", bottom: 140, left:120}}>
       <b>Total elements: {this.state.data.length}</b>
+     </div>);
+    }else{
+      totalElements = (<div style={{position: "absolute", bottom: 140, left:120}}>
+      <b>Total elements: {this.state.pendingData.length}</b>
      </div>);
     }
 
