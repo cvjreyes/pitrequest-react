@@ -11,7 +11,7 @@ export const getLibrary = async() => {
     return await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getLibrary", options)
 }
 
-//Todas las librerias
+//Todos los projectos en grupo
 export const getGroupProjects = async() => {
     return await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getGroupProjects", options)
 }
