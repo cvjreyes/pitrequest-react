@@ -105,7 +105,7 @@ const NavBar = (props) =>{
             setHoverbutton (null)
         }
 
-        if(window.location.href.includes("/projectManager") || window.location.href.includes("/offersManager") || window.location.href.includes("/pitrequestsview") || window.location.href.includes("/library") || window.location.href.includes("/libraryFiltersView")) {
+        if(window.location.href.includes("/projectManager") || window.location.href.includes("/offersManager") || window.location.href.includes("/pitrequestsview") || window.location.href.includes("/library") || window.location.href.includes("/libraryFiltersView") || window.location.href.includes("/pipingGeneral") || window.location.href.includes("/pipingPSV") || window.location.href.includes("/pipingSpecial")) {
             setMarginMenu('translateX(+280%)')
         } else {
             setMarginMenu('translateX(+120%)')
@@ -164,6 +164,7 @@ const NavBar = (props) =>{
                         onClose={handleCloseUser}
                         PaperProps={{
                             style: {
+                                marginTop: "10px",
                                 left: '50%',
                                 transform: marginMenu,
                             }

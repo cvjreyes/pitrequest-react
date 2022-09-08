@@ -450,7 +450,7 @@ const PipingGeneral = () => {
 
     document.body.style.zoom = 0.8
 
-    var dataTableHeight = "570px"
+    var dataTableHeight = "580px"
 
     let editBtn, addRowBtn, saveBtn, exportBtn, notificationsBtn, designNotificationsBtn, backBtn = null
     let table = <CSPTrackerGeneralDataTable currentRole = {currentRole} updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} uploadDrawingSuccess = {uploadSuccess.bind(this)} updateDrawingSuccess = {updateSuccess.bind(this)} drawingUploadError={drawingUploadError.bind(this)}/>
@@ -558,9 +558,6 @@ const PipingGeneral = () => {
                 onIdle={handleOnIdle}
                 debounce={250}
             />
-            <div style={{zoom:1.125}}>
-                <NavBar onChange={value => setCurrentTab(currentTab)}/>
-            </div>
             <div
             className={`alert alert-success ${successAlert ? 'alert-shown' : 'alert-hidden'}`}
             onTransitionEnd={() => setSuccessAlert(false)}
@@ -615,9 +612,12 @@ const PipingGeneral = () => {
             >
                 <AlertF type="error" subtext="The specified P&ID is invalid!" margin="0px"/>
             </div>
+            <div style={{zoom:1.125, marginLeft:"10%"}}>
+                <NavBar onChange={value => setCurrentTab(currentTab)}/>
+            </div>
             <div className="isotracker__row">
                   <div className="isotracker__column">
-                      <img src={PITLogo} alt="CSPTrackerLogo" className="isoTrackerLogo__image2" style={{height:"85px"}}/>
+                      <img src={PITLogo} alt="PITLogo" className="isoTrackerLogo__image2" style={{height:"85px"}}/>
                       
                       <div className="roleSelector__containerF">
                               <RoleDropDown style={{paddingLeft: "2px"}} onChange={value => setCurrentRole(value)} roles = {roles}/>
