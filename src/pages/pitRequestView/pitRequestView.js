@@ -135,7 +135,7 @@ const PitRequestView = () => {
         fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAllProjects", options)
             .then(response => response.json())
             .then(async json => {
-                let projects = ["All"]
+                let projects = []
                 for(let i = 0; i < json.projects.length; i++){
                     projects.push(json.projects[i].name)
                 }

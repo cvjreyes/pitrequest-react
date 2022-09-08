@@ -1,0 +1,15 @@
+.inst__projectFilterSelect{
+    color: black;
+    margin-left: 15px;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    height: 30px;
+}
+
+.inst__project__label{
+    font-size: 15px;
+    margin-top: 3px;
+    margin-left: 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
