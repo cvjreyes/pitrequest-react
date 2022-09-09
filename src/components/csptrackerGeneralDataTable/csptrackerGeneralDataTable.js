@@ -12,7 +12,7 @@ class CSPTrackerGeneralDataTable extends React.Component{
     searchedColumn: '',
     data: [],
     displayData: [],
-    filterData: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    filterData: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
     tab: this.props.currentTab,
     selectedRows: [],
     selectedRowsKeys: [],
@@ -23,9 +23,9 @@ class CSPTrackerGeneralDataTable extends React.Component{
     filters: []
   };
 
-  async readyE3D(tag){
+  async readyE3D(id){
     const body = {
-      tag: tag
+      id: id
     }
 
     const options = {
@@ -37,16 +37,16 @@ class CSPTrackerGeneralDataTable extends React.Component{
   }
 
 
-  fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/readye3d", options)
+  fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/instReadye3d", options)
       .then(response => response.json())
       .then(
         this.props.updateDataMethod()
       )
   }
 
-  async cancelReadyE3D(tag){
+  async cancelReadyE3D(id){
     const body = {
-      tag: tag
+      id: id
     }
 
     const options = {
@@ -58,16 +58,16 @@ class CSPTrackerGeneralDataTable extends React.Component{
   }
 
 
-  fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/cancelreadye3d", options)
+  fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/instCancelreadye3d", options)
       .then(response => response.json())
       .then(
         this.props.updateDataMethod()
         )
   }
 
-  async deleteSP(tag){
+  async deleteInst(id){
     const body = {
-      tag: tag
+      id: id
     }
 
     const options = {
@@ -78,16 +78,16 @@ class CSPTrackerGeneralDataTable extends React.Component{
       body: JSON.stringify(body)
     }
 
-    fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/deleteSP", options)
+    fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/deleteInst", options)
       .then(response => response.json())
       .then(
         this.props.updateDataMethod()
       )
   }
   
-  async excludeSP(tag){
+  async excludeInst(id){
     const body = {
-      tag: tag
+      id: id
     }
 
     const options = {
@@ -98,7 +98,7 @@ class CSPTrackerGeneralDataTable extends React.Component{
       body: JSON.stringify(body)
     }
 
-    fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/excludeSP", options)
+    fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/excludeInst", options)
       .then(response => response.json())
       .then(
         this.props.updateDataMethod()
@@ -153,7 +153,7 @@ class CSPTrackerGeneralDataTable extends React.Component{
                   row.ready_load = "UPDATED"
                   row.color = "#yyy"
                     if(this.props.currentRole === "3D Admin"){
-                      row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].tag)}>READY</button>
+                      row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
                     }else{
                       row.ready_e3d = "NOT READY"
                     }
@@ -163,28 +163,28 @@ class CSPTrackerGeneralDataTable extends React.Component{
                     if(json.rows[i].updated === 0){
                       row.color = "#ggg"
                       if(this.props.currentRole === "3D Admin"){
-                        row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].tag)}>CANCEL</button>
+                        row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].id)}>CANCEL</button>
                       }else{
                         row.ready_e3d = "READY"
-                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
+                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
                       }
                     }else{
                       row.color = "#bbb"
                       if(this.props.currentRole === "3D Admin"){
-                        row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].tag)}>CANCEL</button>
+                        row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].id)}>CANCEL</button>
                       }else{
                         row.ready_e3d = "READY"
-                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
+                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
                       }
                     }
                     
                   }else{
                     row.color = "#yyy"
                     if(this.props.currentRole === "3D Admin"){
-                      row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].tag)}>READY</button>
+                      row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
                     }else{
                       row.ready_e3d = "NOT READY"
-                      row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button><button class="csp_exclude_btn btn-sm btn-danger" onClick={() => this.excludeSP(json.rows[i].tag)}>EXCLUDE 3D</button></div>
+                      row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button><button class="csp_exclude_btn btn-sm btn-danger" onClick={() => this.excludeSP(json.rows[i].tag)}>EXCLUDE 3D</button></div>
                     }
                   }
                   
@@ -195,7 +195,7 @@ class CSPTrackerGeneralDataTable extends React.Component{
                     row.ready_e3d = <button disabled class="ready__disabled btn-sm btn-success">READY</button>
                   }else{
                     row.ready_e3d = "NOT READY"
-                    row.ready_load = <div>NOT READY<button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
+                    row.ready_load = <div>NOT READY<button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
                   }
                 }
               }
@@ -205,18 +205,6 @@ class CSPTrackerGeneralDataTable extends React.Component{
                 if(!value){
                   row[key] = ""
                 }
-              }
-
-              if(json.rows[i].type){
-                row.type = <b>{json.rows[i].type}</b>
-              }else{
-                <b> </b>
-              }
-
-              if(json.rows[i].tag){
-                row.tag = <b>{json.rows[i].tag}</b>
-              }else{
-                <b> </b>
               }
 
               rows.push(row)
@@ -279,7 +267,7 @@ class CSPTrackerGeneralDataTable extends React.Component{
                   row.ready_load = "UPDATED"
                   row.color = "#yyy"
                     if(this.props.currentRole === "3D Admin"){
-                      row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].tag)}>READY</button>
+                      row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
                     }else{
                       row.ready_e3d = "NOT READY"
                     }
@@ -289,28 +277,28 @@ class CSPTrackerGeneralDataTable extends React.Component{
                     if(json.rows[i].updated === 0){
                       row.color = "#ggg"
                       if(this.props.currentRole === "3D Admin"){
-                        row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].tag)}>CANCEL</button>
+                        row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].id)}>CANCEL</button>
                       }else{
                         row.ready_e3d = "READY"
-                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
+                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
                       }
                     }else{
                       row.color = "#bbb"
                       if(this.props.currentRole === "3D Admin"){
-                        row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].tag)}>CANCEL</button>
+                        row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].id)}>CANCEL</button>
                       }else{
                         row.ready_e3d = "READY"
-                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
+                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
                       }
                     }
                     
                   }else{
                     row.color = "#yyy"
                     if(this.props.currentRole === "3D Admin"){
-                      row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].tag)}>READY</button>
+                      row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
                     }else{
                       row.ready_e3d = "NOT READY"
-                      row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button><button class="csp_exclude_btn btn-sm btn-danger" onClick={() => this.excludeSP(json.rows[i].tag)}>EXCLUDE 3D</button></div>
+                      row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button><button class="csp_exclude_btn btn-sm btn-danger" onClick={() => this.excludeSP(json.rows[i].tag)}>EXCLUDE 3D</button></div>
                     }
                   }
                   
@@ -321,7 +309,7 @@ class CSPTrackerGeneralDataTable extends React.Component{
                     row.ready_e3d = <button disabled class="ready__disabled btn-sm btn-success">READY</button>
                   }else{
                     row.ready_e3d = "NOT READY"
-                    row.ready_load = <div>NOT READY<button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
+                    row.ready_load = <div>NOT READY<button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
                   }
                 }
               }
@@ -333,28 +321,17 @@ class CSPTrackerGeneralDataTable extends React.Component{
                 }
               }
 
-              if(json.rows[i].type){
-                row.type = <b>{json.rows[i].type}</b>
-              }else{
-                <b> </b>
-              }
-
-              if(json.rows[i].tag){
-                row.tag = <b>{json.rows[i].tag}</b>
-              }else{
-                <b> </b>
-              }
-
               rows.push(row)
             }
-          console.log(rows)
+          
           
           this.setState({data: rows, displayData: rows})
           
         })
         .catch(error => {
             console.log(error);
-        })    
+        })       
+
     }
 
   }
@@ -579,13 +556,6 @@ class CSPTrackerGeneralDataTable extends React.Component{
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready in 3D" style={{textAlign:"center"}} onChange={(e) => this.filter(17, e.target.value)}/></div>,
         dataIndex: 'ready_e3d',
         key: 'ready_e3d',
-        fixed: "right",
-        align: "center"
-      },
-      {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Updated" style={{textAlign:"center"}} onChange={(e) => this.filter(17, e.target.value)}/></div>,
-        dataIndex: 'updated',
-        key: 'updated',
         fixed: "right",
         align: "center"
       },

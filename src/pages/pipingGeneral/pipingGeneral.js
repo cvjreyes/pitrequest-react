@@ -102,7 +102,8 @@ const PipingGeneral = () => {
     const [existsRequest, setExistsRequest] = useState(false)
     const [errorPid, seterrorPid] = useState(false)
 
-    const [editData, setEditData] = useState()
+    const [editData, setEditData] = useState({})
+    const [newData, setNewData] = useState({})
     const [diametersData, setDiametersData] = useState()
     const [specData, setSpecData] = useState()
     const [boltTypesData, setBoltTypesData] = useState()
@@ -260,7 +261,6 @@ const PipingGeneral = () => {
                 await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/boltTypes", options)
                 .then(response => response.json())
                 .then(async json => {
-                    console.log(json)
                     let bolt_types_data = []
                     for(let i = 0; i < json.rows.length; i++){
                         bolt_types_data.push(json.rows[i].type)
@@ -294,7 +294,7 @@ const PipingGeneral = () => {
                     await setSpecData(spec_data)
                 })
 
-          
+        await setNewData({})
     }, [currentProject])
 
 
@@ -406,69 +406,48 @@ const PipingGeneral = () => {
 
     async function addRow(){
         let rows = editData
-        rows.push({tag:"", quantity: "", description: "", description_plan_code: "", drawing_filename: "", description_iso: "", ident: "", p1diameter_dn: "", p1diameter_nps: "", p2diameter_dn: "", p2diameter_nps: "", p3diameter_dn: "", p3diameter_nps: "", rating: "", spec: "", type: "", end_preparation: "", description_drawing: "", face_to_face: "", bolt_type: "", ready_load: "", ready_e3d: "", comments: "", pid: "", line_id: "", requisition: "", equipnozz: "", utility_station: ""})
+        rows.push({spec:"", instrument_type: "", pcons_name: "", diameters_from_dn: "", diameters_to_dn: "", bolt_type: "", comments: ""})
         await setEditData(rows)
         await setUpdateData(!updateData)
       }
 
-    async function saveChanges(){
+    async function handleChange(changes, source){
+        if (source !== 'loadData'){
+            let data_aux = editData
+            for(let i = 0; i < changes.length; i+=4){       
+                let row_id = changes[i][0]
+                let row = editData[row_id]
+                let new_data = newData
+                new_data[row_id] = row
+                await setEditData(data_aux)
+                await setNewData(new_data)
+            }
+        }
+    }
 
+    async function saveChanges(){
+        console.log(newData)
         const body = {
             rows: editData,
-            email: currentUser
+            project_id: currentProject
         }
+       
         let options = {
-            method: "GET",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
-            }
+            },
+            body: JSON.stringify(body)
         }
 
-        fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/tags", options)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitInstGeneral", options)
         .then(response => response.json())
         .then(async json =>{
-            let unique = true
-            if(json.none){
-
-            }else{
-                let tags = []
-                for(let i = 0; i < editData.length; i++){
-                    if(tags.indexOf(editData[i].tag) > -1 && editData[i].tag !== null){
-                        unique = false
-                        await setErrorIndex("Repeated tag at entry " + i +"!")             
-                    }else{
-                        tags.push(editData[i].tag)
-                    }
-                }
+            if(json.success){
+                await setSuccessAlert(true)
+                await setNewData({})
             }
-            
-            if(!unique){
-                await setNoTagError(true)
-            }
-            options = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(body)
-            }
-            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitCSP", options)
-            .then(response => response.json())
-            .then(async json =>{
-                if(json.success){
-                    await setSuccessAlert(true)
-
-                }
-            })
-
-            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/update_ready_load", options)
-            .then(response => response.json())
-            .then(async json =>{
-
-            }) 
-                                
-        })                
-             
+        })
     }
 
 
@@ -542,41 +521,47 @@ const PipingGeneral = () => {
         addRowBtn = null
         
     }else if(currentTab === "Edit"){
-        if(!busy){
-            table = <HotTable
-            data={editData}
-            colHeaders = {["<b>SPEC</b>","<b>GENERIC</b>", "<b>PCOM</b>", "<b>FROM</b>", "<b>TO</b>", "FLG-CON", "<b>Comments</b>"]}
-            rowHeaders={true}
-            width="2200"
-            height="635"
-            settings={settings} 
-            manualColumnResize={true}
-            manualRowResize={true}
-            filters={true}
-            dropdownMenu= {[
-                'make_read_only',
-                '---------',
-                'alignment',
-                '---------',
-                'filter_by_condition',
-                '---------',
-                'filter_operators',
-                '---------',
-                'filter_by_condition2',
-                '---------',
-                'filter_by_value',
-                '---------',
-                'filter_action_bar',
-              ]}
-            columns= {[{ data: "spec", type:'dropdown', strict:"true", source: specData}, {data: "instrument_type", type:'dropdown', strict:"true", source: instTypesData}, {data: "pcons_name", type:'dropdown', strict:"true", source: pconsData}, {data: "diameters_from_dn", type:"dropdown", strict:"true", source: diametersData}, {data: "diameters_to_dn", type:"dropdown", strict:"true", source: diametersData}, {data: "bolt_type", type:"dropdown", strict:"true", source: boltTypesData}, {data:"comments", type:"text"}]}
-            />
-          
-            dataTableHeight= "700px"
-            addRowBtn = <button class="btn btn-sm btn-success" onClick={() => addRow()} style={{marginRight:"5px", fontSize:"18px", width:"35px", height:"35px", borderRadius:"10px", float:"right", marginTop:"8px"}}>+</button>
-            saveBtn = <button className="navBar__button" onClick={()=> saveChanges()} style={{marginTop:"7px"}}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>
+
+        let cols
+        if(currentRole === "Materials"){
+            cols = [{ data: "spec", type:'dropdown', strict:"true", source: specData}, {data: "instrument_type", type:'dropdown', strict:"true", source: instTypesData}, {data: "pcons_name", type:'dropdown', strict:"true", source: pconsData}, {data: "diameters_from_dn", type:"dropdown", strict:"true", source: diametersData}, {data: "diameters_to_dn", type:"dropdown", strict:"true", source: diametersData}, {data: "bolt_type", type:"text", readOnly:true}, {data:"comments", type:"text"}]
         }else{
-            table = <div className="connected__panel"><p className="connected__text">The user {editingUser} is already editing!</p></div>
-        }    
+            cols = [{ data: "spec", type:"text", readOnly:true}, {data: "instrument_type", type:"text", readOnly:true}, {data: "pcons_name", type:"text", readOnly:true}, {data: "diameters_from_dn", type:"text", readOnly:true}, {data: "diameters_to_dn", type:"text", readOnly:true}, {data: "bolt_type", type:"dropdown", strict:"true", source: boltTypesData}, {data:"comments", type:"text", readOnly:true}]
+        }
+        
+        table = <HotTable
+        data={editData}
+        colHeaders = {["<b>SPEC</b>","<b>GENERIC</b>", "<b>PCOM</b>", "<b>FROM</b>", "<b>TO</b>", "FLG-CON", "<b>Comments</b>"]}
+        rowHeaders={true}
+        width="2200"
+        height="635"
+        settings={settings} 
+        manualColumnResize={true}
+        manualRowResize={true}
+        filters={true}
+        afterChange={handleChange}
+        dropdownMenu= {[
+            'make_read_only',
+            '---------',
+            'alignment',
+            '---------',
+            'filter_by_condition',
+            '---------',
+            'filter_operators',
+            '---------',
+            'filter_by_condition2',
+            '---------',
+            'filter_by_value',
+            '---------',
+            'filter_action_bar',
+            ]}
+        columns= {cols}
+        />
+        
+        dataTableHeight= "700px"
+        addRowBtn = <button class="btn btn-sm btn-success" onClick={() => addRow()} style={{marginRight:"5px", fontSize:"18px", width:"35px", height:"35px", borderRadius:"10px", float:"right", marginTop:"8px"}}>+</button>
+        saveBtn = <button className="navBar__button" onClick={()=> saveChanges()} style={{marginTop:"7px"}}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>
+    
 
     }else if(currentTab === "CSP KeyParams"){
         table = <CSPTrackerKeyParams success={()=> setSuccessAlert(true)}/>
@@ -596,7 +581,7 @@ const PipingGeneral = () => {
             className={`alert alert-success ${successAlert ? 'alert-shown' : 'alert-hidden'}`}
             onTransitionEnd={() => setSuccessAlert(false)}
             >
-                <AlertF type="success" text="Changes saved!" margin="0px"/>
+                <AlertF type="success" text="Changes saved successfully!" margin="-40px"/>
             </div>
             <div
             className={`alert alert-success ${uploadDrawingSuccess ? 'alert-shown' : 'alert-hidden'}`}
