@@ -86,7 +86,8 @@ const PipingGeneral = () => {
     });
     const settings = {
         licenseKey: 'non-commercial-and-evaluation',
-        colWidths: 250,
+        colWidths: 304,
+        
       }
 
     const [currentRole, setCurrentRole] = useState();
@@ -488,10 +489,10 @@ const PipingGeneral = () => {
         
         table = <HotTable
         data={editData}
-        colHeaders = {["<b>SPEC</b>","<b>GENERIC</b>", "<b>PCOM</b>", "<b>FROM</b>", "<b>TO</b>", "FLG-CON", "<b>Comments</b>"]}
+        colHeaders = {["SPEC","GENERIC", "PCOM", "FROM", "TO", "FLG-CON", "Comments"]}
         rowHeaders={true}
         width="2200"
-        height="635"
+        height="530"
         settings={settings} 
         manualColumnResize={true}
         manualRowResize={true}
@@ -516,8 +517,8 @@ const PipingGeneral = () => {
         />
         
         dataTableHeight= "700px"
-        addRowBtn = <button class="btn btn-sm btn-success" onClick={() => addRow()} style={{marginRight:"5px", fontSize:"18px", width:"35px", height:"35px", borderRadius:"10px", float:"right", marginTop:"-100px"}}>+</button>
-        saveBtn = <button className="navBar__button" onClick={()=> saveChanges()} style={{marginTop:"7px"}}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>
+        addRowBtn = <button class="btn btn-sm btn-success" onClick={() => addRow()} style={{fontSize:"18px", width:"35px", height:"35px", borderRadius:"10px", float:"right", marginTop:"15px"}}>+</button>
+        saveBtn = <button className="navBar__button" onClick={()=> saveChanges()} style={{marginRight:"5px", fontSize:"18px", width:"100px", height:"35px", borderRadius:"10px", marginRight:"-30px"}}><img src={SaveIcon} alt="save" className="navBar__icon" style={{marginTop:"9px"}}></img><p className="navBar__button__text">Save</p></button>
     
 
     }else if(currentTab === "CSP KeyParams"){
@@ -609,7 +610,7 @@ const PipingGeneral = () => {
                     <Tooltip/>
                 </PieChart>
             </div>
-            <table className="isotracker__table__container">
+            <table className="isotracker__table__container__general">
                       <tr className="isotracker__table__navBar__container" style={{height:"65px "}}>
                           <th  className="isotracker__table__navBar">
                               <div style={{display:"flex"}}>

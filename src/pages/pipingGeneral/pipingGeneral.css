@@ -19,6 +19,7 @@
     margin-top: 11px;
     font-family: 'Montserrat', sans-serif;
     justify-content: space-between;
+    font-weight: 500;
 }
 
 .switchBtn__general {
@@ -122,4 +123,10 @@ input:checked + .slide__general__admin:before {
 }
 .slide__general__admin.round:before {
     border-radius: 50%;
+}
+
+.isotracker__table__container__general{
+    width: 92.5%;
+    margin-left: 100px;
+    margin-top: 20px;
 }

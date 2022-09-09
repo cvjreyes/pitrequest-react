@@ -574,7 +574,7 @@ class CSPTrackerGeneralDataTable extends React.Component{
     if (this.state.data.length === 0){
       totalElements = null;
     }else{
-      totalElements = (<div style={{position: "absolute", bottom: 170, left:110}}>
+      totalElements = (<div style={{position: "absolute", bottom: 120, left:110}}>
       <b>Total elements: {this.state.data.length}</b>
      </div>);
     }
