@@ -479,12 +479,45 @@ const PipingGeneral = () => {
         addRowBtn = null
         
     }else if(currentTab === "Edit"){
-
+        let cells = []
         let cols
         if(currentRole === "Design"){
             cols = [{ data: "spec", type:'dropdown', strict:"true", source: specData}, {data: "instrument_type", type:'dropdown', strict:"true", source: instTypesData}, {data: "pcons_name", type:'dropdown', strict:"true", source: pconsData}, {data: "diameters_from_dn", type:"dropdown", strict:"true", source: diametersData}, {data: "diameters_to_dn", type:"dropdown", strict:"true", source: diametersData}, {data: "bolt_type", type:"text", readOnly:true}, {data:"comments", type:"text"}]
+            for(let i = 0; i < editData.length; i++){
+                cells.push({
+                    row: i,
+                    col: 5,
+                    className: 'insts__disabled__cell'})
+            }
         }else{
             cols = [{ data: "spec", type:"text", readOnly:true}, {data: "instrument_type", type:"text", readOnly:true}, {data: "pcons_name", type:"text", readOnly:true}, {data: "diameters_from_dn", type:"text", readOnly:true}, {data: "diameters_to_dn", type:"text", readOnly:true}, {data: "bolt_type", type:"dropdown", strict:"true", source: boltTypesData}, {data:"comments", type:"text", readOnly:true}]
+            for(let i = 0; i < editData.length; i++){
+                cells.push({
+                    row: i,
+                    col: 0,
+                    className: 'insts__disabled__cell'})
+                cells.push({
+                    row: i,
+                    col: 1,
+                    className: 'insts__disabled__cell'})
+                cells.push({
+                    row: i,
+                    col: 2,
+                    className: 'insts__disabled__cell'})
+                cells.push({
+                    row: i,
+                    col: 3,
+                    className: 'insts__disabled__cell'})
+                cells.push({
+                    row: i,
+                    col: 4,
+                    className: 'insts__disabled__cell'})
+                cells.push({
+                    row: i,
+                    col: 6,
+                    className: 'insts__disabled__cell'})
+                    
+            }
         }
         
         table = <HotTable
@@ -514,6 +547,7 @@ const PipingGeneral = () => {
             'filter_action_bar',
             ]}
         columns= {cols}
+        cell={cells}
         />
         
         dataTableHeight= "700px"
