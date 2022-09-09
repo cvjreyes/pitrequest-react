@@ -492,26 +492,26 @@ const PipingGeneral = () => {
     let editBtn, addRowBtn, saveBtn, exportBtn
     let table = <CSPTrackerGeneralDataTable currentRole = {currentRole} updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} uploadDrawingSuccess = {uploadSuccess.bind(this)} updateDrawingSuccess = {updateSuccess.bind(this)} drawingUploadError={drawingUploadError.bind(this)} currentProject={currentProject}/>
     if(currentRole === "Materials" || currentRole === "Design"){
-        editBtn = <label class="switchBtn" style={{width:"145px"}}>
-                    <p className="navBar__button__text" style={{width:"80px", marginTop:"4px"}}>Edit mode</p>
+        editBtn = <label class="switchBtn__general" style={{width:"145px"}}>
+                    <p className="navBar__button__text__general" style={{width:"100px", marginTop:"5px"}}>Edit mode &nbsp;&nbsp;&nbsp;</p>
                     <input type="checkbox" id="edit" onClick={()=>handleToggle()}/>
-                    <div class="slide round"></div>
+                    <div class="slide__general round"></div>
                 </label>   
                    
     }else{
-        editBtn = <label class="switchBtn" style={{width:"145px"}}>
-        <p className="navBar__button__text" style={{width:"80px", marginTop:"4px"}}>Edit mode</p>
+        editBtn = <label class="switchBtn__general" style={{width:"145px"}}>
+        <p className="navBar__button__text__general" style={{width:"100px", marginTop:"5px"}}>Edit mode &nbsp;</p>
         <input type="checkbox" id="edit" disabled/>
-        <div class="slide round"></div>
+        <div class="slide__general round"></div>
         </label>
         
     }
 
     if(currentRole === "3D Admin"){
-        editBtn = <label class="switchBtn" style={{width:"155px"}}>
-                    <p className="navBar__button__text" style={{width:"90px", marginTop:"4px"}}>KeyParams</p>
+        editBtn = <label class="switchBtn__general" style={{width:"145px"}}>
+                    <p className="navBar__button__text__general" style={{width:"100px", marginTop:"5px"}}>KeyParams &nbsp;&nbsp;&nbsp;</p>
                     <input type="checkbox" id="edit" onClick={()=>handleToggleKP()}/>
-                    <div class="slide round" style={{marginLeft:"90px"}}></div>
+                    <div class="slide__general__admin round" style={{marginLeft:"90px"}}></div>
                 </label>  
     }
 
@@ -559,7 +559,7 @@ const PipingGeneral = () => {
         />
         
         dataTableHeight= "700px"
-        addRowBtn = <button class="btn btn-sm btn-success" onClick={() => addRow()} style={{marginRight:"5px", fontSize:"18px", width:"35px", height:"35px", borderRadius:"10px", float:"right", marginTop:"8px"}}>+</button>
+        addRowBtn = <button class="btn btn-sm btn-success" onClick={() => addRow()} style={{marginRight:"5px", fontSize:"18px", width:"35px", height:"35px", borderRadius:"10px", float:"right", marginTop:"-100px"}}>+</button>
         saveBtn = <button className="navBar__button" onClick={()=> saveChanges()} style={{marginTop:"7px"}}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>
     
 
@@ -667,9 +667,9 @@ const PipingGeneral = () => {
                                
                           </th>
                       </tr>
-                      <tr className="isotracker__table__tray__and__table__container" style={{height: dataTableHeight}}>
-                          <td className="discplines__table__table" style={{height: dataTableHeight}} >
-                              <div  style={{height: dataTableHeight, width:"2200px"}} className="isotracker__table__table__container">
+                      <tr className="isotracker__table__tray__and__table__container" style={{height: "600px"}}>
+                          <td className="discplines__table__table" style={{height: "600px"}} >
+                              <div  style={{height: "600px", width:"2200px"}} className="isotracker__table__table__container">
                                 {table}
                                 {addRowBtn}
                               </div>

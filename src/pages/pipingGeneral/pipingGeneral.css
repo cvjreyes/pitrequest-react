@@ -13,3 +13,113 @@
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
 }
+
+.navBar__button__text__general{
+    font-size: 15px;
+    margin-top: 11px;
+    font-family: 'Montserrat', sans-serif;
+    justify-content: space-between;
+}
+
+.switchBtn__general {
+    position: relative;
+    display: inline-block;
+    height: 34px;
+    margin-top: 9px;
+    margin-left: 10px;
+    justify-content: space-between;
+}
+
+.switchBtn__general input {display:none;}
+
+.slide__general {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    padding: 8px;
+    padding-left: 10px;
+    margin-left: 90px;
+    color: #fff;
+}
+.slide__general:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 24px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+input:checked + .slide__general {
+    background-color: #8CE196;
+    padding-left: 40px;
+}
+input:focus + .slide__general {
+    box-shadow: 0 0 1px #01aeed;
+}
+input:checked + .slide__general:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    left: -20px;
+}
+.slide__general.round {
+    border-radius: 34px;
+}
+.slide__general.round:before {
+    border-radius: 50%;
+}
+
+.slide__general__admin {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    padding: 8px;
+    padding-left: 10px;
+    margin-left: 10px;
+    color: #fff;
+}
+.slide__general__admin:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 24px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+input:checked + .slide__general__admin {
+    background-color: #8CE196;
+    padding-left: 40px;
+}
+input:focus + .slide__general__admin {
+    box-shadow: 0 0 1px #01aeed;
+}
+input:checked + .slide__general__admin:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    left: -20px;
+}
+.slide__general__admin.round {
+    border-radius: 34px;
+}
+.slide__general__admin.round:before {
+    border-radius: 50%;
+}
