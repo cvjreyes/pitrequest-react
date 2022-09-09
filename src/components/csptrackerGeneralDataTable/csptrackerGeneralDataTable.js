@@ -3,8 +3,6 @@ import './csptrackerGeneralDataTable.css'
 import 'antd/dist/antd.css';
 import { Table, Input, Button, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import UploadDrawingPopUp from '../uploadDrawingPopUp/uploadDrawingPopUp';
-import UpdateDrawingPopUp from '../updateDrawingPopUp/updateDrawingPopUp';
 
 class CSPTrackerGeneralDataTable extends React.Component{
   state = {
@@ -149,7 +147,7 @@ class CSPTrackerGeneralDataTable extends React.Component{
                 row.color = "#lll"
               }else{
 
-                if(row.ready_load === 1 && json.rows[i].drawing_filename !== null && json.rows[i].updated === 1 && json.rows[i].ready_e3d === 0){
+                if(row.ready_load === 1 && json.rows[i].updated === 1 && json.rows[i].ready_e3d === 0){
                   row.ready_load = "UPDATED"
                   row.color = "#yyy"
                     if(this.props.currentRole === "3D Admin"){
@@ -157,7 +155,7 @@ class CSPTrackerGeneralDataTable extends React.Component{
                     }else{
                       row.ready_e3d = "NOT READY"
                     }
-                  }else if(row.ready_load === 1 && json.rows[i].drawing_filename !== null ){
+                  }else if(row.ready_load === 1){
                     row.ready_load = "READY"
                   if(row.ready_e3d === 1){
                     if(json.rows[i].updated === 0){
@@ -184,10 +182,15 @@ class CSPTrackerGeneralDataTable extends React.Component{
                       row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
                     }else{
                       row.ready_e3d = "NOT READY"
-                      row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button><button class="csp_exclude_btn btn-sm btn-danger" onClick={() => this.excludeSP(json.rows[i].tag)}>EXCLUDE 3D</button></div>
+                      row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button><button class="csp_exclude_btn btn-sm btn-danger" onClick={() => this.excludeInst(json.rows[i].id)}>EXCLUDE 3D</button></div>
                     }
                   }
                   
+                }else if(row.ready_load === 0 && row.ready_e3d === 1 && row.updated === 1){
+                  row.ready_load = "NOT READY"
+                  row.color = "#ooo"
+                  row.ready_e3d = "NOT READY"
+                  row.ready_load = <div>NOT READY<button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
                 }else{
                   row.ready_load = "NOT READY"
                   row.color = "white"
@@ -263,7 +266,7 @@ class CSPTrackerGeneralDataTable extends React.Component{
                 row.color = "#lll"
               }else{
 
-                if(row.ready_load === 1 && json.rows[i].drawing_filename !== null && json.rows[i].updated === 1 && json.rows[i].ready_e3d === 0){
+                if(row.ready_load === 1 &&  json.rows[i].updated === 1 && json.rows[i].ready_e3d === 0){
                   row.ready_load = "UPDATED"
                   row.color = "#yyy"
                     if(this.props.currentRole === "3D Admin"){
@@ -271,7 +274,7 @@ class CSPTrackerGeneralDataTable extends React.Component{
                     }else{
                       row.ready_e3d = "NOT READY"
                     }
-                  }else if(row.ready_load === 1 && json.rows[i].drawing_filename !== null ){
+                  }else if(row.ready_load === 1){
                     row.ready_load = "READY"
                   if(row.ready_e3d === 1){
                     if(json.rows[i].updated === 0){
@@ -298,10 +301,15 @@ class CSPTrackerGeneralDataTable extends React.Component{
                       row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
                     }else{
                       row.ready_e3d = "NOT READY"
-                      row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button><button class="csp_exclude_btn btn-sm btn-danger" onClick={() => this.excludeSP(json.rows[i].tag)}>EXCLUDE 3D</button></div>
+                      row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button><button class="csp_exclude_btn btn-sm btn-danger" onClick={() => this.excludeInst(json.rows[i].id)}>EXCLUDE 3D</button></div>
                     }
                   }
-                  
+                }else if(row.ready_load === 0 && row.ready_e3d === 1 && row.updated === 1){
+                    row.ready_load = "NOT READY"
+                    row.color = "#ooo"
+                    row.ready_e3d = "NOT READY"
+                    row.ready_load = <div>NOT READY<button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
+               
                 }else{
                   row.ready_load = "NOT READY"
                   row.color = "white"
@@ -492,68 +500,68 @@ class CSPTrackerGeneralDataTable extends React.Component{
 
     const columns = [
       {
-        title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="SPEC" style={{textAlign:"center"}} onChange={(e) => this.filter(0, e.target.value)}/></center>,
+        title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="SPEC" style={{textAlign:"center"}} onChange={(e) => this.filter(1, e.target.value)}/></center>,
         dataIndex: 'spec',
         key: 'spec',
         align: "center"
       },
       {
-        title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Generic" style={{textAlign:"center"}} onChange={(e) => this.filter(25, e.target.value)}/></center>,
+        title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Generic" style={{textAlign:"center"}} onChange={(e) => this.filter(2, e.target.value)}/></center>,
         dataIndex: 'instrument_type',
         key: 'instrument_type',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="PCOM" style={{textAlign:"center"}} onChange={(e) => this.filter(2, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="PCOM" style={{textAlign:"center"}} onChange={(e) => this.filter(3, e.target.value)}/></div>,
         dataIndex: 'pcons_name',
         key: 'pcons_name',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="FROM" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="FROM" style={{textAlign:"center"}} onChange={(e) => this.filter(4, e.target.value)}/></div>,
         dataIndex: 'diameters_from_dn',
         key: 'diameters_from_dn',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="TO" style={{textAlign:"center"}} onChange={(e) => this.filter(7, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="TO" style={{textAlign:"center"}} onChange={(e) => this.filter(5, e.target.value)}/></div>,
         dataIndex: 'diameters_to_dn',
         key: 'diameters_to_dn',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="FLG-CON" style={{textAlign:"center"}} onChange={(e) => this.filter(8, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="FLG-CON" style={{textAlign:"center"}} onChange={(e) => this.filter(6, e.target.value)}/></div>,
         dataIndex: 'bolt_type',
         key: 'bolt_type',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready to load date" style={{textAlign:"center"}} onChange={(e) => this.filter(10, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready to load date" style={{textAlign:"center"}} onChange={(e) => this.filter(8, e.target.value)}/></div>,
         dataIndex: 'ready_load_date',
         key: 'ready_load_date',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready in E3D date" style={{textAlign:"center"}} onChange={(e) => this.filter(11, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready in E3D date" style={{textAlign:"center"}} onChange={(e) => this.filter(10, e.target.value)}/></div>,
         dataIndex: 'ready_e3d_date',
         key: 'ready_e3d_date',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Comments" style={{textAlign:"center"}} onChange={(e) => this.filter(20, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Comments" style={{textAlign:"center"}} onChange={(e) => this.filter(11, e.target.value)}/></div>,
         dataIndex: 'comments',
         key: 'comments',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready to load" style={{textAlign:"center"}} onChange={(e) => this.filter(16, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready to load" style={{textAlign:"center"}} onChange={(e) => this.filter(7, e.target.value)}/></div>,
         dataIndex: 'ready_load',
         key: 'ready_load',
         fixed: "right",
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready in 3D" style={{textAlign:"center"}} onChange={(e) => this.filter(17, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready in 3D" style={{textAlign:"center"}} onChange={(e) => this.filter(9, e.target.value)}/></div>,
         dataIndex: 'ready_e3d',
         key: 'ready_e3d',
         fixed: "right",

@@ -22,7 +22,7 @@ import CSPTrackerKeyParams from "../../components/csptrackerKeyParams/csptracker
 
 import { PieChart, Pie, Tooltip, Cell } from 'recharts';
 
-const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#99C6F8', '#94DCAA', '#FF3358'];
+const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#99C6F8', '#94DCAA', '#FF3358', '#F39F18'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -44,6 +44,8 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
             index = "EXCLUDED"
         }else if(index === 5){
             index = "DELETED"
+        }else if(index === 6){
+            index = "HOLD-REVN"
         }
       
         return (
@@ -103,7 +105,7 @@ const PipingGeneral = () => {
     const [errorPid, seterrorPid] = useState(false)
 
     const [editData, setEditData] = useState({})
-    const [newData, setNewData] = useState({})
+    const [newData, setNewData] = useState([])
     const [diametersData, setDiametersData] = useState()
     const [specData, setSpecData] = useState()
     const [boltTypesData, setBoltTypesData] = useState()
@@ -115,7 +117,8 @@ const PipingGeneral = () => {
     const [busy, setBusy] = useState(false)
     const [editingUser, setEditingUser] = useState()
 
-    const [updateData, setUpdateData] = useState(false)    
+    const [updateData, setUpdateData] = useState(false)  
+    const [dataChanged, setDataChanged] = useState(false)  
 
     const history = useNavigate()
 
@@ -161,38 +164,24 @@ const PipingGeneral = () => {
     },[currentRole]);
 
     useEffect(async()=>{
-        const body = {
-            user: currentUser,
-        }
-        let options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(body)
-        }
-        fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/exitEditCSP", options)
-            .then(response => response.json())
-            .then(async json => {
 
-            })
-
-        options = {
+        const options = {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
             },
         }
 
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/spStatusData", options)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/instStatusDataByProject/" + currentProject, options)
             .then(response => response.json())
             .then(async json => {
-                let counter = [{name: "Materials", value: json.materials}, {name: "Hold", value: json.hold}, {name: "OK-REV0", value: json.ok_rev0}, {name: "OK-REVN", value: json.ok_revn}, {name: "Excluded", value: json.excluded}, {name: "Deleted", value: json.deleted}]
+                console.log(json)
+                let counter = [{name: "MATERIALS", value: json.materials}, {name: "HOLD", value: json.hold}, {name: "OK-REV0", value: json.ok_rev0}, {name: "OK-REVN", value: json.ok_revn}, {name: "EXCLUDED", value: json.excluded}, {name: "DELETED", value: json.deleted}, {name: "HOLD-REVN", value: json.hold_revn}]
                 
                 await setCounter(counter)
             })
 
-    },[updateData])
+    },[updateData, currentProject])
 
     useEffect(async()=>{
         const options = {
@@ -295,7 +284,7 @@ const PipingGeneral = () => {
                 })
 
         await setNewData({})
-    }, [currentProject])
+    }, [currentProject, dataChanged])
 
 
     function uploadSuccess(){
@@ -348,48 +337,10 @@ const PipingGeneral = () => {
 
     async function handleToggle(){
         if(currentTab === "View"){
-            const body = {
-                user: currentUser,
-            }
-            const options = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(body)
-            }
-            fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/editCSP", options)
-            .then(response => response.json())
-            .then(async json => {
-                if(json.user){
-                    await setBusy(true)
-                    await setEditingUser(json.user)
-                }else{
-                    await setBusy(false)
-                }
-                await setCurrentTab("Edit")
-            })
-            
+            await setCurrentTab("Edit")
         }else{
-            const body = {
-                user: currentUser,
-            }
-            const options = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(body)
-            }
-            fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/exitEditCSP", options)
-            .then(response => response.json())
-            .then(async json => {
-                if(json.success){
-                    await saveChanges()
-                    await setCurrentTab("View")
-                }
-            })
-            
+            await setCurrentTab("View")
+            await saveChanges()
         }
     }
 
@@ -426,10 +377,15 @@ const PipingGeneral = () => {
     }
 
     async function saveChanges(){
-        console.log(newData)
+        let new_rows = []
+        Object.entries(newData)
+        .map( ([key, value]) => new_rows.push(value))
+
+        
         const body = {
-            rows: editData,
-            project_id: currentProject
+            rows: new_rows,
+            project_id: currentProject,
+            role: currentRole
         }
        
         let options = {
@@ -446,6 +402,7 @@ const PipingGeneral = () => {
             if(json.success){
                 await setSuccessAlert(true)
                 await setNewData({})
+                await setDataChanged(!dataChanged)
             }
         })
     }
@@ -456,12 +413,12 @@ const PipingGeneral = () => {
     }
 
     async function downloadReport(){
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadCSP/")
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadInstsGeneralByProject/" + currentProject)
         .then(response => response.json())
         .then(json => {
-            const headers = ["Spec", "Generic", "Pcom", "From", "To", "FLG-Con", "Request Date", "Request to load date", "Ready in E3D date", "Comments", "Ready to Load", "Ready in 3D", "Updated"]
+            const headers = ["Spec", "Generic", "Pcom", "From", "To", "FLG-Con", "Request to load date", "Ready in E3D date", "Updated date",  "Comments", "Ready to Load", "Ready in 3D", "Updated"]
             const apiData = JSON.parse(json)
-            const fileName = "CSPTracker report"
+            const fileName = "Instruments report"
 
             const fileType =
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
@@ -523,7 +480,7 @@ const PipingGeneral = () => {
     }else if(currentTab === "Edit"){
 
         let cols
-        if(currentRole === "Materials"){
+        if(currentRole === "Design"){
             cols = [{ data: "spec", type:'dropdown', strict:"true", source: specData}, {data: "instrument_type", type:'dropdown', strict:"true", source: instTypesData}, {data: "pcons_name", type:'dropdown', strict:"true", source: pconsData}, {data: "diameters_from_dn", type:"dropdown", strict:"true", source: diametersData}, {data: "diameters_to_dn", type:"dropdown", strict:"true", source: diametersData}, {data: "bolt_type", type:"text", readOnly:true}, {data:"comments", type:"text"}]
         }else{
             cols = [{ data: "spec", type:"text", readOnly:true}, {data: "instrument_type", type:"text", readOnly:true}, {data: "pcons_name", type:"text", readOnly:true}, {data: "diameters_from_dn", type:"text", readOnly:true}, {data: "diameters_to_dn", type:"text", readOnly:true}, {data: "bolt_type", type:"dropdown", strict:"true", source: boltTypesData}, {data:"comments", type:"text", readOnly:true}]
