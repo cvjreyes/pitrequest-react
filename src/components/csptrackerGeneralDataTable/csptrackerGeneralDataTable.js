@@ -123,7 +123,7 @@ class CSPTrackerGeneralDataTable extends React.Component{
           var rows = []
           var row = null
             for(let i = 0; i < json.rows.length; i++){
-              row = {key:i, id: json.rows[i].id, spec: json.rows[i].spec, instrument_type: json.rows[i].instrument_type, pcons_name: json.rows[i].pcons_name, diameters_from_dn: json.rows[i].diameters_from_dn, diameters_to_dn: json.rows[i].diameters_to_dn, bolt_type: json.rows[i].bolt_type, ready_load: json.rows[i].ready_load, ready_load_date: json.rows[i].ready_load_date, ready_e3d: json.rows[i].ready_e3d, ready_e3d_date: json.rows[i].ready_e3d_date, comments: json.rows[i].comments, updated: json.rows[i].updated, insts_generic_updated_at: json.rows[i].insts_generic_updated_at}
+              row = {key:i, id: json.rows[i].id, spec: json.rows[i].spec, instrument_type: json.rows[i].instrument_type, pcons_name: json.rows[i].pcons_name, diameters_from_dn: json.rows[i].diameters_from_dn, diameters_to_dn: json.rows[i].diameters_to_dn, bolt_type: json.rows[i].bolt_type, ready_load: json.rows[i].ready_load, ready_load_date: json.rows[i].ready_load_date, ready_e3d: json.rows[i].ready_e3d, ready_e3d_date: json.rows[i].ready_e3d_date, comments: json.rows[i].comments, updated: json.rows[i].updated, insts_generic_updated_at: json.rows[i].insts_generic_updated_at, actions: null}
 
               if(json.rows[i].ready_load_date){
                 row.ready_load_date = json.rows[i].ready_load_date.toString().substring(0,10) + " "+ json.rows[i].ready_load_date.toString().substring(11,19)
@@ -151,7 +151,8 @@ class CSPTrackerGeneralDataTable extends React.Component{
                   row.ready_load = "UPDATED"
                   row.color = "#yyy"
                     if(this.props.currentRole === "3D Admin"){
-                      row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
+                      row.ready_e3d = "NOT READY"
+                      row.actions = <button class="insts__ready__btn btn-sm btn-success" style={{width:"70px"}} onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
                     }else{
                       row.ready_e3d = "NOT READY"
                     }
@@ -161,28 +162,34 @@ class CSPTrackerGeneralDataTable extends React.Component{
                     if(json.rows[i].updated === 0){
                       row.color = "#ggg"
                       if(this.props.currentRole === "3D Admin"){
-                        row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].id)}>CANCEL</button>
+                        row.ready_e3d = "READY"
+                        row.actions = <button class="insts__cancel__btn btn-sm btn-danger" style={{width:"70px"}} onClick={() => this.cancelReadyE3D(json.rows[i].id)}>CANCEL</button>
                       }else{
                         row.ready_e3d = "READY"
-                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
+                        row.ready_load = "READY"
+                        row.actions = <button class="insts__delete_btn btn-sm btn-danger" style={{width:"70px"}} onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button>
                       }
                     }else{
                       row.color = "#bbb"
                       if(this.props.currentRole === "3D Admin"){
-                        row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].id)}>CANCEL</button>
+                        row.actions = <button class="insts__cancel__btn btn-sm btn-danger" style={{width:"70px"}} onClick={() => this.cancelReadyE3D(json.rows[i].id)}>CANCEL</button>
+                        row.ready_e3d = "READY"
                       }else{
                         row.ready_e3d = "READY"
-                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
+                        row.ready_load = "READY"
+                        row.actions = <div><button class="insts__delete_btn btn-sm btn-danger" style={{width:"70px"}} onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
                       }
                     }
                     
                   }else{
                     row.color = "#yyy"
                     if(this.props.currentRole === "3D Admin"){
-                      row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
+                      row.actions = <button class="insts__ready__btn btn-sm btn-success" style={{width:"70px"}} onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
+                      row.ready_e3d = "NOT READY"
                     }else{
                       row.ready_e3d = "NOT READY"
-                      row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button><button class="csp_exclude_btn btn-sm btn-danger" onClick={() => this.excludeInst(json.rows[i].id)}>EXCLUDE 3D</button></div>
+                      row.ready_load = "READY"
+                      row.actions = <div><button class="insts__delete_btn btn-sm btn-danger" style={{width:"70px"}} onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button><button class="insts__exclude_btn btn-sm btn-danger" style={{width:"70px"}} onClick={() => this.excludeInst(json.rows[i].id)}>EXCLUDE</button></div>
                     }
                   }
                   
@@ -190,15 +197,18 @@ class CSPTrackerGeneralDataTable extends React.Component{
                   row.ready_load = "NOT READY"
                   row.color = "#ooo"
                   row.ready_e3d = "NOT READY"
-                  row.ready_load = <div>NOT READY<button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
+                  row.ready_load = "READY"
+                  row.actions = <div><button class="insts__delete_btn btn-sm btn-danger" style={{width:"70px"}} onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
                 }else{
                   row.ready_load = "NOT READY"
                   row.color = "white"
                   if(this.props.currentRole === "3D Admin"){
-                    row.ready_e3d = <button disabled class="ready__disabled btn-sm btn-success">READY</button>
+                    row.ready_e3d = "NOT READY"
+                    row.actions = <button disabled style={{width:"70px"}} class="insts__ready__disabled btn-sm btn-success">READY</button>
                   }else{
                     row.ready_e3d = "NOT READY"
-                    row.ready_load = <div>NOT READY<button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
+                    row.ready_load = "NOT READY"
+                    row.actions = <div><button class="insts__delete_btn btn-sm btn-danger" style={{width:"70px"}} onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
                   }
                 }
               }
@@ -241,96 +251,106 @@ class CSPTrackerGeneralDataTable extends React.Component{
         .then(async json => {
           var rows = []
           var row = null
-            for(let i = 0; i < json.rows.length; i++){
-              row = {key:i, id: json.rows[i].id, spec: json.rows[i].spec, instrument_type: json.rows[i].instrument_type, pcons_name: json.rows[i].pcons_name, diameters_from_dn: json.rows[i].diameters_from_dn, diameters_to_dn: json.rows[i].diameters_to_dn, bolt_type: json.rows[i].bolt_type, ready_load: json.rows[i].ready_load, ready_load_date: json.rows[i].ready_load_date, ready_e3d: json.rows[i].ready_e3d, ready_e3d_date: json.rows[i].ready_e3d_date, comments: json.rows[i].comments, updated: json.rows[i].updated, insts_generic_updated_at: json.rows[i].insts_generic_updated_at}
+          for(let i = 0; i < json.rows.length; i++){
+            row = {key:i, id: json.rows[i].id, spec: json.rows[i].spec, instrument_type: json.rows[i].instrument_type, pcons_name: json.rows[i].pcons_name, diameters_from_dn: json.rows[i].diameters_from_dn, diameters_to_dn: json.rows[i].diameters_to_dn, bolt_type: json.rows[i].bolt_type, ready_load: json.rows[i].ready_load, ready_load_date: json.rows[i].ready_load_date, ready_e3d: json.rows[i].ready_e3d, ready_e3d_date: json.rows[i].ready_e3d_date, comments: json.rows[i].comments, updated: json.rows[i].updated, insts_generic_updated_at: json.rows[i].insts_generic_updated_at, actions: null}
 
-              if(json.rows[i].ready_load_date){
-                row.ready_load_date = json.rows[i].ready_load_date.toString().substring(0,10) + " "+ json.rows[i].ready_load_date.toString().substring(11,19)
-              }else{
-                row.ready_load_date = ""
-              }
-
-              if(json.rows[i].ready_e3d_date){
-                row.ready_e3d_date = json.rows[i].ready_e3d_date.toString().substring(0,10) + " "+ json.rows[i].ready_e3d_date.toString().substring(11,19)
-              }else{
-                row.ready_e3d_date = ""
-              }
-              
-              if(json.rows[i].updated === 2){
-                row.ready_load = "DELETED"
-                row.ready_e3d = "DELETED"
-                row.color = "#rrr"
-              }else if(json.rows[i].ready_e3d === 2){
-                row.ready_load = "READY"
-                row.ready_e3d = "EXCLUDED"
-                row.color = "#lll"
-              }else{
-
-                if(row.ready_load === 1 &&  json.rows[i].updated === 1 && json.rows[i].ready_e3d === 0){
-                  row.ready_load = "UPDATED"
-                  row.color = "#yyy"
-                    if(this.props.currentRole === "3D Admin"){
-                      row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
-                    }else{
-                      row.ready_e3d = "NOT READY"
-                    }
-                  }else if(row.ready_load === 1){
-                    row.ready_load = "READY"
-                  if(row.ready_e3d === 1){
-                    if(json.rows[i].updated === 0){
-                      row.color = "#ggg"
-                      if(this.props.currentRole === "3D Admin"){
-                        row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].id)}>CANCEL</button>
-                      }else{
-                        row.ready_e3d = "READY"
-                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
-                      }
-                    }else{
-                      row.color = "#bbb"
-                      if(this.props.currentRole === "3D Admin"){
-                        row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].id)}>CANCEL</button>
-                      }else{
-                        row.ready_e3d = "READY"
-                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
-                      }
-                    }
-                    
-                  }else{
-                    row.color = "#yyy"
-                    if(this.props.currentRole === "3D Admin"){
-                      row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
-                    }else{
-                      row.ready_e3d = "NOT READY"
-                      row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button><button class="csp_exclude_btn btn-sm btn-danger" onClick={() => this.excludeInst(json.rows[i].id)}>EXCLUDE 3D</button></div>
-                    }
-                  }
-                }else if(row.ready_load === 0 && row.ready_e3d === 1 && row.updated === 1){
-                    row.ready_load = "NOT READY"
-                    row.color = "#ooo"
-                    row.ready_e3d = "NOT READY"
-                    row.ready_load = <div>NOT READY<button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
-               
-                }else{
-                  row.ready_load = "NOT READY"
-                  row.color = "white"
-                  if(this.props.currentRole === "3D Admin"){
-                    row.ready_e3d = <button disabled class="ready__disabled btn-sm btn-success">READY</button>
-                  }else{
-                    row.ready_e3d = "NOT READY"
-                    row.ready_load = <div>NOT READY<button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
-                  }
-                }
-              }
-              
-
-              for (const [key, value] of Object.entries(row)) {
-                if(!value){
-                  row[key] = ""
-                }
-              }
-
-              rows.push(row)
+            if(json.rows[i].ready_load_date){
+              row.ready_load_date = json.rows[i].ready_load_date.toString().substring(0,10) + " "+ json.rows[i].ready_load_date.toString().substring(11,19)
+            }else{
+              row.ready_load_date = ""
             }
+
+            if(json.rows[i].ready_e3d_date){
+              row.ready_e3d_date = json.rows[i].ready_e3d_date.toString().substring(0,10) + " "+ json.rows[i].ready_e3d_date.toString().substring(11,19)
+            }else{
+              row.ready_e3d_date = ""
+            }
+            
+            if(json.rows[i].updated === 2){
+              row.ready_load = "DELETED"
+              row.ready_e3d = "DELETED"
+              row.color = "#rrr"
+            }else if(json.rows[i].ready_e3d === 2){
+              row.ready_load = "READY"
+              row.ready_e3d = "EXCLUDED"
+              row.color = "#lll"
+            }else{
+
+              if(row.ready_load === 1 && json.rows[i].updated === 1 && json.rows[i].ready_e3d === 0){
+                row.ready_load = "UPDATED"
+                row.color = "#yyy"
+                  if(this.props.currentRole === "3D Admin"){
+                    row.ready_e3d = "NOT READY"
+                    row.actions = <button class="insts__ready__btn btn-sm btn-success" style={{width:"70px"}} onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
+                  }else{
+                    row.ready_e3d = "NOT READY"
+                  }
+                }else if(row.ready_load === 1){
+                  row.ready_load = "READY"
+                if(row.ready_e3d === 1){
+                  if(json.rows[i].updated === 0){
+                    row.color = "#ggg"
+                    if(this.props.currentRole === "3D Admin"){
+                      row.ready_e3d = "READY"
+                      row.actions = <button class="insts__cancel__btn btn-sm btn-danger" style={{width:"70px"}} onClick={() => this.cancelReadyE3D(json.rows[i].id)}>CANCEL</button>
+                    }else{
+                      row.ready_e3d = "READY"
+                      row.ready_load = "READY"
+                      row.actions = <button class="insts__delete_btn btn-sm btn-danger" style={{width:"70px"}} onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button>
+                    }
+                  }else{
+                    row.color = "#bbb"
+                    if(this.props.currentRole === "3D Admin"){
+                      row.actions = <button class="insts__cancel__btn btn-sm btn-danger" style={{width:"70px"}} onClick={() => this.cancelReadyE3D(json.rows[i].id)}>CANCEL</button>
+                      row.ready_e3d = "READY"
+                    }else{
+                      row.ready_e3d = "READY"
+                      row.ready_load = "READY"
+                      row.actions = <div><button class="insts__delete_btn btn-sm btn-danger" style={{width:"70px"}} onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
+                    }
+                  }
+                  
+                }else{
+                  row.color = "#yyy"
+                  if(this.props.currentRole === "3D Admin"){
+                    row.actions = <button class="insts__ready__btn btn-sm btn-success" style={{width:"70px"}} onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
+                    row.ready_e3d = "NOT READY"
+                  }else{
+                    row.ready_e3d = "NOT READY"
+                    row.ready_load = "READY"
+                    row.actions = <div><button class="insts__delete_btn btn-sm btn-danger" style={{width:"70px"}} onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button><button class="insts__exclude_btn btn-sm btn-danger" style={{width:"70px"}} onClick={() => this.excludeInst(json.rows[i].id)}>EXCLUDE</button></div>
+                  }
+                }
+                
+              }else if(row.ready_load === 0 && row.ready_e3d === 1 && row.updated === 1){
+                row.ready_load = "NOT READY"
+                row.color = "#ooo"
+                row.ready_e3d = "NOT READY"
+                row.ready_load = "READY"
+                row.actions = <div><button class="insts__delete_btn btn-sm btn-danger" style={{width:"70px"}} onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
+              }else{
+                row.ready_load = "NOT READY"
+                row.color = "white"
+                if(this.props.currentRole === "3D Admin"){
+                  row.ready_e3d = "NOT READY"
+                  row.actions = <button disabled style={{width:"70px"}} class="insts__ready__disabled btn-sm btn-success">READY</button>
+                }else{
+                  row.ready_e3d = "NOT READY"
+                  row.ready_load = "NOT READY"
+                  row.actions = <div><button class="insts__delete_btn btn-sm btn-danger" style={{width:"70px"}} onClick={() => this.deleteInst(json.rows[i].id)}>DELETE</button></div>
+                }
+              }
+            }
+            
+
+            for (const [key, value] of Object.entries(row)) {
+              if(!value){
+                row[key] = ""
+              }
+            }
+
+            rows.push(row)
+          }
           
           
           this.setState({data: rows, displayData: rows})
@@ -509,7 +529,8 @@ class CSPTrackerGeneralDataTable extends React.Component{
         title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Generic" style={{textAlign:"center"}} onChange={(e) => this.filter(2, e.target.value)}/></center>,
         dataIndex: 'instrument_type',
         key: 'instrument_type',
-        align: "center"
+        align: "center",
+        width:"400px"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="PCOM" style={{textAlign:"center"}} onChange={(e) => this.filter(3, e.target.value)}/></div>,
@@ -565,7 +586,15 @@ class CSPTrackerGeneralDataTable extends React.Component{
         dataIndex: 'ready_e3d',
         key: 'ready_e3d',
         fixed: "right",
-        align: "center"
+        align: "center",
+      },
+      {
+        title: "Actions",
+        dataIndex: 'actions',
+        key: 'actions',
+        fixed: "right",
+        align: "center",
+        width: "180px",
       },
     ];
     

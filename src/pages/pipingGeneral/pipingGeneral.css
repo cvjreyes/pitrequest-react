@@ -130,3 +130,7 @@ input:checked + .slide__general__admin:before {
     margin-left: 100px;
     margin-top: 20px;
 }
+td.insts__disabled__cell{
+    background-color: #EBEBE4;
+    color: gray;
+}
