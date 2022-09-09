@@ -172,6 +172,10 @@ export default function MenuListPITList(props) {
       history("/"+process.env.REACT_APP_PROJECT+"/sptracker")
     }
 
+    function handleSPExpansionJoinsClick(){
+      history("/"+process.env.REACT_APP_PROJECT+"/pipingExpansionJoins")
+    }
+
     function handleSPGeneralClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/pipingGeneral")
     }
@@ -389,7 +393,7 @@ export default function MenuListPITList(props) {
             <span style={{display:"flex", width:"260px"}} onClick={()=> setcurrentMenu("instruments")}><div style={{width:"260px"}}><text className='mainmenu__item'>Instruments</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
           </div>
           <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
-            <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Expansion Joins</text></div></span>
+            <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPExpansionJoinsClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Expansion Joins</text></div></span>
           </div>
         </div>)
       }else if(currentMenu === "instruments"){

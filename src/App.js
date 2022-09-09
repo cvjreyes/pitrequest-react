@@ -20,6 +20,7 @@ import LibraryFiltersView from './pages/libraryFiltersView/libraryFiltersView';
 import PipingGeneral from './pages/pipingGeneral/pipingGeneral';
 import PipingPSV from './pages/pipingPSV/pipingPSV';
 import PipingSpecial from './pages/pipingSpecial/pipingSpecial';
+import PipingExpansionJoins from './pages/pipingExpansionJoins/pipingExpansionJoins';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
             <Route path={"/"+process.env.REACT_APP_PROJECT+"/pipingGeneral"} element={<PipingGeneral/>}></Route>
             <Route path={"/"+process.env.REACT_APP_PROJECT+"/pipingPSV"} element={<PipingPSV/>}></Route>
             <Route path={"/"+process.env.REACT_APP_PROJECT+"/pipingSpecial"} element={<PipingSpecial/>}></Route>
+            <Route path={"/"+process.env.REACT_APP_PROJECT+"/pipingExpansionJoins"} element={<PipingExpansionJoins/>}></Route>
       </Routes>
     </BrowserRouter>
     </div>
