@@ -86,9 +86,8 @@ const PipingGeneral = () => {
     });
     const settings = {
         licenseKey: 'non-commercial-and-evaluation',
-        colWidths: 304,
-        
-      }
+        colWidths: [250, 600, 250, 250, 250, 250, 275]
+    }
 
     const [currentRole, setCurrentRole] = useState();
     const [currentTab, setCurrentTab] = useState("View")
