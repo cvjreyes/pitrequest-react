@@ -255,13 +255,13 @@ class CSPTrackerGeneralDataTable extends React.Component{
             row = {key:i, id: json.rows[i].id, spec: json.rows[i].spec, instrument_type: json.rows[i].instrument_type, pcons_name: json.rows[i].pcons_name, diameters_from_dn: json.rows[i].diameters_from_dn, diameters_to_dn: json.rows[i].diameters_to_dn, bolt_type: json.rows[i].bolt_type, ready_load: json.rows[i].ready_load, ready_load_date: json.rows[i].ready_load_date, ready_e3d: json.rows[i].ready_e3d, ready_e3d_date: json.rows[i].ready_e3d_date, comments: json.rows[i].comments, updated: json.rows[i].updated, insts_generic_updated_at: json.rows[i].insts_generic_updated_at, actions: null}
 
             if(json.rows[i].ready_load_date){
-              row.ready_load_date = json.rows[i].ready_load_date.toString().substring(0,10) + " "+ json.rows[i].ready_load_date.toString().substring(11,19)
+              row.ready_load_date = json.rows[i].ready_load_date.toString().substring(8,10) + "-" + json.rows[i].ready_load_date.toString().substring(5,7) + "-" + json.rows[i].ready_load_date.toString().substring(0,4)
             }else{
               row.ready_load_date = ""
             }
 
             if(json.rows[i].ready_e3d_date){
-              row.ready_e3d_date = json.rows[i].ready_e3d_date.toString().substring(0,10) + " "+ json.rows[i].ready_e3d_date.toString().substring(11,19)
+              row.ready_e3d_date = json.rows[i].ready_e3d_date.toString().substring(8,10) + "-" + json.rows[i].ready_e3d_date.toString().substring(5,7) + "-" + json.rows[i].ready_e3d_date.toString().substring(0,4)
             }else{
               row.ready_e3d_date = ""
             }
@@ -589,12 +589,12 @@ class CSPTrackerGeneralDataTable extends React.Component{
         align: "center",
       },
       {
-        title: "Actions",
+        title: <center>Actions</center>,
         dataIndex: 'actions',
         key: 'actions',
         fixed: "right",
-        align: "center",
-        width: "180px",
+        align: "left",
+        width: "170px",
       },
     ];
     

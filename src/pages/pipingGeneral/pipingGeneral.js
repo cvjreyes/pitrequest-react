@@ -416,10 +416,35 @@ const PipingGeneral = () => {
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadInstsGeneralByProject/" + currentProject)
         .then(response => response.json())
         .then(json => {
+            let rows = JSON.parse(json)
+
             const headers = ["Spec", "Generic", "Pcom", "From", "To", "FLG-Con", "Request to load date", "Ready in E3D date", "Updated date",  "Comments", "Ready to Load", "Ready in 3D", "Updated"]
-            const apiData = JSON.parse(json)
             const fileName = "Instruments report"
 
+            for(let i = 0; i < rows.length; i++){
+
+                if(rows[i].ready_load_date){
+                    rows[i].ready_load_date = rows[i].ready_load_date.toString().substring(8,10) + "-" + rows[i].ready_load_date.toString().substring(5,7) + "-" + rows[i].ready_load_date.toString().substring(0,4)
+                }else{
+                    rows[i].ready_load_date = ""
+                }
+
+                if(rows[i].ready_e3d_date){
+                    rows[i].ready_e3d_date = rows[i].ready_e3d_date.toString().substring(8,10) + "-" + rows[i].ready_e3d_date.toString().substring(5,7) + "-" + rows[i].ready_e3d_date.toString().substring(0,4)
+                }else{
+                    rows[i].ready_e3d_date = ""
+                }
+
+                if(rows[i].insts_generic_updated_at){
+                    rows[i].insts_generic_updated_at = rows[i].insts_generic_updated_at.toString().substring(8,10) + "-" + rows[i].insts_generic_updated_at.toString().substring(5,7) + "-" + rows[i].insts_generic_updated_at.toString().substring(0,4)
+                }else{
+                    rows[i].insts_generic_updated_at = ""
+                }
+
+                  console.log("Json date: " + rows[i].ready_load_date);
+            }
+
+            const apiData = rows
             const fileType =
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
             const header_cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1']
