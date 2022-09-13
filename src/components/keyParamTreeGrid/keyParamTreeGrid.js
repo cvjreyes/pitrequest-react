@@ -580,7 +580,7 @@ class KeyParamTreeGrid extends Component{
 
     let settingsProjects = {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: [261, 261, 261, 91],
+      colWidths: 400,
     }
 
     let settingsTasks = {
@@ -591,7 +591,7 @@ class KeyParamTreeGrid extends Component{
 
     let settingsSubtasks= {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 293,
+      colWidths: 400,
     }
 
     return <div >{ 
@@ -616,7 +616,7 @@ class KeyParamTreeGrid extends Component{
               data={this.state.projects}
               colHeaders = {["<b>Project</b>"]}
               rowHeaders={false}
-              width="320"
+              width="400"
               className="custom__table__2"
               height="775"
               rowHeights="38"
@@ -643,13 +643,13 @@ class KeyParamTreeGrid extends Component{
               />
             </div>
             <div style={{display: "flex", float:"center"}} >
-              <div style={{marginTop:"20px", marginLeft: "470px"}}>
+              <div style={{marginTop:"20px", marginLeft: "520px"}}>
                 <button className="projects__add__button" type="button" onClick={()=> this.addRowTasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
               </div>
             </div>
           </TabPanel>
           <TabPanel value="2">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "110px"}}>
+            <div id="hot-app" className="excel__container" style={{marginLeft: "175px"}}>
               <HotTable
                 data={this.state.tasks}
                 colHeaders = {["<b>Specs</b>", "<b>Project</b>"]}
@@ -681,18 +681,18 @@ class KeyParamTreeGrid extends Component{
               />
             </div>
             <div style={{display: "flex", float:"center"}} >
-              <div style={{marginLeft: "470px"}}>
+              <div style={{marginLeft: "520px"}}>
                 <button className="projects__add__button" type="button" onClick={()=> this.addRowTasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
               </div>
             </div>
           </TabPanel>
           <TabPanel value="3">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "420px"}}>
+            <div id="hot-app" className="excel__container" style={{marginLeft: "430px"}}>
               <HotTable
                 data={this.state.subtasks}
                 colHeaders = {["<b>Generic</b>"]}
                 rowHeaders={false}
-                width="320"
+                width="400"
                 height="775"
                 className="custom__table__3"
                 rowHeights="38"
@@ -719,18 +719,18 @@ class KeyParamTreeGrid extends Component{
               />
               </div>
               <div style={{display: "flex"}}>
-                <div style={{marginLeft:"470px"}}>
+                <div style={{marginLeft:"520px"}}>
                   <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
                 </div>
               </div>
           </TabPanel>
           <TabPanel value="4">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "420px"}}>
+            <div id="hot-app" className="excel__container" style={{marginLeft: "430px"}}>
               <HotTable
                 data={this.state.subtasks}
                 colHeaders = {["<b>Pcoms</b>"]}
                 rowHeaders={false}
-                width="320"
+                width="400"
                 height="775"
                 className="custom__table__3"
                 rowHeights="38"
@@ -757,18 +757,18 @@ class KeyParamTreeGrid extends Component{
               />
               </div>
               <div style={{display: "flex"}}>
-                <div style={{marginLeft:"470px"}}>
+                <div style={{marginLeft:"520px"}}>
                   <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
                 </div>
               </div>
           </TabPanel>
           <TabPanel value="5">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "420px"}}>
+            <div id="hot-app" className="excel__container" style={{marginLeft: "430px"}}>
               <HotTable
                 data={this.state.subtasks}
                 colHeaders = {["<b>Bolt Types</b>"]}
                 rowHeaders={false}
-                width="320"
+                width="400"
                 height="775"
                 className="custom__table__3"
                 rowHeights="38"
@@ -795,18 +795,18 @@ class KeyParamTreeGrid extends Component{
               />
               </div>
               <div style={{display: "flex"}}>
-                <div style={{marginLeft:"470px"}}>
+                <div style={{marginLeft:"520px"}}>
                   <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
                 </div>
               </div>
           </TabPanel>
           <TabPanel value="6">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "420px"}}>
+            <div id="hot-app" className="excel__container" style={{marginLeft: "430px"}}>
               <HotTable
                 data={this.state.subtasks}
                 colHeaders = {["<b>Ratings</b>"]}
                 rowHeaders={false}
-                width="320"
+                width="400"
                 height="775"
                 className="custom__table__3"
                 rowHeights="38"
@@ -833,18 +833,18 @@ class KeyParamTreeGrid extends Component{
               />
               </div>
               <div style={{display: "flex"}}>
-                <div style={{marginLeft:"470px"}}>
+                <div style={{marginLeft:"520px"}}>
                   <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
                 </div>
               </div>
           </TabPanel>
           <TabPanel value="7">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "420px"}}>
+            <div id="hot-app" className="excel__container" style={{marginLeft: "430px"}}>
               <HotTable
                 data={this.state.subtasks}
                 colHeaders = {["<b>End Preparation</b>"]}
                 rowHeaders={false}
-                width="320"
+                width="400"
                 height="775"
                 className="custom__table__3"
                 rowHeights="38"
@@ -871,22 +871,22 @@ class KeyParamTreeGrid extends Component{
               />
               </div>
               <div style={{display: "flex"}}>
-                <div style={{marginLeft:"470px"}}>
+                <div style={{marginLeft:"520px"}}>
                   <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
                 </div>
               </div>
           </TabPanel>
           <TabPanel value="8">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "110px"}}>
+            <div id="hot-app" className="excel__container" style={{marginLeft: "430px"}}>
               <HotTable
                 data={this.state.tasks}
                 colHeaders = {["<b>PID</b>"]}
                 rowHeaders={false}
-                width="900"
+                width="400"
                 height="775"
                 className="custom__table__1"
                 rowHeights="38"
-                settings={settingsTasks} 
+                settings={settingsSubtasks} 
                 manualColumnResize={true}
                 manualRowResize={true}
                 columns= { [{data: "Software", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.softwares}]}
@@ -909,13 +909,13 @@ class KeyParamTreeGrid extends Component{
               />
             </div>
             <div style={{display: "flex", float:"center"}} >
-              <div style={{marginLeft: "470px"}}>
+              <div style={{marginLeft: "520px"}}>
                 <button className="projects__add__button" type="button" onClick={()=> this.addRowTasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
               </div>
             </div>
           </TabPanel>
           <TabPanel value="9">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "110px"}}>
+            <div id="hot-app" className="excel__container" style={{marginLeft: "175px"}}>
               <HotTable
                 data={this.state.tasks}
                 colHeaders = {["<b>PIDS</b>", "<b>Project</b>"]}
@@ -947,7 +947,7 @@ class KeyParamTreeGrid extends Component{
               />
             </div>
             <div style={{display: "flex", float:"center"}} >
-              <div style={{marginLeft: "470px"}}>
+              <div style={{marginLeft: "520px"}}>
                 <button className="projects__add__button" type="button" onClick={()=> this.addRowTasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
               </div>
             </div>
