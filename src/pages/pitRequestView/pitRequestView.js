@@ -24,7 +24,7 @@ import ProjectsHoursDataTable from '../../components/projectsHoursDataTable/proj
 import AlertF from "../../components/alert/alert"
 import RequestAccessDataTable from '../../components/requestAccessDataTable/requestAccessDataTable'
 
-const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#FF3358'];
+const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#FF3358', '#99C6F8'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -43,6 +43,8 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
             index = "Ready"
         }else if(index === 3){
             index = "Rejected"
+        }else if(index === 4){
+            index = "Materials"
         }
       
         return (
@@ -198,8 +200,7 @@ const PitRequestView = () => {
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/statusData", options)
             .then(response => response.json())
             .then(async json => {
-                let counter = [{name: "Pending", value: json.pending}, {name: "In progress", value: json.progress}, {name: "Accepted", value: json.accepted}, {name: "Rejected", value: json.rejected}]
-                
+                let counter = [{name: "Pending", value: json.pending}, {name: "In progress", value: json.progress}, {name: "Accepted", value: json.accepted}, {name: "Rejected", value: json.rejected},  {name: "Materials", value: json.materials}]
                 await setCounter(counter)
             })
             
@@ -847,7 +848,6 @@ const PitRequestView = () => {
               })
             }
         for(let i = 0; i < updatedRows.length; i++){
-
             let body = {
                 incidence_number: updatedRows[i][0],
                 status_id: updatedRows[i][1],
@@ -877,8 +877,7 @@ const PitRequestView = () => {
             setSuccess(true)
         }
 
-        await setUpdatedRows([])
-
+        setUpdatedRows([])
         for(let i = 0; i < updatedRowsPrio.length; i++){
 
             let body = {
@@ -905,7 +904,6 @@ const PitRequestView = () => {
 
         await setUpdatedRowsPrio([])
         await setUpdateData(!updateData)
-        
     }
 
     async function editProjects(){

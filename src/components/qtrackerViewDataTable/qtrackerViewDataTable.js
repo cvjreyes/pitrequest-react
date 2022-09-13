@@ -70,6 +70,8 @@ class QTrackerViewDataTable extends React.Component{
       status_id = 2
     }else if(status === "rejected"){
       status_id = 3
+    }else if(status === "materials"){
+      status_id = 4
     }
 
    await this.props.updateStatus([incidence_number, status_id, project, type])  
@@ -134,6 +136,7 @@ class QTrackerViewDataTable extends React.Component{
                       row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")} >
                       <option value="pending" selected>Pending</option>
                       <option value="progress">In progress</option>
+                      <option value="materials">Materials</option>
                       <option value="ready">Ready</option>
                       <option value="rejected">Rejected</option>
                     </select>
@@ -142,6 +145,7 @@ class QTrackerViewDataTable extends React.Component{
                     row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
                     <option value="pending">Pending</option>
                     <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                    <option value="materials">Materials</option>
                     <option value="ready">Ready</option>
                     <option value="rejected">Rejected</option>
                   </select>
@@ -150,18 +154,29 @@ class QTrackerViewDataTable extends React.Component{
                     row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
                     <option value="pending">Pending</option>
                     <option value="progress">In progress</option>
+                    <option value="materials">Materials</option>
                     <option value="ready" selected>Ready</option>
                     <option value="rejected">Rejected</option>
                     </select>
                       row.color = "#ggg"
-                  }else{
+                  }else if(json.rows[i].status === 3){
                     row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
                     <option value="pending">Pending</option>
                     <option value="progress">In progress</option>
+                    <option value="materials">Materials</option>
                     <option value="ready">Ready</option>
                     <option value="rejected" selected>Rejected</option>
                    </select>
                       row.color = "#rrr"
+                  }else{
+                    row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                    <option value="pending">Pending</option>
+                    <option value="progress">In progress</option>
+                    <option value="materials" selected>Materials</option>
+                    <option value="ready">Ready</option>
+                    <option value="rejected">Rejected</option>
+                   </select>
+                      row.color = "#bbb"
                   }
 
                   if(json.rows[i].priority === 0 || !json.rows[i].priority){
@@ -205,16 +220,19 @@ class QTrackerViewDataTable extends React.Component{
                   }else if(json.rows[i].status === 2){
                       row.status = "Ready"
                       row.color = "#ggg"
-                  }else{
+                  }else if(json.rows[i].status === 3){
                       row.status = "Rejected"
                       row.color = "#rrr"
+                  }else{
+                    row.status = "Materials"
+                    row.color = "#bbb"
                   }
 
                   row.observations = json.rows[i].observations
                 }
                 
                 rows.push(row)
-                if(json.rows[i].status < 2){
+                if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                   pendingRows.push(row)
                 }
             }
@@ -250,6 +268,7 @@ class QTrackerViewDataTable extends React.Component{
                           row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")} >
                           <option value="pending" selected>Pending</option>
                           <option value="progress">In progress</option>
+                          <option value="materials">Materials</option>
                           <option value="ready">Ready</option>
                           <option value="rejected">Rejected</option>
                         </select>
@@ -258,6 +277,7 @@ class QTrackerViewDataTable extends React.Component{
                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
                         <option value="pending">Pending</option>
                         <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                        <option value="materials">Materials</option>
                         <option value="ready">Ready</option>
                         <option value="rejected">Rejected</option>
                       </select>
@@ -266,18 +286,29 @@ class QTrackerViewDataTable extends React.Component{
                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
                         <option value="pending">Pending</option>
                         <option value="progress">In progress</option>
+                        <option value="materials">Materials</option>
                         <option value="ready" selected>Ready</option>
                         <option value="rejected">Rejected</option>
                         </select>
                           row.color = "#ggg"
-                      }else{
-                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
+                      }else if(json.rows[i].status === 3){
+                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
                         <option value="pending">Pending</option>
                         <option value="progress">In progress</option>
+                        <option value="materials">Materials</option>
                         <option value="ready">Ready</option>
                         <option value="rejected" selected>Rejected</option>
                        </select>
                           row.color = "#rrr"
+                      }else{
+                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                        <option value="pending">Pending</option>
+                        <option value="progress">In progress</option>
+                        <option value="materials" selected>Materials</option>
+                        <option value="ready">Ready</option>
+                        <option value="rejected">Rejected</option>
+                       </select>
+                          row.color = "#bbb"
                       }
                       if(json.rows[i].priority === 0 || !json.rows[i].priority){
                         row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")} >
@@ -320,15 +351,18 @@ class QTrackerViewDataTable extends React.Component{
                       }else if(json.rows[i].status === 2){
                           row.status = "Ready"
                           row.color = "#ggg"
+                      }else if(json.rows[i].status === 3){
+                        row.status = "Rejected"
+                        row.color = "#rrr"
                       }else{
-                          row.status = "Rejected"
-                          row.color = "#rrr"
+                        row.status = "Materials"
+                        row.color = "#bbb"
                       }
 
                       row.observations = json.rows[i].observations
                     }
                     rows.push(row)
-                    if(json.rows[i].status < 2){
+                    if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                       pendingRows.push(row)
                     }
                 }
@@ -364,6 +398,7 @@ class QTrackerViewDataTable extends React.Component{
                               row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")} >
                               <option value="pending" selected>Pending</option>
                               <option value="progress">In progress</option>
+                              <option value="materials">Materials</option>
                               <option value="ready">Ready</option>
                               <option value="rejected">Rejected</option>
                             </select>
@@ -372,6 +407,7 @@ class QTrackerViewDataTable extends React.Component{
                             row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
                             <option value="pending">Pending</option>
                             <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                            <option value="materials">Materials</option>
                             <option value="ready">Ready</option>
                             <option value="rejected">Rejected</option>
                           </select>
@@ -380,18 +416,29 @@ class QTrackerViewDataTable extends React.Component{
                             row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
                             <option value="pending">Pending</option>
                             <option value="progress">In progress</option>
+                            <option value="materials">Materials</option>
                             <option value="ready" selected>Ready</option>
                             <option value="rejected">Rejected</option>
                             </select>
                               row.color = "#ggg"
-                          }else{
+                          }else if(json.rows[i].status === 3){
                             row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
                             <option value="pending">Pending</option>
                             <option value="progress">In progress</option>
+                            <option value="materials">Materials</option>
                             <option value="ready">Ready</option>
                             <option value="rejected" selected>Rejected</option>
                            </select>
                               row.color = "#rrr"
+                          }else{
+                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
+                            <option value="pending">Pending</option>
+                            <option value="progress">In progress</option>
+                            <option value="materials" selected>Materials</option>
+                            <option value="ready">Ready</option>
+                            <option value="rejected">Rejected</option>
+                           </select>
+                              row.color = "#bbb"
                           }
 
                           if(json.rows[i].priority === 0 || !json.rows[i].priority){
@@ -435,15 +482,18 @@ class QTrackerViewDataTable extends React.Component{
                           }else if(json.rows[i].status === 2){
                               row.status = "Ready"
                               row.color = "#ggg"
+                          }else if(json.rows[i].status === 3){
+                            row.status = "Rejected"
+                            row.color = "#rrr"
                           }else{
-                              row.status = "Rejected"
-                              row.color = "#rrr"
+                            row.status = "Materials"
+                            row.color = "#bbb"
                           }
 
                           row.observations = json.rows[i].observations
                         }
                         rows.push(row)
-                        if(json.rows[i].status < 2){
+                        if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                           pendingRows.push(row)
                         }
                     }
@@ -478,6 +528,7 @@ class QTrackerViewDataTable extends React.Component{
                                   row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")} >
                                   <option value="pending" selected>Pending</option>
                                   <option value="progress">In progress</option>
+                                  <option value="materials">Materials</option>
                                   <option value="ready">Ready</option>
                                   <option value="rejected">Rejected</option>
                                 </select>
@@ -486,6 +537,7 @@ class QTrackerViewDataTable extends React.Component{
                                 row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
                                 <option value="pending">Pending</option>
                                 <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                <option value="materials">Materials</option>
                                 <option value="ready">Ready</option>
                                 <option value="rejected">Rejected</option>
                               </select>
@@ -494,18 +546,29 @@ class QTrackerViewDataTable extends React.Component{
                                 row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
                                 <option value="pending">Pending</option>
                                 <option value="progress">In progress</option>
+                                <option value="materials">Materials</option>
                                 <option value="ready" selected>Ready</option>
                                 <option value="rejected">Rejected</option>
                                 </select>
                                   row.color = "#ggg"
-                              }else{
+                              }else if(json.rows[i].status === 3){
                                 row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
                                 <option value="pending">Pending</option>
                                 <option value="progress">In progress</option>
+                                <option value="materials">Materials</option>
                                 <option value="ready">Ready</option>
                                 <option value="rejected" selected>Rejected</option>
                                </select>
                                   row.color = "#rrr"
+                              }else{
+                                row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
+                                <option value="pending">Pending</option>
+                                <option value="progress">In progress</option>
+                                <option value="materials" selected>Materials</option>
+                                <option value="ready">Ready</option>
+                                <option value="rejected">Rejected</option>
+                               </select>
+                                  row.color = "#bbb"
                               }
 
                               if(json.rows[i].priority === 0 || !json.rows[i].priority){
@@ -550,15 +613,18 @@ class QTrackerViewDataTable extends React.Component{
                               }else if(json.rows[i].status === 2){
                                   row.status = "Ready"
                                   row.color = "#ggg"
+                              }else if(json.rows[i].status === 3){
+                                row.status = "Rejected"
+                                row.color = "#rrr"
                               }else{
-                                  row.status = "Rejected"
-                                  row.color = "#rrr"
+                                row.status = "Materials"
+                                row.color = "#bbb"
                               }
 
                               row.observations = json.rows[i].observations
                             }
                             rows.push(row)
-                            if(json.rows[i].status < 2){
+                            if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                               pendingRows.push(row)
                             }
                         }
@@ -586,6 +652,7 @@ class QTrackerViewDataTable extends React.Component{
                                       row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")} >
                                       <option value="pending" selected>Pending</option>
                                       <option value="progress">In progress</option>
+                                      <option value="materials">Materials</option>
                                       <option value="ready">Ready</option>
                                       <option value="rejected">Rejected</option>
                                     </select>
@@ -594,6 +661,7 @@ class QTrackerViewDataTable extends React.Component{
                                     row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
                                     <option value="pending">Pending</option>
                                     <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                    <option value="materials">Materials</option>
                                     <option value="ready">Ready</option>
                                     <option value="rejected">Rejected</option>
                                   </select>
@@ -602,18 +670,29 @@ class QTrackerViewDataTable extends React.Component{
                                     row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
                                     <option value="pending">Pending</option>
                                     <option value="progress">In progress</option>
+                                    <option value="materials">Materials</option>
                                     <option value="ready" selected>Ready</option>
                                     <option value="rejected">Rejected</option>
                                     </select>
                                       row.color = "#ggg"
-                                  }else{
+                                  }else if(json.rows[i].status === 3){
                                     row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
                                     <option value="pending">Pending</option>
                                     <option value="progress">In progress</option>
+                                    <option value="materials">Materials</option>
                                     <option value="ready">Ready</option>
                                     <option value="rejected" selected>Rejected</option>
                                    </select>
                                       row.color = "#rrr"
+                                  }else{
+                                    row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
+                                    <option value="pending">Pending</option>
+                                    <option value="progress">In progress</option>
+                                    <option value="materials" selected>Materials</option>
+                                    <option value="ready">Ready</option>
+                                    <option value="rejected">Rejected</option>
+                                   </select>
+                                      row.color = "#bbb"
                                   }
 
                                   if(json.rows[i].priority === 0 || !json.rows[i].priority){
@@ -657,14 +736,17 @@ class QTrackerViewDataTable extends React.Component{
                                   }else if(json.rows[i].status === 2){
                                       row.status = "Ready"
                                       row.color = "#ggg"
-                                  }else{
+                                  }else if(json.rows[i].status === 3){
                                       row.status = "Rejected"
                                       row.color = "#rrr"
+                                  }else{
+                                    row.status = "Materials"
+                                    row.color = "#bbb"
                                   }
                                   row.observations = json.rows[i].observations
                                 }
                                 rows.push(row)
-                                if(json.rows[i].status < 2){
+                                if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                   pendingRows.push(row)
                                 }
                             }
@@ -691,6 +773,7 @@ class QTrackerViewDataTable extends React.Component{
                                           row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")} >
                                           <option value="pending" selected>Pending</option>
                                           <option value="progress">In progress</option>
+                                          <option value="materials">Materials</option>
                                           <option value="ready">Ready</option>
                                           <option value="rejected">Rejected</option>
                                         </select>
@@ -699,6 +782,7 @@ class QTrackerViewDataTable extends React.Component{
                                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
                                         <option value="pending">Pending</option>
                                         <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                        <option value="materials">Materials</option>
                                         <option value="ready">Ready</option>
                                         <option value="rejected">Rejected</option>
                                       </select>
@@ -707,18 +791,29 @@ class QTrackerViewDataTable extends React.Component{
                                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
                                         <option value="pending">Pending</option>
                                         <option value="progress">In progress</option>
+                                        <option value="materials">Materials</option>
                                         <option value="ready" selected>Ready</option>
                                         <option value="rejected">Rejected</option>
                                         </select>
                                           row.color = "#ggg"
-                                      }else{
+                                      }else if(json.rows[i].status === 3){
                                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
                                         <option value="pending">Pending</option>
                                         <option value="progress">In progress</option>
+                                        <option value="materials">Materials</option>
                                         <option value="ready">Ready</option>
                                         <option value="rejected" selected>Rejected</option>
                                        </select>
                                           row.color = "#rrr"
+                                      }else{
+                                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
+                                        <option value="pending">Pending</option>
+                                        <option value="progress">In progress</option>
+                                        <option value="materials" selected>Materials</option>
+                                        <option value="ready">Ready</option>
+                                        <option value="rejected">Rejected</option>
+                                       </select>
+                                          row.color = "#bbb"
                                       }
 
                                       if(json.rows[i].priority === 0 || !json.rows[i].priority){
@@ -762,14 +857,17 @@ class QTrackerViewDataTable extends React.Component{
                                       }else if(json.rows[i].status === 2){
                                           row.status = "Ready"
                                           row.color = "#ggg"
-                                      }else{
+                                      }else if(json.rows[i].status === 3){
                                           row.status = "Rejected"
                                           row.color = "#rrr"
+                                      }else{
+                                          row.status = "Materials"
+                                          row.color = "#bbb"
                                       }
                                       row.observations = json.rows[i].observations
                                     }
                                     rows.push(row)
-                                    if(json.rows[i].status < 2){
+                                    if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                       pendingRows.push(row)
                                     }
                                 }
@@ -796,6 +894,7 @@ class QTrackerViewDataTable extends React.Component{
                                           row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "IS")} >
                                           <option value="pending" selected>Pending</option>
                                           <option value="progress">In progress</option>
+                                          <option value="materials">Materials</option>
                                           <option value="ready">Ready</option>
                                           <option value="rejected">Rejected</option>
                                         </select>
@@ -804,6 +903,7 @@ class QTrackerViewDataTable extends React.Component{
                                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "IS")}>
                                         <option value="pending">Pending</option>
                                         <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                        <option value="materials">Materials</option>
                                         <option value="ready">Ready</option>
                                         <option value="rejected">Rejected</option>
                                       </select>
@@ -812,18 +912,29 @@ class QTrackerViewDataTable extends React.Component{
                                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "IS")}>
                                         <option value="pending">Pending</option>
                                         <option value="progress">In progress</option>
+                                        <option value="materials">Materials</option>
                                         <option value="ready" selected>Ready</option>
                                         <option value="rejected">Rejected</option>
                                         </select>
                                           row.color = "#ggg"
-                                      }else{
+                                      }else if(json.rows[i].status === 3){
                                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "IS")}>
                                         <option value="pending">Pending</option>
                                         <option value="progress">In progress</option>
+                                        <option value="materials">Materials</option>
                                         <option value="ready">Ready</option>
                                         <option value="rejected" selected>Rejected</option>
                                        </select>
                                           row.color = "#rrr"
+                                      }else{
+                                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "IS")}>
+                                        <option value="pending">Pending</option>
+                                        <option value="progress">In progress</option>
+                                        <option value="materials" selected>Materials</option>
+                                        <option value="ready">Ready</option>
+                                        <option value="rejected">Rejected</option>
+                                       </select>
+                                          row.color = "#bbb"
                                       }
 
                                       if(json.rows[i].priority === 0 || !json.rows[i].priority){
@@ -867,14 +978,17 @@ class QTrackerViewDataTable extends React.Component{
                                       }else if(json.rows[i].status === 2){
                                           row.status = "Ready"
                                           row.color = "#ggg"
-                                      }else{
+                                      }else if(json.rows[i].status === 3){
                                           row.status = "Rejected"
                                           row.color = "#rrr"
+                                      }else{
+                                        row.status = "Materials"
+                                        row.color = "#bbb"
                                       }
                                       row.observations = json.rows[i].observations
                                     }
                                     rows.push(row)
-                                    if(json.rows[i].status < 2){
+                                    if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                       pendingRows.push(row)
                                     }
                                 }
@@ -942,7 +1056,9 @@ class QTrackerViewDataTable extends React.Component{
           var row = null
           if(json.rows){
             for(let i = 0; i < json.rows.length; i++){
+                if (json.rows[i].description){
 
+                }
                 let carta = ""
                 if(json.rows[i].carta){
                   carta = " - " + json.rows[i].carta
@@ -969,6 +1085,7 @@ class QTrackerViewDataTable extends React.Component{
                       row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")} >
                       <option value="pending" selected>Pending</option>
                       <option value="progress">In progress</option>
+                      <option value="materials">Materials</option>
                       <option value="ready">Ready</option>
                       <option value="rejected">Rejected</option>
                     </select>
@@ -977,6 +1094,7 @@ class QTrackerViewDataTable extends React.Component{
                     row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
                     <option value="pending">Pending</option>
                     <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                    <option value="materials">Materials</option>
                     <option value="ready">Ready</option>
                     <option value="rejected">Rejected</option>
                   </select>
@@ -985,18 +1103,29 @@ class QTrackerViewDataTable extends React.Component{
                     row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
                     <option value="pending">Pending</option>
                     <option value="progress">In progress</option>
+                    <option value="materials">Materials</option>
                     <option value="ready" selected>Ready</option>
                     <option value="rejected">Rejected</option>
                     </select>
                       row.color = "#ggg"
-                  }else{
+                  }else if(json.rows[i].status === 3){
                     row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
                     <option value="pending">Pending</option>
                     <option value="progress">In progress</option>
+                    <option value="materials">Materials</option>
                     <option value="ready">Ready</option>
                     <option value="rejected" selected>Rejected</option>
                    </select>
                       row.color = "#rrr"
+                  }else{
+                    row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                    <option value="pending">Pending</option>
+                    <option value="progress">In progress</option>
+                    <option value="materials" selected>Materials</option>
+                    <option value="ready">Ready</option>
+                    <option value="rejected">Rejected</option>
+                   </select>
+                      row.color = "#bbb"
                   }
 
                   if(json.rows[i].priority === 0 || !json.rows[i].priority){
@@ -1040,16 +1169,19 @@ class QTrackerViewDataTable extends React.Component{
                   }else if(json.rows[i].status === 2){
                       row.status = "Ready"
                       row.color = "#ggg"
-                  }else{
+                  }else if(json.rows[i].status === 3){
                       row.status = "Rejected"
                       row.color = "#rrr"
+                  }else{
+                    row.status = "Materials"
+                    row.color = "#bbb"
                   }
 
                   row.observations = json.rows[i].observations
                 }
                 
                 rows.push(row)
-                if(json.rows[i].status < 2){
+                if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                   pendingRows.push(row)
                 }
             }
@@ -1060,6 +1192,7 @@ class QTrackerViewDataTable extends React.Component{
             var row = null
               if(json.rows){
                 for(let i = 0; i < json.rows.length; i++){
+                  
                   let carta = ""
                   if(json.rows[i].carta){
                     carta = " - " + json.rows[i].carta
@@ -1084,6 +1217,7 @@ class QTrackerViewDataTable extends React.Component{
                           row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")} >
                           <option value="pending" selected>Pending</option>
                           <option value="progress">In progress</option>
+                          <option value="materials">Materials</option>
                           <option value="ready">Ready</option>
                           <option value="rejected">Rejected</option>
                         </select>
@@ -1092,6 +1226,7 @@ class QTrackerViewDataTable extends React.Component{
                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
                         <option value="pending">Pending</option>
                         <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                        <option value="materials">Materials</option>
                         <option value="ready">Ready</option>
                         <option value="rejected">Rejected</option>
                       </select>
@@ -1100,18 +1235,29 @@ class QTrackerViewDataTable extends React.Component{
                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
                         <option value="pending">Pending</option>
                         <option value="progress">In progress</option>
+                        <option value="materials">Materials</option>
                         <option value="ready" selected>Ready</option>
                         <option value="rejected">Rejected</option>
                         </select>
                           row.color = "#ggg"
-                      }else{
-                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
+                      }else if(json.rows[i].status === 3){
+                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")}>
                         <option value="pending">Pending</option>
                         <option value="progress">In progress</option>
+                        <option value="materials">Materials</option>
                         <option value="ready">Ready</option>
                         <option value="rejected" selected>Rejected</option>
                        </select>
                           row.color = "#rrr"
+                      }else{
+                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NWC")}>
+                        <option value="pending">Pending</option>
+                        <option value="progress">In progress</option>
+                        <option value="materials" selected>Materials</option>
+                        <option value="ready">Ready</option>
+                        <option value="rejected">Rejected</option>
+                       </select>
+                          row.color = "#bbb"
                       }
                       if(json.rows[i].priority === 0 || !json.rows[i].priority){
                         row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NVN")} >
@@ -1154,15 +1300,18 @@ class QTrackerViewDataTable extends React.Component{
                       }else if(json.rows[i].status === 2){
                           row.status = "Ready"
                           row.color = "#ggg"
+                      }else if(json.rows[i].status === 3){
+                        row.status = "Rejected"
+                        row.color = "#rrr"
                       }else{
-                          row.status = "Rejected"
-                          row.color = "#rrr"
+                        row.status = "Materials"
+                        row.color = "#bbb"
                       }
 
                       row.observations = json.rows[i].observations
                     }
                     rows.push(row)
-                    if(json.rows[i].status < 2){
+                    if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                       pendingRows.push(row)
                     }
                 }
@@ -1198,6 +1347,7 @@ class QTrackerViewDataTable extends React.Component{
                               row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")} >
                               <option value="pending" selected>Pending</option>
                               <option value="progress">In progress</option>
+                              <option value="materials">Materials</option>
                               <option value="ready">Ready</option>
                               <option value="rejected">Rejected</option>
                             </select>
@@ -1206,6 +1356,7 @@ class QTrackerViewDataTable extends React.Component{
                             row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
                             <option value="pending">Pending</option>
                             <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                            <option value="materials">Materials</option>
                             <option value="ready">Ready</option>
                             <option value="rejected">Rejected</option>
                           </select>
@@ -1214,18 +1365,29 @@ class QTrackerViewDataTable extends React.Component{
                             row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
                             <option value="pending">Pending</option>
                             <option value="progress">In progress</option>
+                            <option value="materials">Materials</option>
                             <option value="ready" selected>Ready</option>
                             <option value="rejected">Rejected</option>
                             </select>
                               row.color = "#ggg"
-                          }else{
+                          }else if(json.rows[i].status === 3){
                             row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
                             <option value="pending">Pending</option>
                             <option value="progress">In progress</option>
+                            <option value="materials">Materials</option>
                             <option value="ready">Ready</option>
                             <option value="rejected" selected>Rejected</option>
                            </select>
                               row.color = "#rrr"
+                          }else{
+                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRI")}>
+                            <option value="pending">Pending</option>
+                            <option value="progress">In progress</option>
+                            <option value="materials" selected>Materials</option>
+                            <option value="ready">Ready</option>
+                            <option value="rejected">Rejected</option>
+                           </select>
+                              row.color = "#bbb"
                           }
 
                           if(json.rows[i].priority === 0 || !json.rows[i].priority){
@@ -1269,15 +1431,18 @@ class QTrackerViewDataTable extends React.Component{
                           }else if(json.rows[i].status === 2){
                               row.status = "Ready"
                               row.color = "#ggg"
+                          }else if(json.rows[i].status === 3){
+                            row.status = "Rejected"
+                            row.color = "#rrr"
                           }else{
-                              row.status = "Rejected"
-                              row.color = "#rrr"
+                            row.status = "Materials"
+                            row.color = "#bbb"
                           }
 
                           row.observations = json.rows[i].observations
                         }
                         rows.push(row)
-                        if(json.rows[i].status < 2){
+                        if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                           pendingRows.push(row)
                         }
                     }
@@ -1312,6 +1477,7 @@ class QTrackerViewDataTable extends React.Component{
                                   row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")} >
                                   <option value="pending" selected>Pending</option>
                                   <option value="progress">In progress</option>
+                                  <option value="materials">Materials</option>
                                   <option value="ready">Ready</option>
                                   <option value="rejected">Rejected</option>
                                 </select>
@@ -1320,6 +1486,7 @@ class QTrackerViewDataTable extends React.Component{
                                 row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
                                 <option value="pending">Pending</option>
                                 <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                <option value="materials">Materials</option>
                                 <option value="ready">Ready</option>
                                 <option value="rejected">Rejected</option>
                               </select>
@@ -1328,18 +1495,29 @@ class QTrackerViewDataTable extends React.Component{
                                 row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
                                 <option value="pending">Pending</option>
                                 <option value="progress">In progress</option>
+                                <option value="materials">Materials</option>
                                 <option value="ready" selected>Ready</option>
                                 <option value="rejected">Rejected</option>
                                 </select>
                                   row.color = "#ggg"
-                              }else{
+                              }else if(json.rows[i].status === 3){
                                 row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
                                 <option value="pending">Pending</option>
                                 <option value="progress">In progress</option>
+                                <option value="materials">Materials</option>
                                 <option value="ready">Ready</option>
                                 <option value="rejected" selected>Rejected</option>
                                </select>
                                   row.color = "#rrr"
+                              }else{
+                                row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRB")}>
+                                <option value="pending">Pending</option>
+                                <option value="progress">In progress</option>
+                                <option value="materials" selected>Materials</option>
+                                <option value="ready">Ready</option>
+                                <option value="rejected">Rejected</option>
+                               </select>
+                                  row.color = "#bbb"
                               }
 
                               if(json.rows[i].priority === 0 || !json.rows[i].priority){
@@ -1384,15 +1562,18 @@ class QTrackerViewDataTable extends React.Component{
                               }else if(json.rows[i].status === 2){
                                   row.status = "Ready"
                                   row.color = "#ggg"
+                              }else if(json.rows[i].status === 3){
+                                row.status = "Rejected"
+                                row.color = "#rrr"
                               }else{
-                                  row.status = "Rejected"
-                                  row.color = "#rrr"
+                                row.status = "Materials"
+                                row.color = "#bbb"
                               }
 
                               row.observations = json.rows[i].observations
                             }
                             rows.push(row)
-                            if(json.rows[i].status < 2){
+                            if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                               pendingRows.push(row)
                             }
                         }
@@ -1420,6 +1601,7 @@ class QTrackerViewDataTable extends React.Component{
                                       row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")} >
                                       <option value="pending" selected>Pending</option>
                                       <option value="progress">In progress</option>
+                                      <option value="materials">Materials</option>
                                       <option value="ready">Ready</option>
                                       <option value="rejected">Rejected</option>
                                     </select>
@@ -1428,6 +1610,7 @@ class QTrackerViewDataTable extends React.Component{
                                     row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
                                     <option value="pending">Pending</option>
                                     <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                    <option value="materials">Materials</option>
                                     <option value="ready">Ready</option>
                                     <option value="rejected">Rejected</option>
                                   </select>
@@ -1436,18 +1619,29 @@ class QTrackerViewDataTable extends React.Component{
                                     row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
                                     <option value="pending">Pending</option>
                                     <option value="progress">In progress</option>
+                                    <option value="materials">Materials</option>
                                     <option value="ready" selected>Ready</option>
                                     <option value="rejected">Rejected</option>
                                     </select>
                                       row.color = "#ggg"
-                                  }else{
+                                  }else if(json.rows[i].status === 3){
                                     row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
                                     <option value="pending">Pending</option>
                                     <option value="progress">In progress</option>
+                                    <option value="materials">Materials</option>
                                     <option value="ready">Ready</option>
                                     <option value="rejected" selected>Rejected</option>
                                    </select>
                                       row.color = "#rrr"
+                                  }else{
+                                    row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "NRIDS")}>
+                                    <option value="pending">Pending</option>
+                                    <option value="progress">In progress</option>
+                                    <option value="materials" selected>Materials</option>
+                                    <option value="ready">Ready</option>
+                                    <option value="rejected">Rejected</option>
+                                   </select>
+                                      row.color = "#bbb"
                                   }
 
                                   if(json.rows[i].priority === 0 || !json.rows[i].priority){
@@ -1491,14 +1685,17 @@ class QTrackerViewDataTable extends React.Component{
                                   }else if(json.rows[i].status === 2){
                                       row.status = "Ready"
                                       row.color = "#ggg"
-                                  }else{
+                                  }else if(json.rows[i].status === 3){
                                       row.status = "Rejected"
                                       row.color = "#rrr"
+                                  }else{
+                                    row.status = "Materials"
+                                    row.color = "#bbb"
                                   }
                                   row.observations = json.rows[i].observations
                                 }
                                 rows.push(row)
-                                if(json.rows[i].status < 2){
+                                if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                   pendingRows.push(row)
                                 }
                             }
@@ -1516,7 +1713,7 @@ class QTrackerViewDataTable extends React.Component{
                                   if(json.rows[i].accept_reject_date != null){
                                     row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerRPSpecPopUp incidence_number={json.rows[i].incidence_number} items={json.rows[i].items_to_report} scope={json.rows[i].scope} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19), key: json.rows[i].incidence_number}
                                   }else{
-                                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerRPSpecPopUp incidence_number={json.rows[i].incidence_number} items={json.rows[i].items_to_report} scope={json.rows[i].scope} description={json.rows[i].description}/>, ar_date: "", key: json.rows[i].incidence_number}
+                                    row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...".substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerRPSpecPopUp incidence_number={json.rows[i].incidence_number} items={json.rows[i].items_to_report} scope={json.rows[i].scope} description={json.rows[i].description}/>, ar_date: "", key: json.rows[i].incidence_number}
                                   }
                                     if(secureStorage.getItem("role") === "3D Admin"){
                                       row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
@@ -1525,6 +1722,7 @@ class QTrackerViewDataTable extends React.Component{
                                           row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")} >
                                           <option value="pending" selected>Pending</option>
                                           <option value="progress">In progress</option>
+                                          <option value="materials">Materials</option>
                                           <option value="ready">Ready</option>
                                           <option value="rejected">Rejected</option>
                                         </select>
@@ -1533,6 +1731,7 @@ class QTrackerViewDataTable extends React.Component{
                                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
                                         <option value="pending">Pending</option>
                                         <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                        <option value="materials">Materials</option>
                                         <option value="ready">Ready</option>
                                         <option value="rejected">Rejected</option>
                                       </select>
@@ -1541,18 +1740,29 @@ class QTrackerViewDataTable extends React.Component{
                                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
                                         <option value="pending">Pending</option>
                                         <option value="progress">In progress</option>
+                                        <option value="materials">Materials</option>
                                         <option value="ready" selected>Ready</option>
                                         <option value="rejected">Rejected</option>
                                         </select>
                                           row.color = "#ggg"
-                                      }else{
+                                      }else if(json.rows[i].status === 3){
                                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
                                         <option value="pending">Pending</option>
                                         <option value="progress">In progress</option>
+                                        <option value="materials">Materials</option>
                                         <option value="ready">Ready</option>
                                         <option value="rejected" selected>Rejected</option>
                                        </select>
                                           row.color = "#rrr"
+                                      }else{
+                                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "RP")}>
+                                        <option value="pending">Pending</option>
+                                        <option value="progress">In progress</option>
+                                        <option value="materials" selected>Materials</option>
+                                        <option value="ready">Ready</option>
+                                        <option value="rejected">Rejected</option>
+                                       </select>
+                                          row.color = "#bbb"
                                       }
 
                                       if(json.rows[i].priority === 0 || !json.rows[i].priority){
@@ -1596,14 +1806,17 @@ class QTrackerViewDataTable extends React.Component{
                                       }else if(json.rows[i].status === 2){
                                           row.status = "Ready"
                                           row.color = "#ggg"
-                                      }else{
+                                      }else if(json.rows[i].status === 3){
                                           row.status = "Rejected"
                                           row.color = "#rrr"
+                                      }else{
+                                          row.status = "Materials"
+                                          row.color = "#bbb"
                                       }
                                       row.observations = json.rows[i].observations
                                     }
                                     rows.push(row)
-                                    if(json.rows[i].status < 2){
+                                    if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                       pendingRows.push(row)
                                     }
                                 }
@@ -1630,6 +1843,7 @@ class QTrackerViewDataTable extends React.Component{
                                           row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "IS")} >
                                           <option value="pending" selected>Pending</option>
                                           <option value="progress">In progress</option>
+                                          <option value="materials">Materials</option>
                                           <option value="ready">Ready</option>
                                           <option value="rejected">Rejected</option>
                                         </select>
@@ -1638,6 +1852,7 @@ class QTrackerViewDataTable extends React.Component{
                                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "IS")}>
                                         <option value="pending">Pending</option>
                                         <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                        <option value="materials">Materials</option>
                                         <option value="ready">Ready</option>
                                         <option value="rejected">Rejected</option>
                                       </select>
@@ -1646,18 +1861,29 @@ class QTrackerViewDataTable extends React.Component{
                                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "IS")}>
                                         <option value="pending">Pending</option>
                                         <option value="progress">In progress</option>
+                                        <option value="materials">Materials</option>
                                         <option value="ready" selected>Ready</option>
                                         <option value="rejected">Rejected</option>
                                         </select>
                                           row.color = "#ggg"
-                                      }else{
+                                      }else if(json.rows[i].status === 3){
                                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "IS")}>
                                         <option value="pending">Pending</option>
                                         <option value="progress">In progress</option>
+                                        <option value="materials">Materials</option>
                                         <option value="ready">Ready</option>
                                         <option value="rejected" selected>Rejected</option>
                                        </select>
                                           row.color = "#rrr"
+                                      }else{
+                                        row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "IS")}>
+                                        <option value="pending">Pending</option>
+                                        <option value="progress">In progress</option>
+                                        <option value="materials" selected>Materials</option>
+                                        <option value="ready">Ready</option>
+                                        <option value="rejected">Rejected</option>
+                                       </select>
+                                          row.color = "#bbb"
                                       }
 
                                       if(json.rows[i].priority === 0 || !json.rows[i].priority){
@@ -1701,31 +1927,35 @@ class QTrackerViewDataTable extends React.Component{
                                       }else if(json.rows[i].status === 2){
                                           row.status = "Ready"
                                           row.color = "#ggg"
-                                      }else{
+                                      }else if(json.rows[i].status === 3){
                                           row.status = "Rejected"
                                           row.color = "#rrr"
+                                      }else{
+                                        row.status = "Materials"
+                                        row.color = "#bbb"
                                       }
                                       row.observations = json.rows[i].observations
                                     }
                                     rows.push(row)
-                                    if(json.rows[i].status < 2){
+                                    if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                       pendingRows.push(row)
                                     }
                                 }
                               }
+                              
 
                             })
                                 // Sort the array based on the second element
                                 rows.sort(function(first, second) {
                                   return second.created_at.localeCompare(first.created_at);
                                 });
-                                let filterRow
 
+                                let filterRow
                                 if(secureStorage.getItem("role") === "3D Admin"){
                                   filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filter(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filter(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filter(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(4,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(6,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filter(9,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filter(10,e.target.value)}/></div>, priority: <div><input type="text" className="filter__input" placeholder="Priority" onChange={(e) => this.filter(12,e.target.value)}/></div>}]
                                 }else{
-                                  filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filterD(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filterD(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filterD(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filterD(4,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filterD(6,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filterD(8,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filterD(10,e.target.value)}/></div>, priority: <div><input type="text" className="filter__input" placeholder="Priority" onChange={(e) => this.filterD(9,e.target.value)}/></div>}]               
-                                }                
+                                  filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filterD(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filterD(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filterD(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filterD(4,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filterD(6,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filterD(8,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filterD(10,e.target.value)}/></div>, priority: <div><input type="text" className="filter__input" placeholder="Priority" onChange={(e) => this.filterD(9,e.target.value)}/></div>}]                  
+                                }             
                                 this.setState({data : rows, pendingData: pendingRows});
                                 let auxDisplayData
                                 if(this.props.showAll){
