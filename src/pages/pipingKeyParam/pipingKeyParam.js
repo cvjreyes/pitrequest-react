@@ -5,6 +5,7 @@ import IdleTimer from 'react-idle-timer'
 import {useNavigate} from "react-router";
 import KeyParamTreeGrid from '../../components/keyParamTreeGrid/keyParamTreeGrid';
 import AlertF from "../../components/alert/alert"
+import "./pipingKeyParam.css"
 
 const PipingKeyParam = () =>{    
 
@@ -91,6 +92,7 @@ const PipingKeyParam = () =>{
                 <div style={{zoom:1.125}}>
                     <NavBar/>
                 </div>
+                <p className='text__title__key__param'>Catalogue</p>
                 <KeyParamTreeGrid back={back.bind(this)} success={successAlert.bind(this)} error={errorAlert.bind(this)} goToTasks={goToTasks.bind(this)}/>
                 
 

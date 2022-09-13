@@ -614,7 +614,7 @@ class KeyParamTreeGrid extends Component{
           <div className="excel__container__2" style={{marginLeft: "430px"}}>
             <HotTable
               data={this.state.projects}
-              //colHeaders = {["<b>Project</b>", "<b>Default admin</b>", "<b>Estimated hours</b>", "<b>Active</b>"]}
+              colHeaders = {["<b>Project</b>"]}
               rowHeaders={false}
               width="320"
               className="custom__table__2"
@@ -690,7 +690,7 @@ class KeyParamTreeGrid extends Component{
             <div id="hot-app" className="excel__container" style={{marginLeft: "420px"}}>
               <HotTable
                 data={this.state.subtasks}
-                //colHeaders = {["<b>Task</b>", "<b>Subtask</b>", "<b>Hours</b>"]}
+                colHeaders = {["<b>Generic</b>"]}
                 rowHeaders={false}
                 width="320"
                 height="775"
@@ -728,7 +728,7 @@ class KeyParamTreeGrid extends Component{
             <div id="hot-app" className="excel__container" style={{marginLeft: "420px"}}>
               <HotTable
                 data={this.state.subtasks}
-                //colHeaders = {["<b>Task</b>", "<b>Subtask</b>", "<b>Hours</b>"]}
+                colHeaders = {["<b>Pcoms</b>"]}
                 rowHeaders={false}
                 width="320"
                 height="775"
@@ -766,7 +766,7 @@ class KeyParamTreeGrid extends Component{
             <div id="hot-app" className="excel__container" style={{marginLeft: "420px"}}>
               <HotTable
                 data={this.state.subtasks}
-                //colHeaders = {["<b>Task</b>", "<b>Subtask</b>", "<b>Hours</b>"]}
+                colHeaders = {["<b>Bolt Types</b>"]}
                 rowHeaders={false}
                 width="320"
                 height="775"
@@ -804,7 +804,7 @@ class KeyParamTreeGrid extends Component{
             <div id="hot-app" className="excel__container" style={{marginLeft: "420px"}}>
               <HotTable
                 data={this.state.subtasks}
-                //colHeaders = {["<b>Task</b>", "<b>Subtask</b>", "<b>Hours</b>"]}
+                colHeaders = {["<b>Ratings</b>"]}
                 rowHeaders={false}
                 width="320"
                 height="775"
@@ -842,7 +842,7 @@ class KeyParamTreeGrid extends Component{
             <div id="hot-app" className="excel__container" style={{marginLeft: "420px"}}>
               <HotTable
                 data={this.state.subtasks}
-                //colHeaders = {["<b>Task</b>", "<b>Subtask</b>", "<b>Hours</b>"]}
+                colHeaders = {["<b>End Preparation</b>"]}
                 rowHeaders={false}
                 width="320"
                 height="775"
@@ -889,7 +889,7 @@ class KeyParamTreeGrid extends Component{
                 settings={settingsTasks} 
                 manualColumnResize={true}
                 manualRowResize={true}
-                columns= { [{data: "Software", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.softwares},{data: "Task"}]}
+                columns= { [{data: "Software", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.softwares}]}
                 filters={false}
                 dropdownMenu= {[
                     'make_read_only',
@@ -963,9 +963,9 @@ class KeyParamTreeGrid extends Component{
 
     return (
       <div style={{marginLeft: "30px"}}>
-        <div style={{marginTop: "140px"}}>
+        <div style={{marginTop: "90px", marginBottom: "50px"}}>
           <button className="projects__button__save" onClick={()=>this.saveChanges()} style={{width:"175px", marginLeft:"-1570px"}}><img src={SaveIcon2} alt="hold" className="navBar__icon__save" style={{marginRight:"-20px"}}></img><p className="projects__button__text">Save</p></button>
-          <button className="projects__button__task" onClick={()=>this.props.goToTasks()} style={{width:"155px", marginLeft:"20px"}}><img src={FolderIcon2} alt="hold" className="navBar__icon__task" style={{marginRight:"0px"}}></img><p className="projects__button__text">Tasks</p></button>
+          {/* <button className="projects__button__task" onClick={()=>this.props.goToTasks()} style={{width:"155px", marginLeft:"20px"}}><img src={FolderIcon2} alt="hold" className="navBar__icon__task" style={{marginRight:"0px"}}></img><p className="projects__button__text">Tasks</p></button> */}
         </div>
         <div style={{display: "center"}}>
           <div style={{marginLeft: "500px", marginRight: "500px"}}>

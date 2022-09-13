@@ -490,11 +490,11 @@ const PipingGeneral = () => {
     }
 
     if(currentRole === "3D Admin"){
-        editBtn = <label class="switchBtn__general" style={{width:"145px"}}>
+        editBtn = null /*<label class="switchBtn__general" style={{width:"145px"}}>
                     <p className="navBar__button__text__general" style={{width:"100px", marginTop:"5px"}}>KeyParams &nbsp;&nbsp;&nbsp;</p>
                     <input type="checkbox" id="edit" onClick={()=>handleToggleKP()}/>
                     <div class="slide__general__admin round" style={{marginLeft:"90px"}}></div>
-                </label>  
+                </label> */ 
     }
 
     if(currentTab === "View"){
@@ -674,13 +674,15 @@ const PipingGeneral = () => {
                               <div style={{display:"flex"}}>
                                 {editBtn}
                                 {saveBtn}   
-                                <div style={{display:"flex", float:"right", marginTop:"10px"}}><label for="projectFilter" className="inst__project__label">Project: </label><select id="projectFilter" className="inst__projectFilterSelect" onChange={(e) => setCurrentProject(e.target.value)}>
-                                {projectFilter.map(project =>(
-                                    <option value={project.id}>{project.project}</option>
-                                ))}
-                                </select></div>
+                                <div style={{display:"flex", float:"right", marginTop:"10px"}}>
+                                    <label for="projectFilter" className="inst__project__label">Project: </label>
+                                    <select id="projectFilter" className="inst__projectFilterSelect" onChange={(e) => setCurrentProject(e.target.value)}>
+                                        {projectFilter.map(project =>(
+                                            <option value={project.id}>{project.project}</option>
+                                        ))}
+                                    </select>
+                                </div>
                               </div>                           
-                               
                           </th>
                       </tr>
                       <tr className="isotracker__table__tray__and__table__container" style={{height: "600px"}}>
