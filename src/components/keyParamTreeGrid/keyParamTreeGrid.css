@@ -1,0 +1,188 @@
+.header-custom{
+    font-size: 21px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.excel__container{
+    width: 900px;
+    text-align:"center";
+    display: flex;
+}
+
+.excel__container__2{
+    width: 900px;
+    text-align:"center";
+    display: flex;
+}
+
+.handsontable td{
+    font-size: 20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.handsontable th{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+}
+
+
+.projects__button{
+    height: 50px;
+    width: 100px;
+    border: 0;
+    background-color: transparent;
+    border-radius: 1em 1em 1em 1em;
+    transition: 0.3s;
+    font-family: 'Montserrat', sans-serif;    
+    background-color:#99C6F8;
+    ;
+}
+
+/*Boton de save*/
+.projects__button__save{
+    height: 50px;
+    width: 100px;
+    border: 0;
+    background-color: transparent;
+    border-radius: 1em 1em 1em 1em;
+    transition: 0.3s;
+    font-family: 'Montserrat', sans-serif;    
+    color: white;
+    background-color:#338DF1;
+    font-weight: bold;
+}
+
+.projects__button__save:hover{
+    background-color: #99C6F8;
+    color: black;
+}
+
+/*Boton de Tasks*/
+.projects__button__task{
+    height: 50px;
+    width: 100px;
+    border: 1px solid #0070ED;;
+    background-color: transparent;
+    border-radius: 1em 1em 1em 1em;
+    transition: 0.3s;
+    font-family: 'Montserrat', sans-serif;    
+    color: #0070ED;;
+    background-color:white;
+    font-weight: bold;
+}
+
+.projects__button__task:hover{
+    background-color: #99C6F8;
+    color: black;
+}
+
+.projects__add__button{
+    height: 50px;
+    width: 100px;
+    border: 0;
+    background-color: transparent;
+    margin-left: 10px;
+    border-radius: 1em 1em 1em 1em;
+    transition: 0.3s;
+    font-family: 'Montserrat', sans-serif;    
+}
+
+.projects__button:hover{
+    background-color: #0070ED;}
+
+/*Cuando pulso el boton de add project se vuelve transparente azulado*/
+.projects__add__button__text:hover{
+    background-color: skyblue;
+    border-radius: 8px;
+}
+
+.projects__button__text{
+    font-size: 17px;
+    margin-top: 12px;
+    font-family: 'Montserrat', sans-serif;    
+}
+
+.projects__add__button__text{
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;    
+    color: #0070ED;
+    font-style: normal;
+    font-weight: bold;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 18px 42px;
+    gap: 8px;
+
+
+    width: 134px;
+    height: 32px;
+
+    border: 2px solid #0070ED;
+    border-radius: 8px;
+}
+
+/*Colores de los th*/
+.handsontable thead th {
+    background: #338DF1;
+    color: #FFFF;
+}
+
+/*Redondear las esquinas del thead por posicion*/
+/*tabla de arriba*/
+.custom__table__2 thead th:nth-child(1){
+    
+    border-radius: 7px 0px 0px 0px;
+}
+
+.custom__table__2 thead th:nth-child(3){
+    
+    border-radius: 0px 8px 0px 0px;
+}
+
+/*Columna 1 de la tabla de arriba*/
+
+/*tabla de en medio*/
+.custom__table__1 {
+    margin-bottom: 20px;
+}
+
+.custom__table__1 thead th:nth-child(1){
+    border-radius: 7px 0px 0px 0px;
+}
+
+.custom__table__1 thead th:nth-child(2){
+    
+    border-radius: 0px 8px 0px 0px;
+}
+
+/*tabla de abajo*/
+.custom__table__3 {
+    margin-bottom: 20px;
+}
+
+.custom__table__3 thead th:nth-child(1){
+    
+    border-radius: 7px 0px 0px 0px;
+}
+
+.custom__table__3 thead th:nth-child(3){
+    
+    border-radius: 0px 8px 0px 0px;
+}
+
+/*Centrar el titulo de la tabla de la izquierda*/
+.ag-header-cell-label {
+    justify-content: center;
+ }
+
+.ag-group-value {
+    font-family: 'Montserrat', sans-serif;    
+}
+
+.ag-cell{
+    font-family: 'Montserrat', sans-serif;    
+}
