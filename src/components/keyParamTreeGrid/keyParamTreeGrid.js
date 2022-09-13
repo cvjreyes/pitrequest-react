@@ -21,57 +21,18 @@ class KeyParamTreeGrid extends Component{
     super(props);
 
     this.state = {
-      columnDefs: [
-        { field: 'project', rowGroup: true, hide: true, checkboxSelection:  false },
-        { field: 'software', checkboxSelection: true, rowGroup: true, hide: true, headerClass: 'header-custom'},
-        { field: 'task', checkboxSelection: true, rowGroup: true, hide: true, headerClass: 'header-custom'},
-        { field: 'subtask',checkboxSelection: true, hide: true, width:20, headerClass: 'header-custom'},
-        { field: 'hours', headerClass: 'header-custom', aggFunc: values =>{
-          let sum = 0
-          if(values){
-            for(let i = 0; i < values.rowNode.allLeafChildren.length; i++){
-              if(values.rowNode.allLeafChildren[i].data.checked){
-                sum += values.rowNode.allLeafChildren[i].data.hours
-              }
-            }
-          }
-          if(sum > 0){
-            return Math.floor(sum)
-          }else{
-            return null
-          }
-          
-        }}
-      ],
-      defaultColDef: {
-        resizable: true,
-        flex: 2
-      },
-      autoGroupColumnDef: {
-        headerClass: 'header-custom',
-        headerName: 'Projects and tasks',
-        field: 'subtask',
-        cellRenderer: 'agGroupCellRenderer',
-        cellRendererParams: {
-          suppressCount: true,
-          checkbox: true
-        },
-      },
-      rowSelection: 'multiple',
-      rowData: null,
-      tree_nodes: [],
-      rowStyle:{fontSize: "22px", fontFamily: "Montserrat, sans-serif"},
-      initial_nodes: [],
-      removed_nodes: [],
-      tasks: [],
-      subtasks: [],
-      tasksNames: [],
       updateData: false,
       error: false,
       projects: [],
-      admins: [],
-      softwares: [],
       tab: '1',
+      specs: [],
+      specs_projects : [],
+      types_data: [],
+      pcons: [],
+      bolt_types: [],
+      ratings: [],
+      end_preparations: [],
+      pids: []
     };
     
   }
@@ -86,69 +47,203 @@ class KeyParamTreeGrid extends Component{
         },
     }
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSoftwares", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecs", options)
       .then(response => response.json())
       .then(async json => {
-        let soft = json.softwares
-        let softwares = []
-        for(let i = 0; i < soft.length; i++){
-          softwares.push(soft[i].name)
-        }
-        await this.setState({softwares: softwares})
+          let spec_data = []
+          for(let i = 0; i < json.specs.length; i++){
+              spec_data.push(json.specs[i].spec)
+          }
+          await this.setState({specs: spec_data})
       })
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getTasks", options)
-      .then(response => response.json())
-      .then(async json => {
-        let tasks = []
-        let tasksNames = []
-        let subtasks =[]
-        if(json.tasks){
-          for(let i = 1; i < json.tasks.length; i++){
-            let ts = []
-            Object.entries(json.tasks[i])
-            .map( ([key, value]) =>  ts.push([key, value]))
-            tasks.push({"Task": ts[0][0], "id": ts[0][1], "Software": json.tasks[i]["software"]})
-            if(ts[0][0]){
-              tasksNames.push(ts[0][0])
-            }
-            for(let j = 1; j < ts.length; j++){
-              if(ts[j][0] !== "software"){
-                fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSubtaskHours/"+ts[j][1], options)
-                .then(response => response.json())
-                .then(json => {
-                  if(ts[j][0] !== "null"){
-                    subtasks.push({"Task": ts[0][0], "Subtask": ts[j][0], "Hours": json.hours, "id": ts[j][1]})
-                  }
-                })
-              }
-            }
-          }
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecsByAllProjects", options)
+    .then(response => response.json())
+    .then(async json => {
+        let spec_data = []
+        for(let i = 0; i < json.specs.length; i++){
+            spec_data.push({spec: json.specs[i].spec, project: json.specs[i].project})
         }
-        
-        await this.setState({tasks : tasks, subtasks: subtasks, tasksNames: tasksNames});
+        await this.setState({specs_projects: spec_data})
     })
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsWithHours", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getInstTypes", options)
+    .then(response => response.json())
+    .then(async json => {
+        let types_data = []
+        for(let i = 0; i < json.instrument_types.length; i++){
+            types_data.push(json.instrument_types[i].type)
+        }
+        await this.setState({types_data: types_data})
+    })
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPComs", options)
+    .then(response => response.json())
+    .then(async json => {
+        let pcons_data = []
+        for(let i = 0; i < json.pcons.length; i++){
+            pcons_data.push(json.pcons[i].name)
+        }
+        await this.setState({pcons: pcons_data})
+    })
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/boltTypes", options)
       .then(response => response.json())
       .then(async json => {
-        let projects = []
-        if(json.projects){
-          for(let i = 0; i < json.projects.length; i++){
-            projects.push({"Project": json.projects[i].name, "Admin" : json.projects[i].admin, "Hours": json.projects[i].sup_estihrs, "id": json.projects[i].id, "Active": Boolean(json.projects[i].active)})
+          let bolt_types_data = []
+          for(let i = 0; i < json.rows.length; i++){
+              bolt_types_data.push(json.rows[i].type)
           }
-        }else{
-          projects.push({"Project": null, "Admin" : null, "Hours": null, "id": null, "Active": null})
-        }
-        
-        await this.setState({projects : projects});
-      })
+          await this.setState({bolt_types: bolt_types_data})
+        })
 
-      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAdmins", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/ratings", options)
       .then(response => response.json())
       .then(json => {
-        this.setState({admins: json.admins})
+        var rows = []
+        for(let i = 0; i < json.rows.length; i++){
+            rows.push(json.rows[i].rating)
+        }
+        this.setState({ratings: rows});
+  
+      }) 
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/endPreparations", options)
+    .then(response => response.json())
+    .then(json => {
+      var rows = []
+      for(let i = 0; i < json.rows.length; i++){
+          rows.push(json.rows[i].state)
+      }
+
+      this.setState({end_preparations : rows});
+
+    })
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPIDs", options)
+      .then(response => response.json())
+      .then(async json => {
+          let pids = []
+          for(let i = 0; i < json.rows.length; i++){
+              pids.push(json.rows[i].pid)
+          }
+          await this.setState({pids: pids})
+      }) 
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPIDsAllProjects", options)
+      .then(response => response.json())
+      .then(async json => {
+          let pids = []
+          for(let i = 0; i < json.rows.length; i++){
+              pids.push({pid: json.rows[i].pid, project: json.rows[i].project})
+          }
+          await this.setState({pids_projects: pids})
+      }) 
+    
+  }
+
+  async componentDidUpdate(prevProps, prevState){
+    if(this.props != prevProps){
+      const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    }
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecs", options)
+      .then(response => response.json())
+      .then(async json => {
+          let spec_data = []
+          for(let i = 0; i < json.specs.length; i++){
+              spec_data.push(json.specs[i].spec)
+          }
+          await this.setState({specs: spec_data})
       })
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecsByAllProjects", options)
+    .then(response => response.json())
+    .then(async json => {
+        let spec_data = []
+        for(let i = 0; i < json.specs.length; i++){
+            spec_data.push({spec: json.specs[i].spec, project: json.specs[i].project})
+        }
+        await this.setState({specs_projects: spec_data})
+    })
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getInstTypes", options)
+    .then(response => response.json())
+    .then(async json => {
+        let types_data = []
+        for(let i = 0; i < json.instrument_types.length; i++){
+            types_data.push(json.instrument_types[i].type)
+        }
+        await this.setState({types_data: types_data})
+    })
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPComs", options)
+    .then(response => response.json())
+    .then(async json => {
+        let pcons_data = []
+        for(let i = 0; i < json.pcons.length; i++){
+            pcons_data.push(json.pcons[i].name)
+        }
+        await this.setState({pcons: pcons_data})
+    })
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/boltTypes", options)
+      .then(response => response.json())
+      .then(async json => {
+          let bolt_types_data = []
+          for(let i = 0; i < json.rows.length; i++){
+              bolt_types_data.push(json.rows[i].type)
+          }
+          await this.setState({bolt_types: bolt_types_data})
+        })
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/ratings", options)
+      .then(response => response.json())
+      .then(json => {
+        var rows = []
+        for(let i = 0; i < json.rows.length; i++){
+            rows.push(json.rows[i].rating)
+        }
+        this.setState({ratings: rows});
+  
+      }) 
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/endPreparations", options)
+    .then(response => response.json())
+    .then(json => {
+      var rows = []
+      for(let i = 0; i < json.rows.length; i++){
+          rows.push(json.rows[i].state)
+      }
+
+      this.setState({end_preparations : rows});
+
+    })
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPIDs", options)
+      .then(response => response.json())
+      .then(async json => {
+          let pids = []
+          for(let i = 0; i < json.rows.length; i++){
+              pids.push(json.rows[i].pid)
+          }
+          await this.setState({pids: pids})
+      }) 
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPIDsAllProjects", options)
+      .then(response => response.json())
+      .then(async json => {
+          let pids = []
+          for(let i = 0; i < json.rows.length; i++){
+              pids.push({pid: json.rows[i].pid, project: json.rows[i].project})
+          }
+          await this.setState({pids_projects: pids})
+      }) 
+    }
   }
 
 
@@ -505,13 +600,14 @@ class KeyParamTreeGrid extends Component{
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} centered>
               <Tab label="Specs" value="1" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}} />
-              <Tab label="Specs by project" value="2" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
+              <Tab label="Specs by Project" value="2" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
               <Tab label="Generic" value="3" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
               <Tab label="PComs" value="4" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
               <Tab label="Bolt Types" value="5" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
               <Tab label="Ratings" value="6" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
               <Tab label="End preparation" value="7" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
-              <Tab label="PIDS" value="8" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
+              <Tab label="PIDs" value="8" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
+              <Tab label="PIDs by Project" value="9" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
             </TabList>
           </Box>
           <TabPanel value="1" centered>
@@ -784,6 +880,44 @@ class KeyParamTreeGrid extends Component{
             <div id="hot-app" className="excel__container" style={{marginLeft: "110px"}}>
               <HotTable
                 data={this.state.tasks}
+                colHeaders = {["<b>PID</b>"]}
+                rowHeaders={false}
+                width="900"
+                height="775"
+                className="custom__table__1"
+                rowHeights="38"
+                settings={settingsTasks} 
+                manualColumnResize={true}
+                manualRowResize={true}
+                columns= { [{data: "Software", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.softwares},{data: "Task"}]}
+                filters={false}
+                dropdownMenu= {[
+                    'make_read_only',
+                    '---------',
+                    'alignment',
+                    '---------',
+                    'filter_by_condition',
+                    '---------',
+                    'filter_operators',
+                    '---------',
+                    'filter_by_condition2',
+                    '---------',
+                    'filter_by_value',
+                    '---------',
+                    'filter_action_bar',
+                  ]}
+              />
+            </div>
+            <div style={{display: "flex", float:"center"}} >
+              <div style={{marginLeft: "470px"}}>
+                <button className="projects__add__button" type="button" onClick={()=> this.addRowTasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
+              </div>
+            </div>
+          </TabPanel>
+          <TabPanel value="9">
+            <div id="hot-app" className="excel__container" style={{marginLeft: "110px"}}>
+              <HotTable
+                data={this.state.tasks}
                 colHeaders = {["<b>PIDS</b>", "<b>Project</b>"]}
                 rowHeaders={false}
                 width="900"
@@ -834,7 +968,7 @@ class KeyParamTreeGrid extends Component{
           <button className="projects__button__task" onClick={()=>this.props.goToTasks()} style={{width:"155px", marginLeft:"20px"}}><img src={FolderIcon2} alt="hold" className="navBar__icon__task" style={{marginRight:"0px"}}></img><p className="projects__button__text">Tasks</p></button>
         </div>
         <div style={{display: "center"}}>
-          <div style={{marginLeft: "600px", marginRight: "600px"}}>
+          <div style={{marginLeft: "500px", marginRight: "500px"}}>
               <MyTabs />
           </div>
         </div>
