@@ -404,7 +404,7 @@ export default function MenuListPITList(props) {
                 <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPExpansionJoinsClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Expansion Joins</text></div></span>
               </div>
               <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPKeyParamClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Key Parameters</text></div></span>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPKeyParamClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Manage Catalogue</text></div></span>
               </div>
             </div>)
           } else {

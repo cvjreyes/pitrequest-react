@@ -19,15 +19,15 @@ class KeyParamTreeGrid extends Component{
 
   constructor(props) {
     super(props);
-
     this.state = {
       updateData: false,
       error: false,
-      projects: [],
+      projects_list: [],
+      specs_list: [],
       tab: '1',
       specs: [],
       specs_projects : [],
-      types_data: [],
+      instrument_types: [],
       pcons: [],
       bolt_types: [],
       ratings: [],
@@ -47,14 +47,27 @@ class KeyParamTreeGrid extends Component{
         },
     }
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecs", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAllProjects", options)
+    .then(response => response.json())
+    .then(json => {
+      var projects = []
+      for(let i = 0; i < json.projects.length; i++){
+        projects.push(json.projects[i].name)
+      }
+      this.setState({projects_list : projects});  
+
+    }) 
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/specs", options)
       .then(response => response.json())
       .then(async json => {
           let spec_data = []
-          for(let i = 0; i < json.specs.length; i++){
-              spec_data.push(json.specs[i].spec)
+          let specs_list = []
+          for(let i = 0; i < json.rows.length; i++){
+              spec_data.push({"Name": json.rows[i].spec, id: json.rows[i].id})
+              specs_list.push(json.rows[i].spec)
           }
-          await this.setState({specs: spec_data})
+          await this.setState({specs: spec_data, specs_list: specs_list})
       })
 
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecsByAllProjects", options)
@@ -62,7 +75,7 @@ class KeyParamTreeGrid extends Component{
     .then(async json => {
         let spec_data = []
         for(let i = 0; i < json.specs.length; i++){
-            spec_data.push({spec: json.specs[i].spec, project: json.specs[i].project})
+            spec_data.push({spec: json.specs[i].spec, project: json.specs[i].project, id: json.specs[i].id})
         }
         await this.setState({specs_projects: spec_data})
     })
@@ -72,9 +85,9 @@ class KeyParamTreeGrid extends Component{
     .then(async json => {
         let types_data = []
         for(let i = 0; i < json.instrument_types.length; i++){
-            types_data.push(json.instrument_types[i].type)
+            types_data.push({type: json.instrument_types[i].type, id: json.instrument_types[i].id})
         }
-        await this.setState({types_data: types_data})
+        await this.setState({instrument_types: types_data})
     })
 
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPComs", options)
@@ -82,7 +95,7 @@ class KeyParamTreeGrid extends Component{
     .then(async json => {
         let pcons_data = []
         for(let i = 0; i < json.pcons.length; i++){
-            pcons_data.push(json.pcons[i].name)
+            pcons_data.push({pcon: json.pcons[i].name, id: json.pcons[i].id})
         }
         await this.setState({pcons: pcons_data})
     })
@@ -92,7 +105,7 @@ class KeyParamTreeGrid extends Component{
       .then(async json => {
           let bolt_types_data = []
           for(let i = 0; i < json.rows.length; i++){
-              bolt_types_data.push(json.rows[i].type)
+              bolt_types_data.push({"Name": json.rows[i].type, id: json.rows[i].id})
           }
           await this.setState({bolt_types: bolt_types_data})
         })
@@ -102,7 +115,7 @@ class KeyParamTreeGrid extends Component{
       .then(json => {
         var rows = []
         for(let i = 0; i < json.rows.length; i++){
-            rows.push(json.rows[i].rating)
+            rows.push({"Name": json.rows[i].rating, id: json.rows[i].id})
         }
         this.setState({ratings: rows});
   
@@ -113,33 +126,22 @@ class KeyParamTreeGrid extends Component{
     .then(json => {
       var rows = []
       for(let i = 0; i < json.rows.length; i++){
-          rows.push(json.rows[i].state)
+          rows.push({"Name": json.rows[i].state, id: json.rows[i].id})
       }
 
       this.setState({end_preparations : rows});
 
     })
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPIDs", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/pids", options)
       .then(response => response.json())
       .then(async json => {
           let pids = []
           for(let i = 0; i < json.rows.length; i++){
-              pids.push(json.rows[i].pid)
+              pids.push({pid: json.rows[i].pid, project: json.rows[i].name, id: json.rows[i].id})
           }
           await this.setState({pids: pids})
       }) 
-
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPIDsAllProjects", options)
-      .then(response => response.json())
-      .then(async json => {
-          let pids = []
-          for(let i = 0; i < json.rows.length; i++){
-              pids.push({pid: json.rows[i].pid, project: json.rows[i].project})
-          }
-          await this.setState({pids_projects: pids})
-      }) 
-    
   }
 
   async componentDidUpdate(prevProps, prevState){
@@ -151,14 +153,16 @@ class KeyParamTreeGrid extends Component{
         },
     }
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecs", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/specs", options)
       .then(response => response.json())
       .then(async json => {
           let spec_data = []
-          for(let i = 0; i < json.specs.length; i++){
-              spec_data.push(json.specs[i].spec)
+          let specs_list = []
+          for(let i = 0; i < json.rows.length; i++){
+              spec_data.push({"Name": json.rows[i].spec, id: json.rows[i].id})
+              specs_list.push(json.rows[i].spec)
           }
-          await this.setState({specs: spec_data})
+          await this.setState({specs: spec_data, specs_list: specs_list})
       })
 
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecsByAllProjects", options)
@@ -166,7 +170,7 @@ class KeyParamTreeGrid extends Component{
     .then(async json => {
         let spec_data = []
         for(let i = 0; i < json.specs.length; i++){
-            spec_data.push({spec: json.specs[i].spec, project: json.specs[i].project})
+            spec_data.push({spec: json.specs[i].spec, project: json.specs[i].project, id: json.specs[i].id})
         }
         await this.setState({specs_projects: spec_data})
     })
@@ -176,9 +180,9 @@ class KeyParamTreeGrid extends Component{
     .then(async json => {
         let types_data = []
         for(let i = 0; i < json.instrument_types.length; i++){
-            types_data.push(json.instrument_types[i].type)
+            types_data.push({type: json.instrument_types[i].type, id: json.instrument_types[i].id})
         }
-        await this.setState({types_data: types_data})
+        await this.setState({instrument_types: types_data})
     })
 
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPComs", options)
@@ -186,7 +190,7 @@ class KeyParamTreeGrid extends Component{
     .then(async json => {
         let pcons_data = []
         for(let i = 0; i < json.pcons.length; i++){
-            pcons_data.push(json.pcons[i].name)
+            pcons_data.push({pcon: json.pcons[i].name, id: json.pcons[i].id})
         }
         await this.setState({pcons: pcons_data})
     })
@@ -196,7 +200,7 @@ class KeyParamTreeGrid extends Component{
       .then(async json => {
           let bolt_types_data = []
           for(let i = 0; i < json.rows.length; i++){
-              bolt_types_data.push(json.rows[i].type)
+              bolt_types_data.push({"Name": json.rows[i].type, id: json.rows[i].id})
           }
           await this.setState({bolt_types: bolt_types_data})
         })
@@ -206,7 +210,7 @@ class KeyParamTreeGrid extends Component{
       .then(json => {
         var rows = []
         for(let i = 0; i < json.rows.length; i++){
-            rows.push(json.rows[i].rating)
+            rows.push({"Name": json.rows[i].rating, id: json.rows[i].id})
         }
         this.setState({ratings: rows});
   
@@ -217,154 +221,92 @@ class KeyParamTreeGrid extends Component{
     .then(json => {
       var rows = []
       for(let i = 0; i < json.rows.length; i++){
-          rows.push(json.rows[i].state)
+          rows.push({"Name": json.rows[i].state, id: json.rows[i].id})
       }
 
       this.setState({end_preparations : rows});
 
     })
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPIDs", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/pids", options)
       .then(response => response.json())
       .then(async json => {
           let pids = []
           for(let i = 0; i < json.rows.length; i++){
-              pids.push(json.rows[i].pid)
+              pids.push({pid: json.rows[i].pid, project: json.rows[i].name, id: json.rows[i].id})
           }
           await this.setState({pids: pids})
       }) 
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPIDsAllProjects", options)
-      .then(response => response.json())
-      .then(async json => {
-          let pids = []
-          for(let i = 0; i < json.rows.length; i++){
-              pids.push({pid: json.rows[i].pid, project: json.rows[i].project})
-          }
-          await this.setState({pids_projects: pids})
-      }) 
-    }
-  }
-
-
-  addRowTasks(){
-    let rows = this.state.tasks
-    rows.push({"Task": "", "id": ""})
-    this.setState({tasks: rows})
-  }
-
-  addRowSubtasks(){
-    let rows = this.state.subtasks
-    rows.push({"Task": "", "Subtask": "", "Hours": "", "id": ""})
-    this.setState({subtasks: rows})
-  }
-
-
-  onGridReady = async(params) => {
-    this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
-    
-    const options = {
-      method: "GET",
-      headers: {
-          "Content-Type": "application/json"
-      },
-    }
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsTreeData", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjects", options)
     .then(response => response.json())
-    .then(async json => {
-        let tree_nodes = []
-        let node = {}
-        for(let i = 0; i < json.rows.length; i++){
-            node = {project: json.rows[i].project, software: json.rows[i].software, task: json.rows[i].task, subtask: json.rows[i].subtask, hours: json.rows[i].hours}
-            if(node){
-                tree_nodes.push(node)
-            }
-            
-        }
-        await this.setState({tree_nodes: tree_nodes})
-
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAllPTS", options)
-    .then(response => response.json())
-    .then(async json => {
-        let nodes = []
-        const projects = json.projects
-        const tasks = json.tasks
-
-        for(let i = 0; i < projects.length; i ++){
-          let support_node = {project: projects[i].name, software: "Support", task: "Estimated", subtask:"Hours", hours: projects[i].sup_estihrs, checked: true}
-          if(tasks){
-            for(let j = 0; j < tasks.length; j ++){
-              let node = {project: projects[i].name, software: tasks[j].software, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
-              if(this.state.tree_nodes.some(e => e.project === node.project && e.task === node.task && e.subtask === node.subtask && e.hours === node.hours)) {
-                node["checked"] = true
-                support_node.hours -= node.hours
-              }else{
-                node["checked"] = false
-              }
-              nodes.push(node)
-            }
-          }else{
-            let node = {project: projects[i].name, task: "No tasks available", subtasks: null, hours: null}
-            nodes.push(node)
-          }
-          nodes.push(support_node)
-          
-        }
-        await this.setState({rowData: nodes})
-    })
-
-    
-    })
-    await this.gridApi.forEachNode(node => {
-      if(node.data){
-        if(node.data.checked === true){
-          node.setSelected(true)
-        }
+    .then(json => {
+      var projects = []
+      for(let i = 0; i < json.projects.length; i++){
+        projects.push(json.projects[i].name)
       }
-    });
+      this.setState({projects_list : projects});  
 
-    let initial_nodes = []
-
-    for(let i = 0; i < this.gridApi.getSelectedNodes().length; i++){
-      initial_nodes.push(this.gridApi.getSelectedNodes()[i].data)
+    }) 
     }
-    
-    await this.setState({initial_nodes: initial_nodes})
-
-  };
-
-  isRowSelectable = function(rowNode) {
-    return true;
   }
+
+
+  addRowSpecs(){
+    let rows = this.state.specs
+    rows.push({"Name": ""})
+    this.setState({specs: rows})
+  }
+
+  addRowSpecsByProject(){
+    let rows = this.state.specs_projects
+    rows.push({"spec": "", "project": "", "id": ""})
+    this.setState({specs_projects: rows})
+  }
+
+  addRowGenerics(){
+    let rows = this.state.instrument_types
+    rows.push({"type": "",  "id": ""})
+    this.setState({instrument_types: rows})
+  }
+
+  addRowPcons(){
+    let rows = this.state.pcons
+    rows.push({"pcon": "",  "id": ""})
+    this.setState({pcons: rows})
+  }
+
+  addRowBoltTypes(){
+    let rows = this.state.bolt_types
+    rows.push({"Name": "",  "id": ""})
+    this.setState({bolt_types: rows})
+  }
+
+  addRowRatings(){
+    let rows = this.state.ratings
+    rows.push({"Name": "",  "id": ""})
+    this.setState({ratings: rows})
+  }
+
+  addRowsEndPreparations(){
+    let rows = this.state.end_preparations
+    rows.push({"Name": "",  "id": ""})
+    this.setState({end_preparation: rows})
+  }
+
+  addRowsPIDs(){
+    let rows = this.state.pids
+    rows.push({"pid": "", "project": "", "id": ""})
+    this.setState({pids: rows})
+  }
+
   
   async saveChanges(){
 
-    await this.setState({error: false})
+    let error = false
 
-    let new_nodes = []
-    let removed_nodes = []
-    let current_nodes = []
-
-    for(let i = 0; i < this.gridApi.getSelectedNodes().length; i++){
-      current_nodes.push(this.gridApi.getSelectedNodes()[i].data)
-    }
-
-    for(let i = 0; i < current_nodes.length; i++){
-      if(!this.state.initial_nodes.some(e => e.project === current_nodes[i].project && e.task === current_nodes[i].task && e.subtask === current_nodes[i].subtask && e.hours === current_nodes[i].hours)){
-        new_nodes.push(current_nodes[i])
-      }
-    }
-
-    for(let i = 0; i < this.state.initial_nodes.length; i++){
-      if(!current_nodes.some(e => e.project === this.state.initial_nodes[i].project && e.task === this.state.initial_nodes[i].task && e.subtask === this.state.initial_nodes[i].subtask && e.hours === this.state.initial_nodes[i].hours)){
-        removed_nodes.push(this.state.initial_nodes[i])
-      }
-    }
-
-    let body = {
-      new_nodes: new_nodes,
-      removed_nodes: removed_nodes
+    let body ={
+      rows: this.state.specs,
     }
 
     let options = {
@@ -375,17 +317,16 @@ class KeyParamTreeGrid extends Component{
       body: JSON.stringify(body)
     }
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitProjectsChanges", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submit/csptracker/specs", options)
       .then(response => response.json())
-      .then(async json =>{
-        if(!json.success){
-          await this.setState({error: true})
-        }
+      .then(async json => {
+          if(!json.success){
+            error = true
+          }
       })
 
-
-    body = {
-      rows: this.state.subtasks,
+    body ={
+      specs: this.state.specs_projects,
     }
 
     options = {
@@ -394,178 +335,136 @@ class KeyParamTreeGrid extends Component{
           "Content-Type": "application/json"
       },
       body: JSON.stringify(body)
-  }
+    }
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitSubtasks", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitSpecsByProject", options)
       .then(response => response.json())
-      .then(async json =>{
-        if(!json.success){
-          await this.setState({error: true})
-        }
-      })
-    body = {
-      rows: this.state.tasks,
-    }
-
-    options = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body)
-    }
-    
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitTasks", options)
-    .then(response => response.json())
-    .then(async json =>{
-      if(!json.success){
-        await this.setState({error: true})
-      }
-    })
-
-    body = {
-      rows: this.state.projects,
-    }
-
-    options = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body)
-    }
-    if(this.state.projects){
-      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitProjectsHours", options)
-      .then(response => response.json())
-      .then(async json =>{
-        if(!json.success){
-          await this.setState({error: true})
-        }
-      })
-      
-      options = {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        },
-      }
-    }
-
-    
- 
-  await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getTasks", options)
-    .then(response => response.json())
-    .then(async json => {
-      let tasks = []
-      let tasksNames = []
-      let subtasks =[]
-      if(json.tasks){
-        for(let i = 1; i < json.tasks.length; i++){
-          let ts = []
-          Object.entries(json.tasks[i])
-          .map( ([key, value]) =>  ts.push([key, value]))
-          tasks.push({"Task": ts[0][0], "id": ts[0][1], "Software": json.tasks[i]["software"]})
-          if(ts[0][0]){
-            tasksNames.push(ts[0][0])
+      .then(async json => {
+          if(!json.success){
+            error = true
           }
-          for(let j = 1; j < ts.length; j++){
-            if(ts[j][0] !== "software"){
-              fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSubtaskHours/"+ts[j][1], options)
-              .then(response => response.json())
-              .then(json => {
-                if(ts[j][0] !== "null"){
-                  subtasks.push({"Task": ts[0][0], "Subtask": ts[j][0], "Hours": json.hours, "id": ts[j][1]})
-                }
-              })
-            }
-          }
-        }
-      }
-      
-      await this.setState({tasks : tasks, subtasks: subtasks, tasksNames: tasksNames});
-  })
+      })
+
+    body ={
+      generics: this.state.instrument_types,
+    }
+
     options = {
-      method: "GET",
+      method: "POST",
       headers: {
           "Content-Type": "application/json"
       },
+      body: JSON.stringify(body)
     }
 
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsTreeData", options)
-    .then(response => response.json())
-    .then(async json => {
-        let tree_nodes = []
-        let node = {}
-        for(let i = 0; i < json.rows.length; i++){
-            node = {project: json.rows[i].project, software: json.rows[i].software, task: json.rows[i].task, subtask: json.rows[i].subtask, hours: json.rows[i].hours}
-            if(node){
-                tree_nodes.push(node)
-            }
-        }
-        await this.setState({tree_nodes: tree_nodes})
-      })
-      
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAllPTS", options)
-    .then(response => response.json())
-    .then(async json => {
-        let nodes = []
-        const projects = json.projects
-        const tasks = json.tasks
-        for(let i = 0; i < projects.length; i ++){
-          let support_node = {project: projects[i].name, software: "Support", task: "Estimated", subtask:"Hours", hours: projects[i].sup_estihrs, checked: true}
-          if(tasks){
-            for(let j = 0; j < tasks.length; j ++){
-              let node = {project: projects[i].name, software: tasks[j].software, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
-              if(this.state.tree_nodes.some(e => e.project === node.project && e.task === node.task && e.subtask === node.subtask && e.hours === node.hours)) {
-                node["checked"] = true
-                support_node.hours -= node.hours
-              }else{
-                node["checked"] = false
-              }
-              nodes.push(node)
-            }
-          }else{
-            let node = {project: projects[i].name, task: "No tasks available", subtasks: null, hours: null}
-            nodes.push(node)
-          }
-          nodes.push(support_node)
-          
-        }
-        await this.setState({rowData: nodes})    
-    })
-
-    await this.gridApi.forEachNode(node => {
-      if(node.data){
-        if(node.data.checked === true){
-          node.setSelected(true)
-        }
-      }
-    });
-
-    let initial_nodes = []
-
-    for(let i = 0; i < this.gridApi.getSelectedNodes().length; i++){
-      initial_nodes.push(this.gridApi.getSelectedNodes()[i].data)
-    }
-
-
-    await this.setState({initial_nodes: initial_nodes})
-
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsWithHours", options)
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitGenerics", options)
       .then(response => response.json())
       .then(async json => {
-        let projects = []
-        if(json.projects){
-          for(let i = 0; i < json.projects.length; i++){
-            projects.push({"Project": json.projects[i].name, "Admin" : json.projects[i].admin, "Hours": json.projects[i].sup_estihrs, "id": json.projects[i].id, "Active": Boolean(json.projects[i].active)})
-          }
-        }else{
-          projects.push({"Project": null, "Admin" : null, "Hours": null, "id": null, "Active":null})
+        if(!json.success){
+          error = true
         }
-        await this.setState({projects : projects});
       })
-      
-    if(this.state.error){
+    body ={
+      pcons: this.state.pcons,
+    }
+
+    options = {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    }
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitPcons", options)
+      .then(response => response.json())
+      .then(async json => {
+        if(!json.success){
+          error = true
+        }
+      })
+
+    body ={
+      rows: this.state.bolt_types,
+    }
+
+    options = {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    }
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submit/csptracker/boltTypes", options)
+      .then(response => response.json())
+      .then(async json => {
+        if(!json.success){
+          error = true
+        }
+      })
+
+    body ={
+      rows: this.state.ratings,
+    }
+
+    options = {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    }
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submit/csptracker/ratings", options)
+      .then(response => response.json())
+      .then(async json => {
+        if(!json.success){
+          error = true
+        }
+      })
+
+    body ={
+      rows: this.state.end_preparations,
+    }
+
+    options = {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    }
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submit/csptracker/endPreparations", options)
+      .then(response => response.json())
+      .then(async json => {
+        if(!json.success){
+          error = true
+        }
+      })
+
+    body ={
+      pids: this.state.pids,
+    }
+
+    options = {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    }
+
+    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitPIDsByProject", options)
+      .then(response => response.json())
+      .then(async json => {
+        if(!json.success){
+          error = true
+        }
+      })
+    
+    if(error){
       this.props.error()
     }else{
       this.props.success()
@@ -580,7 +479,7 @@ class KeyParamTreeGrid extends Component{
 
     let settingsProjects = {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 400,
+      colWidths: [261, 261, 261, 91],
     }
 
     let settingsTasks = {
@@ -591,7 +490,7 @@ class KeyParamTreeGrid extends Component{
 
     let settingsSubtasks= {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 400,
+      colWidths: 293,
     }
 
     return <div >{ 
@@ -602,28 +501,27 @@ class KeyParamTreeGrid extends Component{
               <Tab label="Specs" value="1" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}} />
               <Tab label="Specs by Project" value="2" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
               <Tab label="Generic" value="3" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
-              <Tab label="PComs" value="4" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
+              <Tab label="P-CONs" value="4" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
               <Tab label="Bolt Types" value="5" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
               <Tab label="Ratings" value="6" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
               <Tab label="End preparation" value="7" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
               <Tab label="PIDs" value="8" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
-              <Tab label="PIDs by Project" value="9" style={{fontSize: '22px', textTransform: 'capitalize', fontFamily:'Montserrat'}}/>
             </TabList>
           </Box>
           <TabPanel value="1" centered>
           <div className="excel__container__2" style={{marginLeft: "430px"}}>
             <HotTable
-              data={this.state.projects}
-              colHeaders = {["<b>Project</b>"]}
+              data={this.state.specs}
+              colHeaders = {["<b>Spec</b>"]}
               rowHeaders={false}
-              width="400"
+              width="320"
               className="custom__table__2"
               height="775"
               rowHeights="38"
               settings={settingsProjects} 
               manualColumnResize={true}
               manualRowResize={true}
-              columns= { [{data: "Admin", type: Handsontable.cellTypes.dropdown, strict:true, source: this.state.admins}]}
+              columns= { [{data: "Name", type: "text"}]}
               filters={true}
               dropdownMenu= {[
                   'make_read_only',
@@ -643,15 +541,15 @@ class KeyParamTreeGrid extends Component{
               />
             </div>
             <div style={{display: "flex", float:"center"}} >
-              <div style={{marginTop:"20px", marginLeft: "520px"}}>
-                <button className="projects__add__button" type="button" onClick={()=> this.addRowTasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
+              <div style={{marginTop:"20px", marginLeft: "470px"}}>
+                <button className="projects__add__button" type="button" onClick={()=> this.addRowSpecs()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
               </div>
             </div>
           </TabPanel>
           <TabPanel value="2">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "175px"}}>
+            <div id="hot-app" className="excel__container" style={{marginLeft: "110px"}}>
               <HotTable
-                data={this.state.tasks}
+                data={this.state.specs_projects}
                 colHeaders = {["<b>Specs</b>", "<b>Project</b>"]}
                 rowHeaders={false}
                 width="900"
@@ -661,7 +559,7 @@ class KeyParamTreeGrid extends Component{
                 settings={settingsTasks} 
                 manualColumnResize={true}
                 manualRowResize={true}
-                columns= { [{data: "Software", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.softwares},{data: "Task"}]}
+                columns= { [{data: "spec", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.specs_list},{data: "project", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.projects_list}]}
                 filters={false}
                 dropdownMenu= {[
                     'make_read_only',
@@ -681,25 +579,25 @@ class KeyParamTreeGrid extends Component{
               />
             </div>
             <div style={{display: "flex", float:"center"}} >
-              <div style={{marginLeft: "520px"}}>
-                <button className="projects__add__button" type="button" onClick={()=> this.addRowTasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
+              <div style={{marginLeft: "470px"}}>
+                <button className="projects__add__button" type="button" onClick={()=> this.addRowSpecsByProject()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
               </div>
             </div>
           </TabPanel>
           <TabPanel value="3">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "430px"}}>
+            <div id="hot-app" className="excel__container" style={{marginLeft: "420px"}}>
               <HotTable
-                data={this.state.subtasks}
-                colHeaders = {["<b>Generic</b>"]}
+                data={this.state.instrument_types}
+                colHeaders = {["<b>Type</b>"]}
                 rowHeaders={false}
-                width="400"
+                width="320"
                 height="775"
                 className="custom__table__3"
                 rowHeights="38"
                 settings={settingsSubtasks} 
                 manualColumnResize={true}
                 manualRowResize={true}
-                columns= { [{data: "Task", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.tasksNames}]}
+                columns= { [{data: "type", type:"text"}]}
                 filters={true}
                 dropdownMenu= {[
                     'make_read_only',
@@ -719,25 +617,25 @@ class KeyParamTreeGrid extends Component{
               />
               </div>
               <div style={{display: "flex"}}>
-                <div style={{marginLeft:"520px"}}>
-                  <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
+                <div style={{marginLeft:"470px"}}>
+                  <button className="projects__add__button" onClick={()=>this.addRowGenerics()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
                 </div>
               </div>
           </TabPanel>
           <TabPanel value="4">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "430px"}}>
+            <div id="hot-app" className="excel__container" style={{marginLeft: "420px"}}>
               <HotTable
-                data={this.state.subtasks}
-                colHeaders = {["<b>Pcoms</b>"]}
+                data={this.state.pcons}
+                colHeaders = {["<b>P-CON</b>"]}
                 rowHeaders={false}
-                width="400"
+                width="320"
                 height="775"
                 className="custom__table__3"
                 rowHeights="38"
                 settings={settingsSubtasks} 
                 manualColumnResize={true}
                 manualRowResize={true}
-                columns= { [{data: "Task", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.tasksNames}]}
+                columns= { [{data: "pcon", type: "text"}]}
                 filters={true}
                 dropdownMenu= {[
                     'make_read_only',
@@ -757,25 +655,25 @@ class KeyParamTreeGrid extends Component{
               />
               </div>
               <div style={{display: "flex"}}>
-                <div style={{marginLeft:"520px"}}>
-                  <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
+                <div style={{marginLeft:"470px"}}>
+                  <button className="projects__add__button" onClick={()=>this.addRowPcons()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
                 </div>
               </div>
           </TabPanel>
           <TabPanel value="5">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "430px"}}>
+            <div id="hot-app" className="excel__container" style={{marginLeft: "420px"}}>
               <HotTable
-                data={this.state.subtasks}
-                colHeaders = {["<b>Bolt Types</b>"]}
+                data={this.state.bolt_types}
+                colHeaders = {["<b>Type</b>"]}
                 rowHeaders={false}
-                width="400"
+                width="320"
                 height="775"
                 className="custom__table__3"
                 rowHeights="38"
                 settings={settingsSubtasks} 
                 manualColumnResize={true}
                 manualRowResize={true}
-                columns= { [{data: "Task", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.tasksNames}]}
+                columns= { [{data: "Name", type: "text"}]}
                 filters={true}
                 dropdownMenu= {[
                     'make_read_only',
@@ -795,25 +693,25 @@ class KeyParamTreeGrid extends Component{
               />
               </div>
               <div style={{display: "flex"}}>
-                <div style={{marginLeft:"520px"}}>
-                  <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
+                <div style={{marginLeft:"470px"}}>
+                  <button className="projects__add__button" onClick={()=>this.addRowBoltTypes()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
                 </div>
               </div>
           </TabPanel>
           <TabPanel value="6">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "430px"}}>
+            <div id="hot-app" className="excel__container" style={{marginLeft: "420px"}}>
               <HotTable
-                data={this.state.subtasks}
-                colHeaders = {["<b>Ratings</b>"]}
+                data={this.state.ratings}
+                colHeaders = {["<b>Rating</b>"]}
                 rowHeaders={false}
-                width="400"
+                width="320"
                 height="775"
                 className="custom__table__3"
                 rowHeights="38"
                 settings={settingsSubtasks} 
                 manualColumnResize={true}
                 manualRowResize={true}
-                columns= { [{data: "Task", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.tasksNames}]}
+                columns= { [{data: "Name", type: "text"}]}
                 filters={true}
                 dropdownMenu= {[
                     'make_read_only',
@@ -833,25 +731,25 @@ class KeyParamTreeGrid extends Component{
               />
               </div>
               <div style={{display: "flex"}}>
-                <div style={{marginLeft:"520px"}}>
-                  <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
+                <div style={{marginLeft:"470px"}}>
+                  <button className="projects__add__button" onClick={()=>this.addRowRatings()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
                 </div>
               </div>
           </TabPanel>
           <TabPanel value="7">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "430px"}}>
+            <div id="hot-app" className="excel__container" style={{marginLeft: "420px"}}>
               <HotTable
-                data={this.state.subtasks}
-                colHeaders = {["<b>End Preparation</b>"]}
+                data={this.state.end_preparations}
+                colHeaders = {["<b>End preparation</b>"]}
                 rowHeaders={false}
-                width="400"
+                width="320"
                 height="775"
                 className="custom__table__3"
                 rowHeights="38"
                 settings={settingsSubtasks} 
                 manualColumnResize={true}
                 manualRowResize={true}
-                columns= { [{data: "Task", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.tasksNames}]}
+                columns= { [{data: "Name", type: "text"}]}
                 filters={true}
                 dropdownMenu= {[
                     'make_read_only',
@@ -871,54 +769,16 @@ class KeyParamTreeGrid extends Component{
               />
               </div>
               <div style={{display: "flex"}}>
-                <div style={{marginLeft:"520px"}}>
-                  <button className="projects__add__button" onClick={()=>this.addRowSubtasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
+                <div style={{marginLeft:"470px"}}>
+                  <button className="projects__add__button" onClick={()=>this.addRowsEndPreparations()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
                 </div>
               </div>
           </TabPanel>
           <TabPanel value="8">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "430px"}}>
+            <div id="hot-app" className="excel__container" style={{marginLeft: "110px"}}>
               <HotTable
-                data={this.state.tasks}
-                colHeaders = {["<b>PID</b>"]}
-                rowHeaders={false}
-                width="400"
-                height="775"
-                className="custom__table__1"
-                rowHeights="38"
-                settings={settingsSubtasks} 
-                manualColumnResize={true}
-                manualRowResize={true}
-                columns= { [{data: "Software", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.softwares}]}
-                filters={false}
-                dropdownMenu= {[
-                    'make_read_only',
-                    '---------',
-                    'alignment',
-                    '---------',
-                    'filter_by_condition',
-                    '---------',
-                    'filter_operators',
-                    '---------',
-                    'filter_by_condition2',
-                    '---------',
-                    'filter_by_value',
-                    '---------',
-                    'filter_action_bar',
-                  ]}
-              />
-            </div>
-            <div style={{display: "flex", float:"center"}} >
-              <div style={{marginLeft: "520px"}}>
-                <button className="projects__add__button" type="button" onClick={()=> this.addRowTasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
-              </div>
-            </div>
-          </TabPanel>
-          <TabPanel value="9">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "175px"}}>
-              <HotTable
-                data={this.state.tasks}
-                colHeaders = {["<b>PIDS</b>", "<b>Project</b>"]}
+                data={this.state.pids}
+                colHeaders = {["<b>PIDs</b>", "<b>Project</b>"]}
                 rowHeaders={false}
                 width="900"
                 height="775"
@@ -927,7 +787,7 @@ class KeyParamTreeGrid extends Component{
                 settings={settingsTasks} 
                 manualColumnResize={true}
                 manualRowResize={true}
-                columns= { [{data: "Software", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.softwares},{data: "Task"}]}
+                columns= { [{data: "pid"}, {data: "project", type: Handsontable.cellTypes.dropdown, strict: true, source: this.state.projects_list}]}
                 filters={false}
                 dropdownMenu= {[
                     'make_read_only',
@@ -947,8 +807,8 @@ class KeyParamTreeGrid extends Component{
               />
             </div>
             <div style={{display: "flex", float:"center"}} >
-              <div style={{marginLeft: "520px"}}>
-                <button className="projects__add__button" type="button" onClick={()=> this.addRowTasks()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
+              <div style={{marginLeft: "470px"}}>
+                <button className="projects__add__button" type="button" onClick={()=> this.addRowsPIDs()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
               </div>
             </div>
           </TabPanel>
@@ -963,12 +823,11 @@ class KeyParamTreeGrid extends Component{
 
     return (
       <div style={{marginLeft: "30px"}}>
-        <div style={{marginTop: "90px", marginBottom: "50px"}}>
-          <button className="projects__button__save" onClick={()=>this.saveChanges()} style={{width:"175px", marginLeft:"-1570px"}}><img src={SaveIcon2} alt="hold" className="navBar__icon__save" style={{marginRight:"-20px"}}></img><p className="projects__button__text">Save</p></button>
-          {/* <button className="projects__button__task" onClick={()=>this.props.goToTasks()} style={{width:"155px", marginLeft:"20px"}}><img src={FolderIcon2} alt="hold" className="navBar__icon__task" style={{marginRight:"0px"}}></img><p className="projects__button__text">Tasks</p></button> */}
+        <div style={{marginTop: "140px"}}>
+          <button className="projects__button__save" onClick={()=>this.saveChanges()} style={{width:"175px", marginLeft:"-1770px"}}><img src={SaveIcon2} alt="hold" className="navBar__icon__save" style={{marginRight:"-20px"}}></img><p className="projects__button__text">Save</p></button>
         </div>
         <div style={{display: "center"}}>
-          <div style={{marginLeft: "500px", marginRight: "500px"}}>
+          <div style={{marginLeft: "600px", marginRight: "600px"}}>
               <MyTabs />
           </div>
         </div>
