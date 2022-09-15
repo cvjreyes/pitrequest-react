@@ -6,7 +6,7 @@ import RoleDropDown from '../../components/roleDropDown/roleDropDown'
 
 import IdleTimer from 'react-idle-timer'
 import {useNavigate} from "react-router";
-import CSPTrackerPSVDataTable from "../../components/csptrackerPSVDataTable/csptrackerPSVDataTable"
+import CSPTrackerGeneralDataTable from "../../components/csptrackerGeneralDataTable/csptrackerGeneralDataTable"
 import HotTable from "@handsontable/react"
 
 import SaveIcon from "../../assets/images/save.svg"
@@ -22,7 +22,7 @@ import CSPTrackerKeyParams from "../../components/csptrackerKeyParams/csptracker
 
 import { PieChart, Pie, Tooltip, Cell } from 'recharts';
 
-const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#99C6F8', '#94DCAA', '#FF3358'];
+const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#99C6F8', '#94DCAA', '#FF3358', '#F39F18'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -44,6 +44,8 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
             index = "EXCLUDED"
         }else if(index === 5){
             index = "DELETED"
+        }else if(index === 6){
+            index = "HOLD-REVN"
         }
       
         return (
@@ -84,8 +86,8 @@ const PipingPSV = () => {
     });
     const settings = {
         licenseKey: 'non-commercial-and-evaluation',
-        colWidths: 250,
-      }
+        colWidths: [250, 600, 250, 250, 250, 250, 275]
+    }
 
     const [currentRole, setCurrentRole] = useState();
     const [currentTab, setCurrentTab] = useState("View")
@@ -102,20 +104,21 @@ const PipingPSV = () => {
     const [existsRequest, setExistsRequest] = useState(false)
     const [errorPid, seterrorPid] = useState(false)
 
-    const [editData, setEditData] = useState()
-    const [descriptionPlaneData, setDescriptionPlaneData] = useState()
+    const [editData, setEditData] = useState({})
+    const [newData, setNewData] = useState([])
     const [diametersData, setDiametersData] = useState()
-    const [ratingData, setRatingData] = useState()
     const [specData, setSpecData] = useState()
-    const [endPreparationData, setEndPrepartaionData] = useState()
     const [boltTypesData, setBoltTypesData] = useState()
-    const [pidData, setPidData] = useState()
-    const [projectsData, setProjectsData] = useState()
+    const [projectFilter, setProjectFilter] = useState([])
+    const [currentProject, setCurrentProject] = useState()
+    const [instTypesData, setInstTypesData] = useState([])
+    const [pconsData, setPconsData] = useState([])
 
     const [busy, setBusy] = useState(false)
     const [editingUser, setEditingUser] = useState()
 
-    const [updateData, setUpdateData] = useState(false)    
+    const [updateData, setUpdateData] = useState(false)  
+    const [dataChanged, setDataChanged] = useState(false)  
 
     const history = useNavigate()
 
@@ -128,18 +131,6 @@ const PipingPSV = () => {
     }, [])
 
     var currentUser = secureStorage.getItem('user')
-
-    let p1bore, p2bore, p3bore = ""
-
-    if(process.env.REACT_APP_MMDN === "1"){
-        p1bore = "p1diameter_nps"
-        p2bore = "p2diameter_nps"
-        p3bore = "p3diameter_nps"
-    }else{
-        p1bore = "p1diameter_dn"
-        p2bore = "p2diameter_dn"
-        p3bore = "p3diameter_dn"
-    }
 
     useEffect(()=>{
         const body = {
@@ -173,38 +164,24 @@ const PipingPSV = () => {
     },[currentRole]);
 
     useEffect(async()=>{
-        const body = {
-            user: currentUser,
-        }
-        let options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(body)
-        }
-        fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/exitEditCSP", options)
-            .then(response => response.json())
-            .then(async json => {
 
-            })
-
-        options = {
+        const options = {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
             },
         }
 
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/spStatusData", options)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/instStatusDataByProject/" + currentProject, options)
             .then(response => response.json())
             .then(async json => {
-                let counter = [{name: "Materials", value: json.materials}, {name: "Hold", value: json.hold}, {name: "OK-REV0", value: json.ok_rev0}, {name: "OK-REVN", value: json.ok_revn}, {name: "Excluded", value: json.excluded}, {name: "Deleted", value: json.deleted}]
+                console.log(json)
+                let counter = [{name: "MATERIALS", value: json.materials}, {name: "HOLD", value: json.hold}, {name: "OK-REV0", value: json.ok_rev0}, {name: "OK-REVN", value: json.ok_revn}, {name: "EXCLUDED", value: json.excluded}, {name: "DELETED", value: json.deleted}, {name: "HOLD-REVN", value: json.hold_revn}]
                 
                 await setCounter(counter)
             })
 
-    },[updateData])
+    },[updateData, currentProject])
 
     useEffect(async()=>{
         const options = {
@@ -214,28 +191,101 @@ const PipingPSV = () => {
             },
         }
 
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getInstGeneral", options)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsByEmail/" + secureStorage.getItem("user"), options)
             .then(response => response.json())
             .then(async json => {
-                await setEditData(json.rows)
-            })
-
-        if(currentTab === "View"){  
+                let projects = []
+                for(let i = 0; i < json.projects.length; i++){
+                    projects.push({id: json.projects[i].id, project: json.projects[i].name})
+                }
+                setProjectFilter(projects)
+                await setCurrentProject(projects[0].id)
+                
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getInstGeneralByProject/" + currentProject, options)
+                .then(response => response.json())
+                .then(async json => {
+                    await setEditData(json.rows)
+                })
     
-            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getListsData", options)
-            .then(response => response.json())
-            .then(async json => {
-                await setDescriptionPlaneData(json.descriptionPlaneData)
-                await setDiametersData(json.diametersData)
-                await setRatingData(json.ratingData)
-                await setSpecData(json.specData)
-                await setEndPrepartaionData(json.endPreparationData)
-                await setBoltTypesData(json.boltTypesData)
-                await setPidData(json.pidData)
-                await setProjectsData(json.projectsData)
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecsByProject/"+ currentProject, options)
+                .then(response => response.json())
+                .then(async json => {
+                    let spec_data = []
+                    for(let i = 0; i < json.specs.length; i++){
+                        spec_data.push({spec: json.specs[i].spec})
+                    }
+                    await setSpecData(spec_data)
+                })
+
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getInstTypes", options)
+                .then(response => response.json())
+                .then(async json => {
+                    let types_data = []
+                    for(let i = 0; i < json.instrument_types.length; i++){
+                        types_data.push(json.instrument_types[i].type)
+                    }
+                    await setInstTypesData(types_data)
+                })
+
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPComs", options)
+                .then(response => response.json())
+                .then(async json => {
+                    let pcons_data = []
+                    for(let i = 0; i < json.pcons.length; i++){
+                        pcons_data.push(json.pcons[i].name)
+                    }
+                    await setPconsData(pcons_data)
+                })
+
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getDiameters", options)
+                .then(response => response.json())
+                .then(async json => {
+                    let diameters_data = []
+                    for(let i = 0; i < json.diameters.length; i++){
+                        diameters_data.push(json.diameters[i].dn)
+                    }
+                    await setDiametersData(diameters_data)
+                })
+
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/boltTypes", options)
+                .then(response => response.json())
+                .then(async json => {
+                    let bolt_types_data = []
+                    for(let i = 0; i < json.rows.length; i++){
+                        bolt_types_data.push(json.rows[i].type)
+                    }
+                    await setBoltTypesData(bolt_types_data)
+                })
             })
-        }    
-    }, [currentTab])
+    }, [])
+
+    useEffect(async()=>{
+        const options = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }
+
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getInstGeneralByProject/" + currentProject, options)
+        .then(response => response.json())
+        .then(async json => {
+            await setEditData(json.rows)
+        })
+
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecsByProject/"+ currentProject, options)
+                .then(response => response.json())
+                .then(async json => {
+                    let spec_data = []
+                    for(let i = 0; i < json.specs.length; i++){
+                        spec_data.push(json.specs[i].spec)
+                    }
+                    await setSpecData(spec_data)
+                })
+
+        await setNewData({})
+    }, [currentProject, dataChanged])
+
 
     function uploadSuccess(){
         setUploadDrawingSuccess(true)
@@ -287,48 +337,10 @@ const PipingPSV = () => {
 
     async function handleToggle(){
         if(currentTab === "View"){
-            const body = {
-                user: currentUser,
-            }
-            const options = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(body)
-            }
-            fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/editCSP", options)
-            .then(response => response.json())
-            .then(async json => {
-                if(json.user){
-                    await setBusy(true)
-                    await setEditingUser(json.user)
-                }else{
-                    await setBusy(false)
-                }
-                await setCurrentTab("Edit")
-            })
-            
+            await setCurrentTab("Edit")
         }else{
-            const body = {
-                user: currentUser,
-            }
-            const options = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(body)
-            }
-            fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/exitEditCSP", options)
-            .then(response => response.json())
-            .then(async json => {
-                if(json.success){
-                    await saveChanges()
-                    await setCurrentTab("View")
-                }
-            })
-            
+            await setCurrentTab("View")
+            await saveChanges()
         }
     }
 
@@ -345,87 +357,94 @@ const PipingPSV = () => {
 
     async function addRow(){
         let rows = editData
-        rows.push({tag:"", quantity: "", description: "", description_plan_code: "", drawing_filename: "", description_iso: "", ident: "", p1diameter_dn: "", p1diameter_nps: "", p2diameter_dn: "", p2diameter_nps: "", p3diameter_dn: "", p3diameter_nps: "", rating: "", spec: "", type: "", end_preparation: "", description_drawing: "", face_to_face: "", bolt_type: "", ready_load: "", ready_e3d: "", comments: "", pid: "", line_id: "", requisition: "", equipnozz: "", utility_station: ""})
+        rows.push({spec:"", instrument_type: "", pcons_name: "", diameters_from_dn: "", diameters_to_dn: "", bolt_type: "", comments: ""})
         await setEditData(rows)
         await setUpdateData(!updateData)
       }
 
-    async function saveChanges(){
-
-        const body = {
-            rows: editData,
-            email: currentUser
+    async function handleChange(changes, source){
+        if (source !== 'loadData'){
+            let data_aux = editData
+            for(let i = 0; i < changes.length; i+=4){       
+                let row_id = changes[i][0]
+                let row = editData[row_id]
+                let new_data = newData
+                new_data[row_id] = row
+                await setEditData(data_aux)
+                await setNewData(new_data)
+            }
         }
+    }
+
+    async function saveChanges(){
+        let new_rows = []
+        Object.entries(newData)
+        .map( ([key, value]) => new_rows.push(value))
+
+        
+        const body = {
+            rows: new_rows,
+            project_id: currentProject,
+            role: currentRole
+        }
+       
         let options = {
-            method: "GET",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
-            }
+            },
+            body: JSON.stringify(body)
         }
 
-        fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/tags", options)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitInstGeneral", options)
         .then(response => response.json())
         .then(async json =>{
-            let unique = true
-            if(json.none){
-
-            }else{
-                let tags = []
-                for(let i = 0; i < editData.length; i++){
-                    if(tags.indexOf(editData[i].tag) > -1 && editData[i].tag !== null){
-                        unique = false
-                        await setErrorIndex("Repeated tag at entry " + i +"!")             
-                    }else{
-                        tags.push(editData[i].tag)
-                    }
-                }
+            if(json.success){
+                await setSuccessAlert(true)
+                await setNewData({})
+                await setDataChanged(!dataChanged)
             }
-            
-            if(!unique){
-                await setNoTagError(true)
-            }
-            options = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(body)
-            }
-            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitCSP", options)
-            .then(response => response.json())
-            .then(async json =>{
-                if(json.success){
-                    await setSuccessAlert(true)
-
-                }
-            })
-
-            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/update_ready_load", options)
-            .then(response => response.json())
-            .then(async json =>{
-
-            }) 
-                                
-        })                
-             
+        })
     }
 
-    function back(){
-        history("/"+process.env.REACT_APP_PROJECT+"/pitrequests")
-    }
 
     async function updateDataMethod(){
         setUpdateData(!updateData)
     }
 
     async function downloadReport(){
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadCSP/")
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadInstsGeneralByProject/" + currentProject)
         .then(response => response.json())
         .then(json => {
-            const headers = ["Spec", "Generic", "Pcom", "From", "To", "FLG-Con", "Request Date", "Request to load date", "Ready in E3D date", "Comments", "Ready to Load", "Ready in 3D", "Updated"]
-            const apiData = JSON.parse(json)
-            const fileName = "CSPTracker report"
+            let rows = JSON.parse(json)
 
+            const headers = ["Spec", "Generic", "Pcom", "From", "To", "FLG-Con", "Request to load date", "Ready in E3D date", "Updated date",  "Comments", "Ready to Load", "Ready in 3D", "Updated"]
+            const fileName = "Instruments report"
+
+            for(let i = 0; i < rows.length; i++){
+
+                if(rows[i].ready_load_date){
+                    rows[i].ready_load_date = rows[i].ready_load_date.toString().substring(8,10) + "-" + rows[i].ready_load_date.toString().substring(5,7) + "-" + rows[i].ready_load_date.toString().substring(0,4)
+                }else{
+                    rows[i].ready_load_date = ""
+                }
+
+                if(rows[i].ready_e3d_date){
+                    rows[i].ready_e3d_date = rows[i].ready_e3d_date.toString().substring(8,10) + "-" + rows[i].ready_e3d_date.toString().substring(5,7) + "-" + rows[i].ready_e3d_date.toString().substring(0,4)
+                }else{
+                    rows[i].ready_e3d_date = ""
+                }
+
+                if(rows[i].insts_generic_updated_at){
+                    rows[i].insts_generic_updated_at = rows[i].insts_generic_updated_at.toString().substring(8,10) + "-" + rows[i].insts_generic_updated_at.toString().substring(5,7) + "-" + rows[i].insts_generic_updated_at.toString().substring(0,4)
+                }else{
+                    rows[i].insts_generic_updated_at = ""
+                }
+
+                  console.log("Json date: " + rows[i].ready_load_date);
+            }
+
+            const apiData = rows
             const fileType =
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
             const header_cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1']
@@ -452,99 +471,115 @@ const PipingPSV = () => {
 
     var dataTableHeight = "580px"
 
-    let editBtn, addRowBtn, saveBtn, exportBtn, notificationsBtn, designNotificationsBtn, backBtn = null
-    let table = <CSPTrackerPSVDataTable currentRole = {currentRole} updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} uploadDrawingSuccess = {uploadSuccess.bind(this)} updateDrawingSuccess = {updateSuccess.bind(this)} drawingUploadError={drawingUploadError.bind(this)}/>
-    if(currentRole === "Materials"){
-        editBtn = <label class="switchBtn" style={{width:"145px"}}>
-                    <p className="navBar__button__text" style={{width:"80px", marginTop:"4px"}}>Edit mode</p>
+    let editBtn, addRowBtn, saveBtn, exportBtn
+    let table = <CSPTrackerGeneralDataTable currentRole = {currentRole} updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} uploadDrawingSuccess = {uploadSuccess.bind(this)} updateDrawingSuccess = {updateSuccess.bind(this)} drawingUploadError={drawingUploadError.bind(this)} currentProject={currentProject}/>
+    if(currentRole === "Materials" || currentRole === "Design"){
+        editBtn = <label class="switchBtn__general" style={{width:"145px"}}>
+                    <p className="navBar__button__text__general" style={{width:"100px", marginTop:"5px"}}>Edit mode &nbsp;&nbsp;&nbsp;</p>
                     <input type="checkbox" id="edit" onClick={()=>handleToggle()}/>
-                    <div class="slide round"></div>
+                    <div class="slide__general round"></div>
                 </label>   
                    
-        if(currentTab === "Edit"){
-            notificationsBtn = null
-            backBtn = null
-        }
-        else if(currentTab !== "Requests"){
-            backBtn = <button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={Back} alt="hold" className="navBar__icon" style={{marginRight:"0px", marginTop:"5px"}}></img><p className="navBar__button__text">Back</p></button>
-            notificationsBtn = <button className="navBar__button" onClick={()=>setCurrentTab("Requests")} style={{width:"120px", marginTop:"5px"}}><img src={Reports} alt="hold" className="navBar__icon" style={{marginRight:"4px"}}></img><p className="navBar__button__text">Requests</p></button>
-        }else{
-            backBtn = <button className="navBar__button" onClick={()=>back()} style={{width:"100px", marginTop:"5px"}}><img src={Back} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>
-            notificationsBtn = <button className="navBar__button" onClick={()=>setCurrentTab("View")} style={{backgroundColor:"#99C6F8", width:"120px", marginTop:"5px"}}><img src={Back} alt="hold" className="navBar__icon" style={{marginRight:"4px"}}></img><p className="navBar__button__text">Back</p></button>
-            editBtn = <label class="switchBtn" style={{width:"145px"}}>
-            <p className="navBar__button__text" style={{width:"80px", marginTop:"4px"}}>Edit mode</p>
-            <input type="checkbox" id="edit" disabled/>
-            <div class="slide round"></div>
+    }else{
+        editBtn = <label class="switchBtn__general" style={{width:"145px"}}>
+        <p className="navBar__button__text__general" style={{width:"100px", marginTop:"5px"}}>Edit mode &nbsp;</p>
+        <input type="checkbox" id="edit" disabled/>
+        <div class="slide__general round"></div>
         </label>
-        }
+        
     }
 
     if(currentRole === "3D Admin"){
-        backBtn = <button className="navBar__button" onClick={()=>back()} style={{width:"100px",marginTop:"5px"}}><img src={Back} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>
-        editBtn = <label class="switchBtn" style={{width:"155px"}}>
-                    <p className="navBar__button__text" style={{width:"90px", marginTop:"4px"}}>KeyParams</p>
+        editBtn = null /*<label class="switchBtn__general" style={{width:"145px"}}>
+                    <p className="navBar__button__text__general" style={{width:"100px", marginTop:"5px"}}>KeyParams &nbsp;&nbsp;&nbsp;</p>
                     <input type="checkbox" id="edit" onClick={()=>handleToggleKP()}/>
-                    <div class="slide round" style={{marginLeft:"90px"}}></div>
-                </label>  
+                    <div class="slide__general__admin round" style={{marginLeft:"90px"}}></div>
+                </label> */ 
     }
-
-    if(currentRole === "Design"){
-        backBtn = <button className="navBar__button" onClick={()=>back()} style={{width:"100px", marginTop:"5px"}}><img src={Back} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>
-    }
-
-
 
     if(currentTab === "View"){
-        table = <CSPTrackerPSVDataTable currentRole = {currentRole} updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} uploadDrawingSuccess = {uploadSuccess.bind(this)} updateDrawingSuccess = {updateSuccess.bind(this)} drawingUploadError={drawingUploadError.bind(this)}/>
+        table = <CSPTrackerGeneralDataTable currentRole = {currentRole} updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} uploadDrawingSuccess = {uploadSuccess.bind(this)} updateDrawingSuccess = {updateSuccess.bind(this)} drawingUploadError={drawingUploadError.bind(this)} currentProject={currentProject}/>
         exportBtn = <button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button>
         addRowBtn = null
-        saveBtn = null
-        backBtn = <button className="navBar__button" onClick={()=>back()} style={{width:"100px", marginTop:"5px"}}><img src={Back} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>
-
         
     }else if(currentTab === "Edit"){
-        if(!busy){
-            table = <HotTable
-            data={editData}
-            colHeaders = {["<b>SPEC</b>","<b>GENERIC</b>", "<b>PCOM</b>", "<b>FROM</b>", "<b>TO</b>", "FLG-CON", "<b>Request Date</b>", "<b>Request in E3D date</b>", "<b>Comments</b>"]}
-            rowHeaders={true}
-            width="2200"
-            height="635"
-            settings={settings} 
-            manualColumnResize={true}
-            manualRowResize={true}
-            filters={true}
-            dropdownMenu= {[
-                'make_read_only',
-                '---------',
-                'alignment',
-                '---------',
-                'filter_by_condition',
-                '---------',
-                'filter_operators',
-                '---------',
-                'filter_by_condition2',
-                '---------',
-                'filter_by_value',
-                '---------',
-                'filter_action_bar',
-              ]}
-            columns= {[{ data: "tag", type:'text'}, {data: "project", readOnly: "true"}, {data: "spec", type:"dropdown", strict:"true", source: specData}, {data: p1bore, type:"dropdown", strict:"true", source: diametersData}, {data: p2bore, type:"dropdown", strict:"true", source: diametersData}, {data: p3bore, type:"dropdown", strict:"true", source: diametersData}, {data: "rating", type:"dropdown", strict:"true", source: ratingData}, {data: "end_preparation", type:"dropdown", strict:"true", source: endPreparationData}, {data: "line_id", type:"text"}, {data: "pid", type:"dropdown", strict:"true", source: pidData}, {data: "type", type:"text"}, {data: "description_plan_code", type:"dropdown", allowInvalid:true, source: descriptionPlaneData}, {data:"quantity", type:"numeric"}, { data: "requisition", type:'text'}, { data: "description", type:'text'}, {data: "description_iso", type:"text"},{data: "ident", type:"text"}, {data: "face_to_face", type:"text"}, {data: "bolt_type", type:"dropdown", strict:"true", source: boltTypesData}, {data:"equipnozz", type:"text"}, {data:"utility_station", type:"text"}, {data:"comments", type:"text"}]}
-            />
-          
-            dataTableHeight= "700px"
-            addRowBtn = <button class="btn btn-sm btn-success" onClick={() => addRow()} style={{marginRight:"5px", fontSize:"18px", width:"35px", height:"35px", borderRadius:"10px", float:"right", marginTop:"8px"}}>+</button>
-            backBtn = null
-            saveBtn = <button className="navBar__button" onClick={()=> saveChanges()} style={{marginTop:"7px"}}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>
+        let cells = []
+        let cols
+        if(currentRole === "Design"){
+            cols = [{ data: "spec", type:'dropdown', strict:"true", source: specData}, {data: "instrument_type", type:'dropdown', strict:"true", source: instTypesData}, {data: "pcons_name", type:'dropdown', strict:"true", source: pconsData}, {data: "diameters_from_dn", type:"dropdown", strict:"true", source: diametersData}, {data: "diameters_to_dn", type:"dropdown", strict:"true", source: diametersData}, {data: "bolt_type", type:"text", readOnly:true}, {data:"comments", type:"text"}]
+            for(let i = 0; i < editData.length; i++){
+                cells.push({
+                    row: i,
+                    col: 5,
+                    className: 'insts__disabled__cell'})
+            }
         }else{
-            table = <div className="connected__panel"><p className="connected__text">The user {editingUser} is already editing!</p></div>
-        }    
+            cols = [{ data: "spec", type:"text", readOnly:true}, {data: "instrument_type", type:"text", readOnly:true}, {data: "pcons_name", type:"text", readOnly:true}, {data: "diameters_from_dn", type:"text", readOnly:true}, {data: "diameters_to_dn", type:"text", readOnly:true}, {data: "bolt_type", type:"dropdown", strict:"true", source: boltTypesData}, {data:"comments", type:"text", readOnly:true}]
+            for(let i = 0; i < editData.length; i++){
+                cells.push({
+                    row: i,
+                    col: 0,
+                    className: 'insts__disabled__cell'})
+                cells.push({
+                    row: i,
+                    col: 1,
+                    className: 'insts__disabled__cell'})
+                cells.push({
+                    row: i,
+                    col: 2,
+                    className: 'insts__disabled__cell'})
+                cells.push({
+                    row: i,
+                    col: 3,
+                    className: 'insts__disabled__cell'})
+                cells.push({
+                    row: i,
+                    col: 4,
+                    className: 'insts__disabled__cell'})
+                cells.push({
+                    row: i,
+                    col: 6,
+                    className: 'insts__disabled__cell'})
+                    
+            }
+        }
+        
+        table = <HotTable
+        data={editData}
+        colHeaders = {["SPEC","GENERIC", "PCOM", "FROM", "TO", "FLG-CON", "Comments"]}
+        rowHeaders={true}
+        width="2200"
+        height="530"
+        settings={settings} 
+        manualColumnResize={true}
+        manualRowResize={true}
+        filters={true}
+        afterChange={handleChange}
+        dropdownMenu= {[
+            'make_read_only',
+            '---------',
+            'alignment',
+            '---------',
+            'filter_by_condition',
+            '---------',
+            'filter_operators',
+            '---------',
+            'filter_by_condition2',
+            '---------',
+            'filter_by_value',
+            '---------',
+            'filter_action_bar',
+            ]}
+        columns= {cols}
+        cell={cells}
+        />
+        
+        dataTableHeight= "700px"
+        addRowBtn = <button class="btn btn-sm btn-success" onClick={() => addRow()} style={{fontSize:"18px", width:"35px", height:"35px", borderRadius:"10px", float:"right", marginTop:"15px"}}>+</button>
+        saveBtn = <button className="navBar__button" onClick={()=> saveChanges()} style={{marginRight:"5px", fontSize:"18px", width:"100px", height:"35px", borderRadius:"10px", marginRight:"-30px"}}><img src={SaveIcon} alt="save" className="navBar__icon" style={{marginTop:"9px"}}></img><p className="navBar__button__text">Save</p></button>
+    
 
-    }else if(currentTab === "Requests"){
-        backBtn = null
-        table = <CSPTrackerdRequestsDataTable updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} />
     }else if(currentTab === "CSP KeyParams"){
-        backBtn = null
         table = <CSPTrackerKeyParams success={()=> setSuccessAlert(true)}/>
     }
 
@@ -562,7 +597,7 @@ const PipingPSV = () => {
             className={`alert alert-success ${successAlert ? 'alert-shown' : 'alert-hidden'}`}
             onTransitionEnd={() => setSuccessAlert(false)}
             >
-                <AlertF type="success" text="Changes saved!" margin="0px"/>
+                <AlertF type="success" text="Changes saved successfully!" margin="-40px"/>
             </div>
             <div
             className={`alert alert-success ${uploadDrawingSuccess ? 'alert-shown' : 'alert-hidden'}`}
@@ -633,22 +668,26 @@ const PipingPSV = () => {
                     <Tooltip/>
                 </PieChart>
             </div>
-            <table className="isotracker__table__container">
+            <table className="isotracker__table__container__general">
                       <tr className="isotracker__table__navBar__container" style={{height:"65px "}}>
                           <th  className="isotracker__table__navBar">
                               <div style={{display:"flex"}}>
                                 {editBtn}
-                                {notificationsBtn}
-                                {designNotificationsBtn}
                                 {saveBtn}   
-                                {backBtn}
+                                <div style={{display:"flex", float:"right", marginTop:"10px"}}>
+                                    <label for="projectFilter" className="inst__project__label">Project: </label>
+                                    <select id="projectFilter" className="inst__projectFilterSelect" onChange={(e) => setCurrentProject(e.target.value)}>
+                                        {projectFilter.map(project =>(
+                                            <option value={project.id}>{project.project}</option>
+                                        ))}
+                                    </select>
+                                </div>
                               </div>                           
-                               
                           </th>
                       </tr>
-                      <tr className="isotracker__table__tray__and__table__container" style={{height: dataTableHeight}}>
-                          <td className="discplines__table__table" style={{height: dataTableHeight}} >
-                              <div  style={{height: dataTableHeight, width:"2200px"}} className="isotracker__table__table__container">
+                      <tr className="isotracker__table__tray__and__table__container" style={{height: "600px"}}>
+                          <td className="discplines__table__table" style={{height: "600px"}} >
+                              <div  style={{height: "600px", width:"2200px"}} className="isotracker__table__table__container">
                                 {table}
                                 {addRowBtn}
                               </div>
