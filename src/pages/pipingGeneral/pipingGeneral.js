@@ -650,23 +650,23 @@ const PipingGeneral = () => {
             <div style={{zoom:1.125, marginLeft:"10%"}}>
                 <NavBar onChange={value => setCurrentTab(currentTab)}/>
             </div>
-            <div className="isotracker__row">
-                  <div className="isotracker__column">
-                      <img src={PITLogo} alt="PITLogo" className="isoTrackerLogo__image2" style={{height:"85px"}}/>
-                      
-                      <div className="roleSelector__containerF">
-                              <RoleDropDown style={{paddingLeft: "2px"}} onChange={value => setCurrentRole(value)} roles = {roles}/>
-                      </div>
-                      
-                  </div>
-                  <PieChart width={600} height={420}>
-                    <Pie data={counter} dataKey="value" cx="50%" cy="60%"  outerRadius={120} fill="#8884d8" label={renderCustomizedLabel}>
-                    {counter.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index]} />
-                        ))}
-                    </Pie>
-                    <Tooltip/>
-                </PieChart>
+            <div className="isotracker__row" style={{marginBottom:"-50px"}}>
+                <div className="isotracker__column" >
+                    <img src={PITLogo} alt="PITLogo" className="isoTrackerLogo__image2" style={{height:"85px"}}/>
+                    <label className="discipline__title" style={{marginLeft:"500px", marginBottom:"-50px"}}>General</label>
+                    <div className="roleSelector__containerF">
+                            <RoleDropDown style={{paddingLeft: "2px"}} onChange={value => setCurrentRole(value)} roles = {roles}/>
+                    </div>
+                    
+                </div>
+                <PieChart width={600} height={420}>
+                <Pie data={counter} dataKey="value" cx="50%" cy="60%"  outerRadius={120} fill="#8884d8" label={renderCustomizedLabel}>
+                {counter.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                    ))}
+                </Pie>
+                <Tooltip/>
+            </PieChart>
             </div>
             <table className="isotracker__table__container__general">
                       <tr className="isotracker__table__navBar__container" style={{height:"65px "}}>
