@@ -972,7 +972,15 @@ class CSPtrackerSpecialDataTable extends React.Component{
         key: 'ready_e3d',
         fixed: "right",
         align: "center"
-      }
+      },
+      {
+        title: <center>Actions</center>,
+        dataIndex: 'actions',
+        key: 'actions',
+        fixed: "right",
+        align: "left",
+        width: "170px",
+      },
     ];
     
 
