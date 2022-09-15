@@ -110,7 +110,7 @@
     margin-left: 10px;
     border-radius: 1em 1em 1em 1em;
     transition: 0.3s;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .navBar__button:hover{
@@ -120,7 +120,7 @@
 .navBar__button__text{
     font-size: 15px;
     margin-top: 11px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .content{
@@ -135,7 +135,7 @@
     font-size: 34px;
     font-weight: 500;
     color: black;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .alert-shown {
@@ -150,7 +150,7 @@
     position: fixed
 }
 
-.ant-table table { font-size: 18px; font-family: 'Quicksand', sans-serif; }
+.ant-table table { font-size: 18px; font-family: 'Montserrat', sans-serif; }
 
 .alert-error-hidden{
     opacity: 0;
@@ -173,7 +173,7 @@
     border-radius: 10px;
     font-weight: bold;
     margin-top: -25px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .actionBtns__container{
@@ -182,7 +182,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     margin-top: 40px;
 }
 
@@ -196,7 +196,7 @@
     font-size: 18px;
     transition: 0.3s;
     border: none;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: bold;
 }
 

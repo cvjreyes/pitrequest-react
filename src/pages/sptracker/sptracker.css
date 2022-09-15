@@ -85,6 +85,10 @@ input:checked + .slide:before {
     background-color: white;
 }
 
+.ooo{
+    background-color: #f39f18;
+}
+
 .connected__panel{
     height: 200px;
     border: 1px solid red;

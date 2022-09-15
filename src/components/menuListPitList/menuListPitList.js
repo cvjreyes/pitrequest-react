@@ -107,7 +107,7 @@ function StyledTreeItem(props) {
       label={
         <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
           <Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} />
-          <Typography variant="h5" sx={{ fontWeight: 'inherit', flexGrow: 1, fontFamily: "Quicksand, sans-serif", fontSize:"30px" }}>
+          <Typography variant="h5" sx={{ fontWeight: 'inherit', flexGrow: 1, fontFamily: "Montserrat, sans-serif", fontSize:"30px" }}>
             {labelText}
           </Typography>
           <Typography variant="caption" color="inherit">
@@ -172,10 +172,38 @@ export default function MenuListPITList(props) {
       history("/"+process.env.REACT_APP_PROJECT+"/sptracker")
     }
 
+    function handleSPExpansionJoinsClick(){
+      history("/"+process.env.REACT_APP_PROJECT+"/pipingExpansionJoins")
+    }
+
+    function handleSPGeneralClick(){
+      history("/"+process.env.REACT_APP_PROJECT+"/pipingGeneral")
+    }
+
+    function handleSPPSVClick(){
+      history("/"+process.env.REACT_APP_PROJECT+"/pipingPSV")
+    }
+
+    function handleSPSpecialClick(){
+      history("/"+process.env.REACT_APP_PROJECT+"/pipingSpecial")
+    }
+
+    function handleSPPSVClick(){
+      history("/"+process.env.REACT_APP_PROJECT+"/pipingPSV")
+    }
+
+    function handleSPSpecialClick(){
+      history("/"+process.env.REACT_APP_PROJECT+"/pipingSpecial")
+    }
+
     function handleLibraryClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/library")
     }
     
+    function handleSPKeyParamClick(){
+      history("/"+process.env.REACT_APP_PROJECT+"/pipingKeyParam")
+    }
+
     function handleUsersViewClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/pitrequestsview")
       secureStorage.setItem("tab", "Users")
@@ -358,14 +386,56 @@ export default function MenuListPITList(props) {
         <QtrackerNVNPopUp success={success.bind(this)}/>
         <QtrackerNRIPopUp success={success.bind(this)}/></div>)
       }else if(currentMenu === "piping"){
-        await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><text className='back__text'>PIPING SPEC MATERIALS</text></div></span>
-
-        <div className='mainmenu__item__container'>
-          <span style={{display:"flex", width:"260px"}} onClick={()=> handleCADpmcClick()}><div style={{width:"260px", marginTop:"5px"}}><text className='mainmenu__item'>CADPMC</text></div></span>
-        </div>
-        <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
-          <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>SPTracker</text></div></span>
-        </div></div>)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/isAdmin/" + secureStorage.getItem("user"), options)
+          .then(response => response.json())
+          .then(async json => {
+          if(json.isAdmin){
+            await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><text className='back__text'>PIPING SPEC MATERIALS</text></div></span>
+              <div className='mainmenu__item__container'>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleCADpmcClick()}><div style={{width:"260px", marginTop:"5px"}}><text className='mainmenu__item'>CADPMC</text></div></span>
+              </div>
+              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>SPTracker</text></div></span>
+              </div>
+              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> setcurrentMenu("instruments")}><div style={{width:"260px"}}><text className='mainmenu__item'>Instruments</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+              </div>
+              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPExpansionJoinsClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Expansion Joins</text></div></span>
+              </div>
+              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPKeyParamClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Manage Catalogue</text></div></span>
+              </div>
+            </div>)
+          } else {
+            await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><text className='back__text'>PIPING SPEC MATERIALS</text></div></span>
+              <div className='mainmenu__item__container'>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleCADpmcClick()}><div style={{width:"260px", marginTop:"5px"}}><text className='mainmenu__item'>CADPMC</text></div></span>
+              </div>
+              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>SPTracker</text></div></span>
+              </div>
+              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> setcurrentMenu("instruments")}><div style={{width:"260px"}}><text className='mainmenu__item'>Instruments</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+              </div>
+              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPExpansionJoinsClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Expansion Joins</text></div></span>
+              </div>
+            </div>)
+          }
+        })
+      } else if(currentMenu === "instruments"){
+        await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><text className='back__text'>PIPING INSTRUMENT</text></div></span>
+          <div className='mainmenu__item__container'>
+            <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPGeneralClick()}><div style={{width:"260px", marginTop:"5px"}}><text className='mainmenu__item'>General</text></div></span>
+          </div>
+          <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+            <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPPSVClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>PSV</text></div></span>
+          </div>
+          <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+            <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPSpecialClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Special</text></div></span>
+          </div>
+        </div>)
       }else if(currentMenu === "itplan"){
         await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>MAIN MENU</text></div></span>
 

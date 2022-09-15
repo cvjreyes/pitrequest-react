@@ -1,7 +1,7 @@
 .icapp__button{
     font-size: 18px;
     box-sizing: border-box;
-    font-family: 'Quicksand',sans-serif;
+    font-family: 'Monsterrat',sans-serif;
     line-height: 1.6;
     color: #636b6f;
     -webkit-tap-highlight-color: transparent;
@@ -32,12 +32,11 @@ img{
 }
 
 .dropdown__text{
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Monsterrat', sans-serif;
     text-transform: none;
     font-size: 18px;
     font-style: normal;
     transition: 0.3s;
-    opacity: 0.8;
     color: white;
 }
 
@@ -47,11 +46,11 @@ img{
 
 .dropdown__arrow{
     font-size: 9px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Monsterrat', sans-serif;
 }
 
 .dropdown__text__projectname{
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Monsterrat', sans-serif;
     text-transform: none;
     font-size: 22px;
     font-weight: bold;

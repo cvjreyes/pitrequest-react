@@ -62,7 +62,7 @@ class OffersTreeGrid extends Component {
       rowSelection: 'multiple',
       rowData: null,
       tree_nodes: [],
-      rowStyle:{fontSize: "22px", fontFamily: "Quicksand, sans-serif"},
+      rowStyle:{fontSize: "22px", fontFamily: "Montserrat, sans-serif"},
       initial_nodes: [],
       removed_nodes: [],
       tasks: [],

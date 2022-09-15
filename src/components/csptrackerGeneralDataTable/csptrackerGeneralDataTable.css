@@ -1,0 +1,56 @@
+.insts__ready__disabled{
+    font-size: 12px;
+    padding: 1px 3px 1px 3px;
+    opacity: 0.4;
+    width: "68px"
+}
+
+.insts__ready__btn{
+    font-size: 12px;
+    padding: 1px 3px 1px 3px;
+    background: #7BD36D;
+    width: "68px"
+}
+
+.insts__cancel__btn{
+    background: #FF3358;
+    font-size: 12px;
+    padding: 1px 3px 1px 3px;
+    width: "68px"
+}
+
+.insts__delete_btn{
+    background: #FF3358;
+    font-size: 12px;
+    padding: 1px 3px 1px 3px;
+    width: "68px"
+}
+
+.insts__exclude_btn{
+    background: #FFCA42;
+    font-size: 12px;
+    padding: 1px 3px 1px 3px;
+    margin-left: 10px;
+    width: "68px"
+}
+
+.update__btn{
+    font-size: 12px;
+    padding: 1px 3px 1px 3px;
+    float:right;
+    margin-left: 10px;
+    background-color: #338DF1;
+    height: 98%;
+}
+
+.upload__btn{
+    font-size: 12px;
+    padding: 1px 3px 1px 3px;
+    background-color: #338DF1;
+}
+
+.drawing__column{
+    display: inline-block;
+    width: 100%;
+}
+
