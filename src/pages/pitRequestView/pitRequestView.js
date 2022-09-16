@@ -460,8 +460,10 @@ const PitRequestView = () => {
                       row.status = "In progress"
                   }else if(json.rows[i].status === 2){
                       row.status = "Ready"
-                  }else{
+                  }else if(json.rows[i].status === 3){
                       row.status = "Rejected"
+                  }else if(json.rows[i].status === 4){
+                      row.status = "Materials"
                   }
 
                   if(json.rows[i].carta){
@@ -484,15 +486,18 @@ const PitRequestView = () => {
                 for(let i = 0; i < json.rows.length; i++){
                     row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project,  user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: json.rows[i].name, pipe: null, sending: null, items: null, scope: null, description: json.rows[i].description, hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
                     
-                      if(json.rows[i].status === 0){
+                    if(json.rows[i].status === 0){
                         row.status = "Pending"
                       }else if(json.rows[i].status === 1){
                           row.status = "In progress"
                       }else if(json.rows[i].status === 2){
                           row.status = "Ready"
-                      }else{
+                      }else if(json.rows[i].status === 3){
                           row.status = "Rejected"
+                      }else if(json.rows[i].status === 4){
+                          row.status = "Materials"
                       }
+    
 
                       if(json.rows[i].carta){
                         row.project = row.project + " - " +json.rows[i].carta
@@ -511,14 +516,17 @@ const PitRequestView = () => {
                         row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: json.rows[i].pipe, items: null, scope: null, description: json.rows[i].description,hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
                                              
                         if(json.rows[i].status === 0){
-                        row.status = "Pending"
-                        }else if(json.rows[i].status === 1){
-                            row.status = "In progress"
-                        }else if(json.rows[i].status === 2){
-                            row.status = "Ready"
-                        }else{
-                            row.status = "Rejected"
-                        }
+                            row.status = "Pending"
+                          }else if(json.rows[i].status === 1){
+                              row.status = "In progress"
+                          }else if(json.rows[i].status === 2){
+                              row.status = "Ready"
+                          }else if(json.rows[i].status === 3){
+                              row.status = "Rejected"
+                          }else if(json.rows[i].status === 4){
+                              row.status = "Materials"
+                          }
+        
 
                         if(json.rows[i].carta){
                             row.project = row.project + " - " +json.rows[i].carta
@@ -537,15 +545,18 @@ const PitRequestView = () => {
                         for(let i = 0; i < json.rows.length; i++){
                             row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: json.rows[i].pipe, items: null, scope: null, description: json.rows[i].description, hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
                             
-                              if(json.rows[i].status === 0){
+                            if(json.rows[i].status === 0){
                                 row.status = "Pending"
                               }else if(json.rows[i].status === 1){
                                   row.status = "In progress"
                               }else if(json.rows[i].status === 2){
                                   row.status = "Ready"
-                              }else{
+                              }else if(json.rows[i].status === 3){
                                   row.status = "Rejected"
+                              }else if(json.rows[i].status === 4){
+                                  row.status = "Materials"
                               }
+            
 
                               if(json.rows[i].carta){
                                 row.project = row.project + " - " +json.rows[i].carta
@@ -564,15 +575,18 @@ const PitRequestView = () => {
                             for(let i = 0; i < json.rows.length; i++){
                                 row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: json.rows[i].name, pipe: null, sending: null, items: null, scope: null, description: null, hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
                                
-                                  if(json.rows[i].status === 0){
+                                if(json.rows[i].status === 0){
                                     row.status = "Pending"
                                   }else if(json.rows[i].status === 1){
                                       row.status = "In progress"
                                   }else if(json.rows[i].status === 2){
                                       row.status = "Ready"
-                                  }else{
+                                  }else if(json.rows[i].status === 3){
                                       row.status = "Rejected"
+                                  }else if(json.rows[i].status === 4){
+                                      row.status = "Materials"
                                   }
+                
 
                                   if(json.rows[i].carta){
                                     row.project = row.project + " - " +json.rows[i].carta
@@ -591,15 +605,18 @@ const PitRequestView = () => {
                                 for(let i = 0; i < json.rows.length; i++){
                                     row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: null, sending: null, items: json.rows[i].items_to_report, scope: json.rows[i].scope, description: json.rows[i].description, hours: json.rows[i].hours, admin: json.rows[i].admin, ar_data: json.rows[i].accept_reject_date}
                                     
-                                      if(json.rows[i].status === 0){
+                                    if(json.rows[i].status === 0){
                                         row.status = "Pending"
                                       }else if(json.rows[i].status === 1){
                                           row.status = "In progress"
                                       }else if(json.rows[i].status === 2){
                                           row.status = "Ready"
-                                      }else{
+                                      }else if(json.rows[i].status === 3){
                                           row.status = "Rejected"
+                                      }else if(json.rows[i].status === 4){
+                                          row.status = "Materials"
                                       }
+                    
 
                                       if(json.rows[i].carta){
                                           row.project = row.project + " - " +json.rows[i].carta
@@ -625,13 +642,16 @@ const PitRequestView = () => {
                                         
                                         if(json.rows[i].status === 0){
                                             row.status = "Pending"
-                                        }else if(json.rows[i].status === 1){
-                                            row.status = "In progress"
-                                        }else if(json.rows[i].status === 2){
-                                            row.status = "Ready"
-                                        }else{
-                                            row.status = "Rejected"
-                                        }
+                                          }else if(json.rows[i].status === 1){
+                                              row.status = "In progress"
+                                          }else if(json.rows[i].status === 2){
+                                              row.status = "Ready"
+                                          }else if(json.rows[i].status === 3){
+                                              row.status = "Rejected"
+                                          }else if(json.rows[i].status === 4){
+                                              row.status = "Materials"
+                                          }
+                        
 
                                         if(json.rows[i].carta){
                                             row.project = row.project + " - " +json.rows[i].carta
