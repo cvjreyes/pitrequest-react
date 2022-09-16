@@ -11,13 +11,9 @@ import HotTable from "@handsontable/react"
 
 import SaveIcon from "../../assets/images/save.svg"
 import AlertF from "../../components/alert/alert"
-import CSPTrackerRequestPopUp from "../../components/csptrackerRequestPopUp/csptrackerRequestPopUp"
-import CSPTrackerdRequestsDataTable from "../../components/csptrackerRequestsDataTable/csptrackerRequestsDataTable"
 
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
-import Reports from "../../assets/images/view_requests.svg"
-import Back from "../../assets/images/back.svg"
 import CSPTrackerKeyParams from "../../components/csptrackerKeyParams/csptrackerKeyParams"
 
 import { PieChart, Pie, Tooltip, Cell } from 'recharts';
@@ -86,7 +82,7 @@ const PipingSpecial = () => {
     });
     const settings = {
         licenseKey: 'non-commercial-and-evaluation',
-        colWidths: 250
+        colWidths: [275, 180, 110, 110, 110, 220, 273, 300, 130, 180, 230]
     }
 
     const [currentRole, setCurrentRole] = useState();
@@ -111,11 +107,9 @@ const PipingSpecial = () => {
     const [boltTypesData, setBoltTypesData] = useState()
     const [projectFilter, setProjectFilter] = useState([])
     const [currentProject, setCurrentProject] = useState()
-    const [instTypesData, setInstTypesData] = useState([])
-    const [pconsData, setPconsData] = useState([])
-
-    const [busy, setBusy] = useState(false)
-    const [editingUser, setEditingUser] = useState()
+    const [ratingsData, setRatingsData] = useState([])
+    const [drawingsData, setDrawingsData] = useState([])
+    const [endPreparationsData, setEndPreparationsData] = useState([])
 
     const [updateData, setUpdateData] = useState(false)  
     const [dataChanged, setDataChanged] = useState(false)  
@@ -172,7 +166,7 @@ const PipingSpecial = () => {
             },
         }
 
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/instStatusDataByProject/" + currentProject, options)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/specialsStatusDataByProject/" + currentProject, options)
             .then(response => response.json())
             .then(async json => {
                 console.log(json)
@@ -188,7 +182,7 @@ const PipingSpecial = () => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
-            },setEditData
+            },
         }
 
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsByEmail/" + secureStorage.getItem("user"), options)
@@ -201,7 +195,7 @@ const PipingSpecial = () => {
                 setProjectFilter(projects)
                 await setCurrentProject(projects[0].id)
                 
-                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getInstSpecialByProject/" + currentProject, options)
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecialsByProject/" + currentProject, options)
                 .then(response => response.json())
                 .then(async json => {
                     await setEditData(json.rows)
@@ -215,26 +209,6 @@ const PipingSpecial = () => {
                         spec_data.push({spec: json.specs[i].spec})
                     }
                     await setSpecData(spec_data)
-                })
-
-                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getInstTypes", options)
-                .then(response => response.json())
-                .then(async json => {
-                    let types_data = []
-                    for(let i = 0; i < json.instrument_types.length; i++){
-                        types_data.push(json.instrument_types[i].type)
-                    }
-                    await setInstTypesData(types_data)
-                })
-
-                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPComs", options)
-                .then(response => response.json())
-                .then(async json => {
-                    let pcons_data = []
-                    for(let i = 0; i < json.pcons.length; i++){
-                        pcons_data.push(json.pcons[i].name)
-                    }
-                    await setPconsData(pcons_data)
                 })
 
                 await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getDiameters", options)
@@ -256,6 +230,36 @@ const PipingSpecial = () => {
                     }
                     await setBoltTypesData(bolt_types_data)
                 })
+
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/ratings", options)
+                .then(response => response.json())
+                .then(async json => {
+                    let ratings_data = []
+                    for(let i = 0; i < json.rows.length; i++){
+                        ratings_data.push(json.rows[i].rating)
+                    }
+                    await setRatingsData(ratings_data)
+                })
+
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/endPreparations", options)
+                .then(response => response.json())
+                .then(async json => {
+                    let end_preparations = []
+                    for(let i = 0; i < json.rows.length; i++){
+                        end_preparations.push(json.rows[i].state)
+                    }
+                    await setEndPreparationsData(end_preparations)
+                })
+
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/specialsDrawingCodes", options)
+                .then(response => response.json())
+                .then(async json => {
+                    let codes = []
+                    for(let i = 0; i < json.rows.length; i++){
+                        codes.push(json.rows[i].code)
+                    }
+                    await setDrawingsData(codes)
+                })
             })
     }, [])
 
@@ -267,7 +271,7 @@ const PipingSpecial = () => {
             },
         }
 
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getInstSpecialByProject/" + currentProject, options)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecialsByProject/" + currentProject, options)
         .then(response => response.json())
         .then(async json => {
             await setEditData(json.rows)
@@ -396,7 +400,7 @@ const PipingSpecial = () => {
             body: JSON.stringify(body)
         }
 
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitInstSpecial", options)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitInstGeneral", options)
         .then(response => response.json())
         .then(async json =>{
             if(json.success){
@@ -413,12 +417,12 @@ const PipingSpecial = () => {
     }
 
     async function downloadReport(){
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadInstsSpecialByProject/" + currentProject)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadInstsGeneralByProject/" + currentProject)
         .then(response => response.json())
         .then(json => {
             let rows = JSON.parse(json)
 
-            const headers = ["Tag", "Spec", "P1Bore", "P2Bore", "P3Bore", "Rating", "End Preparation", "Iso Description", "FLG Short Code", "Bolt longitude", "Drawing Description", "Request date", "Request to load date", "Ready in E3D date", "Comments", "Ready to Load", "Ready in 3D", "Updated"]
+            const headers = ["Spec", "Generic", "Pcom", "From", "To", "FLG-Con", "Request to load date", "Ready in E3D date", "Updated date",  "Comments", "Ready to Load", "Ready in 3D", "Updated"]
             const fileName = "Instruments report"
 
             for(let i = 0; i < rows.length; i++){
@@ -447,7 +451,7 @@ const PipingSpecial = () => {
             const apiData = rows
             const fileType =
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-            const header_cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1', 'N1', '01', 'P1', 'Q1', 'R1']
+            const header_cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1']
             const fileExtension = ".xlsx";
 
             let wscols = []
@@ -506,7 +510,7 @@ const PipingSpecial = () => {
         let cells = []
         let cols
         if(currentRole === "Design"){
-            cols = [{ data: "tag", type:'dropdown'}, {data: "spec", type:'dropdown'}, {data: "p1bore", type:'dropdown'}, {data: "p2bore", type:"dropdown"}, {data: "p3bore", type:"dropdown"}, {data: "rating", type:"text"}, {data:"end_prep", type:"text"}, {data:"iso_desc", type:"text"}, {data:"flg_code", type:"text", readOnly:true}, {data:"bolt_log", type:"text", readOnly:true}, {data:"drawing", type:"text"}]
+            cols = [{ data: "tag", type:'dropdown'}, {data: "spec", type:'dropdown', strict:true, source: specData}, {data: "p1bore", type:'dropdown', strict:true, source: diametersData}, {data: "p2bore", type:"dropdown", strict:true, source: diametersData}, {data: "p3bore", type:"dropdown", strict:true, source: diametersData}, {data: "rating", type:"text", strict:true, source: ratingsData}, {data:"end_preparation", type:"text", strict:true, source: endPreparationsData}, {data:"description_iso", type:"text"}, {data:"type", type:"text", readOnly:true}, {data:"bolt_longitude", type:"text", readOnly:true}, {data:"code", type:"dropdown", strict:true, source: drawingsData}]
             for(let i = 0; i < editData.length; i++){
                 cells.push({
                     row: i,
@@ -518,7 +522,7 @@ const PipingSpecial = () => {
                     className: 'insts__disabled__cell'})
             }
         }else{
-            cols = [{ data: "tag", type:'dropdown', readOnly:true}, {data: "spec", type:'dropdown', readOnly:true}, {data: "p1bore", type:'dropdown', readOnly:true}, {data: "p2bore", type:"dropdown", readOnly:true}, {data: "p3bore", type:"dropdown", readOnly:true}, {data: "rating", type:"text", readOnly:true}, {data:"end_prep", type:"text", readOnly:true}, {data:"iso_desc", type:"text", readOnly:true}, {data:"flg_code", type:"text"}, {data:"bolt_log", type:"text"}, {data:"drawing", type:"text", readOnly:true}]
+            cols = [{ data: "tag", type:'dropdown', readOnly:true}, {data: "spec", type:'dropdown', readOnly:true}, {data: "p1bore", type:'dropdown', readOnly:true}, {data: "p2bore", type:"dropdown", readOnly:true}, {data: "p3bore", type:"dropdown", readOnly:true}, {data: "rating", type:"text", readOnly:true}, {data:"end_preparation", type:"text", readOnly:true}, {data:"description_iso", type:"text", readOnly:true}, {data:"type", type:"dropdown", strict:true, source: boltTypesData}, {data:"bolt_longitude", type:"text"}, {data:"code", type:"text", readOnly:true}]
             for(let i = 0; i < editData.length; i++){
                 cells.push({
                     row: i,
