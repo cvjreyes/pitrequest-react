@@ -144,7 +144,7 @@ class CSPTrackerGeneralDataTable extends React.Component{
               }else if(json.rows[i].ready_e3d === 2){
                 row.ready_load = "READY"
                 row.ready_e3d = "EXCLUDED"
-                row.color = "#lll"
+                row.color = "#ppp"
               }else{
 
                 if(row.ready_load === 1 && json.rows[i].updated === 1 && json.rows[i].ready_e3d === 0){
@@ -273,7 +273,7 @@ class CSPTrackerGeneralDataTable extends React.Component{
             }else if(json.rows[i].ready_e3d === 2){
               row.ready_load = "READY"
               row.ready_e3d = "EXCLUDED"
-              row.color = "#lll"
+              row.color = "#ppp"
             }else{
 
               if(row.ready_load === 1 && json.rows[i].updated === 1 && json.rows[i].ready_e3d === 0){
