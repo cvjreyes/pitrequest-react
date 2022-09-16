@@ -8,7 +8,11 @@ import Typography from '@mui/material/Typography';
 import {useNavigate} from "react-router";
 import QtrackerNWCPopUp from '../qtrackerNWCPopUp/qtrackerNWCPopUp'
 import QtrackerNVNPopUp from '../qtrackerNVNPopUp/qtrackerNVNPopUp';
+import QtrackerCitrixPopUp from '../qtrackerCitrixPopUp/qtrackerCitrixPopUp';
+import QtrackerModelingPopUp from '../qtrackerModelingPopUp/qtrackerModelingPopUp';
 import QtrackerDrawingPopUp from '../qtrackerDrawingPopUp/qtrackerDrawingPopUp';
+import QtrackerDrawingIsoPopUp from '../qtrackerDrawingIsoPopUp/qtrackerDrawingIsoPopUp';
+import QtrackerDrawingOrtoPopUp from '../qtrackerDrawingOrtoPopUp/qtrackerDrawingOrtoPopUp';
 import QtrackerNRIPopUp from '../qtrackerNRIPopUp/qtrackerNRIPopUp';
 import QtrackerRRPopUp from '../qtrackerRRPopUp/qtrackerRRPopUp';
 import QtrackerPermissionsPopUp from '../qtrackerPermissionsPopUp/qtrackerPermissionsPopUp';
@@ -360,7 +364,7 @@ export default function MenuListPITList(props) {
     }else if(currentMenu === "request"){
         if(inSmart3d===true){
           await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu) && setInSmart3d(false)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>REQUEST ITEM</text></div></span>
-          <QtrackerRRPopUp success={success.bind(this)}/>
+          <QtrackerRRPopUp success={success.bind(this)} margin={true}/>
           <QtrackerNRIDSPopUp success={success.bind(this)}/>
           <QtrackerISPopUp success={success.bind(this)}/>
           <QtrackerDrawingPopUp success={success.bind(this)}/>
@@ -368,16 +372,27 @@ export default function MenuListPITList(props) {
           <QtrackerPermissionsPopUp success={success.bind(this)}/></div>)
         } else if (inSmart3d===false) {
           await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>REQUEST ITEM</text></div></span>
-          <QtrackerRRPopUp success={success.bind(this)}/>
+          <QtrackerRRPopUp success={success.bind(this)} margin={true}/>
           <QtrackerNRIDSPopUp success={success.bind(this)}/>
           <QtrackerISPopUp success={success.bind(this)}/></div>)
         }
-        console.log("Request In smart: " + inSmart3d);
       }else if(currentMenu === "issues"){
+        if(inSmart3d===true){
+          await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu) && setInSmart3d(false)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>ISSUES</text></div></span>
+          <QtrackerNWCPopUp success={success.bind(this)}/>
+          <QtrackerNVNPopUp success={success.bind(this)}/>
+          <QtrackerNRIPopUp success={success.bind(this)}/>
+          <QtrackerModelingPopUp success={success.bind(this)}/>
+          <QtrackerDrawingIsoPopUp success={success.bind(this)}/>
+          <QtrackerDrawingOrtoPopUp success={success.bind(this)}/>
+          <QtrackerRRPopUp success={success.bind(this)} margin={false}/>
+          <QtrackerCitrixPopUp success={success.bind(this)}/></div>)
+        }else if(inSmart3d===false){
           await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>ISSUES</text></div></span>
           <QtrackerNWCPopUp success={success.bind(this)}/>
           <QtrackerNVNPopUp success={success.bind(this)}/>
           <QtrackerNRIPopUp success={success.bind(this)}/></div>)
+        }
       }else if(currentMenu === "piping"){
         await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><text className='back__text'>PIPING SPEC MATERIALS</text></div></span>
 
