@@ -493,6 +493,11 @@ class KeyParamTreeGrid extends Component{
       colWidths: 293,
     }
 
+    let settingsType= {
+      licenseKey: 'non-commercial-and-evaluation',
+      colWidths: 600,
+    }
+
     return <div >{ 
       <Box sx={{ width: '100%', marginTop: '3px'}}>
         <TabContext value={this.state.tab}>
@@ -585,16 +590,16 @@ class KeyParamTreeGrid extends Component{
             </div>
           </TabPanel>
           <TabPanel value="3">
-            <div id="hot-app" className="excel__container" style={{marginLeft: "420px"}}>
+            <div id="hot-app" className="excel__container" style={{marginLeft: "260px"}}>
               <HotTable
                 data={this.state.instrument_types}
                 colHeaders = {["<b>Type</b>"]}
                 rowHeaders={false}
-                width="320"
+                width="600"
                 height="775"
                 className="custom__table__3"
                 rowHeights="38"
-                settings={settingsSubtasks} 
+                settings={settingsType} 
                 manualColumnResize={true}
                 manualRowResize={true}
                 columns= { [{data: "type", type:"text"}]}

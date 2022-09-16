@@ -639,10 +639,10 @@ const PipingPSV = () => {
             <div style={{zoom:1.125, marginLeft:"10%"}}>
                 <NavBar onChange={value => setCurrentTab(currentTab)}/>
             </div>
-            <div className="isotracker__row">
+            <div className="isotracker__row" style={{marginBottom:"-50px"}}>
                   <div className="isotracker__column">
                       <img src={PITLogo} alt="PITLogo" className="isoTrackerLogo__image2" style={{height:"85px"}}/>
-                      
+                      <label className="discipline__title" style={{marginLeft:"500px", marginBottom:"-50px"}}>PSV</label>
                       <div className="roleSelector__containerF">
                               <RoleDropDown style={{paddingLeft: "2px"}} onChange={value => setCurrentRole(value)} roles = {roles}/>
                       </div>
