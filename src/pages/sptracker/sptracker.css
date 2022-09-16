@@ -75,6 +75,10 @@ input:checked + .slide:before {
     background-color: #94DCAA;
 }
 
+.ppp{
+    background-color: #FFDBE9;
+}
+
 
 .ddd{
     background-color: lightgray;

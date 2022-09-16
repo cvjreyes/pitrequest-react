@@ -22,7 +22,7 @@ import CSPTrackerKeyParams from "../../components/csptrackerKeyParams/csptracker
 
 import { PieChart, Pie, Tooltip, Cell } from 'recharts';
 
-const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#99C6F8', '#94DCAA', '#FF3358', '#F39F18'];
+const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#99C6F8', '#FFDBE9', '#FF3358', '#F39F18'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -212,7 +212,7 @@ const PipingGeneral = () => {
                 .then(async json => {
                     let spec_data = []
                     for(let i = 0; i < json.specs.length; i++){
-                        spec_data.push({spec: json.specs[i].spec})
+                        spec_data.push(json.specs[i].spec)
                     }
                     await setSpecData(spec_data)
                 })
@@ -418,7 +418,7 @@ const PipingGeneral = () => {
         .then(json => {
             let rows = JSON.parse(json)
 
-            const headers = ["Spec", "Generic", "Pcom", "From", "To", "FLG-Con", "Request to load date", "Ready in E3D date", "Updated date",  "Comments", "Ready to Load", "Ready in 3D", "Updated"]
+            const headers = ["Spec", "Generic", "Pcom", "From", "To", "FLG-Con", "Ready to load date", "Ready in E3D date", "Updated date",  "Comments", "Ready to Load", "Ready in 3D", "Updated"]
             const fileName = "Instruments report"
 
             for(let i = 0; i < rows.length; i++){
@@ -441,7 +441,6 @@ const PipingGeneral = () => {
                     rows[i].insts_generic_updated_at = ""
                 }
 
-                  console.log("Json date: " + rows[i].ready_load_date);
             }
 
             const apiData = rows

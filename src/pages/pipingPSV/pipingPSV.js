@@ -6,23 +6,19 @@ import RoleDropDown from '../../components/roleDropDown/roleDropDown'
 
 import IdleTimer from 'react-idle-timer'
 import {useNavigate} from "react-router";
-import CSPTrackerGeneralDataTable from "../../components/csptrackerGeneralDataTable/csptrackerGeneralDataTable"
+import CSPTrackerPSVDataTable from "../../components/csptrackerPSVDataTable/csptrackerPSVDataTable"
 import HotTable from "@handsontable/react"
 
 import SaveIcon from "../../assets/images/save.svg"
 import AlertF from "../../components/alert/alert"
-import CSPTrackerRequestPopUp from "../../components/csptrackerRequestPopUp/csptrackerRequestPopUp"
-import CSPTrackerdRequestsDataTable from "../../components/csptrackerRequestsDataTable/csptrackerRequestsDataTable"
 
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
-import Reports from "../../assets/images/view_requests.svg"
-import Back from "../../assets/images/back.svg"
 import CSPTrackerKeyParams from "../../components/csptrackerKeyParams/csptrackerKeyParams"
 
 import { PieChart, Pie, Tooltip, Cell } from 'recharts';
 
-const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#99C6F8', '#94DCAA', '#FF3358', '#F39F18'];
+const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#99C6F8', '#FFDBE9', '#FF3358', '#F39F18'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -86,7 +82,7 @@ const PipingPSV = () => {
     });
     const settings = {
         licenseKey: 'non-commercial-and-evaluation',
-        colWidths: [250, 600, 250, 250, 250, 250, 275]
+        colWidths: [250, 150, 180, 180, 270, 260, 170, 200, 200, 290, 280, 100, 100, 100, 300]
     }
 
     const [currentRole, setCurrentRole] = useState();
@@ -114,8 +110,7 @@ const PipingPSV = () => {
     const [instTypesData, setInstTypesData] = useState([])
     const [pconsData, setPconsData] = useState([])
 
-    const [busy, setBusy] = useState(false)
-    const [editingUser, setEditingUser] = useState()
+    const [ratingsData, setRatingsData] = useState([])
 
     const [updateData, setUpdateData] = useState(false)  
     const [dataChanged, setDataChanged] = useState(false)  
@@ -172,10 +167,9 @@ const PipingPSV = () => {
             },
         }
 
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/instStatusDataByProject/" + currentProject, options)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/psvStatusDataByProject/" + currentProject, options)
             .then(response => response.json())
             .then(async json => {
-                console.log(json)
                 let counter = [{name: "MATERIALS", value: json.materials}, {name: "HOLD", value: json.hold}, {name: "OK-REV0", value: json.ok_rev0}, {name: "OK-REVN", value: json.ok_revn}, {name: "EXCLUDED", value: json.excluded}, {name: "DELETED", value: json.deleted}, {name: "HOLD-REVN", value: json.hold_revn}]
                 
                 await setCounter(counter)
@@ -201,40 +195,10 @@ const PipingPSV = () => {
                 setProjectFilter(projects)
                 await setCurrentProject(projects[0].id)
                 
-                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getInstGeneralByProject/" + currentProject, options)
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPSVByProject/" + currentProject, options)
                 .then(response => response.json())
                 .then(async json => {
                     await setEditData(json.rows)
-                })
-    
-                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecsByProject/"+ currentProject, options)
-                .then(response => response.json())
-                .then(async json => {
-                    let spec_data = []
-                    for(let i = 0; i < json.specs.length; i++){
-                        spec_data.push({spec: json.specs[i].spec})
-                    }
-                    await setSpecData(spec_data)
-                })
-
-                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getInstTypes", options)
-                .then(response => response.json())
-                .then(async json => {
-                    let types_data = []
-                    for(let i = 0; i < json.instrument_types.length; i++){
-                        types_data.push(json.instrument_types[i].type)
-                    }
-                    await setInstTypesData(types_data)
-                })
-
-                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPComs", options)
-                .then(response => response.json())
-                .then(async json => {
-                    let pcons_data = []
-                    for(let i = 0; i < json.pcons.length; i++){
-                        pcons_data.push(json.pcons[i].name)
-                    }
-                    await setPconsData(pcons_data)
                 })
 
                 await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getDiameters", options)
@@ -247,6 +211,16 @@ const PipingPSV = () => {
                     await setDiametersData(diameters_data)
                 })
 
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecsByProject/"+ projects[0].id, options)
+                .then(response => response.json())
+                .then(async json => {
+                    let spec_data = []
+                    for(let i = 0; i < json.specs.length; i++){
+                        spec_data.push(json.specs[i].spec)
+                    }
+                    await setSpecData(spec_data)
+                })
+
                 await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/boltTypes", options)
                 .then(response => response.json())
                 .then(async json => {
@@ -255,6 +229,16 @@ const PipingPSV = () => {
                         bolt_types_data.push(json.rows[i].type)
                     }
                     await setBoltTypesData(bolt_types_data)
+                })
+
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/ratings", options)
+                .then(response => response.json())
+                .then(async json => {
+                    let ratings_data = []
+                    for(let i = 0; i < json.rows.length; i++){
+                        ratings_data.push(json.rows[i].rating)
+                    }
+                    await setRatingsData(ratings_data)
                 })
             })
     }, [])
@@ -267,21 +251,11 @@ const PipingPSV = () => {
             },
         }
 
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getInstGeneralByProject/" + currentProject, options)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPSVByProject/" + currentProject, options)
         .then(response => response.json())
         .then(async json => {
             await setEditData(json.rows)
         })
-
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecsByProject/"+ currentProject, options)
-                .then(response => response.json())
-                .then(async json => {
-                    let spec_data = []
-                    for(let i = 0; i < json.specs.length; i++){
-                        spec_data.push(json.specs[i].spec)
-                    }
-                    await setSpecData(spec_data)
-                })
 
         await setNewData({})
     }, [currentProject, dataChanged])
@@ -344,20 +318,9 @@ const PipingPSV = () => {
         }
     }
 
-    async function handleToggleKP(){
-        if(currentTab === "View"){
-            await setCurrentTab("CSP KeyParams")
-            
-        }else{
-            //await saveChangesKP()
-            await setCurrentTab("View")
-            
-        }
-    }
-
     async function addRow(){
         let rows = editData
-        rows.push({spec:"", instrument_type: "", pcons_name: "", diameters_from_dn: "", diameters_to_dn: "", bolt_type: "", comments: ""})
+        rows.push({tag:"", spec_inlet: "", p1bore_inlet: "", rating_inlet: "", flg_inlet: "", bolt_longitude_inlet: "", spec_outlet: "", p2bore_outlet: "", rating_outlet: "", flg_outlet: "", bolt_longitude_outlet: "", h1: "", a: "", b: ""})
         await setEditData(rows)
         await setUpdateData(!updateData)
       }
@@ -396,7 +359,7 @@ const PipingPSV = () => {
             body: JSON.stringify(body)
         }
 
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitInstGeneral", options)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitPSV", options)
         .then(response => response.json())
         .then(async json =>{
             if(json.success){
@@ -413,16 +376,16 @@ const PipingPSV = () => {
     }
 
     async function downloadReport(){
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadInstsGeneralByProject/" + currentProject)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadPSVByProject/" + currentProject)
         .then(response => response.json())
         .then(json => {
             let rows = JSON.parse(json)
 
-            const headers = ["Spec", "Generic", "Pcom", "From", "To", "FLG-Con", "Request to load date", "Ready in E3D date", "Updated date",  "Comments", "Ready to Load", "Ready in 3D", "Updated"]
-            const fileName = "Instruments report"
+            const headers = ["TAG", "Spec Inlet", "P1Bore Inlet", "Rating Inlet", "FLG Short Code Inlet", "Bolt Longitude Inlet", "Spec Outlet", "P2Bore Outlet", "Rating Outlet", "FLG Short Code Outlet", "Bolt Longitude Outlet", "H1", "A", "B", "Ready to load date", "Ready in E3D date", "Updated date",  "Comments", "Ready to Load", "Ready in 3D", "Updated"]
+            const fileName = "PSV report"
 
             for(let i = 0; i < rows.length; i++){
-
+                console.log(rows[i])
                 if(rows[i].ready_load_date){
                     rows[i].ready_load_date = rows[i].ready_load_date.toString().substring(8,10) + "-" + rows[i].ready_load_date.toString().substring(5,7) + "-" + rows[i].ready_load_date.toString().substring(0,4)
                 }else{
@@ -435,19 +398,18 @@ const PipingPSV = () => {
                     rows[i].ready_e3d_date = ""
                 }
 
-                if(rows[i].insts_generic_updated_at){
-                    rows[i].insts_generic_updated_at = rows[i].insts_generic_updated_at.toString().substring(8,10) + "-" + rows[i].insts_generic_updated_at.toString().substring(5,7) + "-" + rows[i].insts_generic_updated_at.toString().substring(0,4)
+                if(rows[i].updated_at){
+                    rows[i].updated_at = rows[i].updated_at.toString().substring(8,10) + "-" + rows[i].updated_at.toString().substring(5,7) + "-" + rows[i].updated_at.toString().substring(0,4)
                 }else{
-                    rows[i].insts_generic_updated_at = ""
+                    rows[i].updated_at = ""
                 }
 
-                  console.log("Json date: " + rows[i].ready_load_date);
             }
 
             const apiData = rows
             const fileType =
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-            const header_cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1']
+            const header_cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1', 'N1', 'O1', 'P1', 'Q1', 'R1', 'S1', 'T1', 'U1', 'V1', 'W1', 'X1', 'Y1', 'Z1']
             const fileExtension = ".xlsx";
 
             let wscols = []
@@ -472,7 +434,7 @@ const PipingPSV = () => {
     var dataTableHeight = "580px"
 
     let editBtn, addRowBtn, saveBtn, exportBtn
-    let table = <CSPTrackerGeneralDataTable currentRole = {currentRole} updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} uploadDrawingSuccess = {uploadSuccess.bind(this)} updateDrawingSuccess = {updateSuccess.bind(this)} drawingUploadError={drawingUploadError.bind(this)} currentProject={currentProject}/>
+    let table = <CSPTrackerPSVDataTable currentRole = {currentRole} updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} uploadDrawingSuccess = {uploadSuccess.bind(this)} updateDrawingSuccess = {updateSuccess.bind(this)} drawingUploadError={drawingUploadError.bind(this)} currentProject={currentProject}/>
     if(currentRole === "Materials" || currentRole === "Design"){
         editBtn = <label class="switchBtn__general" style={{width:"145px"}}>
                     <p className="navBar__button__text__general" style={{width:"100px", marginTop:"5px"}}>Edit mode &nbsp;&nbsp;&nbsp;</p>
@@ -498,7 +460,7 @@ const PipingPSV = () => {
     }
 
     if(currentTab === "View"){
-        table = <CSPTrackerGeneralDataTable currentRole = {currentRole} updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} uploadDrawingSuccess = {uploadSuccess.bind(this)} updateDrawingSuccess = {updateSuccess.bind(this)} drawingUploadError={drawingUploadError.bind(this)} currentProject={currentProject}/>
+        table = <CSPTrackerPSVDataTable currentRole = {currentRole} updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} uploadDrawingSuccess = {uploadSuccess.bind(this)} updateDrawingSuccess = {updateSuccess.bind(this)} drawingUploadError={drawingUploadError.bind(this)} currentProject={currentProject}/>
         exportBtn = <button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button>
         addRowBtn = null
         
@@ -506,15 +468,28 @@ const PipingPSV = () => {
         let cells = []
         let cols
         if(currentRole === "Design"){
-            cols = [{ data: "spec", type:'dropdown', strict:"true", source: specData}, {data: "instrument_type", type:'dropdown', strict:"true", source: instTypesData}, {data: "pcons_name", type:'dropdown', strict:"true", source: pconsData}, {data: "diameters_from_dn", type:"dropdown", strict:"true", source: diametersData}, {data: "diameters_to_dn", type:"dropdown", strict:"true", source: diametersData}, {data: "bolt_type", type:"text", readOnly:true}, {data:"comments", type:"text"}]
+            addRowBtn = <button class="btn btn-sm btn-success" onClick={() => addRow()} style={{fontSize:"18px", width:"35px", height:"35px", borderRadius:"10px", float:"right", marginTop:"15px"}}>+</button>
+            cols = [{ data: "tag", type:'text'}, {data: "spec_inlet", type:'dropdown', strict:"true", source: specData}, {data: "p1bore_inlet", type:'dropdown', strict:"true", source: diametersData}, {data: "rating_inlet", type:'dropdown', strict:"true", source: ratingsData}, {data: "flg_inlet", type:'text', readOnly:true}, {data: "bolt_longitude_inlet", type:"text", readOnly:true}, {data: "spec_outlet", type:'dropdown', strict:"true", source: specData}, {data: "p2bore_outlet", type:'dropdown', strict:"true", source: diametersData}, {data: "rating_outlet", type:'dropdown', strict:"true", source: ratingsData}, {data: "flg_outlet", type:"text", readOnly:true}, {data: "bolt_longitude_outlet", type:"text", readOnly:true}, {data:"h1", type:"text"}, {data:"a", type:"text"}, {data:"b", type:"text"}, {data:"comments", type:"text"}]
             for(let i = 0; i < editData.length; i++){
+                cells.push({
+                    row: i,
+                    col: 4,
+                    className: 'insts__disabled__cell'})
                 cells.push({
                     row: i,
                     col: 5,
                     className: 'insts__disabled__cell'})
+                cells.push({
+                    row: i,
+                    col: 9,
+                    className: 'insts__disabled__cell'})
+                cells.push({
+                    row: i,
+                    col: 10,
+                    className: 'insts__disabled__cell'})
             }
         }else{
-            cols = [{ data: "spec", type:"text", readOnly:true}, {data: "instrument_type", type:"text", readOnly:true}, {data: "pcons_name", type:"text", readOnly:true}, {data: "diameters_from_dn", type:"text", readOnly:true}, {data: "diameters_to_dn", type:"text", readOnly:true}, {data: "bolt_type", type:"dropdown", strict:"true", source: boltTypesData}, {data:"comments", type:"text", readOnly:true}]
+            cols = [{ data: "tag", type:'text', readOnly:true}, {data: "spec_inlet", type:'text', readOnly:true}, {data: "p1bore_inlet", type:'text', readOnly:true}, {data: "rating_inlet", type:'text', readOnly:true}, {data: "flg_inlet", type:'dropdown', strict:"true", source: boltTypesData}, {data: "bolt_longitude_inlet", type:"text"}, {data: "spec_outlet", type:'text', readOnly:true}, {data: "p2bore_outlet", type:'text', readOnly:true}, {data: "rating_outlet", type:'text', readOnly:true}, {data: "flg_outlet", type:"dropdown", strict:true, source: boltTypesData}, {data: "bolt_longitude_outlet", type:"text"}, {data:"h1", type:"text", readOnly:true}, {data:"a", type:"text", readOnly:true}, {data:"b", type:"text", readOnly:true}, {data:"comments", type:"text", readOnly:true}]
             for(let i = 0; i < editData.length; i++){
                 cells.push({
                     row: i,
@@ -534,19 +509,38 @@ const PipingPSV = () => {
                     className: 'insts__disabled__cell'})
                 cells.push({
                     row: i,
-                    col: 4,
+                    col: 6,
                     className: 'insts__disabled__cell'})
                 cells.push({
                     row: i,
-                    col: 6,
+                    col: 7,
                     className: 'insts__disabled__cell'})
-                    
+                cells.push({
+                    row: i,
+                    col: 8,
+                    className: 'insts__disabled__cell'})
+                cells.push({
+                    row: i,
+                    col: 11,
+                    className: 'insts__disabled__cell'})
+                cells.push({
+                    row: i,
+                    col: 12,
+                    className: 'insts__disabled__cell'})
+                cells.push({
+                    row: i,
+                    col: 13,
+                    className: 'insts__disabled__cell'})
+                cells.push({
+                    row: i,
+                    col: 14,
+                    className: 'insts__disabled__cell'})    
             }
         }
         
         table = <HotTable
         data={editData}
-        colHeaders = {["SPEC","GENERIC", "PCOM", "FROM", "TO", "FLG-CON", "Comments"]}
+        colHeaders = {["TAG","SPEC INLET", "P1BORE INLET", "RATING INLET", "FLG SHORT CODE INLET", "BOLT LONGITUDE INLET", "SPEC OUTLET", "P2BORE OUTLET", "RATING OUTLET", "FLG SHORT CODE OUTLET", "BOLT LONGITUDE OUTLET","H1", "A", "B", "COMMENTS"]}
         rowHeaders={true}
         width="2200"
         height="530"
@@ -555,6 +549,7 @@ const PipingPSV = () => {
         manualRowResize={true}
         filters={true}
         afterChange={handleChange}
+        fixedColumnsLeft={1}
         dropdownMenu= {[
             'make_read_only',
             '---------',
@@ -575,14 +570,8 @@ const PipingPSV = () => {
         />
         
         dataTableHeight= "700px"
-        addRowBtn = <button class="btn btn-sm btn-success" onClick={() => addRow()} style={{fontSize:"18px", width:"35px", height:"35px", borderRadius:"10px", float:"right", marginTop:"15px"}}>+</button>
         saveBtn = <button className="navBar__button" onClick={()=> saveChanges()} style={{marginRight:"5px", fontSize:"18px", width:"100px", height:"35px", borderRadius:"10px", marginRight:"-30px"}}><img src={SaveIcon} alt="save" className="navBar__icon" style={{marginTop:"9px"}}></img><p className="navBar__button__text">Save</p></button>
-    
-
-    }else if(currentTab === "CSP KeyParams"){
-        table = <CSPTrackerKeyParams success={()=> setSuccessAlert(true)}/>
     }
-
 
     return(
         
