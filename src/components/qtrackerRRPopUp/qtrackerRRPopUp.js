@@ -204,7 +204,7 @@ export default class QtrackerRRPopUp extends Component {
         if(this.props.margin){
           marginReport = "45px"
         } else {
-          marginReport = "0px"
+          marginReport = "10px"
         }
         return (
           <div>
