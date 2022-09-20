@@ -578,10 +578,7 @@ const PipingGeneral = () => {
         saveBtn = <button className="navBar__button" onClick={()=> saveChanges()} style={{marginRight:"5px", fontSize:"18px", width:"100px", height:"35px", borderRadius:"10px", marginRight:"-30px"}}><img src={SaveIcon} alt="save" className="navBar__icon" style={{marginTop:"9px"}}></img><p className="navBar__button__text">Save</p></button>
     
 
-    }else if(currentTab === "CSP KeyParams"){
-        table = <CSPTrackerKeyParams success={()=> setSuccessAlert(true)}/>
     }
-
 
     return(
         
