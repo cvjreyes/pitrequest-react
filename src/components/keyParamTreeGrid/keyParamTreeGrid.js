@@ -479,7 +479,7 @@ class KeyParamTreeGrid extends Component{
 
     let settingsProjects = {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: [261, 261, 261, 91],
+      colWidths: [297, 261, 261, 91],
     }
 
     let settingsTasks = {
@@ -490,12 +490,12 @@ class KeyParamTreeGrid extends Component{
 
     let settingsSubtasks= {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 293,
+      colWidths: 299,
     }
 
     let settingsType= {
       licenseKey: 'non-commercial-and-evaluation',
-      colWidths: 600,
+      colWidths: 578,
     }
 
     return <div >{ 
@@ -514,7 +514,7 @@ class KeyParamTreeGrid extends Component{
             </TabList>
           </Box>
           <TabPanel value="1" centered>
-          <div className="excel__container__2" style={{marginLeft: "430px"}}>
+          <div className="excel__container__2" style={{marginLeft: "420px"}}>
             <HotTable
               data={this.state.specs}
               colHeaders = {["<b>Spec</b>"]}
@@ -584,7 +584,7 @@ class KeyParamTreeGrid extends Component{
               />
             </div>
             <div style={{display: "flex", float:"center"}} >
-              <div style={{marginLeft: "470px"}}>
+              <div style={{marginLeft: "475px"}}>
                 <button className="projects__add__button" type="button" onClick={()=> this.addRowSpecsByProject()} style={{width:"70px"}}><p className="projects__add__button__text">+ Add</p></button>
               </div>
             </div>
