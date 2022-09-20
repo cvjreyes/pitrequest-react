@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-awesome-modal';
+import './uploadSpecialsDrawingPopUp.css'
 
 export default class UploadSpecialsDrawingPopUp extends Component {
     constructor(props) {
@@ -86,15 +87,15 @@ export default class UploadSpecialsDrawingPopUp extends Component {
             <section style={{float:"right"}}>
                 <input type="button"  value="UPLOAD" class="update__btn btn-sm btn-info"  onClick={() => this.openModal()} />
                 <div>
-                    <Modal visible={this.state.visible} width="650" height="180" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                        <div className="popUp__container" >
-                            <center className="popUp__title"><h2>Upload your drawing for {this.props.description_plan_code}</h2></center>
+                    <Modal visible={this.state.visible} width="680" height="250" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                        <div className="popUp__container__upload__update" >
+                            <center className="popUp__title" >Upload your drawing for {this.props.description_plan_code}</center>
                                 
                         </div>
                         <div className="select__container">
 
                             <input type="file" accept=".pdf,.png" name="fileToUpload" id="fileToUpload" onChange={this.handleChange}/>
-                            <button style={{marginLeft:"10px"}} className="btn btn-sm btn-success" onClick={()=>this.uploadReport()}>Submit</button>
+                            <button  className="btn__submit__upload__update" onClick={()=>this.uploadReport()}>Submit</button>
                             
                         </div> 
 

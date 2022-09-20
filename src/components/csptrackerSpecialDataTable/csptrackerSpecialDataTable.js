@@ -221,7 +221,7 @@ class CSPtrackerSpecialDataTable extends React.Component{
                 if(json.rows[i].filename){
                   row.drawing_description = <div className="drawing__column"><a onClick={() => this.getDrawing(json.rows[i].code)}>{json.rows[i].code + " R" + json.rows[i].revision}</a><UpdateSpecialsDrawingPopUp description_plan_code={json.rows[i].code} updateDrawingSuccess={this.updateDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/></div>
                 }else{
-                  row.drawing_description = <div className="drawing__column"><p>{json.rows[i].code}</p><UploadSpecialsDrawingPopUp description_plan_code={json.rows[i].code} updateDataMethod = {this.updateData.bind(this)} uploadDrawingSuccess={this.uploadDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/></div>
+                  row.drawing_description = <div className="drawing__column"><p style={{display:"inline"}}>{json.rows[i].code}</p><UploadSpecialsDrawingPopUp description_plan_code={json.rows[i].code} updateDataMethod = {this.updateData.bind(this)} uploadDrawingSuccess={this.uploadDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/></div>
                 }
               }
               
@@ -365,7 +365,7 @@ class CSPtrackerSpecialDataTable extends React.Component{
               if(json.rows[i].filename){
                 row.drawing_description = <div className="drawing__column"><a onClick={() => this.getDrawing(json.rows[i].code)}>{json.rows[i].code + " R" + json.rows[i].revision}</a><UpdateSpecialsDrawingPopUp description_plan_code={json.rows[i].code} updateDrawingSuccess={this.updateDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/></div>
               }else{
-                row.drawing_description = <div className="drawing__column"><p>{json.rows[i].code}</p><UploadSpecialsDrawingPopUp description_plan_code={json.rows[i].code} updateDataMethod = {this.updateData.bind(this)} uploadDrawingSuccess={this.uploadDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/></div>
+                row.drawing_description = <div className="drawing__column"><p style={{display:"inline"}}>{json.rows[i].code}</p><UploadSpecialsDrawingPopUp description_plan_code={json.rows[i].code} updateDataMethod = {this.updateData.bind(this)} uploadDrawingSuccess={this.uploadDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/></div>
               }
             }
 
@@ -713,7 +713,7 @@ class CSPtrackerSpecialDataTable extends React.Component{
     if (this.state.data.length === 0){
       totalElements = null;
     }else{
-      totalElements = (<div style={{position: "absolute", bottom: 100, left:110}}>
+      totalElements = (<div style={{position: "absolute", bottom: 150, left:110}}>
       <p className='navBar__button__text__general'>Total elements: {this.state.data.length}</p>
      </div>);
     }

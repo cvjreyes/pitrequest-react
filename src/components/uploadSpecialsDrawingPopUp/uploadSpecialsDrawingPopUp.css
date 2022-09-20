@@ -1,0 +1,23 @@
+.popUp__container__upload__update{
+    margin-left: 40px;
+    margin-right: 40px;
+    text-align: center; 
+    font-family: 'Montserrat', 'sans serif'; 
+    font-size: 40px; 
+    color: #338DF1; 
+}
+
+.btn__submit__upload__update{
+    align-items: center;
+    color: #FFFFFF;
+    width: 130px;
+    height: 43px;
+    border: 1px solid #338DF1;
+    background: #338DF1;
+    border-radius: 8px;
+}
+
+.btn__submit__upload__update:hover{
+    background-color: #99C6F8;
+    color: black;
+}
