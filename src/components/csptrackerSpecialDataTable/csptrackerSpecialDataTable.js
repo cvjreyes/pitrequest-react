@@ -5,6 +5,8 @@ import { Table, Input, Button, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import UploadDrawingPopUp from '../uploadDrawingPopUp/uploadDrawingPopUp';
 import UpdateDrawingPopUp from '../updateDrawingPopUp/updateDrawingPopUp';
+import UploadSpecialsDrawingPopUp from '../uploadSpecialsDrawingPopUp/uploadSpecialsDrawingPopUp';
+import UpdateSpecialsDrawingPopUp from '../updateSpecialsDrawingPopUp/updateSpecialsDrawingPopUp';
 
 class CSPtrackerSpecialDataTable extends React.Component{
   state = {
@@ -214,6 +216,14 @@ class CSPtrackerSpecialDataTable extends React.Component{
                   }
                 }
               }
+
+              if(json.rows[i].code){
+                if(json.rows[i].filename){
+                  row.drawing_description = <div className="drawing__column"><a onClick={() => this.getDrawing(json.rows[i].code)}>{json.rows[i].code + " R" + json.rows[i].revision}</a><UpdateSpecialsDrawingPopUp description_plan_code={json.rows[i].code} updateDrawingSuccess={this.updateDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/></div>
+                }else{
+                  row.drawing_description = <div className="drawing__column"><p>{json.rows[i].code}</p><UploadSpecialsDrawingPopUp description_plan_code={json.rows[i].code} updateDataMethod = {this.updateData.bind(this)} uploadDrawingSuccess={this.uploadDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/></div>
+                }
+              }
               
 
               for (const [key, value] of Object.entries(row)) {
@@ -351,6 +361,14 @@ class CSPtrackerSpecialDataTable extends React.Component{
               }
             }
 
+            if(json.rows[i].code){
+              if(json.rows[i].filename){
+                row.drawing_description = <div className="drawing__column"><a onClick={() => this.getDrawing(json.rows[i].code)}>{json.rows[i].code + " R" + json.rows[i].revision}</a><UpdateSpecialsDrawingPopUp description_plan_code={json.rows[i].code} updateDrawingSuccess={this.updateDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/></div>
+              }else{
+                row.drawing_description = <div className="drawing__column"><p>{json.rows[i].code}</p><UploadSpecialsDrawingPopUp description_plan_code={json.rows[i].code} updateDataMethod = {this.updateData.bind(this)} uploadDrawingSuccess={this.uploadDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/></div>
+              }
+            }
+
             rows.push(row)
           }
           
@@ -365,6 +383,66 @@ class CSPtrackerSpecialDataTable extends React.Component{
     }
 
   }
+
+  async updateData(){
+    this.props.updateDataMethod()
+  }
+
+  async uploadDrawingSuccess(){
+    this.props.uploadDrawingSuccess()
+  }
+
+  async updateDrawingSuccess(){
+    this.props.updateDrawingSuccess()
+  }
+
+  async drawingUploadError(){
+    this.props.drawingUploadError()
+  }
+
+  async getDrawing(fileName){
+    const options = {
+      method: "GET",
+      headers: {
+          "Content-Type": "application/pdf"
+      }
+    }
+    fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecialsDrawing/"+fileName, options)
+    .then(res => res.blob())
+    .then(response => {
+      const file = new Blob([response], {
+        type: "application/pdf"
+      });
+      //Build a URL from the file
+      const fileURL = URL.createObjectURL(file);
+      //Open the URL on new Window
+      let w = window.open(fileURL);
+
+        w.addEventListener("load", function() {
+          setTimeout(()=> w.document.title = fileName
+          , 300);
+
+
+        });
+
+        // create <a> tag dinamically
+        var filea = document.createElement('a');
+        filea.href = fileURL;
+
+        // it forces the name of the downloaded file
+        filea.download = fileName;
+
+        // triggers the click event
+        filea.click();
+
+
+      
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
 
 
   async filter(column, value){

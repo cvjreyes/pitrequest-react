@@ -82,7 +82,7 @@ const PipingSpecial = () => {
     });
     const settings = {
         licenseKey: 'non-commercial-and-evaluation',
-        colWidths: [275, 180, 110, 110, 110, 220, 273, 300, 130, 180, 230]
+        colWidths: [275, 180, 110, 110, 110, 220, 273, 300, 130, 180, 230, 400]
     }
 
     const [currentRole, setCurrentRole] = useState();
@@ -195,13 +195,13 @@ const PipingSpecial = () => {
                 setProjectFilter(projects)
                 await setCurrentProject(projects[0].id)
                 
-                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecialsByProject/" + currentProject, options)
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecialsByProject/" + projects[0].id, options)
                 .then(response => response.json())
                 .then(async json => {
                     await setEditData(json.rows)
                 })
     
-                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecsByProject/"+ currentProject, options)
+                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecsByProject/"+ projects[0].id, options)
                 .then(response => response.json())
                 .then(async json => {
                     let spec_data = []
@@ -361,7 +361,7 @@ const PipingSpecial = () => {
 
     async function addRow(){
         let rows = editData
-        rows.push({spec:"", instrument_type: "", pcons_name: "", diameters_from_dn: "", diameters_to_dn: "", bolt_type: "", comments: ""})
+        rows.push({tag:"", spec: "", p1bore: "", p2bore: "", p3bore: "", rating: "", end_preparation: "", description_iso: "", type: "", bolt_longitude:"", code: "", comments: ""})
         await setEditData(rows)
         await setUpdateData(!updateData)
       }
@@ -384,7 +384,6 @@ const PipingSpecial = () => {
         let new_rows = []
         Object.entries(newData)
         .map( ([key, value]) => new_rows.push(value))
-
         
         const body = {
             rows: new_rows,
@@ -400,7 +399,7 @@ const PipingSpecial = () => {
             body: JSON.stringify(body)
         }
 
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitInstGeneral", options)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitSpecialInstruments", options)
         .then(response => response.json())
         .then(async json =>{
             if(json.success){
@@ -417,12 +416,12 @@ const PipingSpecial = () => {
     }
 
     async function downloadReport(){
-        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadInstsGeneralByProject/" + currentProject)
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadSpecialsByProject/" + currentProject)
         .then(response => response.json())
         .then(json => {
             let rows = JSON.parse(json)
 
-            const headers = ["Spec", "Generic", "Pcom", "From", "To", "FLG-Con", "Request to load date", "Ready in E3D date", "Updated date",  "Comments", "Ready to Load", "Ready in 3D", "Updated"]
+            const headers = ["Tag", "Spec", "P1Bore", "P2Bore", "P3Bore", "Rating", "End preparation", "Description iso", "Bolt type", "Bolt longitude", "Drawing", "Drawing revision", "Ready load date", "Ready in E3D date", "Comments", "Ready to Load", "Ready in 3D", "Updated"]
             const fileName = "Instruments report"
 
             for(let i = 0; i < rows.length; i++){
@@ -445,13 +444,12 @@ const PipingSpecial = () => {
                     rows[i].insts_generic_updated_at = ""
                 }
 
-                  console.log("Json date: " + rows[i].ready_load_date);
             }
 
             const apiData = rows
             const fileType =
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-            const header_cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1']
+            const header_cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1', 'N1', 'O1', 'P1', 'Q1', 'R1']
             const fileExtension = ".xlsx";
 
             let wscols = []
@@ -510,7 +508,7 @@ const PipingSpecial = () => {
         let cells = []
         let cols
         if(currentRole === "Design"){
-            cols = [{ data: "tag", type:'dropdown'}, {data: "spec", type:'dropdown', strict:true, source: specData}, {data: "p1bore", type:'dropdown', strict:true, source: diametersData}, {data: "p2bore", type:"dropdown", strict:true, source: diametersData}, {data: "p3bore", type:"dropdown", strict:true, source: diametersData}, {data: "rating", type:"text", strict:true, source: ratingsData}, {data:"end_preparation", type:"text", strict:true, source: endPreparationsData}, {data:"description_iso", type:"text"}, {data:"type", type:"text", readOnly:true}, {data:"bolt_longitude", type:"text", readOnly:true}, {data:"code", type:"dropdown", strict:true, source: drawingsData}]
+            cols = [{ data: "tag", type:'text'}, {data: "spec", type:'dropdown', strict:true, source: specData}, {data: "p1bore", type:'dropdown', strict:true, source: diametersData}, {data: "p2bore", type:"dropdown", strict:true, source: diametersData}, {data: "p3bore", type:"dropdown", strict:true, source: diametersData}, {data: "rating", type:"dropdown", strict:true, source: ratingsData}, {data:"end_preparation", type:"dropdown", strict:true, source: endPreparationsData}, {data:"description_iso", type:"text"}, {data:"type", type:"text", readOnly:true}, {data:"bolt_longitude", type:"text", readOnly:true}, {data:"code", type:"dropdown", strict:false, source: drawingsData}, {data:"comments", type: "text"}]
             for(let i = 0; i < editData.length; i++){
                 cells.push({
                     row: i,
@@ -522,7 +520,7 @@ const PipingSpecial = () => {
                     className: 'insts__disabled__cell'})
             }
         }else{
-            cols = [{ data: "tag", type:'dropdown', readOnly:true}, {data: "spec", type:'dropdown', readOnly:true}, {data: "p1bore", type:'dropdown', readOnly:true}, {data: "p2bore", type:"dropdown", readOnly:true}, {data: "p3bore", type:"dropdown", readOnly:true}, {data: "rating", type:"text", readOnly:true}, {data:"end_preparation", type:"text", readOnly:true}, {data:"description_iso", type:"text", readOnly:true}, {data:"type", type:"dropdown", strict:true, source: boltTypesData}, {data:"bolt_longitude", type:"text"}, {data:"code", type:"text", readOnly:true}]
+            cols = [{ data: "tag", type:'text', readOnly:true}, {data: "spec", type:'dropdown', readOnly:true}, {data: "p1bore", type:'dropdown', readOnly:true}, {data: "p2bore", type:"dropdown", readOnly:true}, {data: "p3bore", type:"dropdown", readOnly:true}, {data: "rating", type:"text", readOnly:true}, {data:"end_preparation", type:"text", readOnly:true}, {data:"description_iso", type:"text", readOnly:true}, {data:"type", type:"dropdown", strict:true, source: boltTypesData}, {data:"bolt_longitude", type:"text"}, {data:"code", type:"text", readOnly:true}, {data:"comments", type: "text", readOnly:true}]
             for(let i = 0; i < editData.length; i++){
                 cells.push({
                     row: i,
@@ -560,12 +558,16 @@ const PipingSpecial = () => {
                     row: i,
                     col: 10,
                     className: 'insts__disabled__cell'})  
+                cells.push({
+                    row: i,
+                    col: 1,
+                    className: 'insts__disabled__cell'}) 
             }
         }
         
         table = <HotTable
         data={editData}
-        colHeaders = {["Tag", "Spec", "P1Bore", "P2Bore", "P3Bore", "Rating", "End Preparation", "Iso Description", "FLG Short Code", "Bolt longitude", "Drawing Description", "Request date", "Request to load date", "Ready in E3D date", "Comments", "Ready to Load", "Ready in 3D", "Updated"]}        
+        colHeaders = {["Tag", "Spec", "P1Bore", "P2Bore", "P3Bore", "Rating", "End Preparation", "Iso Description", "FLG Short Code", "Bolt longitude", "Drawing Description", "Comments"]}        
         rowHeaders={true}
         width="2170"
         height="530"
