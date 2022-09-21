@@ -315,7 +315,7 @@ const PipingExpansionJoins = () => {
 
     async function addRow(){
         let rows = editData
-        rows.push({id: "", tag:"", spec: "", p1bore: "", p2bore: "", rating: "", end_preparation: "", description_iso: "", ident: "", face_to_face: "", bolt_type: ""})
+        rows.push({id: "", tag:"", spec: "", p1bore: "", p2bore: "", rating: "", end_preparation: "", description_iso: "", face_to_face: "", bolt_type: ""})
         await setEditData(rows)
         await setUpdateData(!updateData)
       }
@@ -376,7 +376,7 @@ const PipingExpansionJoins = () => {
         .then(json => {
             let rows = JSON.parse(json)
 
-            const headers = ["TAG", "Spec", "P1Bore", "P2Bore", "Rating", "End Preparation", "Description ISO", "Ident", "Face to face", "FLG Short Code", "Ready in E3D date", "Updated date", "Comments", "Ready to Load", "Ready in 3D", "Updated"]
+            const headers = ["TAG", "Spec", "P1Bore", "P2Bore", "Rating", "End Preparation", "Description ISO", "Face to face", "FLG Short Code", "Ready in E3D date", "Updated date", "Comments", "Ready to Load", "Ready in 3D", "Updated"]
             const fileName = "Expansion Joins Report"
 
             for(let i = 0; i < rows.length; i++){
@@ -452,7 +452,7 @@ const PipingExpansionJoins = () => {
         let cols
         if(currentRole === "Design"){
             addRowBtn = <button class="btn btn-sm btn-success" onClick={() => addRow()} style={{fontSize:"18px", width:"35px", height:"35px", borderRadius:"10px", float:"right", marginTop:"15px"}}>+</button>
-            cols = [{ data: "tag", type:'text'}, {data: "spec", type:'dropdown', strict:"true", source: specData}, {data: "p1bore", type:'dropdown', strict:"true", source: diametersData}, {data: "p2bore", type:'dropdown', strict:"true", source: diametersData}, {data: "rating", type:"dropdown", strict:true, source: ratingsData}, {data: "end_preparation", type:'dropdown', strict:"true", source: endPreparationData}, {data: "description_iso", type:'text'}, {data: "ident", type:'text', readOnly:true}, {data: "face_to_face", type:'text'}, {data: "bolt_type",  type:'text', readOnly:true}, {data: "comments",  type:'text'}]
+            cols = [{ data: "tag", type:'text'}, {data: "spec", type:'dropdown', strict:"true", source: specData}, {data: "p1bore", type:'dropdown', strict:"true", source: diametersData}, {data: "p2bore", type:'dropdown', strict:"true", source: diametersData}, {data: "rating", type:"dropdown", strict:true, source: ratingsData}, {data: "end_preparation", type:'dropdown', strict:"true", source: endPreparationData}, {data: "description_iso", type:'text'}, {data: "face_to_face", type:'text'}, {data: "bolt_type",  type:'text', readOnly:true}, {data: "comments",  type:'text'}]
             for(let i = 0; i < editData.length; i++){
                 cells.push({
                     row: i,
@@ -464,7 +464,7 @@ const PipingExpansionJoins = () => {
                     className: 'insts__disabled__cell'})
             }
         }else{
-            cols = [{ data: "tag", type:'text', readOnly:true}, {data: "spec",  type:'text', readOnly:true}, {data: "p1bore",  type:'text', readOnly:true}, {data: "p2bore", type:'text', readOnly:true}, {data: "rating",  type:'text', readOnly:true}, {data: "end_preparation", type:'text', readOnly:true}, {data: "description_iso", type:'text', readOnly:true}, {data: "ident", type:'text'}, {data: "face_to_face", type:'text', readOnly:true}, {data: "bolt_type", type:"dropdown", strict: true, source: boltTypesData}, {data: "comments",  type:'text', readOnly:true}]
+            cols = [{ data: "tag", type:'text', readOnly:true}, {data: "spec",  type:'text', readOnly:true}, {data: "p1bore",  type:'text', readOnly:true}, {data: "p2bore", type:'text', readOnly:true}, {data: "rating",  type:'text', readOnly:true}, {data: "end_preparation", type:'text', readOnly:true}, {data: "description_iso", type:'text', readOnly:true}, {data: "face_to_face", type:'text', readOnly:true}, {data: "bolt_type", type:"dropdown", strict: true, source: boltTypesData}, {data: "comments",  type:'text', readOnly:true}]
             for(let i = 0; i < editData.length; i++){
                 cells.push({
                     row: i,
@@ -511,7 +511,7 @@ const PipingExpansionJoins = () => {
 
         table = <HotTable
         data={editData}
-        colHeaders = {["<b>TAG</b>","<b>SPEC</b>", "<b>P1BORE</b>", "<b>P2BORE</b>", "<b>RATING</b>", "<b>END PREPARATION</b>", "<b>ISO DESCRIPTION/b>", "<b>IDENT</b>", "<b>FACE TO FACE</b>", "<b>FLG SHORT CODE</b>", "<b>COMMENTS</b>"]}
+        colHeaders = {["<b>TAG</b>","<b>SPEC</b>", "<b>P1BORE</b>", "<b>P2BORE</b>", "<b>RATING</b>", "<b>END PREPARATION</b>", "<b>ISO DESCRIPTION/b>", "<b>FACE TO FACE</b>", "<b>FLG SHORT CODE</b>", "<b>COMMENTS</b>"]}
         rowHeaders={true}
         width="2200"
         height="635"

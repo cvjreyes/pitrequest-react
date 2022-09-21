@@ -123,7 +123,7 @@ class CSPtrackerExpansionJoinsDataTable extends React.Component{
           var rows = []
           var row = null
           for(let i = 0; i < json.rows.length; i++){
-            row = {key:i, id: json.rows[i].id, tag: json.rows[i].tag, spec: json.rows[i].spec, p1bore: json.rows[i].p1bore, p2bore: json.rows[i].p2bore, rating: json.rows[i].rating, end_preparation: json.rows[i].end_preparation, description_iso: json.rows[i].description_iso, ident: json.rows[i].ident, face_to_face: json.rows[i].face_to_face, bolt_type: json.rows[i].bolt_type, ready_load: json.rows[i].ready_load, ready_load_date: json.rows[i].ready_load_date, ready_e3d: json.rows[i].ready_e3d, ready_e3d_date: json.rows[i].ready_e3d_date, comments: json.rows[i].comments, updated: json.rows[i].updated}
+            row = {key:i, id: json.rows[i].id, tag: json.rows[i].tag, spec: json.rows[i].spec, p1bore: json.rows[i].p1bore, p2bore: json.rows[i].p2bore, rating: json.rows[i].rating, end_preparation: json.rows[i].end_preparation, description_iso: json.rows[i].description_iso, face_to_face: json.rows[i].face_to_face, bolt_type: json.rows[i].bolt_type, ready_load: json.rows[i].ready_load, ready_load_date: json.rows[i].ready_load_date, ready_e3d: json.rows[i].ready_e3d, ready_e3d_date: json.rows[i].ready_e3d_date, comments: json.rows[i].comments, updated: json.rows[i].updated}
 
             if(json.rows[i].ready_load_date){
               row.ready_load_date = json.rows[i].ready_load_date.toString().substring(0,10) + " "+ json.rows[i].ready_load_date.toString().substring(11,19)
@@ -247,7 +247,7 @@ class CSPtrackerExpansionJoinsDataTable extends React.Component{
           var rows = []
           var row = null
           for(let i = 0; i < json.rows.length; i++){
-            row = {key:i, id: json.rows[i].id, tag: json.rows[i].tag, spec: json.rows[i].spec, p1bore: json.rows[i].p1bore, p2bore: json.rows[i].p2bore, rating: json.rows[i].rating, end_preparation: json.rows[i].end_preparation, description_iso: json.rows[i].description_iso, ident: json.rows[i].ident, face_to_face: json.rows[i].face_to_face, bolt_type: json.rows[i].bolt_type, ready_load: json.rows[i].ready_load, ready_load_date: json.rows[i].ready_load_date, ready_e3d: json.rows[i].ready_e3d, ready_e3d_date: json.rows[i].ready_e3d_date, comments: json.rows[i].comments, updated: json.rows[i].updated}
+            row = {key:i, id: json.rows[i].id, tag: json.rows[i].tag, spec: json.rows[i].spec, p1bore: json.rows[i].p1bore, p2bore: json.rows[i].p2bore, rating: json.rows[i].rating, end_preparation: json.rows[i].end_preparation, description_iso: json.rows[i].description_iso, face_to_face: json.rows[i].face_to_face, bolt_type: json.rows[i].bolt_type, ready_load: json.rows[i].ready_load, ready_load_date: json.rows[i].ready_load_date, ready_e3d: json.rows[i].ready_e3d, ready_e3d_date: json.rows[i].ready_e3d_date, comments: json.rows[i].comments, updated: json.rows[i].updated}
 
             if(json.rows[i].ready_load_date){
               row.ready_load_date = json.rows[i].ready_load_date.toString().substring(0,10) + " "+ json.rows[i].ready_load_date.toString().substring(11,19)
@@ -597,12 +597,6 @@ class CSPtrackerExpansionJoinsDataTable extends React.Component{
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Iso Description" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
         dataIndex: 'description_iso',
         key: 'description_iso',
-        align: "center"
-      },
-      {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ident" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
-        dataIndex: 'ident',
-        key: 'ident',
         align: "center"
       },
       {
