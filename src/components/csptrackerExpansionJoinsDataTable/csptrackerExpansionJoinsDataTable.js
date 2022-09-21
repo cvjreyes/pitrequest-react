@@ -3,8 +3,6 @@ import './csptrackerExpansionJoinsDataTable.css'
 import 'antd/dist/antd.css';
 import { Table, Input, Button, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import UploadDrawingPopUp from '../uploadDrawingPopUp/uploadDrawingPopUp';
-import UpdateDrawingPopUp from '../updateDrawingPopUp/updateDrawingPopUp';
 
 class CSPtrackerExpansionJoinsDataTable extends React.Component{
   state = {
@@ -23,9 +21,9 @@ class CSPtrackerExpansionJoinsDataTable extends React.Component{
     filters: []
   };
 
-  async readyE3D(tag){
+  async readyE3D(id){
     const body = {
-      tag: tag
+      id: id
     }
 
     const options = {
@@ -37,16 +35,16 @@ class CSPtrackerExpansionJoinsDataTable extends React.Component{
   }
 
 
-  fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/readye3d", options)
+  fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/expansionJoinsReadye3d", options)
       .then(response => response.json())
       .then(
         this.props.updateDataMethod()
       )
   }
 
-  async cancelReadyE3D(tag){
+  async cancelReadyE3D(id){
     const body = {
-      tag: tag
+      id: id
     }
 
     const options = {
@@ -58,16 +56,16 @@ class CSPtrackerExpansionJoinsDataTable extends React.Component{
   }
 
 
-  fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/cancelreadye3d", options)
+  fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/expansionJoinsCancelReadye3d", options)
       .then(response => response.json())
       .then(
         this.props.updateDataMethod()
         )
   }
 
-  async deleteSP(tag){
+  async deleteExpansionJoin(id){
     const body = {
-      tag: tag
+      id: id
     }
 
     const options = {
@@ -78,16 +76,16 @@ class CSPtrackerExpansionJoinsDataTable extends React.Component{
       body: JSON.stringify(body)
     }
 
-    fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/deleteSP", options)
+    fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/deleteExpansionJoin", options)
       .then(response => response.json())
       .then(
         this.props.updateDataMethod()
       )
   }
   
-  async excludeSP(tag){
+  async excludeExpansionJoin(id){
     const body = {
-      tag: tag
+      id: id
     }
 
     const options = {
@@ -98,7 +96,7 @@ class CSPtrackerExpansionJoinsDataTable extends React.Component{
       body: JSON.stringify(body)
     }
 
-    fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/excludeSP", options)
+    fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/excludeExpansionJoin", options)
       .then(response => response.json())
       .then(
         this.props.updateDataMethod()
@@ -107,61 +105,6 @@ class CSPtrackerExpansionJoinsDataTable extends React.Component{
 
   async updateData(){
     this.props.updateDataMethod()
-  }
-
-  async uploadDrawingSuccess(){
-    this.props.uploadDrawingSuccess()
-  }
-
-  async updateDrawingSuccess(){
-    this.props.updateDrawingSuccess()
-  }
-
-  async drawingUploadError(){
-    this.props.drawingUploadError()
-  }
-
-  async getDrawing(fileName){
-    const options = {
-      method: "GET",
-      headers: {
-          "Content-Type": "application/pdf"
-      }
-    }
-    fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getDrawing/"+fileName, options)
-    .then(res => res.blob())
-    .then(response => {
-      const file = new Blob([response], {
-        type: "application/pdf"
-      });
-      //Build a URL from the file
-      const fileURL = URL.createObjectURL(file);
-      //Open the URL on new Window
-      let w = window.open(fileURL);
-
-        w.addEventListener("load", function() {
-          setTimeout(()=> w.document.title = fileName
-          , 300);
-
-
-        });
-
-        // create <a> tag dinamically
-        var filea = document.createElement('a');
-        filea.href = fileURL;
-
-        // it forces the name of the downloaded file
-        filea.download = fileName;
-
-        // triggers the click event
-        filea.click();
-
-
-      
-    })
-    .catch(error => {
-      console.log(error);
-    });
   }
 
   async componentDidMount(){
@@ -174,228 +117,109 @@ class CSPtrackerExpansionJoinsDataTable extends React.Component{
     }
 
 
-    fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getInstGeneral", options)
+    fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getExpansionJoinsByProject/"+ this.props.currentProject, options)
         .then(response => response.json())
         .then(async json => {
           var rows = []
           var row = null
-          if(process.env.REACT_APP_MMDN === "1"){
-            for(let i = 0; i < json.rows.length; i++){
-              row = {key:i, id: json.rows[i].id, specs: json.rows[i].specs, instrument_types: json.rows[i].instrument_types, pcons_name: json.rows[i].pcons_name, diameters_from_dn: json.rows[i].diameters_from_dn, diameters_to_dn: json.rows[i].diameters_to_dn, cpstracker_bolt_types: json.rows[i].cpstracker_bolt_types, ready_load: json.rows[i].ready_load, ready_load_date: json.rows[i].ready_load_date, ready_e3d: json.rows[i].ready_e3d, ready_e3d_date: json.rows[i].ready_e3d_date, comments: json.rows[i].comments, updated: json.rows[i].updated, insts_generic_updated_at: json.rows[i].insts_generic_updated_at/*, request_date: json.rows[i].request_date.toString().substring(0,10) + " "+ json.rows[i].request_date.toString().substring(11,19), project: json.rows[i].project*/}
+          for(let i = 0; i < json.rows.length; i++){
+            row = {key:i, id: json.rows[i].id, tag: json.rows[i].tag, spec: json.rows[i].spec, p1bore: json.rows[i].p1bore, p2bore: json.rows[i].p2bore, rating: json.rows[i].rating, end_preparation: json.rows[i].end_preparation, description_iso: json.rows[i].description_iso, ident: json.rows[i].ident, face_to_face: json.rows[i].face_to_face, bolt_type: json.rows[i].bolt_type, ready_load: json.rows[i].ready_load, ready_load_date: json.rows[i].ready_load_date, ready_e3d: json.rows[i].ready_e3d, ready_e3d_date: json.rows[i].ready_e3d_date, comments: json.rows[i].comments, updated: json.rows[i].updated}
 
-              if(json.rows[i].ready_load_date){
-                row.ready_load_date = json.rows[i].ready_load_date.toString().substring(0,10) + " "+ json.rows[i].ready_load_date.toString().substring(11,19)
-              }else{
-                row.ready_load_date = ""
-              }
+            if(json.rows[i].ready_load_date){
+              row.ready_load_date = json.rows[i].ready_load_date.toString().substring(0,10) + " "+ json.rows[i].ready_load_date.toString().substring(11,19)
+            }else{
+              row.ready_load_date = ""
+            }
 
-              if(json.rows[i].ready_e3d_date){
-                row.ready_e3d_date = json.rows[i].ready_e3d_date.toString().substring(0,10) + " "+ json.rows[i].ready_e3d_date.toString().substring(11,19)
-              }else{
-                row.ready_e3d_date = ""
-              }
-              
-              if(json.rows[i].updated === 2){
-                row.ready_load = "DELETED"
-                row.ready_e3d = "DELETED"
-                row.color = "#rrr"
-              }else if(json.rows[i].ready_e3d === 2){
-                row.ready_load = "READY"
-                row.ready_e3d = "EXCLUDED"
-                row.color = "#lll"
-              }else{
+            if(json.rows[i].ready_e3d_date){
+              row.ready_e3d_date = json.rows[i].ready_e3d_date.toString().substring(0,10) + " "+ json.rows[i].ready_e3d_date.toString().substring(11,19)
+            }else{
+              row.ready_e3d_date = ""
+            }
+            
+            if(json.rows[i].updated === 2){
+              row.ready_load = "DELETED"
+              row.ready_e3d = "DELETED"
+              row.color = "#rrr"
+            }else if(json.rows[i].ready_e3d === 2){
+              row.ready_load = "READY"
+              row.ready_e3d = "EXCLUDED"
+              row.color = "#ppp"
+            }else{
 
-                if(row.ready_load === 1 && json.rows[i].drawing_filename !== null && json.rows[i].updated === 1 && json.rows[i].ready_e3d === 0){
-                  row.ready_load = "UPDATED"
-                  row.color = "#yyy"
-                    if(this.props.currentRole === "3D Admin"){
-                      row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].tag)}>READY</button>
-                    }else{
-                      row.ready_e3d = "NOT READY"
-                    }
-                  }else if(row.ready_load === 1 && json.rows[i].drawing_filename !== null ){
-                    row.ready_load = "READY"
-                  if(row.ready_e3d === 1){
-                    if(json.rows[i].updated === 0){
-                      row.color = "#ggg"
-                      if(this.props.currentRole === "3D Admin"){
-                        row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].tag)}>CANCEL</button>
-                      }else{
-                        row.ready_e3d = "READY"
-                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
-                      }
-                    }else{
-                      row.color = "#bbb"
-                      if(this.props.currentRole === "3D Admin"){
-                        row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].tag)}>CANCEL</button>
-                      }else{
-                        row.ready_e3d = "READY"
-                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
-                      }
-                    }
-                    
+              if(row.ready_load === 1 && json.rows[i].drawing_filename !== null && json.rows[i].updated === 1 && json.rows[i].ready_e3d === 0){
+                row.ready_load = "UPDATED"
+                row.color = "#yyy"
+                  if(this.props.currentRole === "3D Admin"){
+                    row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
                   }else{
-                    row.color = "#yyy"
+                    row.ready_e3d = "NOT READY"
+                  }
+                }else if(row.ready_load === 1 && json.rows[i].drawing_filename !== null ){
+                  row.ready_load = "READY"
+                if(row.ready_e3d === 1){
+                  if(json.rows[i].updated === 0){
+                    row.color = "#ggg"
                     if(this.props.currentRole === "3D Admin"){
-                      row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].tag)}>READY</button>
+                      row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].id)}>CANCEL</button>
                     }else{
-                      row.ready_e3d = "NOT READY"
-                      row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button><button class="csp_exclude_btn btn-sm btn-danger" onClick={() => this.excludeSP(json.rows[i].tag)}>EXCLUDE 3D</button></div>
+                      row.ready_e3d = "READY"
+                      row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteExpansionJoin(json.rows[i].id)}>DELETE</button></div>
+                    }
+                  }else{
+                    row.color = "#bbb"
+                    if(this.props.currentRole === "3D Admin"){
+                      row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].id)}>CANCEL</button>
+                    }else{
+                      row.ready_e3d = "READY"
+                      row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteExpansionJoin(json.rows[i].id)}>DELETE</button></div>
                     }
                   }
                   
                 }else{
-                  row.ready_load = "NOT READY"
-                  row.color = "white"
-                  if(this.props.currentRole === "3D Admin"){
-                    row.ready_e3d = <button disabled class="ready__disabled btn-sm btn-success">READY</button>
-                  }else{
-                    row.ready_e3d = "NOT READY"
-                    row.ready_load = <div>NOT READY<button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
-                  }
-                }
-              }
-              
-
-              for (const [key, value] of Object.entries(row)) {
-                if(!value){
-                  row[key] = ""
-                }
-              }
-
-              if(json.rows[i].type){
-                row.type = <b>{json.rows[i].type}</b>
-              }else{
-                <b> </b>
-              }
-
-              if(json.rows[i].tag){
-                row.tag = <b>{json.rows[i].tag}</b>
-              }else{
-                <b> </b>
-              }
-
-              rows.push(row)
-            }
-          }else{
-            for(let i = 0; i < json.rows.length; i++){
-              row = {key:i, tag: json.rows[i].tag, quantity: json.rows[i].quantity, type: json.rows[i].type, description: json.rows[i].description, description_plane: json.rows[i].description_plan_code, description_iso: json.rows[i].description_iso, ident: json.rows[i].ident, p1bore: json.rows[i].p1diameter_dn, p2bore: json.rows[i].p2diameter_dn, p3bore: json.rows[i].p3diameter_dn, rating: json.rows[i].rating, end_preparation: json.rows[i].end_preparation, spec: json.rows[i].spec, descrition_plane: json.rows[i].description_drawing, face_to_face: json.rows[i].face_to_face, bolts_type: json.rows[i].bolt_type, ready_load: json.rows[i].ready_load, ready_e3d: json.rows[i].ready_e3d, comments: json.rows[i].comments, pid: json.rows[i].pid, line_id: json.rows[i].line_id, requisition: json.rows[i].requisition, equipnozz: json.rows[i].equipnozz, utility_station: json.rows[i].utility_station, request_date: json.rows[i].request_date.toString().substring(0,10) + " "+ json.rows[i].request_date.toString().substring(11,19), project: json.rows[i].project}
-
-              if(json.rows[i].ready_load_date){
-                row.ready_load_date = json.rows[i].ready_load_date.toString().substring(0,10) + " "+ json.rows[i].ready_load_date.toString().substring(11,19)
-              }else{
-                row.ready_load_date = ""
-              }
-
-              if(json.rows[i].ready_e3d_date){
-                row.ready_e3d_date = json.rows[i].ready_e3d_date.toString().substring(0,10) + " "+ json.rows[i].ready_e3d_date.toString().substring(11,19)
-              }else{
-                row.ready_e3d_date = ""
-              }
-              
-              if(!json.rows[i].type){
-                row.type = ""
-              }
-
-              if(json.rows[i].drawing_filename !== null && json.rows[i].drawing_filename !== "" && row.description_plane !== null && row.description_plane !== ""){
-                if(this.props.currentRole === "Materials"){
-                  row.drawing = <div className="drawing__column"><a onClick={() => this.getDrawing(json.rows[i].drawing_filename)}>{json.rows[i].drawing_filename + " R" + json.rows[i].revision}</a><UpdateDrawingPopUp description_plan_code={row.description_plane} updateDrawingSuccess={this.updateDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/></div>
-                }else{
-                  row.drawing = <div className="drawing__column"><a onClick={() => this.getDrawing(json.rows[i].drawing_filename)}>{json.rows[i].drawing_filename + " R" + json.rows[i].revision}</a></div>
-                }
-              }else if(json.rows[i].drawing_filename === null && row.description_plane !== null){
-                if(this.props.currentRole === "Materials"){
-                  row.drawing = <UploadDrawingPopUp description_plan_code={row.description_plane} updateDataMethod = {this.updateData.bind(this)} uploadDrawingSuccess={this.uploadDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/>
-                }else{
-                  row.drawing = null
-                }
-              }else{
-                row.drawing = null
-              }
-
-              if(json.rows[i].updated === 2){
-                row.ready_load = "DELETED"
-                row.ready_e3d = "DELETED"
-                row.color = "#rrr"
-              }else if(json.rows[i].ready_e3d === 2){
-                row.ready_load = "READY"
-                row.ready_e3d = "EXCLUDED"
-                row.color = "#lll"
-              }else{
-
-                if(row.ready_load === 1 && json.rows[i].drawing_filename !== null && json.rows[i].updated === 1 && json.rows[i].ready_e3d === 0){
-                  row.ready_load = "UPDATED"
                   row.color = "#yyy"
-                    if(this.props.currentRole === "3D Admin"){
-                      row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].tag)}>READY</button>
-                    }else{
-                      row.ready_e3d = "NOT READY"
-                    }
-                  }else if(row.ready_load === 1 && json.rows[i].drawing_filename !== null ){
-                    row.ready_load = "READY"
-                  if(row.ready_e3d === 1){
-                    if(json.rows[i].updated === 0){
-                      row.color = "#ggg"
-                      if(this.props.currentRole === "3D Admin"){
-                        row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].tag)}>CANCEL</button>
-                      }else{
-                        row.ready_e3d = "READY"
-                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
-                      }
-                    }else{
-                      row.color = "#bbb"
-                      if(this.props.currentRole === "3D Admin"){
-                        row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].tag)}>CANCEL</button>
-                      }else{
-                        row.ready_e3d = "READY"
-                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
-                      }
-                    }
-                    
-                  }else{
-                    row.color = "#yyy"
-                    if(this.props.currentRole === "3D Admin"){
-                      row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].tag)}>READY</button>
-                    }else{
-                      row.ready_e3d = "NOT READY"
-                      row.ready_load = <div style={{display:"inline-block"}}>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button><button class="csp_exclude_btn btn-sm btn-danger" onClick={() => this.excludeHold(json.rows[i].tag)}>EXCLUDE 3D</button></div>
-                    }
-                  }
-                  
-                }else{
-                  row.ready_load = "NOT READY"
-                  row.color = "white"
                   if(this.props.currentRole === "3D Admin"){
-                    row.ready_e3d = <button disabled class="ready__disabled btn-sm btn-success">READY</button>
+                    row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
                   }else{
                     row.ready_e3d = "NOT READY"
-                    row.ready_load = <div>NOT READY<button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
+                    row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteExpansionJoin(json.rows[i].id)}>DELETE</button><button class="csp_exclude_btn btn-sm btn-danger" onClick={() => this.excludeExpansionJoin(json.rows[i].id)}>EXCLUDE 3D</button></div>
                   }
                 }
-              }
-              
-              for (const [key, value] of Object.entries(row)) {
-                if(!value){
-                  row[key] = ""
+                
+              }else{
+                row.ready_load = "NOT READY"
+                row.color = "white"
+                if(this.props.currentRole === "3D Admin"){
+                  row.ready_e3d = <button disabled class="ready__disabled btn-sm btn-success">READY</button>
+                }else{
+                  row.ready_e3d = "NOT READY"
+                  row.ready_load = <div>NOT READY<button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteExpansionJoin(json.rows[i].id)}>DELETE</button></div>
                 }
               }
-
-              if(json.rows[i].tag){
-                row.tag = <b>{json.rows[i].tag}</b>
-              }else{
-                <b> </b>
-              }
-              
-              if(json.rows[i].type){
-                row.type = <b>{json.rows[i].type}</b>
-              }else{
-                <b> </b>
-              }
-
-
-              rows.push(row)
             }
+            
+
+            for (const [key, value] of Object.entries(row)) {
+              if(!value){
+                row[key] = ""
+              }
+            }
+
+            if(json.rows[i].type){
+              row.type = <b>{json.rows[i].type}</b>
+            }else{
+              <b> </b>
+            }
+
+            if(json.rows[i].tag){
+              row.tag = <b>{json.rows[i].tag}</b>
+            }else{
+              <b> </b>
+            }
+
+            rows.push(row)
           }
+         
           
           this.setState({data: rows, displayData: rows})
           
@@ -409,7 +233,6 @@ class CSPtrackerExpansionJoinsDataTable extends React.Component{
 
   async componentDidUpdate(prevProps, prevState){
 
-    
     if(prevProps !== this.props){
       const options = {
           method: "GET",
@@ -418,241 +241,109 @@ class CSPtrackerExpansionJoinsDataTable extends React.Component{
           },
       }
 
+      fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getExpansionJoinsByProject/"+ this.props.currentProject, options)
+      .then(response => response.json())
+        .then(async json => {
+          var rows = []
+          var row = null
+          for(let i = 0; i < json.rows.length; i++){
+            row = {key:i, id: json.rows[i].id, tag: json.rows[i].tag, spec: json.rows[i].spec, p1bore: json.rows[i].p1bore, p2bore: json.rows[i].p2bore, rating: json.rows[i].rating, end_preparation: json.rows[i].end_preparation, description_iso: json.rows[i].description_iso, ident: json.rows[i].ident, face_to_face: json.rows[i].face_to_face, bolt_type: json.rows[i].bolt_type, ready_load: json.rows[i].ready_load, ready_load_date: json.rows[i].ready_load_date, ready_e3d: json.rows[i].ready_e3d, ready_e3d_date: json.rows[i].ready_e3d_date, comments: json.rows[i].comments, updated: json.rows[i].updated}
 
-      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker", options)
-          .then(response => response.json())
-          .then(async json => {
-            var rows = []
-            var row = null
-            if(process.env.REACT_APP_MMDN === "1"){
-              for(let i = 0; i < json.rows.length; i++){
-                row = {key:i, tag: json.rows[i].tag, quantity: json.rows[i].quantity, type: json.rows[i].type, description: json.rows[i].description, description_plane: json.rows[i].description_plan_code, description_iso: json.rows[i].description_iso, ident: json.rows[i].ident, p1bore: json.rows[i].p1diameter_nps, p2bore: json.rows[i].p2diameter_nps, p3bore: json.rows[i].p3diameter_nps, rating: json.rows[i].rating, end_preparation: json.rows[i].end_preparation, spec: json.rows[i].spec, descrition_plane: json.rows[i].description_drawing, face_to_face: json.rows[i].face_to_face, bolts_type: json.rows[i].bolt_type, ready_load: json.rows[i].ready_load, ready_e3d: json.rows[i].ready_e3d, comments: json.rows[i].comments, pid: json.rows[i].pid, line_id: json.rows[i].line_id, requisition: json.rows[i].requisition, equipnozz: json.rows[i].equipnozz, utility_station: json.rows[i].utility_station, request_date: json.rows[i].request_date.toString().substring(0,10) + " "+ json.rows[i].request_date.toString().substring(11,19), project: json.rows[i].project}
-
-                if(json.rows[i].ready_load_date){
-                  row.ready_load_date = json.rows[i].ready_load_date.toString().substring(0,10) + " "+ json.rows[i].ready_load_date.toString().substring(11,19)
-                }else{
-                  row.ready_load_date = ""
-                }
-
-                if(json.rows[i].ready_e3d_date){
-                  row.ready_e3d_date = json.rows[i].ready_e3d_date.toString().substring(0,10) + " "+ json.rows[i].ready_e3d_date.toString().substring(11,19)
-                }else{
-                  row.ready_e3d_date = ""
-                }
-
-                if(!json.rows[i].type){
-                  row.type = ""
-                }
-                
-                if(json.rows[i].drawing_filename !== null && json.rows[i].drawing_filename !== "" && row.description_plane !== null && row.description_plane !== ""){
-                  if(this.props.currentRole === "Materials"){
-                    row.drawing = <div className="drawing__column"><a onClick={() => this.getDrawing(json.rows[i].drawing_filename)}>{json.rows[i].drawing_filename + " R" + json.rows[i].revision}</a><UpdateDrawingPopUp description_plan_code={row.description_plane} updateDrawingSuccess={this.updateDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/></div>
-                  }else{
-                    row.drawing = <div className="drawing__column"><a onClick={() => this.getDrawing(json.rows[i].drawing_filename)}>{json.rows[i].drawing_filename + " R" + json.rows[i].revision}</a></div>
-                  }
-                }else if(json.rows[i].drawing_filename === null && row.description_plane !== null){
-                  if(this.props.currentRole === "Materials"){
-                    row.drawing = <UploadDrawingPopUp description_plan_code={row.description_plane} updateDataMethod = {this.updateData.bind(this)} uploadDrawingSuccess={this.uploadDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/>
-                  }else{
-                    row.drawing = null
-                  }
-                }else{
-                  row.drawing = null
-                }
-                
-
-                if(json.rows[i].updated === 2){
-                  row.ready_load = "DELETED"
-                  row.ready_e3d = "DELETED"
-                  row.color = "#rrr"
-                }else if(json.rows[i].ready_e3d === 2){
-                  row.ready_load = "READY"
-                  row.ready_e3d = "EXCLUDED"
-                  row.color = "#lll"
-                }else{
-  
-                  if(row.ready_load === 1 && json.rows[i].drawing_filename !== null && json.rows[i].updated === 1 && json.rows[i].ready_e3d === 0){
-                    row.ready_load = "UPDATED"
-                    row.color = "#yyy"
-                      if(this.props.currentRole === "3D Admin"){
-                        row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].tag)}>READY</button>
-                      }else{
-                        row.ready_e3d = "NOT READY"
-                      }
-                    }else if(row.ready_load === 1 && json.rows[i].drawing_filename !== null ){
-                      row.ready_load = "READY"
-                    if(row.ready_e3d === 1){
-                      if(json.rows[i].updated === 0){
-                        row.color = "#ggg"
-                        if(this.props.currentRole === "3D Admin"){
-                          row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].tag)}>CANCEL</button>
-                        }else{
-                          row.ready_e3d = "READY"
-                          row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
-                        }
-                      }else{
-                        row.color = "#bbb"
-                        if(this.props.currentRole === "3D Admin"){
-                          row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].tag)}>CANCEL</button>
-                        }else{
-                          row.ready_e3d = "READY"
-                          row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
-                        }
-                      }
-                      
-                    }else{
-                      row.color = "#yyy"
-                      if(this.props.currentRole === "3D Admin"){
-                        row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].tag)}>READY</button>
-                      }else{
-                        row.ready_e3d = "NOT READY"
-                        row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button><button class="csp_exclude_btn btn-sm btn-danger" onClick={() => this.excludeSP(json.rows[i].tag)}>EXCLUDE 3D</button></div>
-                      }
-                    }
-                    
-                  }else{
-                    row.ready_load = "NOT READY"
-                    row.color = "white"
-                    if(this.props.currentRole === "3D Admin"){
-                      row.ready_e3d = <button disabled class="ready__disabled btn-sm btn-success">READY</button>
-                    }else{
-                      row.ready_e3d = "NOT READY"
-                      row.ready_load = <div>NOT READY<button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
-                    }
-                  }
-                }
-
-                for (const [key, value] of Object.entries(row)) {
-                  if(!value){
-                    row[key] = ""
-                  }
-                }
-                if(json.rows[i].tag){
-                  row.tag = <b>{json.rows[i].tag}</b>
-                }else{
-                  <b> </b>
-                }
-                
-                if(json.rows[i].type){
-                  row.type = <b>{json.rows[i].type}</b>
-                }else{
-                  <b> </b>
-                }
-
-                rows.push(row)
-              }
+            if(json.rows[i].ready_load_date){
+              row.ready_load_date = json.rows[i].ready_load_date.toString().substring(0,10) + " "+ json.rows[i].ready_load_date.toString().substring(11,19)
             }else{
-              for(let i = 0; i < json.rows.length; i++){
-                row = {key:i, tag: json.rows[i].tag, quantity: json.rows[i].quantity, type: json.rows[i].type, description: json.rows[i].description, description_plane: json.rows[i].description_plan_code, description_iso: json.rows[i].description_iso, ident: json.rows[i].ident, p1bore: json.rows[i].p1diameter_dn, p2bore: json.rows[i].p2diameter_dn, p3bore: json.rows[i].p3diameter_dn, rating: json.rows[i].rating, end_preparation: json.rows[i].end_preparation, spec: json.rows[i].spec, descrition_plane: json.rows[i].description_drawing, face_to_face: json.rows[i].face_to_face, bolts_type: json.rows[i].bolt_type, ready_load: json.rows[i].ready_load, ready_e3d: json.rows[i].ready_e3d, comments: json.rows[i].comments, pid: json.rows[i].pid, line_id: json.rows[i].line_id, requisition: json.rows[i].requisition, equipnozz: json.rows[i].equipnozz, utility_station: json.rows[i].utility_station, request_date: json.rows[i].request_date.toString().substring(0,10) + " "+ json.rows[i].request_date.toString().substring(11,19), project: json.rows[i].project}
-                
-                if(json.rows[i].ready_load_date){
-                  row.ready_load_date = json.rows[i].ready_load_date.toString().substring(0,10) + " "+ json.rows[i].ready_load_date.toString().substring(11,19)
-                }else{
-                  row.ready_load_date = ""
-                }
+              row.ready_load_date = ""
+            }
 
-                if(json.rows[i].ready_e3d_date){
-                  row.ready_e3d_date = json.rows[i].ready_e3d_date.toString().substring(0,10) + " "+ json.rows[i].ready_e3d_date.toString().substring(11,19)
-                }else{
-                  row.ready_e3d_date = ""
-                }
-                
-                if(json.rows[i].drawing_filename !== null && json.rows[i].drawing_filename !== "" && row.description_plane !== null && row.description_plane !== ""){
-                  if(this.props.currentRole === "Materials"){
-                    row.drawing = <div className="drawing__column"><a onClick={() => this.getDrawing(json.rows[i].drawing_filename)}>{json.rows[i].drawing_filename + " R" + json.rows[i].revision}</a><UpdateDrawingPopUp description_plan_code={row.description_plane} updateDrawingSuccess={this.updateDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/></div>
-                  }else{
-                    row.drawing = <div className="drawing__column"><a onClick={() => this.getDrawing(json.rows[i].drawing_filename)}>{json.rows[i].drawing_filename + " R" + json.rows[i].revision}</a></div>
-                  }
-                }else if(json.rows[i].drawing_filename === null && row.description_plane !== null){
-                  if(this.props.currentRole === "Materials"){
-                    row.drawing = <UploadDrawingPopUp description_plan_code={row.description_plane} updateDataMethod = {this.updateData.bind(this)} uploadDrawingSuccess={this.uploadDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/>
-                  }else{
-                    row.drawing = null
-                  }
-                }else{
-                  row.drawing = null
-                }
+            if(json.rows[i].ready_e3d_date){
+              row.ready_e3d_date = json.rows[i].ready_e3d_date.toString().substring(0,10) + " "+ json.rows[i].ready_e3d_date.toString().substring(11,19)
+            }else{
+              row.ready_e3d_date = ""
+            }
+            
+            if(json.rows[i].updated === 2){
+              row.ready_load = "DELETED"
+              row.ready_e3d = "DELETED"
+              row.color = "#rrr"
+            }else if(json.rows[i].ready_e3d === 2){
+              row.ready_load = "READY"
+              row.ready_e3d = "EXCLUDED"
+              row.color = "#ppp"
+            }else{
 
-                if(json.rows[i].updated === 2){
-                  row.ready_load = "DELETED"
-                  row.ready_e3d = "DELETED"
-                  row.color = "#rrr"
-                }else if(json.rows[i].ready_e3d === 2){
+              if(row.ready_load === 1 && json.rows[i].drawing_filename !== null && json.rows[i].updated === 1 && json.rows[i].ready_e3d === 0){
+                row.ready_load = "UPDATED"
+                row.color = "#yyy"
+                  if(this.props.currentRole === "3D Admin"){
+                    row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
+                  }else{
+                    row.ready_e3d = "NOT READY"
+                  }
+                }else if(row.ready_load === 1 && json.rows[i].drawing_filename !== null ){
                   row.ready_load = "READY"
-                  row.ready_e3d = "EXCLUDED"
-                  row.color = "#lll"
-                }else{
-  
-                  if(row.ready_load === 1 && json.rows[i].drawing_filename !== null && json.rows[i].updated === 1 && json.rows[i].ready_e3d === 0){
-                    row.ready_load = "UPDATED"
-                    row.color = "#yyy"
-                      if(this.props.currentRole === "3D Admin"){
-                        row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].tag)}>READY</button>
-                      }else{
-                        row.ready_e3d = "NOT READY"
-                      }
-                    }else if(row.ready_load === 1 && json.rows[i].drawing_filename !== null ){
-                      row.ready_load = "READY"
-                    if(row.ready_e3d === 1){
-                      if(json.rows[i].updated === 0){
-                        row.color = "#ggg"
-                        if(this.props.currentRole === "3D Admin"){
-                          row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].tag)}>CANCEL</button>
-                        }else{
-                          row.ready_e3d = "READY"
-                          row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
-                        }
-                      }else{
-                        row.color = "#bbb"
-                        if(this.props.currentRole === "3D Admin"){
-                          row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].tag)}>CANCEL</button>
-                        }else{
-                          row.ready_e3d = "READY"
-                          row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
-                        }
-                      }
-                      
-                    }else{
-                      row.color = "#yyy"
-                      if(this.props.currentRole === "3D Admin"){
-                        row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].tag)}>READY</button>
-                      }else{
-                        row.ready_e3d = "NOT READY"
-                        row.ready_load = <div style={{display:"inline-block"}}>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button><button class="csp_exclude_btn btn-sm btn-warning" onClick={() => this.excludeSP(json.rows[i].tag)}>EXCLUDE 3D</button></div>
-                      }
-                    }
-                    
-                  }else{
-                    row.ready_load = "NOT READY"
-                    row.color = "white"
+                if(row.ready_e3d === 1){
+                  if(json.rows[i].updated === 0){
+                    row.color = "#ggg"
                     if(this.props.currentRole === "3D Admin"){
-                      row.ready_e3d = <button disabled class="ready__disabled btn-sm btn-success">READY</button>
+                      row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].id)}>CANCEL</button>
                     }else{
-                      row.ready_e3d = "NOT READY"
-                      row.ready_load = <div>NOT READY<button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteSP(json.rows[i].tag)}>DELETE</button></div>
+                      row.ready_e3d = "READY"
+                      row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteExpansionJoin(json.rows[i].id)}>DELETE</button></div>
                     }
+                  }else{
+                    row.color = "#bbb"
+                    if(this.props.currentRole === "3D Admin"){
+                      row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].id)}>CANCEL</button>
+                    }else{
+                      row.ready_e3d = "READY"
+                      row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteExpansionJoin(json.rows[i].id)}>DELETE</button></div>
+                    }
+                  }
+                  
+                }else{
+                  row.color = "#yyy"
+                  if(this.props.currentRole === "3D Admin"){
+                    row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].id)}>READY</button>
+                  }else{
+                    row.ready_e3d = "NOT READY"
+                    row.ready_load = <div>READY <button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteExpansionJoin(json.rows[i].id)}>DELETE</button><button class="csp_exclude_btn btn-sm btn-danger" onClick={() => this.excludeExpansionJoin(json.rows[i].id)}>EXCLUDE 3D</button></div>
                   }
                 }
-                  for (const [key, value] of Object.entries(row)) {
-                    if(!value){
-                      row[key] = ""
-                    }
-                  }
-                  
-                  if(json.rows[i].tag){
-                    row.tag = <b>{json.rows[i].tag}</b>
-                  }else{
-                    <b> </b>
-                  }
-                  
-                  if(json.rows[i].type){
-                    row.type = <b>{json.rows[i].type}</b>
-                  }else{
-                    <b> </b>
-                  }
-
-                rows.push(row)
+                
+              }else{
+                row.ready_load = "NOT READY"
+                row.color = "white"
+                if(this.props.currentRole === "3D Admin"){
+                  row.ready_e3d = <button disabled class="ready__disabled btn-sm btn-success">READY</button>
+                }else{
+                  row.ready_e3d = "NOT READY"
+                  row.ready_load = <div>NOT READY<button class="csp_delete_btn btn-sm btn-danger" onClick={() => this.deleteExpansionJoin(json.rows[i].id)}>DELETE</button></div>
+                }
               }
+            }
+            
+
+            for (const [key, value] of Object.entries(row)) {
+              if(!value){
+                row[key] = ""
+              }
+            }
+
+            if(json.rows[i].type){
+              row.type = <b>{json.rows[i].type}</b>
+            }else{
+              <b> </b>
+            }
+
+            if(json.rows[i].tag){
+              row.tag = <b>{json.rows[i].tag}</b>
+            }else{
+              <b> </b>
+            }
+
+          
+            rows.push(row)
+              
             }
             await this.setState({data: rows})
             let auxDisplayData = this.state.data
@@ -769,9 +460,6 @@ class CSPtrackerExpansionJoinsDataTable extends React.Component{
     }
     await this.setState({displayData: resultData})
   }
-  
-  
-
   
   getColumnSearchProps = dataIndex => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -901,14 +589,14 @@ class CSPtrackerExpansionJoinsDataTable extends React.Component{
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="End Preparation" style={{textAlign:"center"}} onChange={(e) => this.filter(8, e.target.value)}/></div>,
-        dataIndex: 'end_prep',
-        key: 'end_prep',
+        dataIndex: 'end_preparation',
+        key: 'end_preparation',
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Iso Description" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
-        dataIndex: 'iso_desc',
-        key: 'iso_desc',
+        dataIndex: 'description_iso',
+        key: 'description_iso',
         align: "center"
       },
       {
@@ -919,14 +607,14 @@ class CSPtrackerExpansionJoinsDataTable extends React.Component{
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Face to face" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
-        dataIndex: 'facetoface',
-        key: 'facetoface',
+        dataIndex: 'face_to_face',
+        key: 'face_to_face',
         align: "center"
       },
       {
         title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="FLG Short Code" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
-        dataIndex: 'flg_code',
-        key: 'flg_code',
+        dataIndex: 'bolt_type',
+        key: 'bolt_type',
         align: "center"
       },
       {
