@@ -505,6 +505,7 @@ const PipingGeneral = () => {
         let cells = []
         let cols
         if(currentRole === "Design"){
+            addRowBtn = <button class="btn btn-sm btn-success" onClick={() => addRow()} style={{fontSize:"18px", width:"35px", height:"35px", borderRadius:"10px", float:"right", marginTop:"15px"}}>+</button>
             cols = [{ data: "spec", type:'dropdown', strict:"true", source: specData}, {data: "instrument_type", type:'dropdown', strict:"true", source: instTypesData}, {data: "pcons_name", type:'dropdown', strict:"true", source: pconsData}, {data: "diameters_from_dn", type:"dropdown", strict:"true", source: diametersData}, {data: "diameters_to_dn", type:"dropdown", strict:"true", source: diametersData}, {data: "bolt_type", type:"text", readOnly:true}, {data:"comments", type:"text"}]
             for(let i = 0; i < editData.length; i++){
                 cells.push({
@@ -574,7 +575,6 @@ const PipingGeneral = () => {
         />
         
         dataTableHeight= "700px"
-        addRowBtn = <button class="btn btn-sm btn-success" onClick={() => addRow()} style={{fontSize:"18px", width:"35px", height:"35px", borderRadius:"10px", float:"right", marginTop:"15px"}}>+</button>
         saveBtn = <button className="navBar__button" onClick={()=> saveChanges()} style={{marginRight:"5px", fontSize:"18px", width:"100px", height:"35px", borderRadius:"10px", marginRight:"-30px"}}><img src={SaveIcon} alt="save" className="navBar__icon" style={{marginTop:"9px"}}></img><p className="navBar__button__text">Save</p></button>
     
 

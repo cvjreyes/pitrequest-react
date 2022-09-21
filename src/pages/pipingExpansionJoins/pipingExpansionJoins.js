@@ -44,6 +44,8 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
             index = "EXCLUDED"
         }else if(index === 5){
             index = "DELETED"
+        }else if(index === 6){
+            index = "HOLD-REVN"
         }
       
         return (

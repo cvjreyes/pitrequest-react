@@ -224,6 +224,11 @@ class CSPtrackerSpecialDataTable extends React.Component{
                   row.drawing_description = <div className="drawing__column"><p style={{display:"inline"}}>{json.rows[i].code}</p><UploadSpecialsDrawingPopUp description_plan_code={json.rows[i].code} updateDataMethod = {this.updateData.bind(this)} uploadDrawingSuccess={this.uploadDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/></div>
                 }
               }
+              if(json.rows[i].tag){
+                row.tag = <b>{json.rows[i].tag}</b>
+              }else{
+                <b> </b>
+              }
               
 
               for (const [key, value] of Object.entries(row)) {
@@ -361,6 +366,12 @@ class CSPtrackerSpecialDataTable extends React.Component{
               }
             }
 
+            if(json.rows[i].tag){
+              row.tag = <b>{json.rows[i].tag}</b>
+            }else{
+              <b> </b>
+            }
+
             if(json.rows[i].code){
               if(json.rows[i].filename){
                 row.drawing_description = <div className="drawing__column"><a onClick={() => this.getDrawing(json.rows[i].code)}>{json.rows[i].code + " R" + json.rows[i].revision}</a><UpdateSpecialsDrawingPopUp description_plan_code={json.rows[i].code} updateDrawingSuccess={this.updateDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/></div>
@@ -457,41 +468,24 @@ class CSPtrackerSpecialDataTable extends React.Component{
       exists = true
       for(let column = 0; column < Object.keys(auxDisplayData[i]).length-2; column ++){
         fil = Object.keys(auxDisplayData[i])[column+1]
-        if(this.props.currentRole === "3D Admin"){
-          if(fil === "tag" || fil === "type" || fil === "ready_e3d"){
-            if(!auxDisplayData[i][fil].props && this.state.filterData[column]){
-              exists = false
-            }else if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.children.includes(this.state.filterData[column])){
-              exists = false
-            }   
-          }else{
-            if(auxDisplayData[i][fil]){
-              if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toString().includes(this.state.filterData[column])){
-                exists = false
-              }
-            }else if(this.state.filterData[column]){
-              exists = false
-            }
         
-          }
+        if(fil === "tag" || fil === "drawing_description"){
+          if(!auxDisplayData[i][fil].props && this.state.filterData[column]){
+            exists = false
+          }else if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.children.includes(this.state.filterData[column])){
+            exists = false
+          }          
         }else{
-          if(fil === "tag" || fil === "type"){
-            if(!auxDisplayData[i][fil].props && this.state.filterData[column]){
-              exists = false
-            }else if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.children.includes(this.state.filterData[column])){
-              exists = false
-            }          
-          }else{
-            if(auxDisplayData[i][fil]){
-              if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toString().includes(this.state.filterData[column])){
-                exists = false
-              }
-            }else if(this.state.filterData[column]){
+          if(auxDisplayData[i][fil]){
+            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toString().includes(this.state.filterData[column])){
               exists = false
             }
-        
+          }else if(this.state.filterData[column]){
+            exists = false
           }
+      
         }
+        
       }
         
       if(exists){
@@ -600,99 +594,93 @@ class CSPtrackerSpecialDataTable extends React.Component{
 
     const columns = [
       {
-        title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="TAG" style={{textAlign:"center"}} onChange={(e) => this.filter(0, e.target.value)}/></center>,
+        title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="TAG" style={{textAlign:"center"}} onChange={(e) => this.filter(1, e.target.value)}/></center>,
         dataIndex: 'tag',
         key: 'tag',
         fixed: 'left',
         align: "center"
       },
       {
-        title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="SPEC" style={{textAlign:"center"}} onChange={(e) => this.filter(25, e.target.value)}/></center>,
+        title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="SPEC" style={{textAlign:"center"}} onChange={(e) => this.filter(2, e.target.value)}/></center>,
         dataIndex: 'spec',
         key: 'spec',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="P1Bore" style={{textAlign:"center"}} onChange={(e) => this.filter(2, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="P1Bore" style={{textAlign:"center"}} onChange={(e) => this.filter(3, e.target.value)}/></div>,
         dataIndex: 'p1bore',
         key: 'p1bore',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="P2Bore" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="P2Bore" style={{textAlign:"center"}} onChange={(e) => this.filter(4, e.target.value)}/></div>,
         dataIndex: 'p2bore',
         key: 'p2bore',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="P3Bore" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="P3Bore" style={{textAlign:"center"}} onChange={(e) => this.filter(5, e.target.value)}/></div>,
         dataIndex: 'p3bore',
         key: 'p3bore',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Rating" style={{textAlign:"center"}} onChange={(e) => this.filter(7, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Rating" style={{textAlign:"center"}} onChange={(e) => this.filter(6, e.target.value)}/></div>,
         dataIndex: 'rating',
         key: 'rating',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="End Preparation" style={{textAlign:"center"}} onChange={(e) => this.filter(8, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="End Preparation" style={{textAlign:"center"}} onChange={(e) => this.filter(7, e.target.value)}/></div>,
         dataIndex: 'end_preparation',
         key: 'end_preparation',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Iso Description" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Iso Description" style={{textAlign:"center"}} onChange={(e) => this.filter(8, e.target.value)}/></div>,
         dataIndex: 'description_iso',
         key: 'description_iso',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="FLG Short Code" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="FLG Short Code" style={{textAlign:"center"}} onChange={(e) => this.filter(9, e.target.value)}/></div>,
         dataIndex: 'flg',
         key: 'flg',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="BOLT LOGITUDE" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="BOLT LOGITUDE" style={{textAlign:"center"}} onChange={(e) => this.filter(10, e.target.value)}/></div>,
         dataIndex: 'bolt_longitude',
         key: 'bolt_longitude',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Drawing description" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Drawing description" style={{textAlign:"center"}} onChange={(e) => this.filter(11, e.target.value)}/></div>,
         dataIndex: 'drawing_description',
         key: 'drawing_description',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready to load date" style={{textAlign:"center"}} onChange={(e) => this.filter(10, e.target.value)}/></div>,
-        dataIndex: 'ready_load_date',
-        key: 'ready_load_date',
-        align: "center"
-      },
-      {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready in E3D date" style={{textAlign:"center"}} onChange={(e) => this.filter(11, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready in E3D date" style={{textAlign:"center"}} onChange={(e) => this.filter(15, e.target.value)}/></div>,
         dataIndex: 'ready_e3d_date',
         key: 'ready_e3d_date',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Comments" style={{textAlign:"center"}} onChange={(e) => this.filter(20, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Comments" style={{textAlign:"center"}} onChange={(e) => this.filter(16, e.target.value)}/></div>,
         dataIndex: 'comments',
         key: 'comments',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready to load" style={{textAlign:"center"}} onChange={(e) => this.filter(16, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready to load" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
         dataIndex: 'ready_load',
         key: 'ready_load',
         fixed: "right",
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready in 3D" style={{textAlign:"center"}} onChange={(e) => this.filter(17, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready in 3D" style={{textAlign:"center"}} onChange={(e) => this.filter(14, e.target.value)}/></div>,
         dataIndex: 'ready_e3d',
         key: 'ready_e3d',
         fixed: "right",

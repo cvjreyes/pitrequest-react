@@ -634,38 +634,38 @@ class CSPtrackerPSVDataTable extends React.Component{
 
     const columns = [
       {
-        title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="TAG" style={{textAlign:"center"}} onChange={(e) => this.filter(0, e.target.value)}/></center>,
+        title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="TAG" style={{textAlign:"center"}} onChange={(e) => this.filter(1, e.target.value)}/></center>,
         dataIndex: 'tag',
         key: 'tag',
         fixed: 'left',
         align: "center"
       },
       {
-        title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="SPEC INLET" style={{textAlign:"center"}} onChange={(e) => this.filter(25, e.target.value)}/></center>,
+        title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="SPEC INLET" style={{textAlign:"center"}} onChange={(e) => this.filter(2, e.target.value)}/></center>,
         dataIndex: 'spec_inlet',
         key: 'spec_inlet',
         align: "center"
       },
       {
-        title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="P1BORE INLET" style={{textAlign:"center"}} onChange={(e) => this.filter(25, e.target.value)}/></center>,
+        title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="P1BORE INLET" style={{textAlign:"center"}} onChange={(e) => this.filter(3, e.target.value)}/></center>,
         dataIndex: 'p1bore_inlet',
         key: 'p1bore_inlet',
         align: "center"
       },
       {
-        title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="RATING INLET" style={{textAlign:"center"}} onChange={(e) => this.filter(25, e.target.value)}/></center>,
+        title: <center className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="RATING INLET" style={{textAlign:"center"}} onChange={(e) => this.filter(4, e.target.value)}/></center>,
         dataIndex: 'rating_inlet',
         key: 'rating_inlet',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="FLG Short Code INLET" style={{textAlign:"center"}} onChange={(e) => this.filter(2, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="FLG Short Code INLET" style={{textAlign:"center"}} onChange={(e) => this.filter(5, e.target.value)}/></div>,
         dataIndex: 'flg_inlet',
         key: 'flg_inlet',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="BOLT LOGITUDE INTLET" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="BOLT LOGITUDE INTLET" style={{textAlign:"center"}} onChange={(e) => this.filter(6, e.target.value)}/></div>,
         dataIndex: 'bolt_longitude_inlet',
         key: 'bolt_longitude_inlet',
         align: "center"
@@ -677,25 +677,25 @@ class CSPtrackerPSVDataTable extends React.Component{
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="P2BORE OUTLET" style={{textAlign:"center"}} onChange={(e) => this.filter(7, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="P2BORE OUTLET" style={{textAlign:"center"}} onChange={(e) => this.filter(8, e.target.value)}/></div>,
         dataIndex: 'p2bore_outlet',
         key: 'p2bore_outlet',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="RATING OUTLET" style={{textAlign:"center"}} onChange={(e) => this.filter(7, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="RATING OUTLET" style={{textAlign:"center"}} onChange={(e) => this.filter(9, e.target.value)}/></div>,
         dataIndex: 'rating_outlet',
         key: 'rating_outlet',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="FLG Short Code OUTLET" style={{textAlign:"center"}} onChange={(e) => this.filter(8, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="FLG Short Code OUTLET" style={{textAlign:"center"}} onChange={(e) => this.filter(10, e.target.value)}/></div>,
         dataIndex: 'flg_outlet',
         key: 'flg_outlet',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="BOLT LOGITUDE OUTLET" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="BOLT LOGITUDE OUTLET" style={{textAlign:"center"}} onChange={(e) => this.filter(11, e.target.value)}/></div>,
         dataIndex: 'bolt_longitude_outlet',
         key: 'bolt_longitude_outlet',
         align: "center"
@@ -707,37 +707,31 @@ class CSPtrackerPSVDataTable extends React.Component{
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="A" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="A" style={{textAlign:"center"}} onChange={(e) => this.filter(13, e.target.value)}/></div>,
         dataIndex: 'a',
         key: 'a',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="B" style={{textAlign:"center"}} onChange={(e) => this.filter(12, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="B" style={{textAlign:"center"}} onChange={(e) => this.filter(14, e.target.value)}/></div>,
         dataIndex: 'b',
         key: 'b',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready to load date" style={{textAlign:"center"}} onChange={(e) => this.filter(10, e.target.value)}/></div>,
-        dataIndex: 'ready_load_date',
-        key: 'ready_load_date',
-        align: "center"
-      },
-      {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready in E3D date" style={{textAlign:"center"}} onChange={(e) => this.filter(11, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready in E3D date" style={{textAlign:"center"}} onChange={(e) => this.filter(18, e.target.value)}/></div>,
         dataIndex: 'ready_e3d_date',
         key: 'ready_e3d_date',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Comments" style={{textAlign:"center"}} onChange={(e) => this.filter(11, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Comments" style={{textAlign:"center"}} onChange={(e) => this.filter(19, e.target.value)}/></div>,
         dataIndex: 'comments',
         key: 'comments',
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready to load" style={{textAlign:"center"}} onChange={(e) => this.filter(16, e.target.value)}/></div>,
+        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Ready to load" style={{textAlign:"center"}} onChange={(e) => this.filter(15, e.target.value)}/></div>,
         dataIndex: 'ready_load',
         key: 'ready_load',
         fixed: "right",
@@ -751,7 +745,7 @@ class CSPtrackerPSVDataTable extends React.Component{
         align: "center"
       },
       {
-        title: <div className="dataTable__header__text"><input  type="text" className="filter__input" placeholder="Actions" style={{textAlign:"center"}} onChange={(e) => this.filter(17, e.target.value)}/></div>,
+        title: "Actions",
         dataIndex: 'actions',
         key: 'actions',
         fixed: "right",
