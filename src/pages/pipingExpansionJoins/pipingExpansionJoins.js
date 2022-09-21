@@ -424,19 +424,19 @@ const PipingExpansionJoins = () => {
     let editBtn, addRowBtn, saveBtn, exportBtn
     let table = <CSPtrackerExpansionJoinsDataTable currentProject={currentProject} currentRole = {currentRole} updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} uploadDrawingSuccess = {uploadSuccess.bind(this)} updateDrawingSuccess = {updateSuccess.bind(this)} drawingUploadError={drawingUploadError.bind(this)}/>
     if(currentRole === "Materials" || currentRole === "Design"){
-        editBtn = <label class="switchBtn" style={{width:"145px"}}>
-                    <p className="navBar__button__text" style={{width:"80px", marginTop:"4px"}}>Edit mode</p>
+        editBtn = <label class="switchBtn__general" style={{width:"145px"}}>
+                    <p className="navBar__button__text__general" style={{width:"100px", marginTop:"5px"}}>Edit mode &nbsp;&nbsp;&nbsp;</p>
                     <input type="checkbox" id="edit" onClick={()=>handleToggle()}/>
-                    <div class="slide round"></div>
+                    <div class="slide__general round"></div>
                 </label>   
                    
         if(currentTab === "Edit"){
 
         }else{
-            editBtn = <label class="switchBtn" style={{width:"145px"}}>
-            <p className="navBar__button__text" style={{width:"80px", marginTop:"4px"}}>Edit mode</p>
+            editBtn = <label class="switchBtn__general" style={{width:"145px"}}>
+            <p className="navBar__button__text__general" style={{width:"100px", marginTop:"5px"}}>Edit mode &nbsp;</p>
             <input type="checkbox" id="edit" onClick={()=>handleToggle()}/>
-            <div class="slide round"></div>
+            <div class="slide__general round"></div>
         </label>
         }
     }
@@ -613,7 +613,7 @@ const PipingExpansionJoins = () => {
             <div className="isotracker__row">
                   <div className="isotracker__column">
                       <img src={PITLogo} alt="PITLogo" className="isoTrackerLogo__image2" style={{height:"85px"}}/>
-                      
+                      <label className="discipline__title" style={{marginLeft:"500px", marginBottom:"-50px"}}>Expansion Joins</label>
                       <div className="roleSelector__containerF">
                               <RoleDropDown style={{paddingLeft: "2px"}} onChange={value => setCurrentRole(value)} roles = {roles}/>
                       </div>

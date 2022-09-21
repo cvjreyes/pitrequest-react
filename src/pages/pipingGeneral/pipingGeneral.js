@@ -646,7 +646,7 @@ const PipingGeneral = () => {
             <div style={{zoom:1.125, marginLeft:"10%"}}>
                 <NavBar onChange={value => setCurrentTab(currentTab)}/>
             </div>
-            <div className="isotracker__row" style={{marginBottom:"-50px"}}>
+            <div className="isotracker__row" style={{marginBottom:"-10px"}}>
                 <div className="isotracker__column" >
                     <img src={PITLogo} alt="PITLogo" className="isoTrackerLogo__image2" style={{height:"85px"}}/>
                     <label className="discipline__title" style={{marginLeft:"500px", marginBottom:"-50px"}}>General</label>
