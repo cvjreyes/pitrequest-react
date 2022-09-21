@@ -656,8 +656,8 @@ class CSPtrackerExpansionJoinsDataTable extends React.Component{
     if (this.state.data.length === 0){
       totalElements = null;
     }else{
-      totalElements = (<div style={{position: "absolute", bottom: 170, left:110}}>
-      <b>Total elements: {this.state.data.length}</b>
+      totalElements = (<div style={{position: "absolute", bottom: 120, left:110}}>
+      <p className='navBar__button__text__general'>Total elements: {this.state.data.length}</p>
      </div>);
     }
 
