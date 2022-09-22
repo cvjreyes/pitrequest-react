@@ -255,7 +255,7 @@ class CSPTrackerKeyParams extends React.Component{
   
       const progressSettings = {
         licenseKey: 'non-commercial-and-evaluation',
-        colWidths: 195,
+        colWidths: 280,
         //... other options
       }
 
@@ -341,13 +341,13 @@ class CSPTrackerKeyParams extends React.Component{
             </div>
           </div>
          
-          <div className="column" style={{marginLeft:"50px", width:"290px"}}>
+          <div className="column" style={{marginLeft:"50px", width:"400px"}}>
             <div id="hot-app">
               <HotTable
                 data={this.state.endPreparationData}
                 colHeaders = {["<b>END PREPARATIONS</b>"]}
                 rowHeaders={true}
-                width="250"
+                width="350"
                 height="470"
                 settings={progressSettings} 
                 manualColumnResize={true}

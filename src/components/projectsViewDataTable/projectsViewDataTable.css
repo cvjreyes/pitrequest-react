@@ -30,32 +30,32 @@
     width: 100%;
     border: 1px solid lightgrey;
     border-radius: 5px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     
 }
 
 .filter__table{
     position: flex;
     margin-top: -57px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .dataTable__header__text{  
     font-weight : bold;
     margin : auto;
     text-align: center;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
   }
   
   .dataTable__container{
     position: relative;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
   }
   
   .dataTable__elements{
     position: absolute;
     bottom: 25;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     left: 0;
   }
   .ant-table table { font-size: 16px !important; }
