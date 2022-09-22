@@ -190,7 +190,7 @@ export default class QtrackerModelingPopUp extends Component {
             },
             body: JSON.stringify(body)
         }
-          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/requestNVN", options)
+          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/requestMOD", options)
               .then(response => response.json())
               .then(async json => {
                   if(json.filename && this.state.attach){

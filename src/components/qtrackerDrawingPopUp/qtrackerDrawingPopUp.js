@@ -190,7 +190,7 @@ export default class QtrackerDrawingPopUp extends Component {
             },
             body: JSON.stringify(body)
         }
-          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/requestNVN", options)
+          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/requestDIS", options)
               .then(response => response.json())
               .then(async json => {
                   if(json.filename && this.state.attach){
@@ -221,7 +221,7 @@ export default class QtrackerDrawingPopUp extends Component {
       return (
         <div>
           <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
-            <span style={{display:"flex"}} ><div style={{width:"280px"}}><text className='mainmenu__item' onClick={()=> this.openModal()}>Drawing\UsoStyle</text></div></span>
+            <span style={{display:"flex"}} ><div style={{width:"280px"}}><text className='mainmenu__item' onClick={()=> this.openModal()}>Drawing\IsoStyle</text></div></span>
           </div>   
           <div>
           <Modal visible={this.state.visible} width="660px" height="640px" effect="fadeInUp" onClickAway={() => this.closeModal()}>
