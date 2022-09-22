@@ -455,6 +455,38 @@ const PipingGeneral = () => {
         })
     }
 
+    async function downloadReportAll(){
+        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadAllInstrumentsHolds")
+        .then(response => response.json())
+        .then(json => {
+            let rows = JSON.parse(json)
+
+            const headers = ["Project", "Admin", "Holds"]
+            const fileName = "Instruments holds report"
+
+            const apiData = rows
+            const fileType =
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+            const header_cells = ['A1', 'B1', 'C1']
+            const fileExtension = ".xlsx";
+
+            let wscols = []
+            for(let i = 0; i < headers.length; i++){
+                wscols.push({width:35})
+            }
+
+            const ws = XLSX.utils.json_to_sheet(apiData);   
+            ws["!cols"] = wscols
+            for(let i = 0; i < headers.length; i++){
+                ws[header_cells[i]].v = headers[i]
+            }
+            const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+            const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+            const data = new Blob([excelBuffer], { type: fileType });
+            FileSaver.saveAs(data, fileName + fileExtension);
+        })
+    }
+
     document.body.style.zoom = 0.8
 
     var dataTableHeight = "580px"
@@ -478,16 +510,11 @@ const PipingGeneral = () => {
     }
 
     if(currentRole === "3D Admin"){
-        editBtn = null /*<label class="switchBtn__general" style={{width:"145px"}}>
-                    <p className="navBar__button__text__general" style={{width:"100px", marginTop:"5px"}}>KeyParams &nbsp;&nbsp;&nbsp;</p>
-                    <input type="checkbox" id="edit" onClick={()=>handleToggleKP()}/>
-                    <div class="slide__general__admin round" style={{marginLeft:"90px"}}></div>
-                </label> */ 
+        exportBtn = <div><button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button><button className="action__btn" name="export" value="export" onClick={() => downloadReportAll()}>Export holds</button></div>
     }
 
     if(currentTab === "View"){
         table = <CSPTrackerGeneralDataTable currentRole = {currentRole} updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} uploadDrawingSuccess = {uploadSuccess.bind(this)} updateDrawingSuccess = {updateSuccess.bind(this)} drawingUploadError={drawingUploadError.bind(this)} currentProject={currentProject}/>
-        exportBtn = <button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button>
         addRowBtn = null
         
     }else if(currentTab === "Edit"){
