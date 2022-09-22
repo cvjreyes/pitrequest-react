@@ -178,7 +178,7 @@ const PipingExpansionJoins = () => {
                 await setCounter(counter)
             })
 
-    },[updateData, currentProject])
+    },[updateData, currentProject, dataChanged])
 
     useEffect(async()=>{
         const options = {

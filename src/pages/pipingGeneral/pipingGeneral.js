@@ -181,7 +181,7 @@ const PipingGeneral = () => {
                 await setCounter(counter)
             })
 
-    },[updateData, currentProject])
+    },[updateData, currentProject, dataChanged])
 
     useEffect(async()=>{
         const options = {
@@ -341,17 +341,6 @@ const PipingGeneral = () => {
         }else{
             await setCurrentTab("View")
             await saveChanges()
-        }
-    }
-
-    async function handleToggleKP(){
-        if(currentTab === "View"){
-            await setCurrentTab("CSP KeyParams")
-            
-        }else{
-            //await saveChangesKP()
-            await setCurrentTab("View")
-            
         }
     }
 

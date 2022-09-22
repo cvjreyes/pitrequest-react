@@ -107,8 +107,7 @@ const PipingPSV = () => {
     const [boltTypesData, setBoltTypesData] = useState()
     const [projectFilter, setProjectFilter] = useState([])
     const [currentProject, setCurrentProject] = useState()
-    const [instTypesData, setInstTypesData] = useState([])
-    const [pconsData, setPconsData] = useState([])
+    const [duplicated, setDuplicated] = useState(false)
 
     const [ratingsData, setRatingsData] = useState([])
 
@@ -175,7 +174,7 @@ const PipingPSV = () => {
                 await setCounter(counter)
             })
 
-    },[updateData, currentProject])
+    },[updateData, currentProject, dataChanged])
 
     useEffect(async()=>{
         const options = {
@@ -366,6 +365,10 @@ const PipingPSV = () => {
                 await setSuccessAlert(true)
                 await setNewData({})
                 await setDataChanged(!dataChanged)
+            }else{
+                await setNewData({})
+                await setDataChanged(!dataChanged)
+                await setDuplicated(true)
             }
         })
     }
@@ -623,6 +626,12 @@ const PipingPSV = () => {
             onTransitionEnd={() => setWarningBlankRequest(false)}
             >
                 <AlertF type="warning" text="All fileds need to be filled!" margin="0px"/>
+            </div>
+            <div
+            className={`alert alert-success ${duplicated ? 'alert-shown' : 'alert-error-hidden'}`}
+            onTransitionEnd={() => setDuplicated(false)}
+            >
+                <AlertF type="warning" text="Some values were duplicated and didn't save!" margin="0px"/>
             </div>
             <div
             className={`alert alert-success ${existsRequest ? 'alert-shown' : 'alert-error-hidden'}`}
