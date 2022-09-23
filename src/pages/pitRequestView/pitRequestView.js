@@ -640,62 +640,177 @@ const PitRequestView = () => {
                                     return second.created_at.localeCompare(first.created_at);
                                     });
                                     
-                                    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getDIS", options)
-                                .then(response => response.json())
-                                .then(async json => {
-                                    var row = null
-                                    for(let i = 0; i < json.rows.length; i++){
-                                        row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: null, sending: null, sending:  json.rows[i].sending, items: null, scope: null, description: json.rows[i].description,hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
-                                        
-                                        if(json.rows[i].status === 0){
-                                            row.status = "Pending"
-                                        }else if(json.rows[i].status === 1){
-                                            row.status = "In progress"
-                                        }else if(json.rows[i].status === 2){
-                                            row.status = "Ready"
-                                        }else{
-                                            row.status = "Rejected"
-                                        }
+                                        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getDIS", options)
+                                        .then(response => response.json())
+                                        .then(async json => {
+                                            var row = null
+                                            for(let i = 0; i < json.rows.length; i++){
+                                                row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, carta: json.rows[i].carta, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: null, sending: null, sending:  json.rows[i].sending, items: null, scope: null, description: json.rows[i].description,hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
+                                                
+                                                if(json.rows[i].status === 0){
+                                                    row.status = "Pending"
+                                                }else if(json.rows[i].status === 1){
+                                                    row.status = "In progress"
+                                                }else if(json.rows[i].status === 2){
+                                                    row.status = "Ready"
+                                                }else{
+                                                    row.status = "Rejected"
+                                                }
+                                                
+                                                if(json.rows[i].accept_reject_date){
+                                                    row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
+                                                }
+                                                rows.push(row)
+                                            }
+                                            await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getPER", options)
+                                            .then(response => response.json())
+                                            .then(async json => {
+                                                var row = null
+                                                for(let i = 0; i < json.rows.length; i++){
+                                                    row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, carta: json.rows[i].carta, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: null, sending: null, sending:  json.rows[i].sending, items: null, scope: null, description: json.rows[i].description,hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
+                                                    
+                                                    if(json.rows[i].status === 0){
+                                                        row.status = "Pending"
+                                                    }else if(json.rows[i].status === 1){
+                                                        row.status = "In progress"
+                                                    }else if(json.rows[i].status === 2){
+                                                        row.status = "Ready"
+                                                    }else{
+                                                        row.status = "Rejected"
+                                                    }
+                                                    
+                                                    if(json.rows[i].accept_reject_date){
+                                                        row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
+                                                    }
+                                                    rows.push(row)
+                                                }
 
-                                        if(json.rows[i].carta){
-                                            row.project = row.project + " - " +json.rows[i].carta
-                                        }
-                                        
-                                        if(json.rows[i].accept_reject_date){
-                                            row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
-                                        }
-                                        rows.push(row)
-                                    }
+                                                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getMOD", options)
+                                                .then(response => response.json())
+                                                .then(async json => {
+                                                    var row = null
+                                                    for(let i = 0; i < json.rows.length; i++){
+                                                        row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, carta: json.rows[i].carta, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: null, sending: null, sending:  json.rows[i].sending, items: null, scope: null, description: json.rows[i].description,hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
+                                                        
+                                                        if(json.rows[i].status === 0){
+                                                            row.status = "Pending"
+                                                        }else if(json.rows[i].status === 1){
+                                                            row.status = "In progress"
+                                                        }else if(json.rows[i].status === 2){
+                                                            row.status = "Ready"
+                                                        }else{
+                                                            row.status = "Rejected"
+                                                        }
+                                                        
+                                                        if(json.rows[i].accept_reject_date){
+                                                            row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
+                                                        }
+                                                        rows.push(row)
+                                                }
 
-                                    // Sort the array based on the second element
-                                    rows.sort(function(first, second) {
-                                    return second.created_at.localeCompare(first.created_at);
-                                    });
+                                                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getDSO", options)
+                                                .then(response => response.json())
+                                                .then(async json => {
+                                                    var row = null
+                                                    for(let i = 0; i < json.rows.length; i++){
+                                                        row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, carta: json.rows[i].carta, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: null, sending: null, sending:  json.rows[i].sending, items: null, scope: null, description: json.rows[i].description,hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
+                                                        
+                                                        if(json.rows[i].status === 0){
+                                                            row.status = "Pending"
+                                                        }else if(json.rows[i].status === 1){
+                                                            row.status = "In progress"
+                                                        }else if(json.rows[i].status === 2){
+                                                            row.status = "Ready"
+                                                        }else{
+                                                            row.status = "Rejected"
+                                                        }
+                                                        
+                                                        if(json.rows[i].accept_reject_date){
+                                                            row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
+                                                        }
+                                                        rows.push(row)
+                                                    }
 
-                                    const headers = ["Reference", "Project", "User", "Date", "Observations", "SPREF", "Name", "Pipe", "Sending", "Items", "Scope", "Description", "Hours", "Admin", "Accepted/Rejected date", "Status"]
-                                    const apiData = rows
-                                    const fileName = "QueryTracker report"
+                                                    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getDOR", options)
+                                                    .then(response => response.json())
+                                                    .then(async json => {
+                                                        var row = null
+                                                        for(let i = 0; i < json.rows.length; i++){
+                                                            row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, carta: json.rows[i].carta, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: null, sending: null, sending:  json.rows[i].sending, items: null, scope: null, description: json.rows[i].description,hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
+                                                            
+                                                            if(json.rows[i].status === 0){
+                                                                row.status = "Pending"
+                                                            }else if(json.rows[i].status === 1){
+                                                                row.status = "In progress"
+                                                            }else if(json.rows[i].status === 2){
+                                                                row.status = "Ready"
+                                                            }else{
+                                                                row.status = "Rejected"
+                                                            }
+                                                            
+                                                            if(json.rows[i].accept_reject_date){
+                                                                row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
+                                                            }
+                                                            rows.push(row)
+                                                        }
 
-                                    const fileType =
-                                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-                                    const header_cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1', 'N1', 'O1', 'P1', 'Q1', 'R1']
-                                    const fileExtension = ".xlsx";
+                                                        await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getCIT", options)
+                                                        .then(response => response.json())
+                                                        .then(async json => {
+                                                            var row = null
+                                                            for(let i = 0; i < json.rows.length; i++){
+                                                                row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, carta: json.rows[i].carta, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: null, sending: null, sending:  json.rows[i].sending, items: null, scope: null, description: json.rows[i].description,hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
+                                                                
+                                                                if(json.rows[i].status === 0){
+                                                                    row.status = "Pending"
+                                                                }else if(json.rows[i].status === 1){
+                                                                    row.status = "In progress"
+                                                                }else if(json.rows[i].status === 2){
+                                                                    row.status = "Ready"
+                                                                }else{
+                                                                    row.status = "Rejected"
+                                                                }
+                                                                
+                                                                if(json.rows[i].accept_reject_date){
+                                                                    row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
+                                                                }
+                                                                rows.push(row)
+                                                            }
 
-                                    let wscols = []
-                                    for(let i = 0; i < headers.length; i++){
-                                        wscols.push({width:35})
-                                    }
+                                                        // Sort the array based on the second element
+                                                        rows.sort(function(first, second) {
+                                                        return second.created_at.localeCompare(first.created_at);
+                                                        });
 
-                                    const ws = XLSX.utils.json_to_sheet(apiData);   
-                                    ws["!cols"] = wscols
-                                    for(let i = 0; i < headers.length; i++){
-                                        ws[header_cells[i]].v = headers[i]
-                                    }
-                                    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
-                                    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-                                    const data = new Blob([excelBuffer], { type: fileType });
-                                    FileSaver.saveAs(data, fileName + fileExtension);
-                                  })
+                                                        const headers = ["Reference", "Project", "Carta", "User", "Date", "Observations", "SPREF", "Name", "Pipe", "Sending", "Items", "Scope", "Description", "Hours", "Admin", "Accepted/Rejected date", "Status"]
+                                                        const apiData = rows
+                                                        const fileName = "QueryTracker report"
+
+                                                        const fileType =
+                                                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+                                                        const header_cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1', 'N1', 'O1', 'P1', 'Q1', 'R1', 'S1']
+                                                        const fileExtension = ".xlsx";
+
+                                                        let wscols = []
+                                                        for(let i = 0; i < headers.length; i++){
+                                                            wscols.push({width:35})
+                                                        }
+
+                                                        const ws = XLSX.utils.json_to_sheet(apiData);   
+                                                        ws["!cols"] = wscols
+                                                        for(let i = 0; i < headers.length; i++){
+                                                            ws[header_cells[i]].v = headers[i]
+                                                        }
+                                                        const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+                                                        const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+                                                        const data = new Blob([excelBuffer], { type: fileType });
+                                                        FileSaver.saveAs(data, fileName + fileExtension);
+                                                        })
+                                                    })
+                                                })
+                                            })
+                                        })
+                                    })
 
                                 })
 

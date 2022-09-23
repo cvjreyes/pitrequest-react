@@ -197,7 +197,7 @@ class QTrackerViewDataTable extends React.Component{
                     </select>
                   }
 
-                  row.observations = <input style={{width: "200px"}} type="text" value={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                  row.observations = <input style={{width: "200px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                 }else{
                   row["admin"] = json.rows[i].admin
@@ -1018,7 +1018,7 @@ class QTrackerViewDataTable extends React.Component{
                                       }
                                     }
                                       if(secureStorage.getItem("role") === "3D Admin"){
-                                        row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                        row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                                         row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="DIS" changeAdmin = {this.changeAdmin.bind(this)}/>
                                         if(json.rows[i].status === 0){
                                             row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "DIS")} >
@@ -1085,7 +1085,7 @@ class QTrackerViewDataTable extends React.Component{
                                           <option value="high" selected>High</option>
                                           </select>
                                         }
-                                        row.observations = <input type="text" value={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                        row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                       }else{
                                         row["admin"] = json.rows[i].admin
@@ -1150,7 +1150,7 @@ class QTrackerViewDataTable extends React.Component{
                                         }
                                       }
                                         if(secureStorage.getItem("role") === "3D Admin"){
-                                          row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                          row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                                           row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="PER" changeAdmin = {this.changeAdmin.bind(this)}/>
                                           if(json.rows[i].status === 0){
                                               row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "PER")} >
@@ -1217,7 +1217,7 @@ class QTrackerViewDataTable extends React.Component{
                                             <option value="high" selected>High</option>
                                             </select>
                                           }
-                                          row.observations = <input type="text" value={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                          row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                         }else{
                                           row["admin"] = json.rows[i].admin
@@ -1282,7 +1282,7 @@ class QTrackerViewDataTable extends React.Component{
                                           }
                                         }
                                           if(secureStorage.getItem("role") === "3D Admin"){
-                                            row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                            row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                                             row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="MOD" changeAdmin = {this.changeAdmin.bind(this)}/>
                                             if(json.rows[i].status === 0){
                                                 row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "MOD")} >
@@ -1349,7 +1349,7 @@ class QTrackerViewDataTable extends React.Component{
                                               <option value="high" selected>High</option>
                                               </select>
                                             }
-                                            row.observations = <input type="text" value={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                            row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                           }else{
                                             row["admin"] = json.rows[i].admin
@@ -1414,7 +1414,7 @@ class QTrackerViewDataTable extends React.Component{
                                             }
                                           }
                                             if(secureStorage.getItem("role") === "3D Admin"){
-                                              row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                              row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                                               row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="DSO" changeAdmin = {this.changeAdmin.bind(this)}/>
                                               if(json.rows[i].status === 0){
                                                   row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "DSO")} >
@@ -1481,7 +1481,7 @@ class QTrackerViewDataTable extends React.Component{
                                                 <option value="high" selected>High</option>
                                                 </select>
                                               }
-                                              row.observations = <input type="text" value={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                              row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                             }else{
                                               row["admin"] = json.rows[i].admin
@@ -1546,7 +1546,7 @@ class QTrackerViewDataTable extends React.Component{
                                                 }
                                               }
                                                 if(secureStorage.getItem("role") === "3D Admin"){
-                                                  row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                                  row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                                                   row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="DOR" changeAdmin = {this.changeAdmin.bind(this)}/>
                                                   if(json.rows[i].status === 0){
                                                       row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "DOR")} >
@@ -1613,7 +1613,7 @@ class QTrackerViewDataTable extends React.Component{
                                                     <option value="high" selected>High</option>
                                                     </select>
                                                   }
-                                                  row.observations = <input type="text" value={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                                  row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                                 }else{
                                                   row["admin"] = json.rows[i].admin
@@ -1678,7 +1678,7 @@ class QTrackerViewDataTable extends React.Component{
                                                     }
                                                   }
                                                     if(secureStorage.getItem("role") === "3D Admin"){
-                                                      row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                                      row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                                                       row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="CIT" changeAdmin = {this.changeAdmin.bind(this)}/>
                                                       if(json.rows[i].status === 0){
                                                           row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CIT")} >
@@ -1745,7 +1745,7 @@ class QTrackerViewDataTable extends React.Component{
                                                         <option value="high" selected>High</option>
                                                         </select>
                                                       }
-                                                      row.observations = <input type="text" value={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                                      row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                                     }else{
                                                       row["admin"] = json.rows[i].admin
@@ -1950,7 +1950,7 @@ class QTrackerViewDataTable extends React.Component{
                     </select>
                   }
 
-                  row.observations = <input style={{width: "200px"}} type="text" value={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                  row.observations = <input style={{width: "200px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                 }else{
                   row["admin"] = json.rows[i].admin
@@ -2770,7 +2770,7 @@ class QTrackerViewDataTable extends React.Component{
                                       }
                                     }
                                       if(secureStorage.getItem("role") === "3D Admin"){
-                                        row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                        row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                                         row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="DIS" changeAdmin = {this.changeAdmin.bind(this)}/>
                                         if(json.rows[i].status === 0){
                                             row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "DIS")} >
@@ -2837,7 +2837,7 @@ class QTrackerViewDataTable extends React.Component{
                                           <option value="high" selected>High</option>
                                           </select>
                                         }
-                                        row.observations = <input type="text" value={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                        row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                       }else{
                                         row["admin"] = json.rows[i].admin
@@ -2902,7 +2902,7 @@ class QTrackerViewDataTable extends React.Component{
                                           }
                                         }
                                           if(secureStorage.getItem("role") === "3D Admin"){
-                                            row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                            row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                                             row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="MOD" changeAdmin = {this.changeAdmin.bind(this)}/>
                                             if(json.rows[i].status === 0){
                                                 row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "MOD")} >
@@ -2969,7 +2969,7 @@ class QTrackerViewDataTable extends React.Component{
                                               <option value="high" selected>High</option>
                                               </select>
                                             }
-                                            row.observations = <input type="text" value={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                            row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                           }else{
                                             row["admin"] = json.rows[i].admin
@@ -3034,7 +3034,7 @@ class QTrackerViewDataTable extends React.Component{
                                             }
                                           }
                                             if(secureStorage.getItem("role") === "3D Admin"){
-                                              row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                              row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                                               row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="PER" changeAdmin = {this.changeAdmin.bind(this)}/>
                                               if(json.rows[i].status === 0){
                                                   row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "PER")} >
@@ -3101,7 +3101,7 @@ class QTrackerViewDataTable extends React.Component{
                                                 <option value="high" selected>High</option>
                                                 </select>
                                               }
-                                              row.observations = <input type="text" value={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                              row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                             }else{
                                               row["admin"] = json.rows[i].admin
@@ -3166,7 +3166,7 @@ class QTrackerViewDataTable extends React.Component{
                                               }
                                             }
                                               if(secureStorage.getItem("role") === "3D Admin"){
-                                                row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                                row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                                                 row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="DSO" changeAdmin = {this.changeAdmin.bind(this)}/>
                                                 if(json.rows[i].status === 0){
                                                     row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "DSO")} >
@@ -3233,7 +3233,7 @@ class QTrackerViewDataTable extends React.Component{
                                                   <option value="high" selected>High</option>
                                                   </select>
                                                 }
-                                                row.observations = <input type="text" value={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                                row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                               }else{
                                                 row["admin"] = json.rows[i].admin
@@ -3298,7 +3298,7 @@ class QTrackerViewDataTable extends React.Component{
                                                   }
                                                 }
                                                   if(secureStorage.getItem("role") === "3D Admin"){
-                                                    row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                                    row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                                                     row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="DOR" changeAdmin = {this.changeAdmin.bind(this)}/>
                                                     if(json.rows[i].status === 0){
                                                         row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "DOR")} >
@@ -3365,7 +3365,7 @@ class QTrackerViewDataTable extends React.Component{
                                                       <option value="high" selected>High</option>
                                                       </select>
                                                     }
-                                                    row.observations = <input type="text" value={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                                   }else{
                                                     row["admin"] = json.rows[i].admin
@@ -3430,7 +3430,7 @@ class QTrackerViewDataTable extends React.Component{
                                                     }
                                                   }
                                                     if(secureStorage.getItem("role") === "3D Admin"){
-                                                      row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                                      row["hours"] = <input style={{width: "55px"}} type="text" defaultValue={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
                                                       row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="CIT" changeAdmin = {this.changeAdmin.bind(this)}/>
                                                       if(json.rows[i].status === 0){
                                                           row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CIT")} >
@@ -3497,7 +3497,7 @@ class QTrackerViewDataTable extends React.Component{
                                                         <option value="high" selected>High</option>
                                                         </select>
                                                       }
-                                                      row.observations = <input type="text" value={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                                      row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
                                                     }else{
                                                       row["admin"] = json.rows[i].admin
