@@ -95,8 +95,8 @@ const PitRequestView = () => {
     const [roles, setRoles] = useState();
     const [saveBtn, setSaveBtn] = useState()
     const [updatedRows, setUpdatedRows] = useState([])
-    const [observations, setObservations] = useState()
-    const [hours, setHours] = useState()
+    const [observations, setObservations] = useState([])
+    const [hours, setHours] = useState([])
     const [counter, setCounter] = useState([])
     const [content, setContent] = useState(null)
     const [saveButton, setSaveButton] = useState(null)
@@ -113,6 +113,8 @@ const PitRequestView = () => {
     const [currentProject, setCurrentProject] = useState("All")
     const [showAll, setShowAll] = useState(false)
 
+    const [inputsUpdated, setInputsUpdated] = useState(false)
+    const [notReadyWarning, setNotReadyWarning] = useState(false)
 
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(false)
@@ -143,6 +145,7 @@ const PitRequestView = () => {
                 }
                 setProjectFilter(projects)
             })
+
     }, [])
 
     var currentUser = secureStorage.getItem('user')
@@ -452,7 +455,7 @@ const PitRequestView = () => {
           var rows = []
           var row = null
             for(let i = 0; i < json.rows.length; i++){
-                row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project,  user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: json.rows[i].spref, name: null, pipe: null, sending: null, items: null, scope: null, description: json.rows[i].description, hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
+                row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, carta: json.rows[i].carta, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: json.rows[i].spref, name: null, pipe: null, sending: null, items: null, scope: null, description: json.rows[i].description, hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
                   
                   if(json.rows[i].status === 0){
                     row.status = "Pending"
@@ -465,10 +468,6 @@ const PitRequestView = () => {
                   }else if(json.rows[i].status === 4){
                       row.status = "Materials"
                   }
-
-                  if(json.rows[i].carta){
-                    row.project = row.project + " - " +json.rows[i].carta
-                }
 
                   if(json.rows[i].accept_reject_date){
                    
@@ -484,7 +483,7 @@ const PitRequestView = () => {
             .then(async json => {
             var row = null
                 for(let i = 0; i < json.rows.length; i++){
-                    row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project,  user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: json.rows[i].name, pipe: null, sending: null, items: null, scope: null, description: json.rows[i].description, hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
+                    row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, carta: json.rows[i].carta, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: json.rows[i].name, pipe: null, sending: null, items: null, scope: null, description: json.rows[i].description, hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
                     
                     if(json.rows[i].status === 0){
                         row.status = "Pending"
@@ -497,11 +496,7 @@ const PitRequestView = () => {
                       }else if(json.rows[i].status === 4){
                           row.status = "Materials"
                       }
-    
 
-                      if(json.rows[i].carta){
-                        row.project = row.project + " - " +json.rows[i].carta
-                    }
                       if(json.rows[i].accept_reject_date){
                         row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
                     }
@@ -513,7 +508,7 @@ const PitRequestView = () => {
                 .then(async json => {
                 var row = null
                     for(let i = 0; i < json.rows.length; i++){
-                        row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: json.rows[i].pipe, items: null, scope: null, description: json.rows[i].description,hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
+                        row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, carta: json.rows[i].carta, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: json.rows[i].pipe, items: null, scope: null, description: json.rows[i].description,hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
                                              
                         if(json.rows[i].status === 0){
                             row.status = "Pending"
@@ -526,11 +521,7 @@ const PitRequestView = () => {
                           }else if(json.rows[i].status === 4){
                               row.status = "Materials"
                           }
-        
 
-                        if(json.rows[i].carta){
-                            row.project = row.project + " - " +json.rows[i].carta
-                        }
                         if(json.rows[i].accept_reject_date){
                     row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
                   }
@@ -543,7 +534,7 @@ const PitRequestView = () => {
                     .then(async json => {
                     var row = null
                         for(let i = 0; i < json.rows.length; i++){
-                            row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: json.rows[i].pipe, items: null, scope: null, description: json.rows[i].description, hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
+                            row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, carta: json.rows[i].carta, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: json.rows[i].pipe, items: null, scope: null, description: json.rows[i].description, hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
                             
                             if(json.rows[i].status === 0){
                                 row.status = "Pending"
@@ -557,14 +548,10 @@ const PitRequestView = () => {
                                   row.status = "Materials"
                               }
             
-
-                              if(json.rows[i].carta){
-                                row.project = row.project + " - " +json.rows[i].carta
-                            }
                             
                               if(json.rows[i].accept_reject_date){
                                 row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
-                  }
+                                }
                               rows.push(row)
                         }
                         
@@ -573,7 +560,7 @@ const PitRequestView = () => {
                         .then(async json => {
                         var row = null
                             for(let i = 0; i < json.rows.length; i++){
-                                row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: json.rows[i].name, pipe: null, sending: null, items: null, scope: null, description: null, hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
+                                row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, carta: json.rows[i].carta, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: json.rows[i].name, pipe: null, sending: null, items: null, scope: null, description: null, hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
                                
                                 if(json.rows[i].status === 0){
                                     row.status = "Pending"
@@ -586,11 +573,6 @@ const PitRequestView = () => {
                                   }else if(json.rows[i].status === 4){
                                       row.status = "Materials"
                                   }
-                
-
-                                  if(json.rows[i].carta){
-                                    row.project = row.project + " - " +json.rows[i].carta
-                                }
                                 
                                   if(json.rows[i].accept_reject_date){
                                     row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
@@ -603,7 +585,7 @@ const PitRequestView = () => {
                             .then(async json => {
                             var row = null
                                 for(let i = 0; i < json.rows.length; i++){
-                                    row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: null, sending: null, items: json.rows[i].items_to_report, scope: json.rows[i].scope, description: json.rows[i].description, hours: json.rows[i].hours, admin: json.rows[i].admin, ar_data: json.rows[i].accept_reject_date}
+                                    row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, carta: json.rows[i].carta, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: null, sending: null, items: json.rows[i].items_to_report, scope: json.rows[i].scope, description: json.rows[i].description, hours: json.rows[i].hours, admin: json.rows[i].admin, ar_data: json.rows[i].accept_reject_date}
                                     
                                     if(json.rows[i].status === 0){
                                         row.status = "Pending"
@@ -615,11 +597,6 @@ const PitRequestView = () => {
                                           row.status = "Rejected"
                                       }else if(json.rows[i].status === 4){
                                           row.status = "Materials"
-                                      }
-                    
-
-                                      if(json.rows[i].carta){
-                                          row.project = row.project + " - " +json.rows[i].carta
                                       }
                                     
                                       if(json.rows[i].accept_reject_date){
@@ -638,7 +615,7 @@ const PitRequestView = () => {
                                 .then(async json => {
                                     var row = null
                                     for(let i = 0; i < json.rows.length; i++){
-                                        row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: null, sending: null, sending:  json.rows[i].sending, items: null, scope: null, description: json.rows[i].description,hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
+                                        row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, carta: json.rows[i].carta, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: null, name: null, pipe: null, sending: null, sending:  json.rows[i].sending, items: null, scope: null, description: json.rows[i].description,hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
                                         
                                         if(json.rows[i].status === 0){
                                             row.status = "Pending"
@@ -651,11 +628,6 @@ const PitRequestView = () => {
                                           }else if(json.rows[i].status === 4){
                                               row.status = "Materials"
                                           }
-                        
-
-                                        if(json.rows[i].carta){
-                                            row.project = row.project + " - " +json.rows[i].carta
-                                        }
                                         
                                         if(json.rows[i].accept_reject_date){
                                             row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
@@ -668,13 +640,13 @@ const PitRequestView = () => {
                                     return second.created_at.localeCompare(first.created_at);
                                     });
                                     
-                                    const headers = ["Reference", "Project", "User", "Date", "Observations", "SPREF", "Name", "Pipe", "Sending", "Items", "Scope", "Description", "Hours", "Admin", "Accepted/Rejected date", "Status"]
+                                    const headers = ["Reference", "Project", "Carta", "User", "Date", "Observations", "SPREF", "Name", "Pipe", "Sending", "Items", "Scope", "Description", "Hours", "Admin", "Accepted/Rejected date", "Status"]
                                     const apiData = rows
                                     const fileName = "QueryTracker report"
 
                                     const fileType =
                                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-                                    const header_cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1', 'N1', 'O1', 'P1', 'Q1']
+                                    const header_cells = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1', 'J1', 'K1', 'L1', 'M1', 'N1', 'O1', 'P1', 'Q1', 'R1']
                                     const fileExtension = ".xlsx";
 
                                     let wscols = []
@@ -785,17 +757,20 @@ const PitRequestView = () => {
         await setUpdatedRows(currentRows)
     }
 
-    async function updateObservations(observations){
-        await setObservations(observations)
-        await setUpdateData(!updateData)
+    async function updateObservations(newObservations){
+        let currentObs = observations
+        currentObs.push(newObservations)
+        await setObservations(currentObs)
     }
 
-    async function updateHours(hours){
-        await setHours(hours)
-        await setUpdateData(!updateData)
+    async function updateHours(newhours){
+        let currentHours = hours
+        currentHours.push(newhours)
+        await setHours(currentHours)
     }
 
     async function updatePriority(updatedRow){
+        console.log(updatedRow)
         let currentRows = updatedRowsPrio
         currentRows.push(updatedRow)
         await setUpdatedRowsPrio(currentRows)
@@ -803,21 +778,12 @@ const PitRequestView = () => {
 
     async function saveChanges(){
         let err = false
-        await setUpdateData(!updateData)
-        let hoursArray = []
-        if(hours){
+        let notReady = false
 
-            Object.entries(hours)
-            .map(async ([incidence_number, hours]) => 
-                await hoursArray.push([incidence_number, hours])
-            )
-
-        }
-
-        for(let i = 0; i < hoursArray.length; i++){
+        for(let i = 0; i < hours.length; i++){
             let body = {
-                incidence_number: hoursArray[i][0],
-                hours: hoursArray[i][1],
+                incidence_number: hours[i][0],
+                hours: hours[i][1],
               }
               let options = {
                 method: "POST",
@@ -835,21 +801,11 @@ const PitRequestView = () => {
                 
               })
         }
-        let observationsArray = []
-        if(observations){
 
-            Object.entries(observations)
-            .map(async ([incidence_number, observation]) => 
-                
-                await observationsArray.push([incidence_number, observation])
-            )
-
-        }
-
-        for(let i = 0; i < observationsArray.length; i++){
+        for(let i = 0; i < observations.length; i++){
             let body = {
-                incidence_number: observationsArray[i][0],
-                observation: observationsArray[i][1],
+                incidence_number: observations[i][0],
+                observation: observations[i][1],
               }
               let options = {
                 method: "POST",
@@ -867,6 +823,7 @@ const PitRequestView = () => {
                 }
               })
             }
+
         for(let i = 0; i < updatedRows.length; i++){
             let body = {
                 incidence_number: updatedRows[i][0],
@@ -888,11 +845,15 @@ const PitRequestView = () => {
               .then(async json => {
                 if(!json.success){
                     err = true
+                }else if(json.notReady){
+                    notReady = true
                 }
               })
         }
         if(err){
             setError(true)
+        }else if(notReady){
+            setNotReadyWarning(true)
         }else{
             setSuccess(true)
         }
@@ -1003,6 +964,12 @@ const PitRequestView = () => {
                 onTransitionEnd={() => setError(false)}
                 >
                 <AlertF type="error" subtext="A problem occurred while saving changes!" />
+            </div>
+            <div
+                className={`alert alert-success ${notReadyWarning ? 'alert-shown' : 'alert-hidden'}`}
+                onTransitionEnd={() => setNotReadyWarning(false)}
+                >
+                <AlertF type="warning" text="Hours missing on completion!" />
             </div>
             <IdleTimer
                 timeout={1000 * 60 * 15}

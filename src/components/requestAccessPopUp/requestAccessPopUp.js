@@ -120,8 +120,7 @@ export default class RequestAccessPopUp extends Component {
                                 ))}
                             </select>
                             <div style={{display: "flex"}}>
-                                <label for="otherproject" style={{marginLeft:"3px", marginTop: "3px", fontWeight:"500"}}>Other project: </label>
-                                <input type="text" id="otherproject" className="popUp__input__text2" value={this.state.otherproject} onChange={(e) => this.setState({otherproject: e.target.value})} style={{fontSize: "18px"}}></input>
+                                <h6 style={{fontWeight:"400", marginLeft:"5px"}}>If your project isn't in the options, concact with epifanio.pecharroman-ruiz@technipenergies.com or eduard.lorenzo-aguilar@technipenergies.com</h6>
 
                             </div>
                         </div>
