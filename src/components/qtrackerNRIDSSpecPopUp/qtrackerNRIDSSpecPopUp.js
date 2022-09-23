@@ -73,13 +73,21 @@ export default class QtrackerNRIDSSpecPopUp extends Component {
             <div style={{marginRight:"5px", marginLeft:"5px", float:"left"}}>
                 <button class="btn btn-info" style={{color:"white", backgroundColor: "#17a2b8", fontSize:"16px", padding:"2px 5px 2px 5px"}} onClick={() => this.openModal()}>Details</button>
                 <div>
-                    <Modal visible={this.state.visible} width="700" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                    <Modal visible={this.state.visible} width="700" height="800" effect="fadeInUp">
                     
                     <table className="table table-hover" style={{marginLeft: "50px", width: "600px", height: "80px", marginTop: "30px"}}>
                         <thead>
                             <tr>
                                 <th colSpan={2}>
-                                    <center className="title__popUp">{this.props.incidence_number}</center>
+                                        <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-mdb-dismiss="modal"
+                                        aria-label="Close"
+                                        onClick={() => this.closeModal()}
+                                        style={{float:"right"}}
+                                        ></button>
+                                    <center className="title__popUp" style={{marginLeft: "20px"}}>{this.props.incidence_number}</center>
                                 </th>
                             </tr>
                         </thead>
