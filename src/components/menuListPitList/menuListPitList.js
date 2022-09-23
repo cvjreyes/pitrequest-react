@@ -8,9 +8,14 @@ import Typography from '@mui/material/Typography';
 import {useNavigate} from "react-router";
 import QtrackerNWCPopUp from '../qtrackerNWCPopUp/qtrackerNWCPopUp'
 import QtrackerNVNPopUp from '../qtrackerNVNPopUp/qtrackerNVNPopUp';
+import QtrackerCitrixPopUp from '../qtrackerCitrixPopUp/qtrackerCitrixPopUp';
+import QtrackerModelingPopUp from '../qtrackerModelingPopUp/qtrackerModelingPopUp';
+import QtrackerDrawingPopUp from '../qtrackerDrawingPopUp/qtrackerDrawingPopUp';
+import QtrackerDrawingIsoPopUp from '../qtrackerDrawingIsoPopUp/qtrackerDrawingIsoPopUp';
+import QtrackerDrawingOrtoPopUp from '../qtrackerDrawingOrtoPopUp/qtrackerDrawingOrtoPopUp';
 import QtrackerNRIPopUp from '../qtrackerNRIPopUp/qtrackerNRIPopUp';
-import QtrackerNRBPopUp from '../qtrackerNRBPopUp/qtrackerNRBPopUp';
 import QtrackerRRPopUp from '../qtrackerRRPopUp/qtrackerRRPopUp';
+import QtrackerPermissionsPopUp from '../qtrackerPermissionsPopUp/qtrackerPermissionsPopUp';
 import QtrackerNRIDSPopUp from '../qtrackerNRIDSPopUp/qtrackerNRIDSPopUp';
 import SvgIcon from '@mui/material/SvgIcon';
 import ProjectPopUp from '../projectPopUp/projectPopUp';
@@ -137,6 +142,7 @@ export default function MenuListPITList(props) {
     const [options, setOptions] = useState(null)
     const [currentMenu, setcurrentMenu] = useState("main")
     const [backMenu, setBackMenu] = useState("")
+    const [inSmart3d, setInSmart3d] = useState(false)
 
     const history = useNavigate()
 
@@ -333,10 +339,13 @@ export default function MenuListPITList(props) {
         <span style={{display:"flex"}} onClick={()=> setcurrentMenu("piping")}><div style={{width:"260px"}}><text className='mainmenu__item'>Piping Spec Materials</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
       </div></div>)
       if(currentMenu === "aveva_eng"){
+        setInSmart3d(false)
         setBackMenu("aveva_eng")
       }else if (currentMenu === "aveva_diag"){
+        setInSmart3d(false)
         setBackMenu("aveva_diag")
       } else if (currentMenu === "aveva_e3d"){
+        setInSmart3d(false)
         setBackMenu("aveva_e3d")
       }
     }else if(currentMenu === "int_smart_inst" || currentMenu === "int_smart_3D"){
@@ -348,8 +357,12 @@ export default function MenuListPITList(props) {
         <span style={{display:"flex"}} onClick={()=> setcurrentMenu("issues")}><div style={{width:"260px"}}><text className='mainmenu__item'>Issues</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
       </div></div>)
       if(currentMenu === "int_smart_inst"){
+        setInSmart3d(false)
         setBackMenu("int_smart_inst")
       }else if (currentMenu === "int_smart_3D"){
+        console.log("In smart: " + inSmart3d);
+        setInSmart3d(true)
+        console.log("After In smart: " + inSmart3d);
         setBackMenu("int_smart_3D")
       }    
     }else if(currentMenu === "auto_auto" || currentMenu === "auto_revit"){
@@ -361,8 +374,10 @@ export default function MenuListPITList(props) {
         <span style={{display:"flex"}} onClick={()=> setcurrentMenu("piping")}><div style={{width:"260px"}}><text className='mainmenu__item'>Piping Spec Materials</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
       </div></div>)
       if(currentMenu === "auto_auto"){
+        setInSmart3d(false)
         setBackMenu("auto_auto")
       }else if (currentMenu === "auto_revit"){
+        setInSmart3d(false)
         setBackMenu("auto_revit")
       } 
     }else if(currentMenu === "iso"){
@@ -371,20 +386,41 @@ export default function MenuListPITList(props) {
         <span style={{display:"flex"}} onClick={()=> setcurrentMenu("issues")}><div style={{width:"260px"}}><text className='mainmenu__item'>Issues</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
       </div></div>)
       if(currentMenu === "iso"){
+        setInSmart3d(false)
         setBackMenu("iso")
       }
     }else if(currentMenu === "request"){
-        await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>REQUEST ITEM</text></div></span>
-
-        <QtrackerRRPopUp success={success.bind(this)}/>
-        <QtrackerNRIDSPopUp success={success.bind(this)}/>
-        <QtrackerISPopUp success={success.bind(this)}/></div>)
+        if(inSmart3d===true){
+          await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu) && setInSmart3d(false)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>REQUEST ITEM</text></div></span>
+          <QtrackerRRPopUp success={success.bind(this)} margin={true}/>
+          <QtrackerNRIDSPopUp success={success.bind(this)}/>
+          <QtrackerISPopUp success={success.bind(this)}/>
+          <QtrackerDrawingPopUp success={success.bind(this)}/>
+          <QtrackerNVNPopUp success={success.bind(this)}/>
+          <QtrackerPermissionsPopUp success={success.bind(this)}/></div>)
+        } else if (inSmart3d===false) {
+          await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>REQUEST ITEM</text></div></span>
+          <QtrackerRRPopUp success={success.bind(this)} margin={true}/>
+          <QtrackerNRIDSPopUp success={success.bind(this)}/>
+          <QtrackerISPopUp success={success.bind(this)}/></div>)
+        }
       }else if(currentMenu === "issues"){
-        await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>ISSUES</text></div></span>
-
-        <QtrackerNWCPopUp success={success.bind(this)}/>
-        <QtrackerNVNPopUp success={success.bind(this)}/>
-        <QtrackerNRIPopUp success={success.bind(this)}/></div>)
+        if(inSmart3d===true){
+          await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu) && setInSmart3d(false)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>ISSUES</text></div></span>
+          <QtrackerNWCPopUp success={success.bind(this)}/>
+          <QtrackerNVNPopUp success={success.bind(this)}/>
+          <QtrackerNRIPopUp success={success.bind(this)}/>
+          <QtrackerModelingPopUp success={success.bind(this)}/>
+          <QtrackerDrawingIsoPopUp success={success.bind(this)}/>
+          <QtrackerDrawingOrtoPopUp success={success.bind(this)}/>
+          <QtrackerRRPopUp success={success.bind(this)} margin={false}/>
+          <QtrackerCitrixPopUp success={success.bind(this)}/></div>)
+        }else if(inSmart3d===false){
+          await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>ISSUES</text></div></span>
+          <QtrackerNWCPopUp success={success.bind(this)}/>
+          <QtrackerNVNPopUp success={success.bind(this)}/>
+          <QtrackerNRIPopUp success={success.bind(this)}/></div>)
+        }
       }else if(currentMenu === "piping"){
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/isAdmin/" + secureStorage.getItem("user"), options)
           .then(response => response.json())
@@ -452,7 +488,7 @@ export default function MenuListPITList(props) {
         <OfferPopUp successProject={successProject.bind(this)}/></div>)
       }
       
-    }, [currentMenu])
+    }, [currentMenu, inSmart3d])
 
 
   return (
