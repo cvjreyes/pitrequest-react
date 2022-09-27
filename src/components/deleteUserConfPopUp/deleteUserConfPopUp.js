@@ -40,7 +40,7 @@ export default class DeleteUserConfPopUp extends Component {
                     <Modal visible={this.state.visible} width="450" height="250" effect="fadeInUp" onClickAway={() => this.closeModal()}>
 
                     <div className="popUp__container" >
-                            <center className="title__popUp">Are you sure you want to delete {this.props.username}?</center>
+                            <center className="title__popUp__role">Are you sure you want to delete {this.props.username}?</center>
                                 
                         </div> 
 

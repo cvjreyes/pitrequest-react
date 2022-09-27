@@ -207,7 +207,7 @@
 .btn__submit{
     align-items: center;
     color: #FFFFFF;
-    width: 120px;
+    width: 130px;
     height: 43px;
     border: 1px solid #338DF1;
     background: #338DF1;
@@ -217,7 +217,7 @@
 .btn__cancel{
     align-items: center;
     color: #0070ED;
-    width: 120px;
+    width: 130px;
     height: 43px;
     border: 1px solid #0070ED;
     margin-left: 30px;
