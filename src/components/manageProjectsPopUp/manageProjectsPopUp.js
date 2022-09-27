@@ -57,12 +57,13 @@ export default class ManageRolesPopUp extends Component {
                 })
 
             }
+            
         })
     
         this.setState({
             visible : true,
             projectsList: [],
-            projectsID: {}
+            projectsID: {},
         });
     }
 
@@ -97,7 +98,7 @@ export default class ManageRolesPopUp extends Component {
     render() {
         return (
             <section >
-                <input type="button"  value="PROJECTS" className="btn"  style={{padding:"2px 5px 2px 5px", marginRight:"5px", marginLeft:"5px", width:"70px", fontSize:"12px", float:"right", backgroundColor:"#78B28A", color:"white"}} onClick={() => this.openModal()} />
+                <input type="button"  value="PROJECTS" className="btn"  style={{padding:"2px 5px 2px 5px", marginRight:"5px", marginLeft:"5px", width:"80px", fontSize:"12px", float:"right", backgroundColor:"#78B28A", color:"white"}} onClick={() => this.openModal()} />
                 <div>
                     <Modal visible={this.state.visible} width="500" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                     <div

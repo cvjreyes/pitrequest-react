@@ -172,7 +172,7 @@ class ProjectsHoursDataTable extends React.Component{
       <div>
         {this.state.updateData}
         <div className="estimatedDataTable__container" style={{width:"auto"}}>
-        <Table className="customTable" bordered = {true} columns={columns} dataSource={this.state.data} style={{ height: '540px' }} scroll={{y:437}} pagination={{disabled:true, defaultPageSize:5000}} size="small"/>
+        <Table className="customTable" bordered = {true} columns={columns} dataSource={this.state.data} style={{ height: '540px' }} scroll={{y:490}} pagination={{disabled:true, defaultPageSize:5000}} size="small"/>
           {totalElements}
         </div>
         
