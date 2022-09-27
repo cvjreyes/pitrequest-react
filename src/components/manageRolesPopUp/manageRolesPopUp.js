@@ -3,8 +3,8 @@ import Modal from 'react-awesome-modal';
 import './manageRolesPopUp.css'
 import AlertF from "../../components/alert/alert"
 
-
 export default class ManageRolesPopUp extends Component {
+        
     constructor(props) {
         super(props);
         this.state = {
@@ -244,11 +244,13 @@ export default class ManageRolesPopUp extends Component {
 
         this.setState({selectedRolesRight: selectedRight})
         this.setState({
-            visible : true,
+            visible : true
         });
+
     }
 
     closeModal() {
+
         this.setState({
             visible : false,
             currentRoles: this.props.roles,
@@ -306,35 +308,36 @@ export default class ManageRolesPopUp extends Component {
         }if(this.state.prj){
             roles.push("PRJ")
         }
-        
+                
         this.props.submitRoles(this.props.id, roles)
         this.closeModal()
-
+        
     }
 
     handleChangeUsername(event){
         this.setState({username: event.target.value});
     }
-
+    
     onChange(event){
         this.setState({selected: event.target.value});
     }
-
+    
     render() {
+        
         return (
             <section >
                 <input type="button"  value="ROLES" className="btn"  style={{padding:"2px 5px 2px 5px", marginRight:"5px", marginLeft:"5px", width:"70px", fontSize:"12px", float:"right", backgroundColor:"#17A2B8", color:"white"}} onClick={() => this.openModal()} />
                 <div>
                     <Modal visible={this.state.visible} width="400" height="260" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                    <div
-                        className={`alert alert-success ${this.state.blankFields ? 'alert-shown' : 'alert-hidden'}`}
-                        onTransitionEnd={() => this.setState({blankFields: false})}
-                        >
-                        <AlertF type="warning" text="Username or email missing!" popUp={true}/>
-                      </div>
-                    <div className="popUp__container" >
-                            <center className="title__popUp">Manage roles</center>
-                                
+                        <div
+                            className={`alert alert-success ${this.state.blankFields ? 'alert-shown' : 'alert-hidden'}`}
+                            onTransitionEnd={() => this.setState({blankFields: false})}
+                            >
+                            <AlertF type="warning" text="Role modified!" margin="5px" popUp={true}/>
+                        </div>
+                        
+                        <div className="popUp__container" >
+                            <center className="title__popUp">Manage roles</center>            
                         </div>
                         
                         <div className="checkbox__container_manage">
@@ -344,8 +347,8 @@ export default class ManageRolesPopUp extends Component {
                             <div className="popUp__input__checkbox__group">
                                 {this.state.selectedRolesRight}
                             </div>
-                            
                         </div>
+
                         <div className="popUp__buttons__container__manage" style={{marginTop:"30px"}}>
                             <button class="btn__submit" onClick={() => this.submitRoles()}>Submit</button>
                             <button class="btn__cancel" onClick={() => this.closeModal()}>Cancel</button>

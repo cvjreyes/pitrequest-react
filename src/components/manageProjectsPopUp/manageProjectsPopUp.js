@@ -57,12 +57,13 @@ export default class ManageRolesPopUp extends Component {
                 })
 
             }
+            
         })
     
         this.setState({
             visible : true,
             projectsList: [],
-            projectsID: {}
+            projectsID: {},
         });
     }
 

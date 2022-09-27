@@ -84,7 +84,7 @@
 
 .alert__title{
     float:left;
-    width: 62.62px;
+    width: 100px;
     height: 24.72px;
 
     font-style: normal;
@@ -102,13 +102,12 @@
     width: 300px;
     height: 28.01px;
     margin-top:7px;
-    margin-left:-14px;
+    margin-left:15px;
 
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 14px;
-
 
     color: #FFFFFF;
 
@@ -171,9 +170,19 @@
 .alert-shown {
     opacity: 1;
     transition: all 250ms linear;
-  }
-  
-  .alert-hidden {
+}
+
+.alert-hidden {
     opacity: 0;
     transition: all 250ms linear 2s;
-  }
+}
+
+.alert-shown-user {
+    opacity: 1;
+    transition: all 250ms linear;
+}
+
+.alert-hidden-user {
+    opacity: 0;
+    transition: all 250ms linear 2s;
+}

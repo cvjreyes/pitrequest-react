@@ -308,6 +308,7 @@ const PitRequestView = () => {
         .then(response => response.json())
         .then(async json =>{
             if(json.success){
+                setSuccess(true)
                 await setUpdateData(!updateData)
             }
         })
@@ -330,9 +331,9 @@ const PitRequestView = () => {
         .then(response => response.json())
         .then(json =>{
             if(json.error){
-                
+                setError(true)
             }else{
-
+                setSuccess(true)
             }
         })
 
@@ -381,16 +382,17 @@ const PitRequestView = () => {
             },
             body: JSON.stringify(body)
           }
-       
+          
+          console.log("Success: " + success + " Error: " + error);
           fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/updateProjects/", options)
           .then(response => response.json())
           .then(json =>{
-            if(json.success){
-                setSuccess(true)
-            }else{
-                setError(true)
-            }
-          })
+              if(json.success){
+                  setSuccess(true)
+                }else{
+                    setError(true)
+                }
+            })
           await setUpdateData(!updateData)
 
     }
