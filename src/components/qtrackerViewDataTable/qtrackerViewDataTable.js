@@ -10,6 +10,7 @@ import './qtrackerViewDataTable.css'
 import AttachIcon from "../../assets/images/attach.png"
 import ChangeAdminPopUp from '../changeAdminPopUp/changeAdminPopUp';
 import QtrackerISSpecPopUp from '../qtrackerISSpecPopUp/qtrackerISSpecPopUp';
+import moment from 'moment';
 
 const CryptoJS = require("crypto-js");
     const SecureStorage = require("secure-web-storage");
@@ -229,7 +230,13 @@ class QTrackerViewDataTable extends React.Component{
                   row.observations = json.rows[i].observations
                 }
                 
-                rows.push(row)
+                const today = moment()
+                const createdDate = moment(row.created_at)
+
+                if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                  row.color = "#ppp"  
+                }
+
                 if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                   pendingRows.push(row)
                 }
@@ -359,6 +366,14 @@ class QTrackerViewDataTable extends React.Component{
 
                       row.observations = json.rows[i].observations
                     }
+
+                    const today = moment()
+                    const createdDate = moment(row.created_at)
+
+                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                      row.color = "#ppp"  
+                    }
+                    
                     rows.push(row)
                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                       pendingRows.push(row)
@@ -490,6 +505,14 @@ class QTrackerViewDataTable extends React.Component{
 
                           row.observations = json.rows[i].observations
                         }
+
+                        const today = moment()
+                        const createdDate = moment(row.created_at)
+
+                        if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                          row.color = "#ppp"  
+                        }
+
                         rows.push(row)
                         if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                           pendingRows.push(row)
@@ -621,6 +644,14 @@ class QTrackerViewDataTable extends React.Component{
 
                               row.observations = json.rows[i].observations
                             }
+
+                            const today = moment()
+                            const createdDate = moment(row.created_at)
+    
+                            if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                              row.color = "#ppp"  
+                            }
+
                             rows.push(row)
                             if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                               pendingRows.push(row)
@@ -743,6 +774,14 @@ class QTrackerViewDataTable extends React.Component{
                                   }
                                   row.observations = json.rows[i].observations
                                 }
+
+                                const today = moment()
+                                const createdDate = moment(row.created_at)
+        
+                                if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                  row.color = "#ppp"  
+                                }
+
                                 rows.push(row)
                                 if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                   pendingRows.push(row)
@@ -864,6 +903,14 @@ class QTrackerViewDataTable extends React.Component{
                                       }
                                       row.observations = json.rows[i].observations
                                     }
+
+                                    const today = moment()
+                                    const createdDate = moment(row.created_at)
+            
+                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                      row.color = "#ppp"  
+                                    }
+
                                     rows.push(row)
                                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                       pendingRows.push(row)
@@ -985,6 +1032,14 @@ class QTrackerViewDataTable extends React.Component{
                                       }
                                       row.observations = json.rows[i].observations
                                     }
+
+                                    const today = moment()
+                                    const createdDate = moment(row.created_at)
+            
+                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                      row.color = "#ppp"  
+                                    }
+
                                     rows.push(row)
                                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                       pendingRows.push(row)
@@ -1117,6 +1172,14 @@ class QTrackerViewDataTable extends React.Component{
 
                                         row.observations = json.rows[i].observations
                                       }
+
+                                      const today = moment()
+                                      const createdDate = moment(row.created_at)
+              
+                                      if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                        row.color = "#ppp"  
+                                      }
+
                                       rows.push(row)
                                       if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                         pendingRows.push(row)
@@ -1249,6 +1312,14 @@ class QTrackerViewDataTable extends React.Component{
 
                                           row.observations = json.rows[i].observations
                                         }
+
+                                        const today = moment()
+                                        const createdDate = moment(row.created_at)
+                
+                                        if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                          row.color = "#ppp"  
+                                        }
+
                                         rows.push(row)
                                         if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                           pendingRows.push(row)
@@ -1381,6 +1452,14 @@ class QTrackerViewDataTable extends React.Component{
 
                                             row.observations = json.rows[i].observations
                                           }
+
+                                          const today = moment()
+                                          const createdDate = moment(row.created_at)
+                  
+                                          if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                            row.color = "#ppp"  
+                                          }
+
                                           rows.push(row)
                                           if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                             pendingRows.push(row)
@@ -1513,6 +1592,14 @@ class QTrackerViewDataTable extends React.Component{
 
                                               row.observations = json.rows[i].observations
                                             }
+
+                                            const today = moment()
+                                            const createdDate = moment(row.created_at)
+                    
+                                            if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                              row.color = "#ppp"  
+                                            }
+
                                             rows.push(row)
                                             if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                               pendingRows.push(row)
@@ -1645,6 +1732,14 @@ class QTrackerViewDataTable extends React.Component{
 
                                                   row.observations = json.rows[i].observations
                                                 }
+                                                
+                                                const today = moment()
+                                                const createdDate = moment(row.created_at)
+                        
+                                                if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                                  row.color = "#ppp"  
+                                                }
+
                                                 rows.push(row)
                                                 if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                                   pendingRows.push(row)
@@ -1777,6 +1872,14 @@ class QTrackerViewDataTable extends React.Component{
 
                                                       row.observations = json.rows[i].observations
                                                     }
+
+                                                    const today = moment()
+                                                    const createdDate = moment(row.created_at)
+                            
+                                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                                      row.color = "#ppp"  
+                                                    }
+
                                                     rows.push(row)
                                                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                                       pendingRows.push(row)
@@ -1982,6 +2085,13 @@ class QTrackerViewDataTable extends React.Component{
                   row.observations = json.rows[i].observations
                 }
                 
+                const today = moment()
+                const createdDate = moment(row.created_at)
+
+                if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                  row.color = "#ppp"  
+                }
+
                 rows.push(row)
                 if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                   pendingRows.push(row)
@@ -2112,6 +2222,14 @@ class QTrackerViewDataTable extends React.Component{
 
                       row.observations = json.rows[i].observations
                     }
+
+                    const today = moment()
+                    const createdDate = moment(row.created_at)
+
+                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                      row.color = "#ppp"  
+                    }
+
                     rows.push(row)
                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                       pendingRows.push(row)
@@ -2243,6 +2361,14 @@ class QTrackerViewDataTable extends React.Component{
 
                           row.observations = json.rows[i].observations
                         }
+
+                        const today = moment()
+                        const createdDate = moment(row.created_at)
+
+                        if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                          row.color = "#ppp"  
+                        }
+
                         rows.push(row)
                         if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                           pendingRows.push(row)
@@ -2374,6 +2500,14 @@ class QTrackerViewDataTable extends React.Component{
 
                               row.observations = json.rows[i].observations
                             }
+
+                            const today = moment()
+                            const createdDate = moment(row.created_at)
+    
+                            if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                              row.color = "#ppp"  
+                            }
+
                             rows.push(row)
                             if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                               pendingRows.push(row)
@@ -2496,6 +2630,14 @@ class QTrackerViewDataTable extends React.Component{
                                   }
                                   row.observations = json.rows[i].observations
                                 }
+
+                                const today = moment()
+                                const createdDate = moment(row.created_at)
+        
+                                if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                  row.color = "#ppp"  
+                                }
+
                                 rows.push(row)
                                 if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                   pendingRows.push(row)
@@ -2617,6 +2759,14 @@ class QTrackerViewDataTable extends React.Component{
                                       }
                                       row.observations = json.rows[i].observations
                                     }
+
+                                    const today = moment()
+                                    const createdDate = moment(row.created_at)
+            
+                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                      row.color = "#ppp"  
+                                    }
+
                                     rows.push(row)
                                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                       pendingRows.push(row)
@@ -2738,6 +2888,14 @@ class QTrackerViewDataTable extends React.Component{
                                       }
                                       row.observations = json.rows[i].observations
                                     }
+
+                                    const today = moment()
+                                    const createdDate = moment(row.created_at)
+            
+                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                      row.color = "#ppp"  
+                                    }
+
                                     rows.push(row)
                                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                       pendingRows.push(row)
@@ -2869,6 +3027,14 @@ class QTrackerViewDataTable extends React.Component{
 
                                         row.observations = json.rows[i].observations
                                       }
+
+                                      const today = moment()
+                                      const createdDate = moment(row.created_at)
+              
+                                      if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                        row.color = "#ppp"  
+                                      }
+
                                       rows.push(row)
                                       if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                         pendingRows.push(row)
@@ -3001,6 +3167,14 @@ class QTrackerViewDataTable extends React.Component{
 
                                             row.observations = json.rows[i].observations
                                           }
+
+                                          const today = moment()
+                                          const createdDate = moment(row.created_at)
+                  
+                                          if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                            row.color = "#ppp"  
+                                          }
+
                                           rows.push(row)
                                           if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                             pendingRows.push(row)
@@ -3133,6 +3307,14 @@ class QTrackerViewDataTable extends React.Component{
 
                                               row.observations = json.rows[i].observations
                                             }
+
+                                            const today = moment()
+                                            const createdDate = moment(row.created_at)
+                    
+                                            if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                              row.color = "#ppp"  
+                                            }
+
                                             rows.push(row)
                                             if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                               pendingRows.push(row)
@@ -3265,6 +3447,14 @@ class QTrackerViewDataTable extends React.Component{
 
                                                 row.observations = json.rows[i].observations
                                               }
+
+                                              const today = moment()
+                                              const createdDate = moment(row.created_at)
+                      
+                                              if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                                row.color = "#ppp"  
+                                              }
+
                                               rows.push(row)
                                               if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                                 pendingRows.push(row)
@@ -3397,6 +3587,14 @@ class QTrackerViewDataTable extends React.Component{
 
                                                     row.observations = json.rows[i].observations
                                                   }
+
+                                                  const today = moment()
+                                                  const createdDate = moment(row.created_at)
+                          
+                                                  if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                                    row.color = "#ppp"  
+                                                  }
+
                                                   rows.push(row)
                                                   if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                                     pendingRows.push(row)
@@ -3529,6 +3727,14 @@ class QTrackerViewDataTable extends React.Component{
 
                                                       row.observations = json.rows[i].observations
                                                     }
+
+                                                    const today = moment()
+                                                    const createdDate = moment(row.created_at)
+                            
+                                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                                      row.color = "#ppp"  
+                                                    }
+
                                                     rows.push(row)
                                                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                                       pendingRows.push(row)
