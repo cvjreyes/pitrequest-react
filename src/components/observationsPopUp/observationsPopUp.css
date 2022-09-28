@@ -1,0 +1,41 @@
+.textarea__observations{
+    height: 300px;
+    width: 600px;
+    margin-bottom: 5%;
+    align-items: center;
+    display: block;
+}
+
+.btn__assign__obs{
+    font-size: 18px;
+    align-items: center;
+    color: #FFFFFF;
+    width: 120px;
+    height: 43px;
+    border: 1px solid #338DF1;
+    background: #338DF1;
+    border-radius: 8px;
+    margin-left: 38%;
+}
+
+.selector__container__obs{
+    margin-top: 5%;
+    margin-left: 4%;
+}
+
+.btn__observation__details{
+    padding: 2px 5px 2px 5px; 
+    font-size:16px;
+    border-radius: 5px;
+    border: 0px;
+}
+
+.obs__empty{
+    background-color:#C0C0C0;
+    color:white;
+}
+
+.obs__full{
+    background-color:#78B28A;
+    color:white;
+}

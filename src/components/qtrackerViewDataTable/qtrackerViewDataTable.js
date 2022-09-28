@@ -10,6 +10,7 @@ import './qtrackerViewDataTable.css'
 import AttachIcon from "../../assets/images/attach.png"
 import ChangeAdminPopUp from '../changeAdminPopUp/changeAdminPopUp';
 import QtrackerISSpecPopUp from '../qtrackerISSpecPopUp/qtrackerISSpecPopUp';
+import ObservationsPopUp from '../observationsPopUp/observationsPopUp';
 import moment from 'moment';
 
 const CryptoJS = require("crypto-js");
@@ -57,6 +58,7 @@ class QTrackerViewDataTable extends React.Component{
     filters: [],
     hours: {},
     showAll: this.props.showAll,
+    alertCount: 0
   };
 
   async statusChange(incidence_number, status, project, type){
@@ -104,6 +106,7 @@ class QTrackerViewDataTable extends React.Component{
           var rows = []
           var pendingRows = []
           var row = null
+          let alertCount = 0
           if(json.rows){
             for(let i = 0; i < json.rows.length; i++){
                 if (json.rows[i].description){
@@ -198,8 +201,7 @@ class QTrackerViewDataTable extends React.Component{
                     </select>
                   }
 
-                  row.observations = <input style={{width: "200px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
-
+                  row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                 }else{
                   row["admin"] = json.rows[i].admin
                   if(json.rows[i].priority === 0){
@@ -234,7 +236,10 @@ class QTrackerViewDataTable extends React.Component{
                 const createdDate = moment(row.created_at)
 
                 if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                  row.color = "#ppp"  
+                  row.color = "#ppp" 
+                  if(this.props.currentUser === json.rows[i].email){
+                    alertCount++
+                  }
                 }
 
                 if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
@@ -1915,7 +1920,8 @@ class QTrackerViewDataTable extends React.Component{
                 
                                 pendingRows = pendingRows.sort((a, b) => (a.created_at < b.created_at) ? 1 : -1)
 
-                                this.setState({data : rows, pendingData: pendingRows, displayData: pendingRows});
+                                this.setState({data : rows, pendingData: pendingRows, displayData: pendingRows, alertCount: alertCount});
+                                this.props.alertCount(3)
                                 await this.setState({filters : filterRow})
                                 if(this.props.currentProject !== "All"){
                                   this.filter(1, this.props.currentProject)
@@ -2053,7 +2059,7 @@ class QTrackerViewDataTable extends React.Component{
                     </select>
                   }
 
-                  row.observations = <input style={{width: "200px"}} type="text" defaultValue={json.rows[i].observations} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                  row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} type="NWC" />
 
                 }else{
                   row["admin"] = json.rows[i].admin
@@ -4305,9 +4311,9 @@ class QTrackerViewDataTable extends React.Component{
       <div>
         {this.state.updateData}
         <div className="estimatedDataTable__container" style={{width:"auto"}}>
-        <Table className="customTable" bordered = {true} columns={columns} dataSource={this.state.displayData} style={{ height: '540px' }} scroll={{y:437}} pagination={{disabled:true, defaultPageSize:5000}} size="small"
+        <Table className="customTable" bordered = {true} columns={columns} dataSource={this.state.displayData} style={{ height: '540px' }} scroll={{y:420}} pagination={{disabled:true, defaultPageSize:5000}} size="small"
          rowClassName= {(record) => record.color.replace('#', '')}/>
-          <Table className="filter__table" pagination={{disabled:true}} scroll={{y:437}} showHeader = {false} bordered = {true} columns={columns} dataSource={this.state.filters} size="small"/> 
+          <Table className="filter__table" pagination={{disabled:true}} scroll={{y:427}} showHeader = {false} bordered = {true} columns={columns} dataSource={this.state.filters} size="small"/> 
           {totalElements}
         </div>
         

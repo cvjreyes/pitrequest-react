@@ -112,6 +112,7 @@ const PitRequestView = () => {
     const [projectDropDown, setProjectDropDown] = useState(null)
     const [currentProject, setCurrentProject] = useState("All")
     const [showAll, setShowAll] = useState(false)
+    const [alertCount, setAlertCount] = useState(0)
 
     const [inputsUpdated, setInputsUpdated] = useState(false)
     const [notReadyWarning, setNotReadyWarning] = useState(false)
@@ -211,7 +212,7 @@ const PitRequestView = () => {
     },[updateData])
 
     useEffect(async ()=>{
-        setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll}/>)
+        setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={(count) => setAlertCount(count)} currentUser= {currentUser}/>)
     },[showAll])
 
     useEffect(async () =>{
@@ -223,7 +224,7 @@ const PitRequestView = () => {
                 setAddUserButton(null)
                 setExportReport(<button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button>)
                 setUsersButton(<button className="navBar__button" onClick={()=>setCurrentTab("Users")} style={{width:"100px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Users</p></button>)
-                setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll}/>)
+                setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={(count) => setAlertCount(count)}/>)
                 setExportUsersReport(null)
                 setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("Projects")}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
                 setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
@@ -271,7 +272,7 @@ const PitRequestView = () => {
                 setProjectDropDown(null)
             }
         }else{
-            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll}/>)
+            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={(count) => setAlertCount(count)} currentUser= {currentUser}/>)
             setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
             setSaveBtn(null)
             setAddUserButton(null)
@@ -913,9 +914,28 @@ const PitRequestView = () => {
     }
 
     async function updateObservations(newObservations){
-        let currentObs = observations
-        currentObs.push(newObservations)
-        await setObservations(currentObs)
+          let body = {
+            incidence_number: newObservations[0],
+            observation: newObservations[1],
+          }
+          let options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+          }
+          
+          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateObservations", options)
+          .then(response => response.json())
+          .then(async json => {
+            if(!json.success){
+                setError(true)
+            }else{
+                setSuccess(true)
+                setUpdateData(!updateData)
+            }
+          })
     }
 
     async function updateHours(newhours){
@@ -956,28 +976,6 @@ const PitRequestView = () => {
                 
               })
         }
-
-        for(let i = 0; i < observations.length; i++){
-            let body = {
-                incidence_number: observations[i][0],
-                observation: observations[i][1],
-              }
-              let options = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(body)
-              }
-              
-              await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateObservations", options)
-              .then(response => response.json())
-              .then(async json => {
-                if(!json.success){
-                    err = true
-                }
-              })
-            }
 
         for(let i = 0; i < updatedRows.length; i++){
             let body = {
@@ -1050,7 +1048,7 @@ const PitRequestView = () => {
         setCurrentRole(value)
         await setUpdateData(!updateData)
         if(currentTab === "View"){
-            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} showAll={showAll}/>)
+            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} showAll={showAll} alertCount={(count) => setAlertCount(count)} currentUser= {currentUser} />)
         }
     }
 
@@ -1126,6 +1124,12 @@ const PitRequestView = () => {
                 >
                 <AlertF type="warning" text="Hours missing on completion!" />
             </div>
+            <div
+                className={`alert alert-success ${alertCount > 0 ? 'alert-shown' : 'alert-hidden'}`}
+                onTransitionEnd={() => setAlertCount(0)}
+                >
+                <AlertF type="warning" text={`You have ${alertCount} urgent incidences!`}/>
+            </div>
             <IdleTimer
                 timeout={1000 * 60 * 15}
                 onIdle={handleOnIdle}
@@ -1136,21 +1140,21 @@ const PitRequestView = () => {
             </div>
             
             <div className="isotracker__row">
-                  <div className="isotracker__column">
-                      <img src={PITLogo} alt="PITLogo" className="isoTrackerLogo__image2" style={{height:"110px"}}/>
-                      
-                      <div className="roleSelector__containerF">
-                              <RoleDropDown style={{paddingLeft: "2px"}} onChange={value => changeRole(value)} roles = {roles}/>
-                      </div>
-                      
-                  </div>
-                  <PieChart width={600} height={400}>
-                    <Pie data={counter} dataKey="value" cx="50%" cy="60%"  outerRadius={120} fill="#8884d8" label={renderCustomizedLabel}>
-                    {counter.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index]} />
-                        ))}
-                    </Pie>
-                    <Tooltip/>
+                <div className="isotracker__column">
+                    <img src={PITLogo} alt="PITLogo" className="isoTrackerLogo__image2" style={{height:"110px"}}/>
+                    
+                    <div className="roleSelector__containerF">
+                        <RoleDropDown style={{paddingLeft: "2px"}} onChange={value => changeRole(value)} roles = {roles}/>
+                    </div>
+                    
+                </div>
+                <PieChart width={600} height={400}>
+                <Pie data={counter} dataKey="value" cx="50%" cy="60%"  outerRadius={120} fill="#8884d8" label={renderCustomizedLabel}>
+                {counter.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                    ))}
+                </Pie>
+                <Tooltip/>
                 </PieChart>
             </div>
             <table className="isotracker__table__container">

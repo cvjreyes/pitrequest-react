@@ -84,7 +84,7 @@ export default class ChangeAdminPopUp extends Component {
                 <button value="admin" className="btn"  style={{padding:"2px 5px 2px 5px", fontSize:"16px", backgroundColor:"#78B28A", color:"white"}} onClick={() => this.openModal()}>{this.props.admin}</button>                <div>
                     <Modal visible={this.state.visible} width="650" height="180" effect="fadeInUp" onClickAway={() => this.closeModal()}>
                         <div className="popUp__container" >
-                            <center className="title__popUp">Select a new admin</center>          
+                            <center style={{marginRight:"-250px"}} className="title__popUp">Select a new admin</center>          
                         </div>
                         <div className="selector__container">
                         
