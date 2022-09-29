@@ -11,6 +11,7 @@ import AttachIcon from "../../assets/images/attach.png"
 import ChangeAdminPopUp from '../changeAdminPopUp/changeAdminPopUp';
 import QtrackerISSpecPopUp from '../qtrackerISSpecPopUp/qtrackerISSpecPopUp';
 import ObservationsPopUp from '../observationsPopUp/observationsPopUp';
+import ObservationsViewPopUp from '../observationsViewPopUp/observationsViewPopUp';
 import moment from 'moment';
 
 const CryptoJS = require("crypto-js");
@@ -201,7 +202,16 @@ class QTrackerViewDataTable extends React.Component{
                     </select>
                   }
 
-                  row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                  // console.log(secureStorage.getItem("user") === json.rows[i].email);
+
+                  // console.log("secure: " + secureStorage.getItem("user"));
+                  // console.log("rows: " + json.rows[i].email);
+                  if(secureStorage.getItem("user") === json.rows[i].email){
+                    row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                  } else {
+                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                  }
+
                 }else{
                   row["admin"] = json.rows[i].admin
                   if(json.rows[i].priority === 0){
@@ -229,7 +239,7 @@ class QTrackerViewDataTable extends React.Component{
                     row.color = "#bbb"
                   }
 
-                  row.observations = json.rows[i].observations
+                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                 }
                 
                 const today = moment()
@@ -339,8 +349,13 @@ class QTrackerViewDataTable extends React.Component{
                         <option value="high" selected>High</option>
                         </select>
                       }
-                      row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
-
+                      
+                      if(secureStorage.getItem("user") === json.rows[i].email){
+                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                      } else {
+                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                      }
+    
                     }else{
                       row["admin"] = json.rows[i].admin
 
@@ -369,21 +384,23 @@ class QTrackerViewDataTable extends React.Component{
                         row.color = "#bbb"
                       }
 
-                      row.observations = json.rows[i].observations
+                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                     }
 
                     const today = moment()
                     const createdDate = moment(row.created_at)
 
                     if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                      row.color = "#ppp"  
+                      row.color = "#ppp" 
+                      if(this.props.currentUser === json.rows[i].email){
+                        alertCount++
+                      }
                     }
-                    
-                    rows.push(row)
+    
                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                       pendingRows.push(row)
                     }
-                }
+                    }
               }
                 
                 await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIByProjects/"+secureStorage.getItem("user"), options)
@@ -478,7 +495,12 @@ class QTrackerViewDataTable extends React.Component{
                             <option value="high" selected>High</option>
                             </select>
                           }
-                          row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                          if(secureStorage.getItem("user") === json.rows[i].email){
+                            row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                          } else {
+                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                          }
+
 
                         }else{
                           row["admin"] = json.rows[i].admin
@@ -508,20 +530,23 @@ class QTrackerViewDataTable extends React.Component{
                             row.color = "#bbb"
                           }
 
-                          row.observations = json.rows[i].observations
+                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                         }
 
                         const today = moment()
                         const createdDate = moment(row.created_at)
 
                         if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                          row.color = "#ppp"  
+                          row.color = "#ppp" 
+                          if(this.props.currentUser === json.rows[i].email){
+                            alertCount++
+                          }
                         }
-
-                        rows.push(row)
+        
                         if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                           pendingRows.push(row)
                         }
+        
                     }
                   }
                     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRBByProjects/"+secureStorage.getItem("user"), options)
@@ -617,7 +642,11 @@ class QTrackerViewDataTable extends React.Component{
                                 </select>
                               }
 
-                              row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                              if(secureStorage.getItem("user") === json.rows[i].email){
+                                row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                              } else {
+                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                              }
                             
                             }else{
                               row["admin"] = json.rows[i].admin
@@ -647,17 +676,19 @@ class QTrackerViewDataTable extends React.Component{
                                 row.color = "#bbb"
                               }
 
-                              row.observations = json.rows[i].observations
+                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                             }
 
                             const today = moment()
                             const createdDate = moment(row.created_at)
-    
-                            if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                              row.color = "#ppp"  
-                            }
 
-                            rows.push(row)
+                            if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                              row.color = "#ppp" 
+                              if(this.props.currentUser === json.rows[i].email){
+                                alertCount++
+                              }
+                            }
+            
                             if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                               pendingRows.push(row)
                             }
@@ -748,7 +779,11 @@ class QTrackerViewDataTable extends React.Component{
                                     <option value="high" selected>High</option>
                                     </select>
                                   }
-                                  row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                  if(secureStorage.getItem("user") === json.rows[i].email){
+                                    row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                  } else {
+                                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                  }
 
                                 }else{
                                   row["admin"] = json.rows[i].admin
@@ -777,20 +812,23 @@ class QTrackerViewDataTable extends React.Component{
                                     row.status = "Materials"
                                     row.color = "#bbb"
                                   }
-                                  row.observations = json.rows[i].observations
+                                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                 }
 
                                 const today = moment()
                                 const createdDate = moment(row.created_at)
-        
-                                if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                  row.color = "#ppp"  
-                                }
 
-                                rows.push(row)
+                                if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                  row.color = "#ppp" 
+                                  if(this.props.currentUser === json.rows[i].email){
+                                    alertCount++
+                                  }
+                                }
+                
                                 if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                   pendingRows.push(row)
                                 }
+    
                             }
                           }
                             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getRPByProjects/"+secureStorage.getItem("user"), options)
@@ -877,7 +915,11 @@ class QTrackerViewDataTable extends React.Component{
                                         <option value="high" selected>High</option>
                                         </select>
                                       }
-                                      row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                      if(secureStorage.getItem("user") === json.rows[i].email){
+                                          row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                      } else {
+                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                      }
 
                                     }else{
                                       row["admin"] = json.rows[i].admin
@@ -906,17 +948,19 @@ class QTrackerViewDataTable extends React.Component{
                                           row.status = "Materials"
                                           row.color = "#bbb"
                                       }
-                                      row.observations = json.rows[i].observations
+                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                     }
 
                                     const today = moment()
                                     const createdDate = moment(row.created_at)
-            
-                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                      row.color = "#ppp"  
-                                    }
 
-                                    rows.push(row)
+                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                      row.color = "#ppp" 
+                                      if(this.props.currentUser === json.rows[i].email){
+                                        alertCount++
+                                      }
+                                    }
+                    
                                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                       pendingRows.push(row)
                                     }
@@ -1006,7 +1050,11 @@ class QTrackerViewDataTable extends React.Component{
                                         <option value="high" selected>High</option>
                                         </select>
                                       }
-                                      row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                      if(secureStorage.getItem("user") === json.rows[i].email){
+                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                      } else {
+                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                      }
 
                                     }else{
                                       row["admin"] = json.rows[i].admin
@@ -1035,17 +1083,19 @@ class QTrackerViewDataTable extends React.Component{
                                         row.status = "Materials"
                                         row.color = "#bbb"
                                       }
-                                      row.observations = json.rows[i].observations
+                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                     }
 
                                     const today = moment()
                                     const createdDate = moment(row.created_at)
-            
-                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                      row.color = "#ppp"  
-                                    }
 
-                                    rows.push(row)
+                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                      row.color = "#ppp" 
+                                      if(this.props.currentUser === json.rows[i].email){
+                                        alertCount++
+                                      }
+                                    }
+                    
                                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                       pendingRows.push(row)
                                     }
@@ -1145,7 +1195,11 @@ class QTrackerViewDataTable extends React.Component{
                                           <option value="high" selected>High</option>
                                           </select>
                                         }
-                                        row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                        if(secureStorage.getItem("user") === json.rows[i].email){
+                                          row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                        } else {
+                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                        }
 
                                       }else{
                                         row["admin"] = json.rows[i].admin
@@ -1175,17 +1229,19 @@ class QTrackerViewDataTable extends React.Component{
                                           row.color = "#bbb"
                                         }
 
-                                        row.observations = json.rows[i].observations
+                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                       }
 
                                       const today = moment()
                                       const createdDate = moment(row.created_at)
-              
-                                      if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                        row.color = "#ppp"  
-                                      }
 
-                                      rows.push(row)
+                                      if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                        row.color = "#ppp" 
+                                        if(this.props.currentUser === json.rows[i].email){
+                                          alertCount++
+                                        }
+                                      }
+                      
                                       if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                         pendingRows.push(row)
                                       }
@@ -1285,8 +1341,11 @@ class QTrackerViewDataTable extends React.Component{
                                             <option value="high" selected>High</option>
                                             </select>
                                           }
-                                          row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
-
+                                          if(secureStorage.getItem("user") === json.rows[i].email){
+                                            row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                          } else {
+                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                          }
                                         }else{
                                           row["admin"] = json.rows[i].admin
 
@@ -1315,21 +1374,23 @@ class QTrackerViewDataTable extends React.Component{
                                             row.color = "#bbb"
                                           }
 
-                                          row.observations = json.rows[i].observations
+                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                         }
 
                                         const today = moment()
                                         const createdDate = moment(row.created_at)
-                
-                                        if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                          row.color = "#ppp"  
-                                        }
 
-                                        rows.push(row)
+                                        if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                          row.color = "#ppp" 
+                                          if(this.props.currentUser === json.rows[i].email){
+                                            alertCount++
+                                          }
+                                        }
+                        
                                         if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                           pendingRows.push(row)
                                         }
-                                    }
+                                                }
                                   }
 
                                   /* Modeling */
@@ -1425,7 +1486,11 @@ class QTrackerViewDataTable extends React.Component{
                                               <option value="high" selected>High</option>
                                               </select>
                                             }
-                                            row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                            if(secureStorage.getItem("user") === json.rows[i].email){
+                                              row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                            } else {
+                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                            }
 
                                           }else{
                                             row["admin"] = json.rows[i].admin
@@ -1455,21 +1520,23 @@ class QTrackerViewDataTable extends React.Component{
                                               row.color = "#bbb"
                                             }
 
-                                            row.observations = json.rows[i].observations
+                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                           }
 
                                           const today = moment()
                                           const createdDate = moment(row.created_at)
-                  
-                                          if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                            row.color = "#ppp"  
-                                          }
 
-                                          rows.push(row)
+                                          if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                            row.color = "#ppp" 
+                                            if(this.props.currentUser === json.rows[i].email){
+                                              alertCount++
+                                            }
+                                          }
+                          
                                           if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                             pendingRows.push(row)
                                           }
-                                      }
+                                                    }
                                     }
 
                                     /* Isometric Drawing */
@@ -1565,8 +1632,11 @@ class QTrackerViewDataTable extends React.Component{
                                                 <option value="high" selected>High</option>
                                                 </select>
                                               }
-                                              row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
-
+                                              if(secureStorage.getItem("user") === json.rows[i].email){
+                                                row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                              } else {
+                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                              }
                                             }else{
                                               row["admin"] = json.rows[i].admin
 
@@ -1595,21 +1665,23 @@ class QTrackerViewDataTable extends React.Component{
                                                 row.color = "#bbb"
                                               }
 
-                                              row.observations = json.rows[i].observations
+                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                             }
 
                                             const today = moment()
                                             const createdDate = moment(row.created_at)
-                    
-                                            if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                              row.color = "#ppp"  
-                                            }
 
-                                            rows.push(row)
+                                            if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                              row.color = "#ppp" 
+                                              if(this.props.currentUser === json.rows[i].email){
+                                                alertCount++
+                                              }
+                                            }
+                            
                                             if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                               pendingRows.push(row)
                                             }
-                                        }
+                                                        }
                                       }
 
                                         /* Ortographic Drawing */
@@ -1705,7 +1777,11 @@ class QTrackerViewDataTable extends React.Component{
                                                     <option value="high" selected>High</option>
                                                     </select>
                                                   }
-                                                  row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+                                                  if(secureStorage.getItem("user") === json.rows[i].email){
+                                                    row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                  } else {
+                                                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                  }
 
                                                 }else{
                                                   row["admin"] = json.rows[i].admin
@@ -1735,21 +1811,23 @@ class QTrackerViewDataTable extends React.Component{
                                                     row.color = "#bbb"
                                                   }
 
-                                                  row.observations = json.rows[i].observations
+                                                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                                 }
                                                 
                                                 const today = moment()
                                                 const createdDate = moment(row.created_at)
-                        
-                                                if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                                  row.color = "#ppp"  
-                                                }
 
-                                                rows.push(row)
+                                                if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                                  row.color = "#ppp" 
+                                                  if(this.props.currentUser === json.rows[i].email){
+                                                    alertCount++
+                                                  }
+                                                }
+                                
                                                 if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                                   pendingRows.push(row)
                                                 }
-                                            }
+                                                                }
                                           }
                                           
                                             /* Citrix */
@@ -1845,8 +1923,11 @@ class QTrackerViewDataTable extends React.Component{
                                                         <option value="high" selected>High</option>
                                                         </select>
                                                       }
-                                                      row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
-
+                                                      if(secureStorage.getItem("user") === json.rows[i].email){
+                                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                      } else {
+                                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                      }
                                                     }else{
                                                       row["admin"] = json.rows[i].admin
 
@@ -1875,21 +1956,23 @@ class QTrackerViewDataTable extends React.Component{
                                                         row.color = "#bbb"
                                                       }
 
-                                                      row.observations = json.rows[i].observations
+                                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                                     }
 
                                                     const today = moment()
                                                     const createdDate = moment(row.created_at)
-                            
-                                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                                      row.color = "#ppp"  
-                                                    }
 
-                                                    rows.push(row)
+                                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                                      row.color = "#ppp" 
+                                                      if(this.props.currentUser === json.rows[i].email){
+                                                        alertCount++
+                                                      }
+                                                    }
+                                    
                                                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                                       pendingRows.push(row)
                                                     }
-                                                }
+                                                                        }
                                               }
 
                                               /* */
@@ -1921,7 +2004,8 @@ class QTrackerViewDataTable extends React.Component{
                                 pendingRows = pendingRows.sort((a, b) => (a.created_at < b.created_at) ? 1 : -1)
 
                                 this.setState({data : rows, pendingData: pendingRows, displayData: pendingRows, alertCount: alertCount});
-                                this.props.alertCount(3)
+                                this.props.alertCount(alertCount)
+                                //console.log("COntador " + );
                                 await this.setState({filters : filterRow})
                                 if(this.props.currentProject !== "All"){
                                   this.filter(1, this.props.currentProject)
@@ -1965,6 +2049,7 @@ class QTrackerViewDataTable extends React.Component{
           var rows = []
           var pendingRows = []
           var row = null
+          var alertCount = 0
           if(json.rows){
             for(let i = 0; i < json.rows.length; i++){
                 if (json.rows[i].description){
@@ -2059,7 +2144,11 @@ class QTrackerViewDataTable extends React.Component{
                     </select>
                   }
 
-                  row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} type="NWC" />
+                  if(secureStorage.getItem("user") === json.rows[i].email){
+                    row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                  } else {
+                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                  }
 
                 }else{
                   row["admin"] = json.rows[i].admin
@@ -2088,20 +2177,23 @@ class QTrackerViewDataTable extends React.Component{
                     row.color = "#bbb"
                   }
 
-                  row.observations = json.rows[i].observations
+                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                 }
                 
                 const today = moment()
                 const createdDate = moment(row.created_at)
 
                 if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                  row.color = "#ppp"  
+                  row.color = "#ppp" 
+                  if(this.props.currentUser === json.rows[i].email){
+                    alertCount++
+                  }
                 }
 
-                rows.push(row)
                 if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                   pendingRows.push(row)
                 }
+
             }
           }
             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVNByProjects/"+secureStorage.getItem("user"), options)
@@ -2196,8 +2288,11 @@ class QTrackerViewDataTable extends React.Component{
                         <option value="high" selected>High</option>
                         </select>
                       }
-                      row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
-
+                      if(secureStorage.getItem("user") === json.rows[i].email){
+                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                      } else {
+                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                      }
                     }else{
                       row["admin"] = json.rows[i].admin
 
@@ -2226,20 +2321,23 @@ class QTrackerViewDataTable extends React.Component{
                         row.color = "#bbb"
                       }
 
-                      row.observations = json.rows[i].observations
+                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                     }
 
                     const today = moment()
                     const createdDate = moment(row.created_at)
 
                     if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                      row.color = "#ppp"  
+                      row.color = "#ppp" 
+                      if(this.props.currentUser === json.rows[i].email){
+                        alertCount++
+                      }
                     }
-
-                    rows.push(row)
+    
                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                       pendingRows.push(row)
                     }
+
                 }
               }
                 
@@ -2335,8 +2433,11 @@ class QTrackerViewDataTable extends React.Component{
                             <option value="high" selected>High</option>
                             </select>
                           }
-                          row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
-
+                          if(secureStorage.getItem("user") === json.rows[i].email){
+                            row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                          } else {
+                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                          }
                         }else{
                           row["admin"] = json.rows[i].admin
 
@@ -2365,20 +2466,23 @@ class QTrackerViewDataTable extends React.Component{
                             row.color = "#bbb"
                           }
 
-                          row.observations = json.rows[i].observations
+                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                         }
 
                         const today = moment()
                         const createdDate = moment(row.created_at)
 
                         if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                          row.color = "#ppp"  
+                          row.color = "#ppp" 
+                          if(this.props.currentUser === json.rows[i].email){
+                            alertCount++
+                          }
                         }
-
-                        rows.push(row)
+        
                         if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                           pendingRows.push(row)
                         }
+
                     }
                   }
                     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRBByProjects/"+secureStorage.getItem("user"), options)
@@ -2474,8 +2578,12 @@ class QTrackerViewDataTable extends React.Component{
                                 </select>
                               }
 
-                              row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
-                            
+                              if(secureStorage.getItem("user") === json.rows[i].email){
+                                row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                              } else {
+                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                              }
+
                             }else{
                               row["admin"] = json.rows[i].admin
 
@@ -2504,20 +2612,23 @@ class QTrackerViewDataTable extends React.Component{
                                 row.color = "#bbb"
                               }
 
-                              row.observations = json.rows[i].observations
+                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                             }
 
                             const today = moment()
                             const createdDate = moment(row.created_at)
-    
-                            if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                              row.color = "#ppp"  
-                            }
 
-                            rows.push(row)
+                            if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                              row.color = "#ppp" 
+                              if(this.props.currentUser === json.rows[i].email){
+                                alertCount++
+                              }
+                            }
+            
                             if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                               pendingRows.push(row)
                             }
+
                         }
                       }
                         
@@ -2605,7 +2716,12 @@ class QTrackerViewDataTable extends React.Component{
                                     <option value="high" selected>High</option>
                                     </select>
                                   }
-                                  row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                                  if(secureStorage.getItem("user") === json.rows[i].email){
+                                    row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                  } else {
+                                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                  }
 
                                 }else{
                                   row["admin"] = json.rows[i].admin
@@ -2634,20 +2750,23 @@ class QTrackerViewDataTable extends React.Component{
                                     row.status = "Materials"
                                     row.color = "#bbb"
                                   }
-                                  row.observations = json.rows[i].observations
+                                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                 }
 
                                 const today = moment()
                                 const createdDate = moment(row.created_at)
-        
-                                if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                  row.color = "#ppp"  
-                                }
 
-                                rows.push(row)
+                                if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                  row.color = "#ppp" 
+                                  if(this.props.currentUser === json.rows[i].email){
+                                    alertCount++
+                                  }
+                                }
+                
                                 if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                   pendingRows.push(row)
                                 }
+    
                             }
                           }
                             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getRPByProjects/"+secureStorage.getItem("user"), options)
@@ -2734,7 +2853,12 @@ class QTrackerViewDataTable extends React.Component{
                                         <option value="high" selected>High</option>
                                         </select>
                                       }
-                                      row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                                      if(secureStorage.getItem("user") === json.rows[i].email){
+                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                      } else {
+                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                      }
 
                                     }else{
                                       row["admin"] = json.rows[i].admin
@@ -2763,20 +2887,23 @@ class QTrackerViewDataTable extends React.Component{
                                           row.status = "Materials"
                                           row.color = "#bbb"
                                       }
-                                      row.observations = json.rows[i].observations
+                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                     }
 
                                     const today = moment()
                                     const createdDate = moment(row.created_at)
-            
-                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                      row.color = "#ppp"  
-                                    }
 
-                                    rows.push(row)
+                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                      row.color = "#ppp" 
+                                      if(this.props.currentUser === json.rows[i].email){
+                                        alertCount++
+                                      }
+                                    }
+                    
                                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                       pendingRows.push(row)
                                     }
+        
                                 }
                               }
                               await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getISByProjects/"+secureStorage.getItem("user"), options)
@@ -2863,7 +2990,12 @@ class QTrackerViewDataTable extends React.Component{
                                         <option value="high" selected>High</option>
                                         </select>
                                       }
-                                      row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                                      if(secureStorage.getItem("user") === json.rows[i].email){
+                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                      } else {
+                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                      }
 
                                     }else{
                                       row["admin"] = json.rows[i].admin
@@ -2892,20 +3024,23 @@ class QTrackerViewDataTable extends React.Component{
                                         row.status = "Materials"
                                         row.color = "#bbb"
                                       }
-                                      row.observations = json.rows[i].observations
+                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                     }
 
                                     const today = moment()
                                     const createdDate = moment(row.created_at)
-            
-                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                      row.color = "#ppp"  
-                                    }
 
-                                    rows.push(row)
+                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                      row.color = "#ppp" 
+                                      if(this.props.currentUser === json.rows[i].email){
+                                        alertCount++
+                                      }
+                                    }
+                    
                                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                       pendingRows.push(row)
                                     }
+        
                                 }
                               }
                               
@@ -3001,7 +3136,12 @@ class QTrackerViewDataTable extends React.Component{
                                           <option value="high" selected>High</option>
                                           </select>
                                         }
-                                        row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                                        if(secureStorage.getItem("user") === json.rows[i].email){
+                                          row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                        } else {
+                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                        }
 
                                       }else{
                                         row["admin"] = json.rows[i].admin
@@ -3031,20 +3171,23 @@ class QTrackerViewDataTable extends React.Component{
                                           row.color = "#bbb"
                                         }
 
-                                        row.observations = json.rows[i].observations
+                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                       }
 
                                       const today = moment()
                                       const createdDate = moment(row.created_at)
-              
-                                      if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                        row.color = "#ppp"  
-                                      }
 
-                                      rows.push(row)
+                                      if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                        row.color = "#ppp" 
+                                        if(this.props.currentUser === json.rows[i].email){
+                                          alertCount++
+                                        }
+                                      }
+                      
                                       if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                         pendingRows.push(row)
                                       }
+          
                                   }
                                 }
 
@@ -3141,7 +3284,12 @@ class QTrackerViewDataTable extends React.Component{
                                               <option value="high" selected>High</option>
                                               </select>
                                             }
-                                            row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                                            if(secureStorage.getItem("user") === json.rows[i].email){
+                                              row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                            } else {
+                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                            }
 
                                           }else{
                                             row["admin"] = json.rows[i].admin
@@ -3171,20 +3319,23 @@ class QTrackerViewDataTable extends React.Component{
                                               row.color = "#bbb"
                                             }
 
-                                            row.observations = json.rows[i].observations
+                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                           }
 
                                           const today = moment()
                                           const createdDate = moment(row.created_at)
-                  
-                                          if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                            row.color = "#ppp"  
-                                          }
 
-                                          rows.push(row)
+                                          if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                            row.color = "#ppp" 
+                                            if(this.props.currentUser === json.rows[i].email){
+                                              alertCount++
+                                            }
+                                          }
+                          
                                           if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                             pendingRows.push(row)
                                           }
+              
                                       }
                                     }
 
@@ -3281,7 +3432,12 @@ class QTrackerViewDataTable extends React.Component{
                                                 <option value="high" selected>High</option>
                                                 </select>
                                               }
-                                              row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                                              if(secureStorage.getItem("user") === json.rows[i].email){
+                                                row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                              } else {
+                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                              }
 
                                             }else{
                                               row["admin"] = json.rows[i].admin
@@ -3311,20 +3467,23 @@ class QTrackerViewDataTable extends React.Component{
                                                 row.color = "#bbb"
                                               }
 
-                                              row.observations = json.rows[i].observations
+                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                             }
 
                                             const today = moment()
                                             const createdDate = moment(row.created_at)
-                    
-                                            if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                              row.color = "#ppp"  
-                                            }
 
-                                            rows.push(row)
+                                            if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                              row.color = "#ppp" 
+                                              if(this.props.currentUser === json.rows[i].email){
+                                                alertCount++
+                                              }
+                                            }
+                            
                                             if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                               pendingRows.push(row)
                                             }
+                
                                         }
                                       }
 
@@ -3421,7 +3580,12 @@ class QTrackerViewDataTable extends React.Component{
                                                   <option value="high" selected>High</option>
                                                   </select>
                                                 }
-                                                row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                                                if(secureStorage.getItem("user") === json.rows[i].email){
+                                                  row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                } else {
+                                                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                }
 
                                               }else{
                                                 row["admin"] = json.rows[i].admin
@@ -3451,20 +3615,23 @@ class QTrackerViewDataTable extends React.Component{
                                                   row.color = "#bbb"
                                                 }
 
-                                                row.observations = json.rows[i].observations
+                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                               }
 
                                               const today = moment()
                                               const createdDate = moment(row.created_at)
-                      
-                                              if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                                row.color = "#ppp"  
-                                              }
 
-                                              rows.push(row)
+                                              if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                                row.color = "#ppp" 
+                                                if(this.props.currentUser === json.rows[i].email){
+                                                  alertCount++
+                                                }
+                                              }
+                              
                                               if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                                 pendingRows.push(row)
                                               }
+                  
                                           }
                                         }
 
@@ -3561,7 +3728,12 @@ class QTrackerViewDataTable extends React.Component{
                                                       <option value="high" selected>High</option>
                                                       </select>
                                                     }
-                                                    row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
+
+                                                    if(secureStorage.getItem("user") === json.rows[i].email){
+                                                      row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                    } else {
+                                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                    }
 
                                                   }else{
                                                     row["admin"] = json.rows[i].admin
@@ -3591,20 +3763,23 @@ class QTrackerViewDataTable extends React.Component{
                                                       row.color = "#bbb"
                                                     }
 
-                                                    row.observations = json.rows[i].observations
+                                                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                                   }
 
                                                   const today = moment()
                                                   const createdDate = moment(row.created_at)
-                          
-                                                  if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                                    row.color = "#ppp"  
-                                                  }
 
-                                                  rows.push(row)
+                                                  if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                                    row.color = "#ppp" 
+                                                    if(this.props.currentUser === json.rows[i].email){
+                                                      alertCount++
+                                                    }
+                                                  }
+                                  
                                                   if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                                     pendingRows.push(row)
                                                   }
+                      
                                               }
                                             }
                                             
@@ -3701,8 +3876,13 @@ class QTrackerViewDataTable extends React.Component{
                                                         <option value="high" selected>High</option>
                                                         </select>
                                                       }
-                                                      row.observations = <input type="text" defaultValue={json.rows[i].observations} style={{width: "200px"}} onChange={(event)=>this.updateObservations(json.rows[i].incidence_number, event.target.value)}/>
 
+                                                      if(secureStorage.getItem("user") === json.rows[i].email){
+                                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                      } else {
+                                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                      }
+                                                      
                                                     }else{
                                                       row["admin"] = json.rows[i].admin
 
@@ -3731,20 +3911,23 @@ class QTrackerViewDataTable extends React.Component{
                                                         row.color = "#bbb"
                                                       }
 
-                                                      row.observations = json.rows[i].observations
+                                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                                                     }
 
                                                     const today = moment()
                                                     const createdDate = moment(row.created_at)
-                            
-                                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
-                                                      row.color = "#ppp"  
-                                                    }
 
-                                                    rows.push(row)
+                                                    if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                                      row.color = "#ppp" 
+                                                      if(this.props.currentUser === json.rows[i].email){
+                                                        alertCount++
+                                                      }
+                                                    }
+                                    
                                                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4){
                                                       pendingRows.push(row)
                                                     }
+                        
                                                 }
                                               }
 
@@ -3776,7 +3959,8 @@ class QTrackerViewDataTable extends React.Component{
                                 }             
                                 pendingRows = pendingRows.sort((a, b) => (a.created_at < b.created_at) ? 1 : -1)
 
-                                this.setState({data : rows, pendingData: pendingRows, displayData: []});
+                                this.setState({data : rows, pendingData: pendingRows, displayData: [], alertCount: alertCount});
+                                this.props.alertCount(alertCount)
                                 let auxDisplayData
                                 if(this.props.showAll){
                                   this.setState({displayData: rows})
@@ -4129,7 +4313,8 @@ class QTrackerViewDataTable extends React.Component{
         sorter: {
           compare: (a, b) => { return a.created_at.localeCompare(b.created_at)},
         },
-        
+        width: "120px"
+
       },
       {
         title: <center className="dataTable__header__text">Actions</center>,
@@ -4143,7 +4328,7 @@ class QTrackerViewDataTable extends React.Component{
         dataIndex: 'observations',
         key: 'observations',
         ...this.getColumnSearchProps('observations'),
-        width:"215px"
+        width: "150px"
       },  
       {
         title: <center className="dataTable__header__text">Accepted/Rejected Date</center>,
@@ -4204,6 +4389,7 @@ class QTrackerViewDataTable extends React.Component{
           sorter:{
             compare: (a, b) => a.project.localeCompare(b.project),
           },
+          width: "270px"
         },
         {
           title: <center className="dataTable__header__text">User</center>,
@@ -4233,7 +4419,7 @@ class QTrackerViewDataTable extends React.Component{
           sorter: {
             compare: (a, b) => { return a.created_at.localeCompare(b.created_at)},
           },
-          
+          width: "120px"
         },
         {
           title: <center className="dataTable__header__text">Actions</center>,
@@ -4247,7 +4433,7 @@ class QTrackerViewDataTable extends React.Component{
           dataIndex: 'observations',
           key: 'observations',
           ...this.getColumnSearchProps('observations'),
-          width:"215px"
+          width:"150px"
         },  
         {
           title: <center className="dataTable__header__text">Accepted/Rejected Date</center>,

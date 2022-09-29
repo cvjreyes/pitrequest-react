@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { useState } from 'react';
 import Modal from 'react-awesome-modal';
-import "./observationsPopUp.css"
+import "./observationsViewPopUp.css"
 
 const CryptoJS = require("crypto-js");
     const SecureStorage = require("secure-web-storage");
@@ -29,7 +28,7 @@ const CryptoJS = require("crypto-js");
         }
     });
 
-export default class ObservationsPopUp extends Component {
+export default class ObservationsViewPopUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -57,15 +56,6 @@ export default class ObservationsPopUp extends Component {
         });
     }
 
-    updateObservations(){
-        this.props.updateObservations(this.props.incidence_number, this.state.observations)
-        this.closeModal()
-    }
-
-    handleChange = async(e) =>{
-        await this.setState({observations: e.target.value})
-    }
-
     componentDidMount(){
         if(this.state.observations === null){
             this.setState({obsFull: false })
@@ -88,27 +78,17 @@ export default class ObservationsPopUp extends Component {
 
         return (
             <section>
-                <button value="observations" className={`btn__observation__details ${this.state.obsFull ? 'obs__full' : 'obs__empty'}`} onClick={() => this.openModal()}>Edit</button>                
+                <button value="observations" className={`btn__observation__details ${this.state.obsFull ? 'obs__full' : 'obs__empty'}`} onClick={() => this.openModal()}>View</button>                
                 <div>
-                    <Modal visible={this.state.visible} width="650" height="500" effect="fadeInUp" >
-                        <div style={{marginTop:"2%"}} className="popUp__container" >
-                            <button
-                                type="button"
-                                class="btn-close"
-                                data-mdb-dismiss="modal"
-                                aria-label="Close"
-                                onClick={() => this.closeModal()}
-                                style={{float: "right", marginRight:"-180px"}}
-                                ></button>
-                            <center style={{marginLeft:"180px", float: "left"}} className="title__popUp">Observations</center>          
+                    <Modal visible={this.state.visible} width="650" height="500" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                        <div className="popUp__container" >
+                            <center style={{marginRight:"-250px"}} className="title__popUp">Observations</center>          
                         </div>
-                        <div className="selector__container__obs">
+                        <div className="selector__container__obs__view">
                         
-                            <textarea className='textarea__observations__edit' defaultValue={this.state.observations} onChange={this.handleChange} id="textarea" >
+                            <textarea readOnly className='textarea__observations' defaultValue={this.state.observations} id="textarea" >
 
-                            </textarea>
-                                
-                            <button class="btn__assign__obs" onClick={()=>this.updateObservations()}>Update</button>
+                            </textarea>                                
                         </div>
                     </Modal>
                 </div>

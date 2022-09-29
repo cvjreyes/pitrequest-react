@@ -112,7 +112,10 @@ const PitRequestView = () => {
     const [projectDropDown, setProjectDropDown] = useState(null)
     const [currentProject, setCurrentProject] = useState("All")
     const [showAll, setShowAll] = useState(false)
+
     const [alertCount, setAlertCount] = useState(0)
+    const [displayCount, setDisplayCount] = useState(false)
+    const [alertComponentCount, setAlertComponentCount] = useState(null)
 
     const [inputsUpdated, setInputsUpdated] = useState(false)
     const [notReadyWarning, setNotReadyWarning] = useState(false)
@@ -212,7 +215,7 @@ const PitRequestView = () => {
     },[updateData])
 
     useEffect(async ()=>{
-        setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={(count) => setAlertCount(count)} currentUser= {currentUser}/>)
+        setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={showAlertCount.bind(this)} currentUser= {currentUser}/>)
     },[showAll])
 
     useEffect(async () =>{
@@ -224,7 +227,7 @@ const PitRequestView = () => {
                 setAddUserButton(null)
                 setExportReport(<button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button>)
                 setUsersButton(<button className="navBar__button" onClick={()=>setCurrentTab("Users")} style={{width:"100px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Users</p></button>)
-                setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={(count) => setAlertCount(count)}/>)
+                setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={showAlertCount.bind(this)}/>)
                 setExportUsersReport(null)
                 setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("Projects")}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
                 setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
@@ -272,7 +275,7 @@ const PitRequestView = () => {
                 setProjectDropDown(null)
             }
         }else{
-            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={(count) => setAlertCount(count)} currentUser= {currentUser}/>)
+            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={showAlertCount.bind(this)} currentUser= {currentUser}/>)
             setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
             setSaveBtn(null)
             setAddUserButton(null)
@@ -288,6 +291,27 @@ const PitRequestView = () => {
     function back(){
         history("/"+process.env.REACT_APP_PROJECT+"/pitrequests")
     }
+
+    function showAlertCount(count){
+        setAlertCount(count)
+    }
+
+    useEffect(() => {
+    
+        if(alertCount>=0){
+            console.log("entro");
+            setDisplayCount(true)
+            setAlertComponentCount(<div
+                className={`alert alert-success ${displayCount ? 'alert-shown' : 'alert-hidden'}`}
+                onTransitionEnd={() => setDisplayCount(false)}
+                >
+                <AlertF type="warning" text={`You have ${alertCount} urgent incidences!`}/>
+            </div>)
+            console.log(displayCount);
+        }
+        console.log(displayCount);
+    }, [alertCount])
+    
 
     async function submitRoles(id, roles){
         
@@ -1048,7 +1072,7 @@ const PitRequestView = () => {
         setCurrentRole(value)
         await setUpdateData(!updateData)
         if(currentTab === "View"){
-            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} showAll={showAll} alertCount={(count) => setAlertCount(count)} currentUser= {currentUser} />)
+            setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} showAll={showAll} alertCount={showAlertCount.bind(this)} currentUser= {currentUser} />)
         }
     }
 
@@ -1124,12 +1148,7 @@ const PitRequestView = () => {
                 >
                 <AlertF type="warning" text="Hours missing on completion!" />
             </div>
-            <div
-                className={`alert alert-success ${alertCount > 0 ? 'alert-shown' : 'alert-hidden'}`}
-                onTransitionEnd={() => setAlertCount(0)}
-                >
-                <AlertF type="warning" text={`You have ${alertCount} urgent incidences!`}/>
-            </div>
+            {alertComponentCount}
             <IdleTimer
                 timeout={1000 * 60 * 15}
                 onIdle={handleOnIdle}
