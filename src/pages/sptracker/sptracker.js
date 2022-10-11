@@ -131,7 +131,7 @@ const CSPTracker = () => {
 
     let p1bore, p2bore, p3bore = ""
 
-    if(process.env.REACT_APP_MMDN === "1"){
+    if(process.env.REACT_APP_MMDN === "1"){ //Diametros en funcion de mm o nps
         p1bore = "p1diameter_nps"
         p2bore = "p2diameter_nps"
         p3bore = "p3diameter_nps"
@@ -195,7 +195,7 @@ const CSPTracker = () => {
                 "Content-Type": "application/json"
             },
         }
-
+        //Get de los datos para la grafica de status
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/spStatusData", options)
             .then(response => response.json())
             .then(async json => {
@@ -213,15 +213,16 @@ const CSPTracker = () => {
                 "Content-Type": "application/json"
             },
         }
-
+        //Get de todos los datos del sptracker
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker", options)
             .then(response => response.json())
             .then(async json => {
                 await setEditData(json.rows)
             })
 
-        if(currentTab === "View"){  
-    
+        if(currentTab === "View"){   //Si estamos en la vista normal
+            
+            //Get de los datos para rellenar los dropdowns
             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getListsData", options)
             .then(response => response.json())
             .then(async json => {
@@ -285,8 +286,8 @@ const CSPTracker = () => {
         history("/" + process.env.REACT_APP_PROJECT)
     }
 
-    async function handleToggle(){
-        if(currentTab === "View"){
+    async function handleToggle(){ //Cambio entre vistas
+        if(currentTab === "View"){ //Si estamos en la vista normal pasamos a la vista de edicion
             const body = {
                 user: currentUser,
             }
@@ -309,7 +310,7 @@ const CSPTracker = () => {
                 await setCurrentTab("Edit")
             })
             
-        }else{
+        }else{ //Y al reves
             const body = {
                 user: currentUser,
             }
@@ -332,7 +333,7 @@ const CSPTracker = () => {
         }
     }
 
-    async function handleToggleKP(){
+    async function handleToggleKP(){ //Podemos entrar al keyparams
         if(currentTab === "View"){
             await setCurrentTab("CSP KeyParams")
             
@@ -343,14 +344,14 @@ const CSPTracker = () => {
         }
     }
 
-    async function addRow(){
+    async function addRow(){ //Añade una fila
         let rows = editData
         rows.push({tag:"", quantity: "", description: "", description_plan_code: "", drawing_filename: "", description_iso: "", ident: "", p1diameter_dn: "", p1diameter_nps: "", p2diameter_dn: "", p2diameter_nps: "", p3diameter_dn: "", p3diameter_nps: "", rating: "", spec: "", type: "", end_preparation: "", description_drawing: "", face_to_face: "", bolt_type: "", ready_load: "", ready_e3d: "", comments: "", pid: "", line_id: "", requisition: "", equipnozz: "", utility_station: ""})
         await setEditData(rows)
         await setUpdateData(!updateData)
       }
 
-    async function saveChanges(){
+    async function saveChanges(){ //Guardamos los cambios del like excel
 
         const body = {
             rows: editData,
@@ -363,6 +364,7 @@ const CSPTracker = () => {
             }
         }
 
+        //Get de los tags
         fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/tags", options)
         .then(response => response.json())
         .then(async json =>{
@@ -381,7 +383,7 @@ const CSPTracker = () => {
                 }
             }
             
-            if(!unique){
+            if(!unique){ //Si hay algun tag repetido da error
                 await setNoTagError(true)
             }
             options = {
@@ -391,6 +393,7 @@ const CSPTracker = () => {
                 },
                 body: JSON.stringify(body)
             }
+            //Guardamos los datos
             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitCSP", options)
             .then(response => response.json())
             .then(async json =>{
@@ -400,6 +403,7 @@ const CSPTracker = () => {
                 }
             })
 
+            //Actualizamos las fechas de los elementos actualizados
             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/update_ready_load", options)
             .then(response => response.json())
             .then(async json =>{
@@ -418,7 +422,7 @@ const CSPTracker = () => {
         setUpdateData(!updateData)
     }
 
-    async function downloadReport(){
+    async function downloadReport(){ //Reporte
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/downloadCSP/")
         .then(response => response.json())
         .then(json => {
@@ -454,7 +458,7 @@ const CSPTracker = () => {
 
     let editBtn, addRowBtn, saveBtn, exportBtn, requestBtn, notificationsBtn, designNotificationsBtn, backBtn = null
     let table = <CSPTrackerdDataTable currentRole = {currentRole} updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} uploadDrawingSuccess = {uploadSuccess.bind(this)} updateDrawingSuccess = {updateSuccess.bind(this)} drawingUploadError={drawingUploadError.bind(this)}/>
-    if(currentRole === "Materials"){
+    if(currentRole === "Materials"){ //En funcion de la tab y el rol ponemos unos componentes u otros
         editBtn = <label class="switchBtn" style={{width:"145px"}}>
                     <p className="navBar__button__text" style={{width:"80px", marginTop:"4px"}}>Edit mode</p>
                     <input type="checkbox" id="edit" onClick={()=>handleToggle()}/>
@@ -505,6 +509,7 @@ const CSPTracker = () => {
         
     }else if(currentTab === "Edit"){
         if(!busy){
+            //Like excel de sptracker
             table = <HotTable
             data={editData}
             colHeaders = {["<b>TAG</b>","<b>PROJECT</b>", "<b>SPEC</b>", "<b>P1BORE</b>", "<b>P2BORE</b>", "P3BORE", "<b>RATING</b>", "<b>END PREPARATION</b>", "<b>LINE ID</b>", "<b>P&ID</b>", "<b>TYPE</b>", "<b>DRAWING DESCRIPTION</b>", "<b>QUANTITY</b>", "REQUISITION", "<b>DESCRIPTION</b>", "<b>ISO DESCRIPTION</b>", "<b>IDENT</b>", "FACE TO FACE", "<b>FLG SHORT CODE</b>", "EQUIPMENT + NOZZLE", "UTILITY STATION", "COMMENTS"]}

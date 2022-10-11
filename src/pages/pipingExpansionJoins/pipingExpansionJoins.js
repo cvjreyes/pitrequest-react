@@ -25,7 +25,7 @@ import { PieChart, Pie, Tooltip, Cell } from 'recharts';
 const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#99C6F8', '#FFDBE9', '#FF3358', '#F39F18'];
 
 const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => { //Grafica del quesito
     const radius = innerRadius + (outerRadius - innerRadius) * 1.3;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -169,7 +169,7 @@ const PipingExpansionJoins = () => {
                 "Content-Type": "application/json"
             },
         }
-
+        //Select de las expansion joins por proyecto. Se refresa cada vez que se cambia de proyecto o hay un cambio en las expansion joins
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/expansionJoinsStatusDataByProject/" + currentProject, options)
             .then(response => response.json())
             .then(async json => {
@@ -188,6 +188,7 @@ const PipingExpansionJoins = () => {
             },
         }
 
+        //Cogemos los proyectos en los que esta el usuario
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsByEmail/" + secureStorage.getItem("user"), options)
             .then(response => response.json())
             .then(async json => {
@@ -198,12 +199,14 @@ const PipingExpansionJoins = () => {
                 setProjectFilter(projects)
                 await setCurrentProject(projects[0].id)
                 
+                //Select de las expansion joins
                 await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getExpansionJoinsByProject/" + projects[0].id, options)
                 .then(response => response.json())
                 .then(async json => {
                     await setEditData(json.rows)
                 })
 
+                //Select de los diametros
                 await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getDiameters", options)
                 .then(response => response.json())
                 .then(async json => {
@@ -214,6 +217,7 @@ const PipingExpansionJoins = () => {
                     await setDiametersData(diameters_data)
                 })
 
+                //Select de los bolt types
                 await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/boltTypes", options)
                 .then(response => response.json())
                 .then(async json => {
@@ -224,6 +228,7 @@ const PipingExpansionJoins = () => {
                     await setBoltTypesData(bolt_types_data)
                 })
 
+                //Select de los ratings
                 await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/ratings", options)
                 .then(response => response.json())
                 .then(async json => {
@@ -234,6 +239,7 @@ const PipingExpansionJoins = () => {
                     await setRatingsData(ratings_data)
                 })
 
+                //Select de las endpreparations
                 await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/endPreparations", options)
                 .then(response => response.json())
                 .then(async json => {
@@ -244,6 +250,7 @@ const PipingExpansionJoins = () => {
                     await setEndPreparationData(end_data)
                 })
 
+                //Select de los specs del proyecto
                 await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecsByProject/"+ projects[0].id, options)
                 .then(response => response.json())
                 .then(async json => {
@@ -264,6 +271,7 @@ const PipingExpansionJoins = () => {
             },
         }
 
+        //Select de las expansion joins cuando se actualizan los datos
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getExpansionJoinsByProject/" + currentProject, options)
         .then(response => response.json())
         .then(async json => {
@@ -325,7 +333,7 @@ const PipingExpansionJoins = () => {
     async function handleChange(changes, source){
         if (source !== 'loadData'){
             let data_aux = editData
-            for(let i = 0; i < changes.length; i+=4){       
+            for(let i = 0; i < changes.length; i+=4){ //cada fila del like excel que se edita o se crea se guarda en un array  
                 let row_id = changes[i][0]
                 let row = editData[row_id]
                 let new_data = newData
@@ -356,6 +364,7 @@ const PipingExpansionJoins = () => {
             body: JSON.stringify(body)
         }
 
+        //Post de las filas editadas o nuevas
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitExpansionJoins", options)
         .then(response => response.json())
         .then(async json =>{
@@ -479,15 +488,15 @@ const PipingExpansionJoins = () => {
         exportBtn = <div><button className="action__btn" name="export" value="export" onClick={() => downloadReport()}>Export</button><button className="action__btn" name="export" value="export" onClick={() => downloadReportAll()}>Export holds</button></div>
     }
 
-    if(currentTab === "View"){
+    if(currentTab === "View"){ //Si estamos en la vista normal mostramos la datable
         table = <CSPtrackerExpansionJoinsDataTable currentProject={currentProject} currentRole = {currentRole} updateDataMethod = {updateDataMethod.bind(this)} updateData = {updateData} uploadDrawingSuccess = {uploadSuccess.bind(this)} updateDrawingSuccess = {updateSuccess.bind(this)} drawingUploadError={drawingUploadError.bind(this)}/>
         addRowBtn = null
         saveBtn = null
         
-    }else if(currentTab === "Edit"){
+    }else if(currentTab === "Edit"){ //Si estamos en la de edicion mostramos la de like excel
         let cells = []
         let cols
-        if(currentRole === "Design"){
+        if(currentRole === "Design"){ //Si el rol es diseño deshabilitamos las columnas de materiales
             addRowBtn = <button class="btn btn-sm btn-success" onClick={() => addRow()} style={{fontSize:"18px", width:"35px", height:"35px", borderRadius:"10px", float:"right", marginTop:"15px"}}>+</button>
             cols = [{ data: "tag", type:'text'}, {data: "spec", type:'dropdown', strict:"true", source: specData}, {data: "p1bore", type:'dropdown', strict:"true", source: diametersData}, {data: "p2bore", type:'dropdown', strict:"true", source: diametersData}, {data: "rating", type:"dropdown", strict:true, source: ratingsData}, {data: "end_preparation", type:'dropdown', strict:"true", source: endPreparationData}, {data: "description_iso", type:'text'}, {data: "face_to_face", type:'text'}, {data: "bolt_type",  type:'text', readOnly:true}, {data: "comments",  type:'text'}]
             for(let i = 0; i < editData.length; i++){
@@ -500,7 +509,7 @@ const PipingExpansionJoins = () => {
                     col: 9,
                     className: 'insts__disabled__cell'})
             }
-        }else{
+        }else{ //Y viceversa
             cols = [{ data: "tag", type:'text', readOnly:true}, {data: "spec",  type:'text', readOnly:true}, {data: "p1bore",  type:'text', readOnly:true}, {data: "p2bore", type:'text', readOnly:true}, {data: "rating",  type:'text', readOnly:true}, {data: "end_preparation", type:'text', readOnly:true}, {data: "description_iso", type:'text', readOnly:true}, {data: "face_to_face", type:'text', readOnly:true}, {data: "bolt_type", type:"dropdown", strict: true, source: boltTypesData}, {data: "comments",  type:'text', readOnly:true}]
             for(let i = 0; i < editData.length; i++){
                 cells.push({

@@ -17,18 +17,19 @@ import TabPanel from '@mui/lab/TabPanel';
 import SaveIcon from "../../assets/images/save.svg"
 import SaveIcon2 from "../../assets/images/SaveIcon2.svg"
 
-class OffersTreeGrid extends Component {
+class OffersTreeGrid extends Component { //Arbol de las ofertas
 
   constructor(props) {
     super(props);
 
     this.state = {
+      //Columnas del arbol
       columnDefs: [
         { field: 'offer', rowGroup: true, hide: true, checkboxSelection:  false },
         { field: 'software', checkboxSelection: true, rowGroup: true, hide: true, headerClass: 'header-custom'},
         { field: 'task', checkboxSelection: true, rowGroup: true, hide: true, headerClass: 'header-custom'},
         { field: 'subtask',checkboxSelection: true, hide: true, width:20, headerClass: 'header-custom'},
-        { field: 'hours', headerClass: 'header-custom', aggFunc: values =>{
+        { field: 'hours', headerClass: 'header-custom', aggFunc: values =>{ //El de horas se genera solo a partir de la suma de las horas de las tareas
           let sum = 0
           if(values){
             for(let i = 0; i < values.rowNode.allLeafChildren.length; i++){
@@ -87,6 +88,7 @@ class OffersTreeGrid extends Component {
         },
     }
 
+    //get de todos los softwares
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSoftwares", options)
       .then(response => response.json())
       .then(async json => {
@@ -98,23 +100,23 @@ class OffersTreeGrid extends Component {
         await this.setState({softwares: softwares})
       })
 
+      //Get de las tareas
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getTasks", options)
     .then(response => response.json())
     .then(async json => {
       let tasks = []
       let tasksNames = []
       let subtasks =[]
-      console.log(json)
-      if(json.tasks){
+      if(json.tasks){ //Si hay tareas
         for(let i = 1; i < json.tasks.length; i++){
           let ts = []
           Object.entries(json.tasks[i])
-          .map( ([key, value]) =>  ts.push([key, value]))
+          .map( ([key, value]) =>  ts.push([key, value])) //Por cada tarea cogemos el software al que pertenece
           tasks.push({"Task": ts[0][0], "id": ts[0][1], "Software": json.tasks[i]["software"]})
           if(ts[0][0]){
             tasksNames.push(ts[0][0])
           }
-          for(let j = 1; j < ts.length; j++){
+          for(let j = 1; j < ts.length; j++){ //Por cada tarea cogemos las subtareas que le pertenecen
             if(ts[j][0] != "software"){
               fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSubtaskHours/"+ts[j][1], options)
               .then(response => response.json())
@@ -131,6 +133,7 @@ class OffersTreeGrid extends Component {
       await this.setState({tasks : tasks, subtasks: subtasks, tasksNames: tasksNames});
   })
 
+  //Cogemos todas las ofertas con sus horas de soporte asignadas
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getOffersWithHours", options)
       .then(response => response.json())
       .then(async json => {
@@ -148,6 +151,7 @@ class OffersTreeGrid extends Component {
   }
 
 
+  //Añadir filas a las tablas
   addRowTasks(){
     let rows = this.state.tasks
     rows.push({"Task": "", "id": ""})
@@ -161,7 +165,7 @@ class OffersTreeGrid extends Component {
   }
 
 
-  onGridReady = async(params) => {
+  onGridReady = async(params) => { //Cuando el arbol se acaba de renderizar
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     
@@ -171,12 +175,14 @@ class OffersTreeGrid extends Component {
           "Content-Type": "application/json"
       },
     }
+    //Cogemos los datos de toda las ofertas
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getOffersTreeData", options)
     .then(response => response.json())
     .then(async json => {
         let tree_nodes = []
         let node = {}
         for(let i = 0; i < json.rows.length; i++){
+          //Creamos las filas
             node = {offer: json.rows[i].offer, software: json.rows[i].software, task: json.rows[i].task, subtask: json.rows[i].subtask, hours: json.rows[i].hours}
             if(node){
                 tree_nodes.push(node)
@@ -185,6 +191,7 @@ class OffersTreeGrid extends Component {
         }
         await this.setState({tree_nodes: tree_nodes})
 
+      //Cogemos todas las ofertas con sus tareas y subtareas
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAllOTS", options)
     .then(response => response.json())
     .then(async json => {
@@ -192,10 +199,12 @@ class OffersTreeGrid extends Component {
         const offers = json.offers
         const tasks = json.tasks
 
-        for(let i = 0; i < offers.length; i ++){
+        for(let i = 0; i < offers.length; i ++){ //Por cada oferta
+          //Creamos el nodo de la oferta
           let support_node = {offer: offers[i].name, software: "Support", task: "Estimated", subtask:"Hours", hours: offers[i].sup_estihrs, checked: true}
-          if(tasks){
+          if(tasks){ //Por cada tarea de la oferta
             for(let j = 0; j < tasks.length; j ++){
+              //Creamos el nodo de la tarea
               let node = {offer: offers[i].name, software: tasks[j].software, task: tasks[j].task, subtask:tasks[j].subtask, hours: tasks[j].hours}
               if(this.state.tree_nodes.some(e => e.offer === node.offer && e.task === node.task && e.subtask === node.subtask && e.hours === node.hours)) {
                 node["checked"] = true
@@ -239,7 +248,7 @@ class OffersTreeGrid extends Component {
     return rowNode.data ? rowNode.data.subtask : false;
   }
 
-  async saveChanges(){
+  async saveChanges(){ //Guardamos los cambios del arbol y las tablas
 
     await this.setState({error: false})
 
@@ -247,19 +256,21 @@ class OffersTreeGrid extends Component {
     let removed_nodes = []
     let current_nodes = []
 
-    for(let i = 0; i < this.gridApi.getSelectedNodes().length; i++){
-      current_nodes.push(this.gridApi.getSelectedNodes()[i].data)
+    for(let i = 0; i < this.gridApi.getSelectedNodes().length; i++){ //Por cada nodo seleccionado
+      current_nodes.push(this.gridApi.getSelectedNodes()[i].data) //Guardamos los datos
     }
 
-    for(let i = 0; i < current_nodes.length; i++){
+    for(let i = 0; i < current_nodes.length; i++){ //Por cada nodo
+      //Si el nodo ha cambiado
       if(!this.state.initial_nodes.some(e => e.offer === current_nodes[i].offer && e.task === current_nodes[i].task && e.subtask === current_nodes[i].subtask && e.hours === current_nodes[i].hours)){
-        new_nodes.push(current_nodes[i])
+        new_nodes.push(current_nodes[i]) //Lo guardamos para guardar el cambio
       }
     }
 
-    for(let i = 0; i < this.state.initial_nodes.length; i++){
+    for(let i = 0; i < this.state.initial_nodes.length; i++){ //Por cada nodo de la lista de nodos iniciales
+      //Si ha sido eliminado
       if(!current_nodes.some(e => e.offer === this.state.initial_nodes[i].offer && e.task === this.state.initial_nodes[i].task && e.subtask === this.state.initial_nodes[i].subtask && e.hours === this.state.initial_nodes[i].hours)){
-        removed_nodes.push(this.state.initial_nodes[i])
+        removed_nodes.push(this.state.initial_nodes[i]) //Eliminamo el nodo
       }
     }
 
@@ -276,6 +287,7 @@ class OffersTreeGrid extends Component {
       body: JSON.stringify(body)
     }
 
+    //Guardamos los datos del arbol
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitOffersChanges", options)
       .then(response => response.json())
       .then(async json =>{
@@ -296,7 +308,7 @@ class OffersTreeGrid extends Component {
       },
       body: JSON.stringify(body)
   }
-
+  //Guardamos la susbtaras de la tabla de subtareas
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitSubtasks", options)
       .then(response => response.json())
       .then(async json =>{
@@ -316,6 +328,7 @@ class OffersTreeGrid extends Component {
         body: JSON.stringify(body)
     }
     
+    //Guardamos las tareas del arbol de tareas
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitTasks", options)
     .then(response => response.json())
     .then(async json =>{
@@ -335,7 +348,8 @@ class OffersTreeGrid extends Component {
         },
         body: JSON.stringify(body)
     }
-    if(this.state.offers){
+    if(this.state.offers){ //Si hay ofertas en la tabla de ofertas
+      //Guardamos las ofertas con sus horas
       await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitOffersHours", options)
       .then(response => response.json())
       .then(async json =>{
@@ -353,7 +367,7 @@ class OffersTreeGrid extends Component {
     }
 
     
- 
+    //Volvemos a cargar los datos para actualizar el arbol
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getTasks", options)
     .then(response => response.json())
     .then(async json => {

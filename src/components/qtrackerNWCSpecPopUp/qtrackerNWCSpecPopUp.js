@@ -3,7 +3,7 @@ import Modal from 'react-awesome-modal';
 import './qtrackerNWCSpecPopUp.css'
 import '../qtrackerISSpecPopUp/qtrackerISSpecPopUp.css'
 
-export default class QtrackerNWCSpecPopUp extends Component {
+export default class QtrackerNWCSpecPopUp extends Component { //PopUp de NWC que muestra sus detalles. Funciona igual para todos los tipos
     constructor(props) {
         super(props);
         this.state = {
@@ -14,7 +14,7 @@ export default class QtrackerNWCSpecPopUp extends Component {
         }
     }
 
-    getAttach(fileName){
+    getAttach(fileName){ //Descarga del attach
 
         const options = {
           method: "GET",
@@ -66,10 +66,11 @@ export default class QtrackerNWCSpecPopUp extends Component {
             }
           }
           
+          //Comprobamos si tiene attach
           fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/existsAttach/"+this.props.incidence_number, options)
           .then(response => response.json())
           .then(json =>{
-            if(json.filename){
+            if(json.filename){ //Si tiene attach ponemos el link para descargarlo
                 this.setState({attachComponent:<tr >                   
                 <th >
                     <center className="th__text">ATTACH</center>

@@ -5,7 +5,7 @@ import Highlighter from 'react-highlight-words';
 import { Link } from 'react-router-dom';
 import './requestAccessDataTable.css'
 
-class RequestAccessDataTable extends React.Component{
+class RequestAccessDataTable extends React.Component{ //Tabla de requests de acceso a pit
   state = {
     searchText: '',
     searchedColumn: '',
@@ -23,11 +23,11 @@ class RequestAccessDataTable extends React.Component{
     filters: []
   };
 
-  rejectRequest(id){
+  rejectRequest(id){ //Rechazar una request
     this.props.rejectRequest(id)
   }
   
-  acceptRequest(id){
+  acceptRequest(id){ //Aceptar una request
     this.props.acceptRequest(id)
   }
 
@@ -40,22 +40,24 @@ class RequestAccessDataTable extends React.Component{
 
     }
 
-
+    //Get de las requests de acceso
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAccessRequests/" + this.props.user, options)
         .then(response => response.json())
         .then(async json => {
           let row = []
           let rows = []
-          for(let i = 0; i < json.requests.length; i++){
+          for(let i = 0; i < json.requests.length; i++){ //Por cada request
+            //Creamos la fila
             row = {email: json.requests[i].email, project: json.requests[i].name + " (" +  json.requests[i].code + ")", actions: <div><button className="btn"  style={{padding:"2px 5px 2px 5px", marginRight:"5px", marginLeft:"5px", width:"90px", fontSize:"12px", float:"right", backgroundColor:"#DC143C", color:"white"}} onClick={() => this.rejectRequest(json.requests[i].id)}>REJECT</button><button className="btn"  style={{padding:"2px 5px 2px 5px", marginRight:"5px", marginLeft:"5px", width:"90px", fontSize:"12px", float:"right", backgroundColor:"#78B28A", color:"white"}} onClick={() => this.acceptRequest(json.requests[i].id)}>ACCEPT</button></div>}
            
-            if(json.requests[i].project_name){
+            if(json.requests[i].project_name){ //Si el proyecto al que pide acceso no existe
               row.project = json.requests[i].project_name 
               row.actions = ""
               row.status = "Not in PITRequest"
               row["color"] = "#yyy"
             }
 
+            //Posibles estados
             if(json.requests[i].status === 0){
               row.status = "Pending"
               row["color"] = "#fff"

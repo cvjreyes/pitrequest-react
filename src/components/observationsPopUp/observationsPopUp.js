@@ -29,7 +29,7 @@ const CryptoJS = require("crypto-js");
         }
     });
 
-export default class ObservationsPopUp extends Component {
+export default class ObservationsPopUp extends Component { //PopUp que muestra las observaciones de una incidencia y permite cambiarlas
     constructor(props) {
         super(props);
         this.state = {

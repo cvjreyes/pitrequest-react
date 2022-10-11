@@ -3,7 +3,7 @@ import Modal from 'react-awesome-modal';
 import AlertF from "../alert/alert"
 import "./requestAccessPopUp.css"
 
-export default class RequestAccessPopUp extends Component {
+export default class RequestAccessPopUp extends Component { //PopUP para pedir acceso a pit
     constructor(props) {
         super(props);
         this.state = {
@@ -50,6 +50,7 @@ export default class RequestAccessPopUp extends Component {
           }
         }
   
+        //Get de los proyectos
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjects/", options)
           .then(response => response.json())
           .then(async json => {
@@ -61,7 +62,7 @@ export default class RequestAccessPopUp extends Component {
           })
       }
 
-    submitRequest(){
+    submitRequest(){ //Submit de la peticion
         const email = this.state.email + this.state.selected
         if(this.state.email === "" || this.state.email === null || (document.getElementById("projectSelect").value === "Select..." && this.state.otherproject === "")){
             this.setState({

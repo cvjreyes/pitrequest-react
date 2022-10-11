@@ -31,7 +31,7 @@ const CryptoJS = require("crypto-js");
         }
     });
 
-class CSPTrackerdRequestsDataTable extends React.Component{
+class CSPTrackerdRequestsDataTable extends React.Component{ //Tabla de requests de sp
   state = {
     searchText: '',
     searchedColumn: '',
@@ -45,7 +45,7 @@ class CSPTrackerdRequestsDataTable extends React.Component{
     steps: []
   };
 
-  async markAsRead(id){
+  async markAsRead(id){ //Marcar una request como leida
     const body = {
       id: id,
       user: secureStorage.getItem("user")
@@ -65,7 +65,7 @@ class CSPTrackerdRequestsDataTable extends React.Component{
 
   }
 
-  async markAsUnread(id){
+  async markAsUnread(id){ //Marcar como no leida
     const body = {
       id: id,
       user: secureStorage.getItem("user")
@@ -84,7 +84,7 @@ class CSPTrackerdRequestsDataTable extends React.Component{
     })
   }
 
-  async accept(id){
+  async accept(id){ //Aceptar una request (cuando se acepta la request se crea el sp correspondiente)
     const body = {
       id: id,
       email: secureStorage.getItem("user")
@@ -103,7 +103,7 @@ class CSPTrackerdRequestsDataTable extends React.Component{
     })
   }
 
-  async reject(id){
+  async reject(id){ //Rechazar una request
     const body = {
       id: id,
       email: secureStorage.getItem("user")
@@ -122,7 +122,7 @@ class CSPTrackerdRequestsDataTable extends React.Component{
     })
   }
 
-  async deleteNotification(id){
+  async deleteNotification(id){ //Eliminar la request para que no salga en la bandeja
     const body = {
       id: id,
       user: secureStorage.getItem("user")
@@ -150,35 +150,36 @@ class CSPTrackerdRequestsDataTable extends React.Component{
         },
     }
 
-
+    //Get de las requests de sptracker
     fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptrackerRequests/"+ secureStorage.getItem("user"), options)
             .then(response => response.json())
             .then(async json => {
                 var rows = []
                 var row = null
-                for(let i = 0; i < json.rows.length; i++){
+                for(let i = 0; i < json.rows.length; i++){//Por cada request
+                  //Cremos la fila
                     row = {key:i, tag: json.rows[i].tag, pid: json.rows[i].pid, sptag: json.rows[i].sptag, project: json.rows[i].name}
-                    if(json.rows[i].read === 0){
+                    if(json.rows[i].read === 0){ //Dependiendo del estado ponemos unos botones o otros
                       row.actions = <div className="request__buttons__container">
                           <button className="read__button btn-info" onClick={()=>this.markAsRead(json.rows[i].id)}>Mark as read</button>
                           <button className="accept__button btn-success" onClick={()=>this.accept(json.rows[i].id)}>Accept</button>
                           <button className="reject__button btn-danger" onClick={()=>this.reject(json.rows[i].id)}>Reject</button>
                       </div>
                       row["color"] = "#ddd"
-                  }else if(json.rows[i].read === 1){
+                  }else if(json.rows[i].read === 1){ //Si esta leida
                       row.actions = <div className="request__buttons__container">
                         <button className="unread__button btn-info" onClick={()=>this.markAsUnread(json.rows[i].id)}>Mark as unread</button>
                           <button className="accept__button btn-success" onClick={()=>this.accept(json.rows[i].id)}>Accept</button>
                           <button className="reject__button btn-danger" onClick={()=>this.reject(json.rows[i].id)}>Reject</button>
                       </div>
                       row["color"] = "#www"
-                  }else if(json.rows[i].read === 2){
+                  }else if(json.rows[i].read === 2){ //Si esta aceptada
                     row.actions = <div className="request__buttons__container">
                         <button className="accept__button btn-success" disabled style={{opacity: "0.6"}}  onClick={()=>this.accept(json.rows[i].id)}>Accepted</button>
                         <button className="delete__button" onClick={()=>this.deleteNotification(json.rows[i].id)}>&nbsp;<img src={Trash} alt="trash" className="trash__icon" style={{marginRight:"0px"}}></img></button>                 
                     </div>
                     row["color"] = "#www"
-                  }else if(json.rows[i].read === 3){
+                  }else if(json.rows[i].read === 3){ //Si esta rechazada
                     row.actions = <div className="request__buttons__container">
                         <button className="reject__button btn-danger" disabled style={{opacity: "0.6"}}  onClick={()=>this.accept(json.rows[i].id)}>Rejected</button>
                         <button className="delete__button" onClick={()=>this.deleteNotification(json.rows[i].id)}>&nbsp;<img src={Trash} alt="trash" className="trash__icon" style={{marginRight:"0px"}}></img></button>                 

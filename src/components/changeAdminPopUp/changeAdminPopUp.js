@@ -50,6 +50,7 @@ export default class ChangeAdminPopUp extends Component {
         await this.setState({
             admins: []
         })
+        //Cogemos todos los admins para poder selccionar a quien le asignamos la incidencia
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAdmins", options)
         .then(response => response.json())
         .then(async json => {
@@ -68,7 +69,7 @@ export default class ChangeAdminPopUp extends Component {
         });
     }
 
-    changeAdmin(){
+    changeAdmin(){ //Cambio de admin
         this.props.changeAdmin(this.state.currentAdmin, this.props.incidence_number, this.props.type)
         this.closeModal()
     }

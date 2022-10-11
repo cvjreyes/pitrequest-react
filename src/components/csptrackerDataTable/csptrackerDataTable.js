@@ -6,7 +6,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import UploadDrawingPopUp from '../uploadDrawingPopUp/uploadDrawingPopUp';
 import UpdateDrawingPopUp from '../updateDrawingPopUp/updateDrawingPopUp';
 
-class CSPTrackerdDataTable extends React.Component{
+class CSPTrackerdDataTable extends React.Component{ //Tabla principal de sptracker
   state = {
     searchText: '',
     searchedColumn: '',
@@ -23,7 +23,7 @@ class CSPTrackerdDataTable extends React.Component{
     filters: []
   };
 
-  async readyE3D(tag){
+  async readyE3D(tag){ //Poner un especial como ready en e3d
     const body = {
       tag: tag
     }
@@ -36,7 +36,7 @@ class CSPTrackerdDataTable extends React.Component{
       body: JSON.stringify(body)
   }
 
-
+  //Post del ready
   fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/readye3d", options)
       .then(response => response.json())
       .then(
@@ -44,7 +44,7 @@ class CSPTrackerdDataTable extends React.Component{
       )
   }
 
-  async cancelReadyE3D(tag){
+  async cancelReadyE3D(tag){ //Cancelar el ready de un especial
     const body = {
       tag: tag
     }
@@ -65,7 +65,7 @@ class CSPTrackerdDataTable extends React.Component{
         )
   }
 
-  async deleteSP(tag){
+  async deleteSP(tag){ //Marcar un especial como eliminado
     const body = {
       tag: tag
     }
@@ -85,7 +85,7 @@ class CSPTrackerdDataTable extends React.Component{
       )
   }
   
-  async excludeSP(tag){
+  async excludeSP(tag){ //Excluir un especial del e3d
     const body = {
       tag: tag
     }
@@ -121,13 +121,14 @@ class CSPTrackerdDataTable extends React.Component{
     this.props.drawingUploadError()
   }
 
-  async getDrawing(fileName){
+  async getDrawing(fileName){ //Descargar el drawing de un especial
     const options = {
       method: "GET",
       headers: {
           "Content-Type": "application/pdf"
       }
     }
+    //Get del drawing
     fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getDrawing/"+fileName, options)
     .then(res => res.blob())
     .then(response => {
@@ -173,16 +174,18 @@ class CSPTrackerdDataTable extends React.Component{
         },
     }
 
-
+    //Get de todos los datos del sptracker
     fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker", options)
         .then(response => response.json())
         .then(async json => {
           var rows = []
           var row = null
-          if(process.env.REACT_APP_MMDN === "1"){
-            for(let i = 0; i < json.rows.length; i++){
+          if(process.env.REACT_APP_MMDN === "1"){ //Si el proyecto esta en milimetros
+            for(let i = 0; i < json.rows.length; i++){//Por cada especial
+              //Creamos la fila
               row = {key:i, tag: json.rows[i].tag, quantity: json.rows[i].quantity, type: json.rows[i].type, description: json.rows[i].description, description_plane: json.rows[i].description_plan_code, description_iso: json.rows[i].description_iso, ident: json.rows[i].ident, p1bore: json.rows[i].p1diameter_nps, p2bore: json.rows[i].p2diameter_nps, p3bore: json.rows[i].p3diameter_nps, rating: json.rows[i].rating, end_preparation: json.rows[i].end_preparation, spec: json.rows[i].spec, descrition_plane: json.rows[i].description_drawing, face_to_face: json.rows[i].face_to_face, bolts_type: json.rows[i].bolt_type, ready_load: json.rows[i].ready_load, ready_e3d: json.rows[i].ready_e3d, comments: json.rows[i].comments, pid: json.rows[i].pid, line_id: json.rows[i].line_id, requisition: json.rows[i].requisition, equipnozz: json.rows[i].equipnozz, utility_station: json.rows[i].utility_station, request_date: json.rows[i].request_date.toString().substring(0,10) + " "+ json.rows[i].request_date.toString().substring(11,19), project: json.rows[i].project}
 
+              //Formatemos las fechas
               if(json.rows[i].ready_load_date){
                 row.ready_load_date = json.rows[i].ready_load_date.toString().substring(0,10) + " "+ json.rows[i].ready_load_date.toString().substring(11,19)
               }else{
@@ -195,6 +198,7 @@ class CSPTrackerdDataTable extends React.Component{
                 row.ready_e3d_date = ""
               }
 
+              //Si tiene drawing o no damos la opcion de añadir uno o actualizarlo
               if(json.rows[i].drawing_filename !== null && json.rows[i].drawing_filename !== "" && row.description_plane !== null && row.description_plane !== ""){
                 if(this.props.currentRole === "Materials"){
                   row.drawing = <div className="drawing__column"><a onClick={() => this.getDrawing(json.rows[i].drawing_filename)}>{json.rows[i].drawing_filename + " R" + json.rows[i].revision}</a><UpdateDrawingPopUp description_plan_code={row.description_plane} updateDrawingSuccess={this.updateDrawingSuccess.bind(this)} drawingUploadError={this.drawingUploadError.bind(this)}/></div>
@@ -210,7 +214,7 @@ class CSPTrackerdDataTable extends React.Component{
               }else{
                 row.drawing = null
               }
-              
+              //Mostramos el estado correspondiente
               if(json.rows[i].updated === 2){
                 row.ready_load = "DELETED"
                 row.ready_e3d = "DELETED"
@@ -220,11 +224,11 @@ class CSPTrackerdDataTable extends React.Component{
                 row.ready_e3d = "EXCLUDED"
                 row.color = "#lll"
               }else{
-
+                
                 if(row.ready_load === 1 && json.rows[i].drawing_filename !== null && json.rows[i].updated === 1 && json.rows[i].ready_e3d === 0){
                   row.ready_load = "UPDATED"
                   row.color = "#yyy"
-                    if(this.props.currentRole === "3D Admin"){
+                    if(this.props.currentRole === "3D Admin"){ //Si es 3dAdmin ponemos el boton de poner en ready
                       row.ready_e3d = <button class="ready__btn btn-sm btn-success" onClick={() => this.readyE3D(json.rows[i].tag)}>READY</button>
                     }else{
                       row.ready_e3d = "NOT READY"
@@ -234,7 +238,7 @@ class CSPTrackerdDataTable extends React.Component{
                   if(row.ready_e3d === 1){
                     if(json.rows[i].updated === 0){
                       row.color = "#ggg"
-                      if(this.props.currentRole === "3D Admin"){
+                      if(this.props.currentRole === "3D Admin"){ //Si es 3dAdmin ponemos el boton de cancelar el ready o poner el sp como deleted
                         row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].tag)}>CANCEL</button>
                       }else{
                         row.ready_e3d = "READY"
@@ -242,7 +246,7 @@ class CSPTrackerdDataTable extends React.Component{
                       }
                     }else{
                       row.color = "#bbb"
-                      if(this.props.currentRole === "3D Admin"){
+                      if(this.props.currentRole === "3D Admin"){ //Si es 3dAdmin ponemos el boton de cancelar el ready o poner el sp como deleted 
                         row.ready_e3d = <button class="csp__cancel__btn btn-sm btn-danger" onClick={() => this.cancelReadyE3D(json.rows[i].tag)}>CANCEL</button>
                       }else{
                         row.ready_e3d = "READY"
@@ -293,7 +297,7 @@ class CSPTrackerdDataTable extends React.Component{
 
               rows.push(row)
             }
-          }else{
+          }else{ //Lo mismo pero para pulgadas
             for(let i = 0; i < json.rows.length; i++){
               row = {key:i, tag: json.rows[i].tag, quantity: json.rows[i].quantity, type: json.rows[i].type, description: json.rows[i].description, description_plane: json.rows[i].description_plan_code, description_iso: json.rows[i].description_iso, ident: json.rows[i].ident, p1bore: json.rows[i].p1diameter_dn, p2bore: json.rows[i].p2diameter_dn, p3bore: json.rows[i].p3diameter_dn, rating: json.rows[i].rating, end_preparation: json.rows[i].end_preparation, spec: json.rows[i].spec, descrition_plane: json.rows[i].description_drawing, face_to_face: json.rows[i].face_to_face, bolts_type: json.rows[i].bolt_type, ready_load: json.rows[i].ready_load, ready_e3d: json.rows[i].ready_e3d, comments: json.rows[i].comments, pid: json.rows[i].pid, line_id: json.rows[i].line_id, requisition: json.rows[i].requisition, equipnozz: json.rows[i].equipnozz, utility_station: json.rows[i].utility_station, request_date: json.rows[i].request_date.toString().substring(0,10) + " "+ json.rows[i].request_date.toString().substring(11,19), project: json.rows[i].project}
 

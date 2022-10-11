@@ -16,7 +16,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import SaveIcon2 from "../../assets/images/SaveIcon2.svg"
 import FolderIcon2 from "../../assets/images/FolderIcon2.svg"
 
-class ProjectsTreeGrid extends Component{
+class ProjectsTreeGrid extends Component{ //arbol de los proyectos. Funciona igual que el de las ofertas
 
   constructor(props) {
     super(props);

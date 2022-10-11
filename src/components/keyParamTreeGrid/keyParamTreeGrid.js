@@ -15,7 +15,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import SaveIcon2 from "../../assets/images/SaveIcon2.svg"
 import FolderIcon2 from "../../assets/images/FolderIcon2.svg"
 
-class KeyParamTreeGrid extends Component{
+class KeyParamTreeGrid extends Component{ //Tablas de edicion de los keyparams que se usan para sptracker, psvs, etc
 
   constructor(props) {
     super(props);
@@ -47,6 +47,7 @@ class KeyParamTreeGrid extends Component{
         },
     }
 
+    //Get de todos los proyectos
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAllProjects", options)
     .then(response => response.json())
     .then(json => {
@@ -58,6 +59,7 @@ class KeyParamTreeGrid extends Component{
 
     }) 
 
+    //Get de los specs
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/specs", options)
       .then(response => response.json())
       .then(async json => {
@@ -70,6 +72,7 @@ class KeyParamTreeGrid extends Component{
           await this.setState({specs: spec_data, specs_list: specs_list})
       })
 
+    //Get de los specs por proyecto
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getSpecsByAllProjects", options)
     .then(response => response.json())
     .then(async json => {
@@ -80,6 +83,7 @@ class KeyParamTreeGrid extends Component{
         await this.setState({specs_projects: spec_data})
     })
 
+    //Get de los tipos de instrumentos
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getInstTypes", options)
     .then(response => response.json())
     .then(async json => {
@@ -90,6 +94,7 @@ class KeyParamTreeGrid extends Component{
         await this.setState({instrument_types: types_data})
     })
 
+    //Get de los pcons
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getPComs", options)
     .then(response => response.json())
     .then(async json => {
@@ -100,6 +105,7 @@ class KeyParamTreeGrid extends Component{
         await this.setState({pcons: pcons_data})
     })
 
+    //Get de los boltTypes
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/boltTypes", options)
       .then(response => response.json())
       .then(async json => {
@@ -110,6 +116,7 @@ class KeyParamTreeGrid extends Component{
           await this.setState({bolt_types: bolt_types_data})
         })
 
+    //Get ratings
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/ratings", options)
       .then(response => response.json())
       .then(json => {
@@ -121,6 +128,7 @@ class KeyParamTreeGrid extends Component{
   
       }) 
 
+    //Get de los end preparations
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/endPreparations", options)
     .then(response => response.json())
     .then(json => {
@@ -133,6 +141,7 @@ class KeyParamTreeGrid extends Component{
 
     })
 
+    //Get de los pids
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/csptracker/pids", options)
       .then(response => response.json())
       .then(async json => {
@@ -251,6 +260,7 @@ class KeyParamTreeGrid extends Component{
     }
   }
 
+  //Metodos para añadir filas en las tablas
 
   addRowSpecs(){
     let rows = this.state.specs
@@ -301,7 +311,7 @@ class KeyParamTreeGrid extends Component{
   }
 
   
-  async saveChanges(){
+  async saveChanges(){ //Guardar cambios hechos sobre todas las tablas
 
     let error = false
 

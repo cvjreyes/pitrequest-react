@@ -38,7 +38,7 @@ const CryptoJS = require("crypto-js");
         }
     });
 
-class ProjectsViewDataTable extends React.Component{
+class ProjectsViewDataTable extends React.Component{ //Tabla de tareas de los proyectos. Funciona igual que la de incidencias
   state = {
     searchText: '',
     searchedColumn: '',

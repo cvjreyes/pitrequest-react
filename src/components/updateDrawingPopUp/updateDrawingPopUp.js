@@ -28,7 +28,7 @@ const CryptoJS = require("crypto-js");
         }
     });
 
-export default class UpdateDrawingPopUp extends Component {
+export default class UpdateDrawingPopUp extends Component { //PopUp para subir un drawing
     constructor(props) {
         super(props);
         this.state = {
@@ -75,7 +75,7 @@ export default class UpdateDrawingPopUp extends Component {
             email: secureStorage.getItem("user")
         }
 
-
+        //Guardamos la info del drawing en la bd
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/updateDrawingDB", {
             method: 'POST',
             headers: {
@@ -86,6 +86,7 @@ export default class UpdateDrawingPopUp extends Component {
             .then(response => response.json())
             .then(async json =>{
                 if(json.success){
+                    //Subimos el drawing al storage
                     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/updateDrawing", {
                         method: 'POST',
                         body: file,

@@ -30,7 +30,7 @@ const CryptoJS = require("crypto-js");
         }
     });
 
-class ProjectsHoursDataTable extends React.Component{
+class ProjectsHoursDataTable extends React.Component{ //Tabla de las horas de los proyectos
   state = {
     searchText: '',
     searchedColumn: '',
@@ -49,6 +49,7 @@ class ProjectsHoursDataTable extends React.Component{
         },
   
     }
+    //Get de los proyectos y las horas
     await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsTotalHours", options)
     .then(response => response.json())
     .then(async json => {

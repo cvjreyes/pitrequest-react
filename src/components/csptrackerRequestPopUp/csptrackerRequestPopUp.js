@@ -30,7 +30,7 @@ const CryptoJS = require("crypto-js");
         }
     });
 
-export default class CSPTrackerRequestPopUp extends Component {
+export default class CSPTrackerRequestPopUp extends Component { //Un diseñador puede pedir una pieza especial
     constructor(props) {
         super(props);
         this.state = {
@@ -53,7 +53,7 @@ export default class CSPTrackerRequestPopUp extends Component {
                 "Content-Type": "application/json"
             },
         }
-
+        //Cogemos los proyectos que tiene el usuario
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsByEmail/" + secureStorage.getItem("user"), options)
         .then(response => response.json())
         .then(async json => {
@@ -95,7 +95,7 @@ export default class CSPTrackerRequestPopUp extends Component {
         this.refs.projects.value = null;
     }
 
-    async getPids(project){
+    async getPids(project){ //Cogemos los PIDS del proyecto sobre los que el usuario puede pedir la sp
         const options = {
             method: "GET",
             headers: {
@@ -118,7 +118,7 @@ export default class CSPTrackerRequestPopUp extends Component {
     }
 
     async request(){
-        
+        //Si llenamos todos los campos
         if(this.state.tag && this.state.pid && this.state.sptag && this.state.pidsArray.indexOf(this.state.pid) > -1 && this.state.projectsArray.indexOf(this.state.project) > -1){
             const body ={
                 tag : this.state.tag,
@@ -134,6 +134,7 @@ export default class CSPTrackerRequestPopUp extends Component {
                 },
                 body: JSON.stringify(body)
             }
+            //POst de la request
               await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/requestSP", options)
                   .then(response => response.json())
                   .then(json => {

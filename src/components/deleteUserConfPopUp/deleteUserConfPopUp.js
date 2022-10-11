@@ -3,7 +3,7 @@ import Modal from 'react-awesome-modal';
 import './deleteUserConfPopUp.css'
 
 
-export default class DeleteUserConfPopUp extends Component {
+export default class DeleteUserConfPopUp extends Component { //Pop up para eliminar un user
     constructor(props) {
         super(props);
         this.state = {

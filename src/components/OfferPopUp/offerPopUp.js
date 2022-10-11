@@ -111,7 +111,7 @@ const CryptoJS = require("crypto-js");
         labelText: PropTypes.string.isRequired,
       };
 
-export default class OfferPopUp extends Component {
+export default class OfferPopUp extends Component { //PopUp para crear una oferta
     constructor(props) {
         super(props);
         this.state = {
@@ -140,14 +140,14 @@ export default class OfferPopUp extends Component {
         }
       }
 
-
+      //Get de las tareas para rellenar el arbol de tareas
       await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getTasksPopUp", options)
         .then(response => response.json())
         .then(async json => {
           let softwares = json.softwares
           let c = 1
           let nodes = []
-          Object.entries(softwares).map(async function([key, tasks]){ 
+          Object.entries(softwares).map(async function([key, tasks]){  //Por cada software recogemos todas sus tareas
             let software = {
               value: c,
               label: <span style={{fontSize:"22px"}}>{key}</span>
@@ -159,7 +159,7 @@ export default class OfferPopUp extends Component {
             let init = 0
             for(let i = 0; i < tasks.length; i+=2){
               
-              Object.entries(tasks[i]).map( function([key, value]){
+              Object.entries(tasks[i]).map( function([key, value]){ //Por cada tarea recogemos todas sus subtareas
                   if(current_tasks.indexOf(key) < 0){
                     if(init > 0){
                       task["children"] = subtasks
@@ -220,8 +220,8 @@ export default class OfferPopUp extends Component {
     }
 
 
-    async createOffer(){
-      if(this.state.name && this.state.code){
+    async createOffer(){ //Submit de la oferta
+      if(this.state.name && this.state.code){ //Si no hemos rellenado los campos obligatorios damos un warning
 
         let body ={
             name : this.state.name,
@@ -236,6 +236,7 @@ export default class OfferPopUp extends Component {
             },
             body: JSON.stringify(body)
         }
+        //Creamos la oferta
           await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/createOffer", options)
               .then(response => response.json())
               .then(async json => {                 
@@ -249,8 +250,8 @@ export default class OfferPopUp extends Component {
     }    
 
     render() {       
-        let tasks_tree = <p className='priority__label' style={{marginLeft:"6px"}}>No tasks available</p>
-        if(this.state.tasks_menu.length > 0){
+        let tasks_tree = <p className='priority__label' style={{marginLeft:"6px"}}>No tasks available</p> //Si no hay tareas
+        if(this.state.tasks_menu.length > 0){ //Si hay tareas las muestra en forma de arbol
           tasks_tree = <CheckboxTree
                             nodes={this.state.tasks_menu}
                             checked={this.state.checked}

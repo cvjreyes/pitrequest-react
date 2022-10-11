@@ -110,7 +110,7 @@ const CryptoJS = require("crypto-js");
         labelText: PropTypes.string.isRequired,
       };
 
-export default class QtrackerNWCPopUp extends Component {
+export default class QtrackerNWCPopUp extends Component { //PopUP de las incidencias tipo NWC. Todos los popUps de incidencias funcionan igual
     constructor(props) {
         super(props);
         this.state = {
@@ -156,6 +156,7 @@ export default class QtrackerNWCPopUp extends Component {
         }
       }
 
+      //Cogemos los proyectos que tiene el usuario para rellenar el popup que permite filtrar las incidencias por proyecto
       await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsByEmail/"+ secureStorage.getItem("user"), options)
         .then(response => response.json())
         .then(async json => {
@@ -167,12 +168,12 @@ export default class QtrackerNWCPopUp extends Component {
         })
     }
 
-    async request(){
-        if(this.state.spref && this.state.description){
+    async request(){ //Hacer el submit de la incidencia
+        if(this.state.spref && this.state.description){ //Si esta rellenos los campos obligatorios
 
             let has_attach
 
-            if(this.state.attach){
+            if(this.state.attach){ 
               has_attach = true
             }else{
               has_attach = false
@@ -194,13 +195,15 @@ export default class QtrackerNWCPopUp extends Component {
                 },
                 body: JSON.stringify(body)
             }
+            //Creamos la incidencia
               await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/requestNWC", options)
                   .then(response => response.json())
                   .then(async json => {
-                      if(json.filename && this.state.attach){
+                      if(json.filename && this.state.attach){ //Si la incidencia tiene attach
                         const extension = this.state.attach.name.split('.').pop();
                         const file  = new FormData(); 
                         file.append('file', this.state.attach, json.filename + "." + extension);
+                        //Guardamos el attach
                         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/uploadAttach", {
                             method: 'POST',
                             body: file,
@@ -215,7 +218,7 @@ export default class QtrackerNWCPopUp extends Component {
                       }
                   })
                   this.closeModal()
-        }else{
+        }else{ //Warning de campos en blanco
             this.setState({errorBlankRequest: true})
         }
         

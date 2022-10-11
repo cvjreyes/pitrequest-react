@@ -112,7 +112,7 @@ const CryptoJS = require("crypto-js");
         labelText: PropTypes.string.isRequired,
       };
 
-export default class ProjectPopUp extends Component {
+export default class ProjectPopUp extends Component { //PopUp para crear proyectos ()
     constructor(props) {
         super(props);
         this.state = {

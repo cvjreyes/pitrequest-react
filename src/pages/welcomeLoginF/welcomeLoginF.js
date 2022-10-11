@@ -59,7 +59,7 @@ const WelcomeLoginF = () =>{
         password: password
     }
 
-    const handleLogin = () => {
+    const handleLogin = () => { //Metodo de login
         
         const options = {
             method: "POST",
@@ -68,9 +68,11 @@ const WelcomeLoginF = () =>{
             },
             body: JSON.stringify(body)
         }
+        //Post del login
         fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/login", options)
             .then(response => response.json())
             .then(json => {
+                //Guardamos los datos del user en el local storage
                 localStorage.setItem('token', json.token);
                 secureStorage.setItem('user', json.user);
                 secureStorage.setItem('roles', "None");
@@ -141,7 +143,7 @@ const WelcomeLoginF = () =>{
             })            
     }
 
-    const submitRequest = async(email, project, otherproject) =>{
+    const submitRequest = async(email, project, otherproject) =>{ //Request de un usuario para entrar a la aplicacion
         let body ={
             email: email, 
             project:project,
@@ -154,6 +156,7 @@ const WelcomeLoginF = () =>{
             },
             body: JSON.stringify(body)
         }
+        //Post del request
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitUserRequest", options)
         .then(response => response.json())
         .then(async json => {

@@ -40,7 +40,7 @@ var secureStorage = new SecureStorage(localStorage, {
     }
 });
 
-const Library = () =>{    
+const Library = () =>{  //Ventana principal de la libreria de componentes
 
 	const [updateGroups, setUpdateGroups] = useState(false)
 	const [imagesLibrary, setImagesLibrary] = useState(<ImagesLibrary array_filtrado={[]} deleteSuccess={() => setDeleteSuccess(true)}/>)
@@ -57,16 +57,17 @@ const Library = () =>{
 	document.body.style.zoom = 0.8
     document.body.style.height = "90%"
 
-	function filtersAllLibrary (array_filtrado) {
+	function filtersAllLibrary (array_filtrado) { //Aplicar los filtros a la libreria
 		setImagesLibrary(<ImagesLibrary array_filtrado={array_filtrado} deleteSuccess={() => setDeleteSuccess(true)} updateSuccess={() => setUpdateSuccess(true)}/> )
 	}
 
-	function libraryFiltersViewGo(){
+	function libraryFiltersViewGo(){ //Ir a la ventana de edicion de filtros
         history("/"+process.env.REACT_APP_PROJECT+"/libraryFiltersView")
     }
 
-	useEffect(async()=>{
-         if(success || deleteSuccess || updateSuccess){
+	useEffect(async()=>{ //Cada vez que que hay un cambio
+         if(success || deleteSuccess || updateSuccess){ 
+			//Actualizamos la vista
 			getLibrary()
 			.then(response => response.json())
 			.then(async json => {
@@ -87,10 +88,11 @@ const Library = () =>{
 			}
 		  }
 
+		//Comprobamos si el usuario logeado es admin
 		await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/isAdmin/" + secureStorage.getItem("user"), options)
           .then(response => response.json())
           .then(async json => {
-            if(json.isAdmin){
+            if(json.isAdmin){ //Si es admin damos la opcion de crear componentes y filtros
 				setCreateElement(<CreateComponentPopUp success={() => setSuccess(true)} error={() => setError(true)}/>)
 				setLibraryFiltersButton(<button className="library__button" onClick={()=>libraryFiltersViewGo()} style={{width:"205px", marginLeft:"80px", marginTop:"10px", marginBottom:"10px"}}><FontAwesomeIcon className='icon__book' icon={faPenToSquare} />Edit Filters</button>)
 			}

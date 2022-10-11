@@ -6,7 +6,7 @@ import './projectsExcel.css'
 import Handsontable from 'handsontable';
 
 
-class ProjectsExcel extends React.Component{
+class ProjectsExcel extends React.Component{ //Tabla de excel de los proyectos
   state = {
     searchText: '',
     searchedColumn: '',
@@ -26,6 +26,8 @@ class ProjectsExcel extends React.Component{
         },
     }
 
+
+    //Get de los proyectos
   fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjects", options)
     .then(response => response.json())
     .then(json => {
@@ -39,6 +41,7 @@ class ProjectsExcel extends React.Component{
       this.setState({data : rows, selectedRows: []});
   })
 
+  //Get de los admins
   fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAdmins", options)
       .then(response => response.json())
       .then(json => {
@@ -47,13 +50,14 @@ class ProjectsExcel extends React.Component{
 
   }
 
+  //Crear una fila
   addRow(){
     let rows = this.state.data
     rows.push({"Project": "", "Code": "", "Admin": "", "id": ""})
     this.setState({data: rows})
   }
   
-  submitChanges(){
+  submitChanges(){ //Guardar los cambios del excel
     const body = {
       rows: this.state.data,
     }
@@ -64,6 +68,7 @@ class ProjectsExcel extends React.Component{
         },
         body: JSON.stringify(body)
     }
+    //Submit de la tabla
     fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/submitProjects", options)
     .then(response => response.json())
     .then(json =>{

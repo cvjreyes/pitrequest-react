@@ -139,7 +139,8 @@ const PitRequestView = () => {
             headers: {
                 "Content-Type": "application/json"
             },
-        } 
+        }
+        //Select de los todos los proyectos 
         fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getAllProjects", options)
             .then(response => response.json())
             .then(async json => {
@@ -184,7 +185,7 @@ const PitRequestView = () => {
             })     
             
             
-        if(secureStorage.getItem("role") === "3D Admin"){
+        if(secureStorage.getItem("role") === "3D Admin"){ //Si el user es 3d admin tiene la opcion de guardar cambios y acceder a la ventana de usuarios
             setSaveBtn(<button className="navBar__button" onClick={()=> saveChanges()}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>)
             setUsersButton(<button className="navBar__button" onClick={()=>setCurrentTab("Users")} style={{width:"100px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Users</p></button>)
         }else{
@@ -214,14 +215,14 @@ const PitRequestView = () => {
 
     },[updateData])
 
-    useEffect(async ()=>{
+    useEffect(async ()=>{ //Si se activa el toggle de showAll se muestran todas las incidencias, no solo las que estan abiertas
         setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={showAlertCount.bind(this)} currentUser= {currentUser}/>)
     },[showAll])
 
     useEffect(async () =>{
         
-        if(currentRole === "3D Admin"){
-            if(currentTab === "View"){
+        if(currentRole === "3D Admin"){ //Si el user es 3d admin
+            if(currentTab === "View"){ //Si el tab actual es la vista
                 secureStorage.setItem("tab", "View")
                 setSaveButton(<button className="navBar__button" onClick={()=> saveChanges()}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>)
                 setAddUserButton(null)
@@ -237,7 +238,7 @@ const PitRequestView = () => {
                         <option>{project}</option>
                     ))}
                 </select></div>)
-            }else if(currentTab === "Users"){
+            }else if(currentTab === "Users"){ //Si es la tabla de usuarios
                 secureStorage.setItem("tab", "Users")
                 setExportUsersReport(<button className="action__btn" name="export" value="export" onClick={() => downloadUsersReport()}>Export</button>)
                 setExportReport(null)
@@ -249,7 +250,7 @@ const PitRequestView = () => {
                 setBackToMenuButton(<button className="navBar__button" onClick={()=> setCurrentTab("View")} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
                 setRequestAccessButton(<button className="navBar__button" onClick={()=>setCurrentTab("Access")} style={{width:"170px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Access requests</p></button>)
                 setProjectDropDown(null)
-            }else if(currentTab === "Access"){
+            }else if(currentTab === "Access"){ //Si es la tabla de gestion de peticiones de acceso
                 secureStorage.setItem("tab", "Access")
                 setExportUsersReport(null)
                 setExportReport(null)
@@ -261,7 +262,7 @@ const PitRequestView = () => {
                 setBackToMenuButton(<button className="navBar__button" onClick={()=> setCurrentTab("Users")} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
                 setRequestAccessButton(null)
                 setProjectDropDown(null)
-            }else if(currentTab === "Projects"){
+            }else if(currentTab === "Projects"){ //Si estamos en la vista de proyectos
                 secureStorage.setItem("tab", "Projects")
                 setProjectsButton(null)
                 setContent(<ProjectsHoursDataTable/>)
@@ -274,7 +275,7 @@ const PitRequestView = () => {
                 setRequestAccessButton(null)
                 setProjectDropDown(null)
             }
-        }else{
+        }else{ //Si no es 3d admin se muestra la vista de incidencias normal
             setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={showAlertCount.bind(this)} currentUser= {currentUser}/>)
             setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
             setSaveBtn(null)
@@ -329,6 +330,7 @@ const PitRequestView = () => {
             body: JSON.stringify(body)
         }
 
+        //Post de roles de un usuario
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/users/manageRoles", options)
         .then(response => response.json())
         .then(async json =>{
@@ -352,6 +354,7 @@ const PitRequestView = () => {
             }
         }
 
+        //Post del delete de un usuario
         fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/api/user/"+id, options)
         .then(response => response.json())
         .then(json =>{
@@ -384,6 +387,7 @@ const PitRequestView = () => {
             body: JSON.stringify(body)
         }
 
+        //Post de la creacion de usuario
         fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/createUser", options)
         .then(response => response.json())
         .then(json =>{
@@ -411,7 +415,7 @@ const PitRequestView = () => {
             body: JSON.stringify(body)
           }
           
-          console.log("Success: " + success + " Error: " + error);
+          //Submit de proyectos
           fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/updateProjects/", options)
           .then(response => response.json())
           .then(json =>{
@@ -460,6 +464,8 @@ const PitRequestView = () => {
             },
           body: JSON.stringify(body)
         }
+
+        //Post del cambio de admins
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/changeAdmin", options)
         .then(response => response.json())
           .then(json =>{
@@ -950,6 +956,7 @@ const PitRequestView = () => {
             body: JSON.stringify(body)
           }
           
+          //Post de las nuevas observaciones
           await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateObservations", options)
           .then(response => response.json())
           .then(async json => {
@@ -979,7 +986,7 @@ const PitRequestView = () => {
         let err = false
         let notReady = false
 
-        for(let i = 0; i < hours.length; i++){
+        for(let i = 0; i < hours.length; i++){ //Por cada cambio en las horas
             let body = {
                 incidence_number: hours[i][0],
                 hours: hours[i][1],
@@ -991,6 +998,8 @@ const PitRequestView = () => {
                 },
                 body: JSON.stringify(body)
               }
+
+              //Actualizamos las horas
               await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateHours", options)
               .then(response => response.json())
               .then(async json => {
@@ -1001,7 +1010,7 @@ const PitRequestView = () => {
               })
         }
 
-        for(let i = 0; i < updatedRows.length; i++){
+        for(let i = 0; i < updatedRows.length; i++){ //Por cada cambio en el status
             let body = {
                 incidence_number: updatedRows[i][0],
                 status_id: updatedRows[i][1],
@@ -1017,6 +1026,7 @@ const PitRequestView = () => {
                 body: JSON.stringify(body)
               }
               
+              //Actualizamos el status
               await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateStatus", options)
               .then(response => response.json())
               .then(async json => {
@@ -1036,7 +1046,7 @@ const PitRequestView = () => {
         }
 
         setUpdatedRows([])
-        for(let i = 0; i < updatedRowsPrio.length; i++){
+        for(let i = 0; i < updatedRowsPrio.length; i++){ //Por cada cambio en la prioridad
 
             let body = {
                 incidence_number: updatedRowsPrio[i][0],
@@ -1053,6 +1063,7 @@ const PitRequestView = () => {
                 body: JSON.stringify(body)
               }
               
+              //Actualizamos la prioridad
               fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updatePriority", options)
               .then(response => response.json())
               .then(async json => {
@@ -1068,7 +1079,7 @@ const PitRequestView = () => {
         setCurrentTab("Projects")
     }
 
-    async function changeRole(value){
+    async function changeRole(value){ //Al cambiar el rol cambiamos la vista
         setCurrentRole(value)
         await setUpdateData(!updateData)
         if(currentTab === "View"){
@@ -1076,7 +1087,7 @@ const PitRequestView = () => {
         }
     }
 
-    async function acceptRequest(id){
+    async function acceptRequest(id){ //Aceptar una request por su id
         let body = {
             id: id,
             user: currentUser
@@ -1099,7 +1110,7 @@ const PitRequestView = () => {
           })
     }
 
-    async function rejectRequest(id){
+    async function rejectRequest(id){ //Rechazar una request por su id
         let body = {
             id: id,
             user: currentUser
