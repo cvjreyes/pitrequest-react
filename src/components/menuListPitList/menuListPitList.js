@@ -139,21 +139,24 @@ StyledTreeItem.propTypes = {
 
 export default function MenuListPITList(props) {
 
-    const [options, setOptions] = useState(null)
-    const [currentMenu, setcurrentMenu] = useState("main")
-    const [backMenu, setBackMenu] = useState("")
-    const [inSmart3d, setInSmart3d] = useState(false)
+    const [options, setOptions] = useState(null) 
+    const [currentMenu, setcurrentMenu] = useState("main") // Hook que te lleva al menu correspondiente
+    const [backMenu, setBackMenu] = useState("") // Hook que te lleva al menu que estabas antes guardando su nombre antes de ir al siguiente menu
+    const [inSmart3d, setInSmart3d] = useState(false) // Hook que si pulsas el software de smart3D te muestra mas opciones en el menu si da true
 
     const history = useNavigate()
 
+    // Boton que te lleva a esta pagina en una ventana nueva en blanco
     function handleCADpmcClick(){
         window.open("http://eu012vm0190/UI/Login.aspx", "_blank")
     }
 
+    // Boton que te lleva a la pagina de Request Dashboards
     function handlePitViewClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/pitrequestsview");
     }
 
+    // Boton que te lleva a la pagina donde visualizas los proyectos, pulsando IT Plan => Tasks
     function handleProjectsViewClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/projectsview");
     }
@@ -162,54 +165,57 @@ export default function MenuListPITList(props) {
       props.success()
     }
 
+    // Pop up que muestra la Create Project y Create Offer
     function successProject(){
       props.successProject()
     }
 
+    // Boton que te lleva a la pagina de Project Manager, pulsando IT Plan => Project Manager
     function handleManageProjectsViewClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/projectManager")
     }
 
+    // Boton que te lleva a la pagina de Offer Manager, pulsando IT Plan => Offer Manager
     function handleManageOffersViewClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/offersManager")
     }
 
+    // Boton que te lleva a la pagina de SPTracker, pulsando Software Issues => Software con la opcion piping => Piping Spec Materials => SPTracker
     function handleSPClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/sptracker")
     }
 
+    // Boton que te lleva a la pagina de Expansion Joins, pulsando Software Issues => Software con la opcion piping => Piping Spec Materials => Expansion Joins
     function handleSPExpansionJoinsClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/pipingExpansionJoins")
     }
 
+    // Boton que te lleva a la pagina de Piping General, pulsando Software Issues => Software con la opcion piping => Piping Spec Materials => Instruments => General
     function handleSPGeneralClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/pipingGeneral")
     }
 
+    // Boton que te lleva a la pagina de Piping PSV, pulsando Software Issues => Software con la opcion piping => Piping Spec Materials => Instruments => PSV
     function handleSPPSVClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/pipingPSV")
     }
 
+    // Boton que te lleva a la pagina de Piping Special, pulsando Software Issues => Software con la opcion piping => Piping Spec Materials => Instruments => Special
     function handleSPSpecialClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/pipingSpecial")
     }
 
-    function handleSPPSVClick(){
-      history("/"+process.env.REACT_APP_PROJECT+"/pipingPSV")
-    }
-
-    function handleSPSpecialClick(){
-      history("/"+process.env.REACT_APP_PROJECT+"/pipingSpecial")
-    }
-
+    // Boton que te lleva a la pagina de CAD Library
     function handleLibraryClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/library")
     }
     
+    // Boton que te lleva a la pagina de Manage Catalogue, pulsando Software Issues => Software con la opcion piping => Piping Spec Materials => Manage Catalogue
     function handleSPKeyParamClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/pipingKeyParam")
     }
 
+    // Boton que te lleva a la pagina de User Management
     function handleUsersViewClick(){
       history("/"+process.env.REACT_APP_PROJECT+"/pitrequestsview")
       secureStorage.setItem("tab", "Users")
@@ -231,6 +237,7 @@ export default function MenuListPITList(props) {
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/isAdmin/" + secureStorage.getItem("user"), options)
           .then(response => response.json())
           .then(async json => {
+            // Si eres admin Muestra ( Software Issues, Request Dashboard, CAD Library, User Management, IT Plan)
             if(json.isAdmin){
               await setOptions(<div><text className='select__text'>Select your option</text>
               <div className='mainmenu__item__container' style={{marginTop:"40px"}}>
@@ -250,6 +257,7 @@ export default function MenuListPITList(props) {
               <div className='mainmenu__item__container'>
                 <span style={{display:"flex"}} onClick={()=> setcurrentMenu("itplan")}><div style={{width:"260px"}}><text className='mainmenu__item'>IT Plan</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
               </div></div>)
+            // Si no es admin se muestra ( Software Issues, Requests Dashboards, CAD Library )
             }else{
               await setOptions(<div><text className='select__text'>Select your option</text>
               <div className='mainmenu__item__container' style={{marginTop:"40px"}}>
@@ -299,6 +307,7 @@ export default function MenuListPITList(props) {
                 </div></div>)
               }*/
           }) 
+      // Si selecciona Software Issues se muestra todos los softwares registrados en la empresa
       }else if(currentMenu === "software"){
         await setOptions(<div>
         <div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>MAIN MENU</text></div></span></div>
@@ -326,7 +335,7 @@ export default function MenuListPITList(props) {
                 <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
                   <span style={{display:"flex"}} onClick={()=> setcurrentMenu("iso")}><div style={{width:"480px"}}><text className='mainmenu__item'>IsoTracker</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div></div>)
-      
+    // Si selecciona estos tres softwares su submenu mostrara ( Request Item, Issues, Piping Spec Materials)
     }else if(currentMenu === "aveva_eng" || currentMenu === "aveva_diag" || currentMenu === "aveva_e3d"){
       await setOptions(<div><div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>SOFTWARE</text></div></span></div>
       <div className='mainmenu__item__container' style={{marginTop:"40px"}}>
@@ -338,6 +347,7 @@ export default function MenuListPITList(props) {
       <div className='mainmenu__item__container'>
         <span style={{display:"flex"}} onClick={()=> setcurrentMenu("piping")}><div style={{width:"260px"}}><text className='mainmenu__item'>Piping Spec Materials</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
       </div></div>)
+      // Boleana que si es falso no muestra datos extras en el submenu de Request Item y Issues
       if(currentMenu === "aveva_eng"){
         setInSmart3d(false)
         setBackMenu("aveva_eng")
@@ -348,6 +358,7 @@ export default function MenuListPITList(props) {
         setInSmart3d(false)
         setBackMenu("aveva_e3d")
       }
+    // Si seleccionas estos software se mostrara ( Request Item, Issues )
     }else if(currentMenu === "int_smart_inst" || currentMenu === "int_smart_3D"){
       await setOptions(<div><div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>SOFTWARE</text></div></span></div>
       <div className='mainmenu__item__container' style={{marginTop:"40px"}}>
@@ -365,6 +376,7 @@ export default function MenuListPITList(props) {
         console.log("After In smart: " + inSmart3d);
         setBackMenu("int_smart_3D")
       }    
+    // Si seleccionas estos software se mostrara ( Issues, Piping Spec Materials )
     }else if(currentMenu === "auto_auto" || currentMenu === "auto_revit"){
       await setOptions(<div><div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>SOFTWARE</text></div></span></div>
       <div className='mainmenu__item__container'>
@@ -380,6 +392,7 @@ export default function MenuListPITList(props) {
         setInSmart3d(false)
         setBackMenu("auto_revit")
       } 
+    // Si seleccionas estos software se mostrara ( Issues )
     }else if(currentMenu === "iso"){
       await setOptions(<div><div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>SOFTWARE</text></div></span></div>
       <div className='mainmenu__item__container'>
@@ -389,7 +402,9 @@ export default function MenuListPITList(props) {
         setInSmart3d(false)
         setBackMenu("iso")
       }
+    // Si seleccionas pulsas el boton request aparecera un submenu que mostrara estos componentes
     }else if(currentMenu === "request"){
+        // Si el software es smart3D se muestran mas componentes
         if(inSmart3d===true){
           await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu) && setInSmart3d(false)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>REQUEST ITEM</text></div></span>
           <QtrackerRRPopUp success={success.bind(this)} margin={true}/>
@@ -398,13 +413,16 @@ export default function MenuListPITList(props) {
           <QtrackerDrawingPopUp success={success.bind(this)}/>
           <QtrackerNVNPopUp success={success.bind(this)}/>
           <QtrackerPermissionsPopUp success={success.bind(this)}/></div>)
+        // Si no esta en el software smart3D se muestran menos campos
         } else if (inSmart3d===false) {
           await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>REQUEST ITEM</text></div></span>
           <QtrackerRRPopUp success={success.bind(this)} margin={true}/>
           <QtrackerNRIDSPopUp success={success.bind(this)}/>
           <QtrackerISPopUp success={success.bind(this)}/></div>)
         }
+      // Si seleccionas pulsas el boton issues aparecera un submenu que mostrara estos componentes
       }else if(currentMenu === "issues"){
+        // Si el software es smart3D se muestran mas componentes
         if(inSmart3d===true){
           await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu) && setInSmart3d(false)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>ISSUES</text></div></span>
           <QtrackerNWCPopUp success={success.bind(this)}/>
@@ -415,16 +433,19 @@ export default function MenuListPITList(props) {
           <QtrackerDrawingOrtoPopUp success={success.bind(this)}/>
           <QtrackerRRPopUp success={success.bind(this)} margin={false}/>
           <QtrackerCitrixPopUp success={success.bind(this)}/></div>)
+        // Si no esta en el software smart3D se muestran menos campos
         }else if(inSmart3d===false){
           await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>ISSUES</text></div></span>
           <QtrackerNWCPopUp success={success.bind(this)}/>
           <QtrackerNVNPopUp success={success.bind(this)}/>
           <QtrackerNRIPopUp success={success.bind(this)}/></div>)
         }
+      // Boton que te lleva al submenu de Piping Spec Materials
       }else if(currentMenu === "piping"){
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/isAdmin/" + secureStorage.getItem("user"), options)
           .then(response => response.json())
           .then(async json => {
+          // Si es administrador se muestran todos esto campos en el submenu
           if(json.isAdmin){
             await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><text className='back__text'>PIPING SPEC MATERIALS</text></div></span>
               <div className='mainmenu__item__container'>
@@ -443,6 +464,7 @@ export default function MenuListPITList(props) {
                 <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPKeyParamClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Manage Catalogue</text></div></span>
               </div>
             </div>)
+          // Si no es admin se mostrara estos campos en el submenu
           } else {
             await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><text className='back__text'>PIPING SPEC MATERIALS</text></div></span>
               <div className='mainmenu__item__container'>
@@ -460,6 +482,7 @@ export default function MenuListPITList(props) {
             </div>)
           }
         })
+      // Si pulsa Instruments se mostrara ( General, PSV, Special )
       } else if(currentMenu === "instruments"){
         await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><text className='back__text'>PIPING INSTRUMENT</text></div></span>
           <div className='mainmenu__item__container'>
@@ -472,6 +495,7 @@ export default function MenuListPITList(props) {
             <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPSpecialClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Special</text></div></span>
           </div>
         </div>)
+      // Si pulsa IT Plan se mostraran ( Tasks, Project Manager, Create Project(PopUp), Offer Manager, Create Offer(PopUp) )
       }else if(currentMenu === "itplan"){
         await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>MAIN MENU</text></div></span>
 

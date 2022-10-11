@@ -34,6 +34,7 @@ export default class EditComponentPopUp extends Component {
             },
         }
 
+        // Coge las familias
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getComponentTypes", options)
         .then(response => response.json())
         .then(async json => {
@@ -43,6 +44,7 @@ export default class EditComponentPopUp extends Component {
             }
             await this.setState({component_types_array: component_types})
 
+            // Coge las marcas
             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getComponentBrands", options)
             .then(response => response.json())
             .then(async json => {
@@ -52,6 +54,7 @@ export default class EditComponentPopUp extends Component {
                 }
                 await this.setState({component_brands_array: component_brands})
 
+                // Coge las disciplinas
                 await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getComponentDisciplines", options)
                 .then(response => response.json())
                 .then(async json => {
@@ -81,6 +84,7 @@ export default class EditComponentPopUp extends Component {
         });
     }
 
+    // Recoge los datos datos del elemento de la libreria y los hace editables
     async request(){
         
         if(this.state.name && this.state.description && this.state.component_type && this.state.brand && this.state.discipline){

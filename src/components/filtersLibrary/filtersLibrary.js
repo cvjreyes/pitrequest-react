@@ -270,6 +270,7 @@ const FiltersLibrary = (props) =>{
 
     }, [allLibrary, newCheckboxLibraryDisciplinas, newCheckboxLibraryFamilias, newCheckboxLibraryMarcas, busqueda])
 
+    // Para borrar los filtros
     function clearFilters () {
         setBusqueda("");
         setNewCheckboxLibraryFamilias([]);

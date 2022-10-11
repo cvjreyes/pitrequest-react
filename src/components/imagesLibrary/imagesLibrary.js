@@ -149,7 +149,7 @@ const ImagesLibrary = (props) => {
         setIsOpen(false);
     }
 
-    //Pagination
+    //Pagination seleccionado
     const handlePageClick = async (data) => {
         await setCurrentPage(data.selected)
     }
@@ -195,13 +195,16 @@ const ImagesLibrary = (props) => {
     }
 
     return (
+        // Parte derecha de la pagina
         <div className="galeria">
             <div className="title-img">
                 <h2>CAD Library</h2>
             </div>
 
+            {/* Container donde se muestran todos los elementos */}
             {imgSrc}            
 
+            {/* Modal de cuando pulsas un elemento y ves toda su informacion */}
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
@@ -211,7 +214,9 @@ const ImagesLibrary = (props) => {
             >
                 <div>
                     <div className="card" style={{width: "30rem"}}>
+                        {/* Boton que te lleva a otro componente con un modal donde puedes editar el elemento */}
                         {isAdmin ? <EditComponentPopUp component={oneLibrary} id={oneLibrary.id} updateSuccess={updateSuccess.bind(this)}/> : null}
+                        {/* Boton de que muestra un pop up para eliminar el elemento */}
                         {isAdmin ? <DeleteComponentConfirmPopUp component={oneLibrary.component_name} id={oneLibrary.id} deleteComponent={deleteComponent.bind(this)}/> : null}
 
                         <img src={urlImage + oneLibrary.image_path} height="440" width="100" className="card-img-top" alt="..."/>
@@ -219,6 +224,7 @@ const ImagesLibrary = (props) => {
                             <h3 className="modal__titulo">Details</h3>
                             <p className="modal__description"><i>{oneLibrary.component_description}</i></p>
                         </div>
+                        {/* Mostrando los datos del json */}
                         <ul className="list-group list-group-flush">
                             <li className="list-group-item modal__li"><b>Name: </b>{oneLibrary.component_name}</li>
                             <li className="list-group-item modal__li"><b>Family: </b>{oneLibrary.component_type}</li>
@@ -231,6 +237,7 @@ const ImagesLibrary = (props) => {
                 </div>
             </Modal>
             
+            {/* Paginacion arriba al lado del titulo */}
             <div className='container__pagination'>
                 <ReactPaginate
                     breakLabel="***"
