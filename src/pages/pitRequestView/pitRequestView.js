@@ -150,7 +150,19 @@ const PitRequestView = () => {
                 }
                 setProjectFilter(projects)
             })
-
+        //Comprobamos si el admin tiene incidencias abiertas de mas de dos semanas
+        fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/urgent/" + secureStorage.getItem('user'), options)
+        .then(response => response.json())
+        .then(async json => {
+            if(json.urgent > 0){
+                setAlertComponentCount(<div className={`alert alert-success alert-shown`}>
+                <AlertF type="warning" text={`You have ${json.urgent} urgent incidences!`} margin="-27px"/>
+                </div>)
+                setTimeout(() => {
+                    setAlertComponentCount(null)
+                }, 3000);
+            }
+        })
     }, [])
 
     var currentUser = secureStorage.getItem('user')
@@ -294,26 +306,8 @@ const PitRequestView = () => {
     }
 
     function showAlertCount(count){
-        setAlertCount(count)
+        
     }
-
-    useEffect(() => {
-    
-        if(alertCount>=0){
-            console.log("entro");
-            setDisplayCount(true)
-            setAlertComponentCount(<div
-                className={`alert alert-success ${displayCount ? 'alert-shown' : 'alert-hidden'}`}
-                onTransitionEnd={() => setDisplayCount(false)}
-                >
-                <AlertF type="warning" text={`You have ${alertCount} urgent incidences!`}/>
-            </div>)
-            console.log(displayCount);
-        }
-        console.log(displayCount);
-    }, [alertCount])
-    
-
     async function submitRoles(id, roles){
         
         localStorage.setItem("update", true)
@@ -976,7 +970,6 @@ const PitRequestView = () => {
     }
 
     async function updatePriority(updatedRow){
-        console.log(updatedRow)
         let currentRows = updatedRowsPrio
         currentRows.push(updatedRow)
         await setUpdatedRowsPrio(currentRows)
@@ -1197,10 +1190,10 @@ const PitRequestView = () => {
                                     {projectsButton}
                                     {usersButton}
                                     {requestAccessButton}
-                                    <div style={{display:"flex", float:"right"}}><label class="showAllSwitchBtn">
+                                    <div style={{display:"flex", float:"right"}}><label className="showAllSwitchBtn">
                                     <p className="showAll__text">Completed</p>
                                     <input type="checkbox" id="edit" style={{marginLeft: "30px"}} onClick={()=> setShowAll(!showAll)}/>
-                                    <div class="slide round"></div>
+                                    <div className="slide round"></div>
                                     </label></div>
                                     {projectDropDown}
                                     
