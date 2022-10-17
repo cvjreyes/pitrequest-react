@@ -218,7 +218,7 @@ export default class QtrackerISPopUp extends Component {
           <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
             <span style={{display:"flex"}} >
               <div style={{width:"280px"}}>
-                <text className='mainmenu__item' onClick={()=> this.openModal()}>Interface sending</text>
+                <p className='mainmenu__item' onClick={()=> this.openModal()}>Interface sending</p>
               </div>
             </span>
           </div>         
@@ -243,13 +243,13 @@ export default class QtrackerISPopUp extends Component {
                   {/* Primer fila: Project - Carta - Priority */}
                   <tr>
                     <td style={{textAlign: "left"}}>
-                      <label className="priority__label" for="projectSelect" >Project</label>                            
+                      <label className="priority__label" htmlFor="projectSelect" >Project</label>                            
                     </td>
                     <td style={{textAlign: "left"}}>
-                      <label className="priority__label" for="carta">Carta</label>                            
+                      <label className="priority__label" htmlFor="carta">Carta</label>                            
                     </td>
                     <td style={{textAlign: "left"}}>
-                      <label className="priority__label" for="prioritySelect">Priority</label>
+                      <label className="priority__label" htmlFor="prioritySelect">Priority</label>
                     </td>
                   </tr>
                   <tr>
@@ -274,7 +274,7 @@ export default class QtrackerISPopUp extends Component {
                   {/* Segunda fila: Sending help */}
                   <tr>
                     <td style={{textAlign: "left"}}>
-                      <label className="priority__label" for="sending">Sending</label>
+                      <label className="priority__label" htmlFor="sending">Sending</label>
                     </td>
                   </tr>
                   <tr>
@@ -285,7 +285,7 @@ export default class QtrackerISPopUp extends Component {
                   {/* Tercera fila: Description */}
                   <tr>
                     <td style={{textAlign: "left"}}>
-                      <label className="priority__label" for="description">Description</label>
+                      <label className="priority__label" htmlFor="description">Description</label>
                     </td>
                   </tr>
                   <tr>
@@ -296,15 +296,15 @@ export default class QtrackerISPopUp extends Component {
                   {/* Cuarta fila: Attach */}
                   <tr>
                     <td style={{textAlign: "left"}}>
-                      <label for="attach" className="priority__label" style={{marginRight: "10px"}}>Attach: </label>
+                      <label htmlFor="attach" className="priority__label" style={{marginRight: "10px"}}>Attach: </label>
                       <input type="file" id="attach" className="qtrackerPopUp__input__file" ref="attach" onChange={(e) => this.setState({attach: e.target.files[0]})} ></input>
                     </td>
                   </tr>
                 </tbody>
               </table>
               {/* Quinta fila: Los dos botones */}
-              <button class="btn__submit" onClick={() => this.request()} >Submit</button>
-              <button class="btn__cancel" onClick={() => this.closeModal()}>Cancel</button>
+              <button className="btn__submit" onClick={() => this.request()} >Submit</button>
+              <button className="btn__cancel" onClick={() => this.closeModal()}>Cancel</button>
               </div>
             </Modal>
           </div>
