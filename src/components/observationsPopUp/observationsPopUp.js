@@ -94,7 +94,7 @@ export default class ObservationsPopUp extends Component { //PopUp que muestra l
                         <div style={{marginTop:"2%"}} className="popUp__container" >
                             <button
                                 type="button"
-                                class="btn-close"
+                                className="btn-close"
                                 data-mdb-dismiss="modal"
                                 aria-label="Close"
                                 onClick={() => this.closeModal()}
@@ -108,7 +108,7 @@ export default class ObservationsPopUp extends Component { //PopUp que muestra l
 
                             </textarea>
                                 
-                            <button class="btn__assign__obs" onClick={()=>this.updateObservations()}>Update</button>
+                            <button className="btn__assign__obs" onClick={()=>this.updateObservations()}>Update</button>
                         </div>
                     </Modal>
                 </div>

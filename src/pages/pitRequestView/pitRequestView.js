@@ -48,9 +48,9 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
         }
       
         return (
-          <text x={x} y={y} fill="black" textAnchor={'middle'} dominantBaseline="central">
+          <p x={x} y={y} fill="black" textAnchor={'middle'} dominantBaseline="central">
               {index}
-          </text>
+          </p>
         );
     }
     
@@ -245,7 +245,7 @@ const PitRequestView = () => {
                 setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("Projects")}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
                 setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
                 setRequestAccessButton(null)
-                setProjectDropDown(<div style={{display:"flex", float:"right", marginTop:"10px"}}><label for="projectFilter" className="project__label">Project: </label><select id="projectFilter" className="projectFilterSelect" onChange={(e) => setCurrentProject(e.target.value)}>
+                setProjectDropDown(<div style={{display:"flex", float:"right", marginTop:"10px"}}><label htmlFor="projectFilter" className="project__label">Project: </label><select id="projectFilter" className="projectFilterSelect" onChange={(e) => setCurrentProject(e.target.value)}>
                     {projectFilter.map(project =>(
                         <option>{project}</option>
                     ))}
@@ -1181,46 +1181,48 @@ const PitRequestView = () => {
                 </PieChart>
             </div>
             <table className="isotracker__table__container">
-                      <tr className="isotracker__table__navBar__container" style={{height:"65px "}}>
-                          <th  className="isotracker__table__navBar">
-                              <div style={{display:"flex"}}>
-                                  <div>
-                                    {backToMenuButton}
-                                    {saveButton}
-                                    {projectsButton}
-                                    {usersButton}
-                                    {requestAccessButton}
-                                    <div style={{display:"flex", float:"right"}}><label className="showAllSwitchBtn">
-                                    <p className="showAll__text">Completed</p>
-                                    <input type="checkbox" id="edit" style={{marginLeft: "30px"}} onClick={()=> setShowAll(!showAll)}/>
-                                    <div className="slide round"></div>
-                                    </label></div>
-                                    {projectDropDown}
-                                    
-                                  </div>
-                                  
-                              </div>                           
-                               
-                          </th>
-                      </tr>
-                      <tr className="isotracker__table__tray__and__table__container" style={{height: dataTableHeight}}>
-                          <td className="discplines__table__table" style={{height: dataTableHeight}} >
-                              <div  style={{height: dataTableHeight, width:"2200px"}} className="isotracker__table__table__container">
-                                  {content}
-                              </div>
-                          </td>
-                          
-                      </tr>
-                  </table>
-                  <center className="actionBtns__container">   
-                    <div style={{display:"flex", marginTop:"10px"}}>
-                        {addUserButton}
-                        {exportReport}
-                        {exportUsersReport}
-                    </div>
-                    
-                  </center>
-                  <br></br>
+                <tbody>
+                    <tr className="isotracker__table__navBar__container" style={{height:"65px "}}>
+                        <th  className="isotracker__table__navBar">
+                            <div style={{display:"flex"}}>
+                                <div>
+                                {backToMenuButton}
+                                {saveButton}
+                                {projectsButton}
+                                {usersButton}
+                                {requestAccessButton}
+                                <div style={{display:"flex", float:"right"}}><label className="showAllSwitchBtn">
+                                <p className="showAll__text">Completed</p>
+                                <input type="checkbox" id="edit" style={{marginLeft: "30px"}} onClick={()=> setShowAll(!showAll)}/>
+                                <div className="slide round"></div>
+                                </label></div>
+                                {projectDropDown}
+                                
+                                </div>
+                                
+                            </div>                           
+                            
+                        </th>
+                    </tr>
+                    <tr className="isotracker__table__tray__and__table__container" style={{height: dataTableHeight}}>
+                        <td className="discplines__table__table" style={{height: dataTableHeight}} >
+                            <div  style={{height: dataTableHeight, width:"2200px"}} className="isotracker__table__table__container">
+                                {content}
+                            </div>
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+            <center className="actionBtns__container">   
+            <div style={{display:"flex", marginTop:"10px"}}>
+                {addUserButton}
+                {exportReport}
+                {exportUsersReport}
+            </div>
+            
+            </center>
+            <br></br>
          </div>
     )
 }

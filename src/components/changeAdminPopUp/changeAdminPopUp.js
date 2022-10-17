@@ -95,7 +95,7 @@ export default class ChangeAdminPopUp extends Component {
                                 ))}
                             </select>
                                 
-                            <button class="btn__assign" onClick={()=>this.changeAdmin()}>Assign</button>
+                            <button className="btn__assign" onClick={()=>this.changeAdmin()}>Assign</button>
                         </div>
                     </Modal>
                 </div>
