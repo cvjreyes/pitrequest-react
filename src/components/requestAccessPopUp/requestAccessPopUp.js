@@ -108,7 +108,7 @@ export default class RequestAccessPopUp extends Component { //PopUP para pedir a
                         <div className="popUp__input">
                             <input type="text" id="email" className="popUp__input__text" value={this.state.email} onChange={(e) => this.setState({email: e.target.value})} style={{fontSize: "18px"}}></input>
                             <select className="popUp_input_select" name="select" onChange={(e) => this.setState({selected: e.target.value})} value={this.state.selected} style={{fontSize: "18px"}}>
-                                <option value="@technipenergies.com" defaultValue>@technipenergies.com</option>
+                                <option value="@technipenergies.com" selected>@technipenergies.com</option>
                                 <option value="@external.technipenergies.com">@external.technipenergies.com</option>
                                 <option value="@tipiel.com.co">@tipiel.com.co</option>
                             </select>

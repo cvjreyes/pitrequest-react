@@ -104,7 +104,7 @@ export default class ObservationsPopUp extends Component { //PopUp que muestra l
                         </div>
                         <div className="selector__container__obs">
                         
-                            <textarea className='textarea__observations__edit' defaultValue={this.state.observations} onChange={this.handleChange} id="textarea" >
+                            <textarea className='textarea__observations__edit' selected={this.state.observations} onChange={this.handleChange} id="textarea" >
 
                             </textarea>
                                 
