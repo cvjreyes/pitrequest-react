@@ -112,7 +112,7 @@ function StyledTreeItem(props) {
       label={
         <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
           <Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} />
-          <Typography variant="h5" sx={{ fontWeight: 'inherit', flexGrow: 1, fontFamily: "Montserrat, sans-serif", fontSize:"30px" }}>
+          <Typography variant="h5" sx={{ fontWeight: 'inherit', flexGrow: 1, fontFamily: "Montserrat, sans-serif", fontSize:"10px" }}>
             {labelText}
           </Typography>
           <Typography variant="caption" color="inherit">
@@ -311,28 +311,28 @@ export default function MenuListPITList(props) {
       }else if(currentMenu === "software"){
         await setOptions(<div>
         <div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><p className='back__text'>MAIN MENU</p></div></span></div>
-                <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
+                <div className='mainmenu__item__container__soft' style={{marginTop:"10px"}}>
                   <span style={{display:"flex"}} onClick={()=> setcurrentMenu("aveva_eng")}><div style={{width:"480px"}}><p className='mainmenu__item'>Aveva Engineering</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div>
-                <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
+                <div className='mainmenu__item__container__soft' style={{marginTop:"10px"}}>
                   <span style={{display:"flex"}} onClick={()=> setcurrentMenu("aveva_e3d")}><div style={{width:"480px"}}><p className='mainmenu__item'>Aveva E3D Design</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div>
-                <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
+                <div className='mainmenu__item__container__soft' style={{marginTop:"10px"}}>
                   <span style={{display:"flex"}} onClick={()=> setcurrentMenu("aveva_diag")}><div style={{width:"480px"}}><p className='mainmenu__item'>Aveva Diagrams</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div>
-                <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
+                <div className='mainmenu__item__container__soft' style={{marginTop:"10px"}}>
                   <span style={{display:"flex"}} onClick={()=> setcurrentMenu("int_smart_inst")}><div style={{width:"480px"}}><p className='mainmenu__item'>Intergraph Smart Instrumentation</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div>
-                <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
+                <div className='mainmenu__item__container__soft' style={{marginTop:"10px"}}>
                   <span style={{display:"flex"}} onClick={()=> setcurrentMenu("int_smart_3D")}><div style={{width:"480px"}}><p className='mainmenu__item'>Intergraph Smart 3D</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div>
-                <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
+                <div className='mainmenu__item__container__soft' style={{marginTop:"10px"}}>
                   <span style={{display:"flex"}} onClick={()=> setcurrentMenu("auto_auto")}><div style={{width:"480px"}}><p className='mainmenu__item'>Autodesk Autocad Plant 3D</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div>
-                <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
+                <div className='mainmenu__item__container__soft' style={{marginTop:"10px"}}>
                   <span style={{display:"flex"}} onClick={()=> setcurrentMenu("auto_revit")}><div style={{width:"480px"}}><p className='mainmenu__item'>Autodesk Revit</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div>
-                <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
+                <div className='mainmenu__item__container__soft' style={{marginTop:"10px"}}>
                   <span style={{display:"flex"}} onClick={()=> setcurrentMenu("iso")}><div style={{width:"480px"}}><p className='mainmenu__item'>IsoTracker</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div></div>)
     // Si selecciona estos tres softwares su submenu mostrara ( Request Item, Issues, Piping Spec Materials)
@@ -451,16 +451,16 @@ export default function MenuListPITList(props) {
               <div className='mainmenu__item__container'>
                 <span style={{display:"flex", width:"260px"}} onClick={()=> handleCADpmcClick()}><div style={{width:"260px", marginTop:"5px"}}><p className='mainmenu__item'>CADPMC</p ></div></span>
               </div>
-              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+              <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
                 <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>SPTracker</p ></div></span>
               </div>
-              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+              <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
                 <span style={{display:"flex", width:"260px"}} onClick={()=> setcurrentMenu("instruments")}><div style={{width:"260px"}}><p className='mainmenu__item'>Instruments</p ></div><img src={Vector} alt="vector" className='vector__image'></img></span>
               </div>
-              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+              <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
                 <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPExpansionJoinsClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>Expansion Joins</p ></div></span>
               </div>
-              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+              <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
                 <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPKeyParamClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>Manage Catalogue</p ></div></span>
               </div>
             </div>)
@@ -470,13 +470,13 @@ export default function MenuListPITList(props) {
               <div className='mainmenu__item__container'>
                 <span style={{display:"flex", width:"260px"}} onClick={()=> handleCADpmcClick()}><div style={{width:"260px", marginTop:"5px"}}><p className='mainmenu__item'>CADPMC</p ></div></span>
               </div>
-              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+              <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
                 <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>SPTracker</p ></div></span>
               </div>
-              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+              <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
                 <span style={{display:"flex", width:"260px"}} onClick={()=> setcurrentMenu("instruments")}><div style={{width:"260px"}}><p className='mainmenu__item'>Instruments</p ></div><img src={Vector} alt="vector" className='vector__image'></img></span>
               </div>
-              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+              <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
                 <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPExpansionJoinsClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>Expansion Joins</p ></div></span>
               </div>
             </div>)
@@ -488,10 +488,10 @@ export default function MenuListPITList(props) {
           <div className='mainmenu__item__container'>
             <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPGeneralClick()}><div style={{width:"260px", marginTop:"5px"}}><p className='mainmenu__item'>General</p ></div></span>
           </div>
-          <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+          <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
             <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPPSVClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>PSV</p ></div></span>
           </div>
-          <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
+          <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
             <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPSpecialClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>Special</p ></div></span>
           </div>
         </div>)

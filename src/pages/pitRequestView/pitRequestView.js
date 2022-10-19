@@ -228,6 +228,7 @@ const PitRequestView = () => {
     },[updateData])
 
     useEffect(async ()=>{ //Si se activa el toggle de showAll se muestran todas las incidencias, no solo las que estan abiertas
+        console.log("show all " + showAll);
         setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={showAlertCount.bind(this)} currentUser= {currentUser}/>)
     },[showAll])
 

@@ -17,7 +17,6 @@ import moment from 'moment';
 const CryptoJS = require("crypto-js");
     const SecureStorage = require("secure-web-storage");
     var SECRET_KEY = 'sanud2ha8shd72h';
-
     var secureStorage = new SecureStorage(localStorage, {
         hash: function hash(key) {
             key = CryptoJS.SHA256(key, SECRET_KEY);
@@ -206,13 +205,15 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                     </select>
                   }
 
-                  // console.log(secureStorage.getItem("user") === json.rows[i].email);
-
-                  // console.log("secure: " + secureStorage.getItem("user"));
-                  // console.log("rows: " + json.rows[i].email);
+                  
+                  console.log("secure: " + secureStorage.getItem("user"));
+                  console.log("rows: " + json.rows[i].email);
+                  console.log("Condicion: " + secureStorage.getItem("user") === json.rows[i].email);
                   if(secureStorage.getItem("user") === json.rows[i].email){
+                    console.log("if");
                     row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                   } else {
+                    console.log("else");
                     row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                   }
 
@@ -243,6 +244,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                     row.color = "#bbb"
                   }
 
+                  console.log("entra else");
                   row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                 }
                 
@@ -2149,6 +2151,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                     </select>
                   }
 
+                  console.log("secure storage: " + secureStorage.getItem("user"));
+                  console.log("josn email: " + json.rows[i].email);
                   if(secureStorage.getItem("user") === json.rows[i].email){
                     row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                   } else {
@@ -2182,6 +2186,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                     row.color = "#bbb"
                   }
 
+                  console.log("secure storage: " + secureStorage.getItem("user"));
+                  console.log("josn email: " + json.rows[i].email);
                   row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                 }
                 
@@ -2199,6 +2205,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                   pendingRows.push(row)
                 }
 
+                console.log("secure storage: " + secureStorage.getItem("user"));
+                console.log("josn email: " + json.rows[i].email);
             }
           }
             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVNByProjects/"+secureStorage.getItem("user"), options)
@@ -2293,6 +2301,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                         <option value="high" selected>High</option>
                         </select>
                       }
+
+                      console.log("secure storage: " + secureStorage.getItem("user"));
+                      console.log("json email: " + json.rows[i].email);
+
                       if(secureStorage.getItem("user") === json.rows[i].email){
                         row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                       } else {
@@ -2438,6 +2450,9 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                             <option value="high" selected>High</option>
                             </select>
                           }
+                          
+                          console.log("secure storage: " + secureStorage.getItem("user"));
+                          console.log("json email: " + json.rows[i].email);
                           if(secureStorage.getItem("user") === json.rows[i].email){
                             row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                           } else {
@@ -2583,6 +2598,9 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                 </select>
                               }
 
+                              console.log("secure storage: " + secureStorage.getItem("user"));
+                              console.log("json email: " + json.rows[i].email);
+
                               if(secureStorage.getItem("user") === json.rows[i].email){
                                 row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                               } else {
@@ -2722,6 +2740,9 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                     </select>
                                   }
 
+                                  console.log("secure storage: " + secureStorage.getItem("user"));
+                              console.log("json email: " + json.rows[i].email);
+
                                   if(secureStorage.getItem("user") === json.rows[i].email){
                                     row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                   } else {
@@ -2859,6 +2880,9 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                         </select>
                                       }
 
+                                      console.log("secure storage: " + secureStorage.getItem("user"));
+                              console.log("json email: " + json.rows[i].email);
+
                                       if(secureStorage.getItem("user") === json.rows[i].email){
                                         row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                       } else {
@@ -2995,6 +3019,9 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                         <option value="high" selected>High</option>
                                         </select>
                                       }
+
+                                      console.log("secure storage: " + secureStorage.getItem("user"));
+                              console.log("json email: " + json.rows[i].email);
 
                                       if(secureStorage.getItem("user") === json.rows[i].email){
                                         row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
@@ -3141,6 +3168,9 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                           <option value="high" selected>High</option>
                                           </select>
                                         }
+
+                                        console.log("secure storage: " + secureStorage.getItem("user"));
+                              console.log("json email: " + json.rows[i].email);
 
                                         if(secureStorage.getItem("user") === json.rows[i].email){
                                           row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
@@ -3290,6 +3320,9 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                               </select>
                                             }
 
+                                            console.log("secure storage: " + secureStorage.getItem("user"));
+                              console.log("json email: " + json.rows[i].email);
+
                                             if(secureStorage.getItem("user") === json.rows[i].email){
                                               row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                             } else {
@@ -3437,6 +3470,9 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                 <option value="high" selected>High</option>
                                                 </select>
                                               }
+                                              
+                                              console.log("secure storage: " + secureStorage.getItem("user"));
+                              console.log("json email: " + json.rows[i].email);
 
                                               if(secureStorage.getItem("user") === json.rows[i].email){
                                                 row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
@@ -3586,6 +3622,9 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                   </select>
                                                 }
 
+                                                console.log("secure storage: " + secureStorage.getItem("user"));
+                              console.log("json email: " + json.rows[i].email);
+
                                                 if(secureStorage.getItem("user") === json.rows[i].email){
                                                   row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                 } else {
@@ -3734,6 +3773,9 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                       </select>
                                                     }
 
+                                                    console.log("secure storage: " + secureStorage.getItem("user"));
+                              console.log("json email: " + json.rows[i].email);
+
                                                     if(secureStorage.getItem("user") === json.rows[i].email){
                                                       row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                     } else {
@@ -3881,6 +3923,9 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                         <option value="high" selected>High</option>
                                                         </select>
                                                       }
+
+                                                      console.log("secure storage: " + secureStorage.getItem("user"));
+                              console.log("json email: " + json.rows[i].email);
 
                                                       if(secureStorage.getItem("user") === json.rows[i].email){
                                                         row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>

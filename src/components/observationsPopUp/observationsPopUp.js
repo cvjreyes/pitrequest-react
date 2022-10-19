@@ -64,6 +64,7 @@ export default class ObservationsPopUp extends Component { //PopUp que muestra l
 
     handleChange = async(e) =>{
         await this.setState({observations: e.target.value})
+        console.log(e.target.value);
     }
 
     componentDidMount(){
