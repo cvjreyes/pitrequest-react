@@ -229,7 +229,7 @@ const PitRequestView = () => {
     },[updateData])
 
     useEffect(async ()=>{ //Si se activa el toggle de showAll se muestran todas las incidencias, no solo las que estan abiertas
-        console.log("show all use effect: " + showAll);
+        // console.log("show all use effect: " + showAll);
         setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={showAlertCount.bind(this)} currentUser= {currentUser}/>)
     },[showAll])
 
@@ -247,13 +247,13 @@ const PitRequestView = () => {
                 setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("Projects")}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
                 setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
                 setRequestAccessButton(null)
-                setProjectDropDown(<div style={{display:"flex", float:"right", marginTop:"10px"}}><label htmlFor="projectFilter" className="project__label">Project: </label><select id="projectFilter" className="projectFilterSelect" onChange={(e) => setCurrentProject(e.target.value)}>
+                setProjectDropDown(<div style={{display:"flex", float:"right", marginTop:"10px"}}><label for="projectFilter" className="project__label">Project: </label><select id="projectFilter" className="projectFilterSelect" onChange={(e) => setCurrentProject(e.target.value)}>
                     {projectFilter.map(project =>(
                         <option>{project}</option>
                     ))}
                 </select></div>)
 
-                console.log("Show all 1: " + showAll);
+                // console.log("Show all 1: " + showAll);
 
                 setCompletedTable(<div style={{display:"flex", float:"right"}}>
                         <label className="showAllSwitchBtn">
@@ -312,7 +312,7 @@ const PitRequestView = () => {
             setExportUsersReport(null)
             setRequestAccessButton(null)
             setProjectDropDown(null)
-            console.log("Show all 2: " + showAll);
+            // console.log("Show all 2: " + showAll);
             setCompletedTable(<div style={{display:"flex", float:"right"}}>
                 <label className="showAllSwitchBtn">
                     <p className="showAll__text">Completed</p>

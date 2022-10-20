@@ -267,7 +267,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                 }
               }
             }
-            console.log("IF JSON ROWS desc: " + JSON.stringify(rows));
+            // console.log("IF JSON ROWS desc: " + JSON.stringify(rows));
 
             //Repetimos lo mismo para todas las incidencias
             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVNByProjects/"+secureStorage.getItem("user"), options)
@@ -2092,22 +2092,22 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
 
 
   async componentDidUpdate(prevProps, prevState){
-    console.log("prevProps update data: " + prevProps.updateData);
-    console.log("Props update data: " + this.props.updateData);
-    console.log("prevProps show all: " + prevProps.showAll);
-    console.log("Props show all: " + this.props.showAll);
+    //console.log("prevProps update data: " + prevProps.updateData);
+    //console.log("Props update data: " + this.props.updateData);
+    //console.log("prevProps show all: " + prevProps.showAll);
+    //console.log("Props show all: " + this.props.showAll);
     
     if(prevProps.updateData !== this.props.updateData || prevProps.showAll !== this.props.showAll){
-      console.log("if 1");
+      //console.log("if 1");
       if(prevProps.showAll !== this.props.showAll){
-        console.log("if 2");
-        console.log("Show all props: " + this.props.showAll);
+        //console.log("if 2");
+        //console.log("Show all props: " + this.props.showAll);
         if(this.props.showAll){
-          console.log("if 3");
-          console.log("data:" + JSON.stringify(this.state.data));          
+          //console.log("if 3");
+          //console.log("data:" + JSON.stringify(this.state.data));          
           this.setState({displayData: this.state.data})
         }else{
-          console.log("pendingData: " + JSON.stringify(this.state.pendingData));          
+          //console.log("pendingData: " + JSON.stringify(this.state.pendingData));          
           this.setState({displayData: this.state.pendingData})
         }
       }else{
@@ -4098,7 +4098,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                     if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4 || json.rows[i].status === 2 || json.rows[i].status === 3){
                                                       rows.push(row)
                                                     }
-                                                    
+
                                                 }
                                               }
 
