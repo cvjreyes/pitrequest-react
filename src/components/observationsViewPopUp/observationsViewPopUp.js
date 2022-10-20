@@ -86,7 +86,7 @@ export default class ObservationsViewPopUp extends Component { //PopUp que muest
                         </div>
                         <div className="selector__container__obs__view">
                         
-                            <textarea readOnly className='textarea__observations' defaultValue={this.state.observations} id="textarea" >
+                            <textarea readOnly className='textarea__observations' value={this.state.observations} id="textarea" >
 
                             </textarea>                                
                         </div>

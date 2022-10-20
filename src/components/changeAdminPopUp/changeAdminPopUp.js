@@ -89,13 +89,13 @@ export default class ChangeAdminPopUp extends Component {
                         </div>
                         <div className="selector__container">
                         
-                            <select defaultValue={this.state.currentAdmin} onChange={this.handleChange} id="userSelect" className="userSelect">
+                            <select selected={this.state.currentAdmin} onChange={this.handleChange} id="userSelect" className="userSelect">
                                 {this.state.admins.map(admin =>(
                                     <option>{admin}</option>
                                 ))}
                             </select>
                                 
-                            <button class="btn__assign" onClick={()=>this.changeAdmin()}>Assign</button>
+                            <button className="btn__assign" onClick={()=>this.changeAdmin()}>Assign</button>
                         </div>
                     </Modal>
                 </div>

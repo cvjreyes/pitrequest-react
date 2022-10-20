@@ -128,8 +128,8 @@ export default class RequestAccessPopUp extends Component { //PopUP para pedir a
                          
                         
                         <div className="popUp__buttons__container__users2">
-                            <button class="btn__addUser" style={{marginLeft:"0px"}} onClick={() => this.submitRequest()}>Submit</button>
-                            <button class="btn__cancel__user" onClick={() => this.closeModal()}>Cancel</button>
+                            <button className="btn__addUser" style={{marginLeft:"0px"}} onClick={() => this.submitRequest()}>Submit</button>
+                            <button className="btn__cancel__user" onClick={() => this.closeModal()}>Cancel</button>
                         </div>
                     </Modal>
                 </div>

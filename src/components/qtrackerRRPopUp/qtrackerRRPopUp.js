@@ -209,7 +209,7 @@ export default class QtrackerRRPopUp extends Component {
         return (
           <div>
             <div className='mainmenu__item__container' style={{marginTop:marginReport}}>
-              <span style={{display:"flex"}} ><div style={{width:"160px"}}><text className='mainmenu__item' onClick={()=> this.openModal()}>Report</text></div></span>
+              <span style={{display:"flex"}} ><div style={{width:"160px"}}><p className='mainmenu__item' onClick={()=> this.openModal()}>Report</p></div></span>
             </div>
               
             <Modal visible={this.state.visible} width="650" height="700" effect="fadeInUp" onClickAway={() => this.closeModal()}>
@@ -232,13 +232,13 @@ export default class QtrackerRRPopUp extends Component {
                   {/* Primer fila: Project - Carta - Priority */}
                   <tr>
                     <td style={{textAlign: "left"}}>
-                      <label className="priority__label" for="projectSelect" >Project</label>                            
+                      <label className="priority__label" htmlFor="projectSelect" >Project</label>                            
                     </td>
                     <td style={{textAlign: "left"}}>
-                      <label className="priority__label" for="carta">Carta</label>                            
+                      <label className="priority__label" htmlFor="carta">Carta</label>                            
                     </td>
                     <td style={{textAlign: "left"}}>
-                      <label className="priority__label" for="prioritySelect">Priority</label>
+                      <label className="priority__label" htmlFor="prioritySelect">Priority</label>
                     </td>
                   </tr>
                   <tr>
@@ -263,7 +263,7 @@ export default class QtrackerRRPopUp extends Component {
                   {/* Segunda fila: Items*/}
                   <tr>
                     <td style={{textAlign: "left"}}>
-                      <label className="priority__label" for="items">Items to report</label>
+                      <label className="priority__label" htmlFor="items">Items to report</label>
                     </td>
                   </tr>
                   <tr>
@@ -275,7 +275,7 @@ export default class QtrackerRRPopUp extends Component {
                   {/* Tercera fila: Scope*/}
                   <tr>
                     <td style={{textAlign: "left"}}>
-                      <label className="priority__label" for="scope">Scope</label>
+                      <label className="priority__label" htmlFor="scope">Scope</label>
                     </td>
                   </tr>
                   <tr>
@@ -287,7 +287,7 @@ export default class QtrackerRRPopUp extends Component {
                   {/* Cuarta fila: Description*/}
                   <tr>
                     <td style={{textAlign: "left"}}>
-                      <label className="priority__label" for="description">Description</label>
+                      <label className="priority__label" htmlFor="description">Description</label>
                     </td>
                   </tr>
                   <tr>
@@ -298,8 +298,8 @@ export default class QtrackerRRPopUp extends Component {
                 </tbody>
               </table>
               {/* Cuarta fila: Los dos botones */}
-              <button class="btn__submit" onClick={() => this.request()} >Submit</button>
-              <button class="btn__cancel" onClick={() => this.closeModal()}>Cancel</button>
+              <button className="btn__submit" onClick={() => this.request()} >Submit</button>
+              <button className="btn__cancel" onClick={() => this.closeModal()}>Cancel</button>
               </div>
             </Modal>
           </div>

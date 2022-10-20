@@ -204,13 +204,11 @@ h4{
 }
 
 .mainmenu__item__container{
-    margin-top: 35px;
     cursor: pointer;
     width: 270px;
 }
 
 .mainmenu__item__container__soft{
-    margin-top: 35px;
     cursor: pointer;
     width: 400px;
     margin-right: 20px;

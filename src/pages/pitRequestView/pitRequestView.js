@@ -48,9 +48,9 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
         }
       
         return (
-          <text x={x} y={y} fill="black" textAnchor={'middle'} dominantBaseline="central">
+          <p x={x} y={y} fill="black" textAnchor={'middle'} dominantBaseline="central">
               {index}
-          </text>
+          </p>
         );
     }
     
@@ -100,6 +100,7 @@ const PitRequestView = () => {
     const [counter, setCounter] = useState([])
     const [content, setContent] = useState(null)
     const [saveButton, setSaveButton] = useState(null)
+    const [completedTable, setCompletedTable] = useState(null)
     const [usersButton, setUsersButton] = useState(null)
     const [addUserButton, setAddUserButton] = useState(null)
     const [exportReport, setExportReport] = useState(null)
@@ -190,20 +191,20 @@ const PitRequestView = () => {
                     secureStorage.setItem('role', json.roles[0])
                     setCurrentRole(secureStorage.getItem('role'))
                 }
-                }
+            }
             )
             .catch(error => {
                 console.log(error);
             })     
             
             
-        if(secureStorage.getItem("role") === "3D Admin"){ //Si el user es 3d admin tiene la opcion de guardar cambios y acceder a la ventana de usuarios
-            setSaveBtn(<button className="navBar__button" onClick={()=> saveChanges()}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>)
-            setUsersButton(<button className="navBar__button" onClick={()=>setCurrentTab("Users")} style={{width:"100px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Users</p></button>)
-        }else{
-            setSaveBtn(null)
-            setUsersButton(null)
-        }
+            if(secureStorage.getItem("role") === "3D Admin"){ //Si el user es 3d admin tiene la opcion de guardar cambios y acceder a la ventana de usuarios
+                setSaveBtn(<button className="navBar__button" onClick={()=> saveChanges()}><img src={SaveIcon} alt="save" className="navBar__icon"></img><p className="navBar__button__text">Save</p></button>)
+                setUsersButton(<button className="navBar__button" onClick={()=>setCurrentTab("Users")} style={{width:"100px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Users</p></button>)
+            }else{
+                setSaveBtn(null)
+                setUsersButton(null)
+            }
             
     },[currentRole]);
 
@@ -228,6 +229,7 @@ const PitRequestView = () => {
     },[updateData])
 
     useEffect(async ()=>{ //Si se activa el toggle de showAll se muestran todas las incidencias, no solo las que estan abiertas
+        console.log("show all use effect: " + showAll);
         setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={showAlertCount.bind(this)} currentUser= {currentUser}/>)
     },[showAll])
 
@@ -245,11 +247,21 @@ const PitRequestView = () => {
                 setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("Projects")}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
                 setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
                 setRequestAccessButton(null)
-                setProjectDropDown(<div style={{display:"flex", float:"right", marginTop:"10px"}}><label for="projectFilter" className="project__label">Project: </label><select id="projectFilter" className="projectFilterSelect" onChange={(e) => setCurrentProject(e.target.value)}>
+                setProjectDropDown(<div style={{display:"flex", float:"right", marginTop:"10px"}}><label htmlFor="projectFilter" className="project__label">Project: </label><select id="projectFilter" className="projectFilterSelect" onChange={(e) => setCurrentProject(e.target.value)}>
                     {projectFilter.map(project =>(
                         <option>{project}</option>
                     ))}
                 </select></div>)
+
+                console.log("Show all 1: " + showAll);
+
+                setCompletedTable(<div style={{display:"flex", float:"right"}}>
+                        <label className="showAllSwitchBtn">
+                            <p className="showAll__text">Completed</p>
+                            <input type="checkbox" id="edit" style={{marginLeft: "30px"}} onClick={()=> setShowAll(!showAll)}/>
+                            <div className="slide round"></div>
+                        </label>
+                    </div>)
             }else if(currentTab === "Users"){ //Si es la tabla de usuarios
                 secureStorage.setItem("tab", "Users")
                 setExportUsersReport(<button className="action__btn" name="export" value="export" onClick={() => downloadUsersReport()}>Export</button>)
@@ -262,6 +274,7 @@ const PitRequestView = () => {
                 setBackToMenuButton(<button className="navBar__button" onClick={()=> setCurrentTab("View")} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
                 setRequestAccessButton(<button className="navBar__button" onClick={()=>setCurrentTab("Access")} style={{width:"170px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Access requests</p></button>)
                 setProjectDropDown(null)
+                setCompletedTable(null)
             }else if(currentTab === "Access"){ //Si es la tabla de gestion de peticiones de acceso
                 secureStorage.setItem("tab", "Access")
                 setExportUsersReport(null)
@@ -274,6 +287,7 @@ const PitRequestView = () => {
                 setBackToMenuButton(<button className="navBar__button" onClick={()=> setCurrentTab("Users")} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
                 setRequestAccessButton(null)
                 setProjectDropDown(null)
+                setCompletedTable(null)
             }else if(currentTab === "Projects"){ //Si estamos en la vista de proyectos
                 secureStorage.setItem("tab", "Projects")
                 setProjectsButton(null)
@@ -286,6 +300,7 @@ const PitRequestView = () => {
                 setExportUsersReport(null)
                 setRequestAccessButton(null)
                 setProjectDropDown(null)
+                setCompletedTable(null)
             }
         }else{ //Si no es 3d admin se muestra la vista de incidencias normal
             setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={showAlertCount.bind(this)} currentUser= {currentUser}/>)
@@ -297,9 +312,17 @@ const PitRequestView = () => {
             setExportUsersReport(null)
             setRequestAccessButton(null)
             setProjectDropDown(null)
+            console.log("Show all 2: " + showAll);
+            setCompletedTable(<div style={{display:"flex", float:"right"}}>
+                <label className="showAllSwitchBtn">
+                    <p className="showAll__text">Completed</p>
+                    <input type="checkbox" id="edit" style={{marginLeft: "30px"}} onClick={()=> setShowAll(!showAll)}/>
+                    <div className="slide round"></div>
+                </label>
+            </div>)
         }
         
-    }, [currentTab, updateData, currentRole, currentProject])
+    }, [currentTab, updateData, currentRole, currentProject, showAll])
 
     function back(){
         history("/"+process.env.REACT_APP_PROJECT+"/pitrequests")
@@ -1181,46 +1204,44 @@ const PitRequestView = () => {
                 </PieChart>
             </div>
             <table className="isotracker__table__container">
-                      <tr className="isotracker__table__navBar__container" style={{height:"65px "}}>
-                          <th  className="isotracker__table__navBar">
-                              <div style={{display:"flex"}}>
-                                  <div>
-                                    {backToMenuButton}
-                                    {saveButton}
-                                    {projectsButton}
-                                    {usersButton}
-                                    {requestAccessButton}
-                                    <div style={{display:"flex", float:"right"}}><label className="showAllSwitchBtn">
-                                    <p className="showAll__text">Completed</p>
-                                    <input type="checkbox" id="edit" style={{marginLeft: "30px"}} onClick={()=> setShowAll(!showAll)}/>
-                                    <div className="slide round"></div>
-                                    </label></div>
-                                    {projectDropDown}
-                                    
-                                  </div>
-                                  
-                              </div>                           
-                               
-                          </th>
-                      </tr>
-                      <tr className="isotracker__table__tray__and__table__container" style={{height: dataTableHeight}}>
-                          <td className="discplines__table__table" style={{height: dataTableHeight}} >
-                              <div  style={{height: dataTableHeight, width:"2200px"}} className="isotracker__table__table__container">
-                                  {content}
-                              </div>
-                          </td>
-                          
-                      </tr>
-                  </table>
-                  <center className="actionBtns__container">   
-                    <div style={{display:"flex", marginTop:"10px"}}>
-                        {addUserButton}
-                        {exportReport}
-                        {exportUsersReport}
-                    </div>
-                    
-                  </center>
-                  <br></br>
+                <tbody>
+                    <tr className="isotracker__table__navBar__container" style={{height:"65px "}}>
+                        <th  className="isotracker__table__navBar">
+                            <div style={{display:"flex"}}>
+                                <div>
+                                {backToMenuButton}
+                                {saveButton}
+                                {projectsButton}
+                                {usersButton}
+                                {requestAccessButton}
+                                {completedTable}
+                                {projectDropDown}
+                                
+                                </div>
+                                
+                            </div>                           
+                            
+                        </th>
+                    </tr>
+                    <tr className="isotracker__table__tray__and__table__container" style={{height: dataTableHeight}}>
+                        <td className="discplines__table__table" style={{height: dataTableHeight}} >
+                            <div  style={{height: dataTableHeight, width:"2200px"}} className="isotracker__table__table__container">
+                                {content}
+                            </div>
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+            <center className="actionBtns__container">   
+            <div style={{display:"flex", marginTop:"10px"}}>
+                {addUserButton}
+                {exportReport}
+                {exportUsersReport}
+            </div>
+            
+            </center>
+            <br></br>
          </div>
     )
 }

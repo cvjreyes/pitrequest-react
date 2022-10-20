@@ -47,6 +47,8 @@ export default class ObservationsPopUp extends Component { //PopUp que muestra l
             visible : true,
             observations: this.props.observations
         });
+        console.log("Open Modal: " + this.props.observations);
+        console.log("Open Modal state: " + this.state.observations);
 
     }
 
@@ -64,6 +66,7 @@ export default class ObservationsPopUp extends Component { //PopUp que muestra l
 
     handleChange = async(e) =>{
         await this.setState({observations: e.target.value})
+        console.log("Handlechange: " + e.target.value);
     }
 
     componentDidMount(){
@@ -94,7 +97,7 @@ export default class ObservationsPopUp extends Component { //PopUp que muestra l
                         <div style={{marginTop:"2%"}} className="popUp__container" >
                             <button
                                 type="button"
-                                class="btn-close"
+                                className="btn-close"
                                 data-mdb-dismiss="modal"
                                 aria-label="Close"
                                 onClick={() => this.closeModal()}
@@ -104,11 +107,11 @@ export default class ObservationsPopUp extends Component { //PopUp que muestra l
                         </div>
                         <div className="selector__container__obs">
                         
-                            <textarea className='textarea__observations__edit' defaultValue={this.state.observations} onChange={this.handleChange} id="textarea" >
+                            <textarea className='textarea__observations__edit' value={this.state.observations} onChange={this.handleChange} id="textarea" >
 
                             </textarea>
                                 
-                            <button class="btn__assign__obs" onClick={()=>this.updateObservations()}>Update</button>
+                            <button className="btn__assign__obs" onClick={()=>this.updateObservations()}>Update</button>
                         </div>
                     </Modal>
                 </div>

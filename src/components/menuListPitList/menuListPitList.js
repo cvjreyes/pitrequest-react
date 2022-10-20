@@ -112,7 +112,7 @@ function StyledTreeItem(props) {
       label={
         <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
           <Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} />
-          <Typography variant="h5" sx={{ fontWeight: 'inherit', flexGrow: 1, fontFamily: "Montserrat, sans-serif", fontSize:"30px" }}>
+          <Typography variant="h5" sx={{ fontWeight: 'inherit', flexGrow: 1, fontFamily: "Montserrat, sans-serif", fontSize:"10px" }}>
             {labelText}
           </Typography>
           <Typography variant="caption" color="inherit">
@@ -239,35 +239,35 @@ export default function MenuListPITList(props) {
           .then(async json => {
             // Si eres admin Muestra ( Software Issues, Request Dashboard, CAD Library, User Management, IT Plan)
             if(json.isAdmin){
-              await setOptions(<div><text className='select__text'>Select your option</text>
+              await setOptions(<div><p className='select__text'>Select your option</p>
               <div className='mainmenu__item__container' style={{marginTop:"40px"}}>
-                <span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><div style={{width:"260px"}}><text className='mainmenu__item'>Software issues</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                <span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><div style={{width:"260px"}}><p className='mainmenu__item'>Software issues</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
               </div>
               <div className='mainmenu__item__container'>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> handlePitViewClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Requests Dashboard</text></div></span>
-              </div>
-
-              <div className='mainmenu__item__container'>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> handleLibraryClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>CAD Library</text></div></span>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handlePitViewClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>Requests Dashboard</p></div></span>
               </div>
 
               <div className='mainmenu__item__container'>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> handleUsersViewClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>User Management</text></div></span>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleLibraryClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>CAD Library</p></div></span>
+              </div>
+
+              <div className='mainmenu__item__container'>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleUsersViewClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>User Management</p></div></span>
               </div>
               <div className='mainmenu__item__container'>
-                <span style={{display:"flex"}} onClick={()=> setcurrentMenu("itplan")}><div style={{width:"260px"}}><text className='mainmenu__item'>IT Plan</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                <span style={{display:"flex"}} onClick={()=> setcurrentMenu("itplan")}><div style={{width:"260px"}}><p className='mainmenu__item'>IT Plan</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
               </div></div>)
             // Si no es admin se muestra ( Software Issues, Requests Dashboards, CAD Library )
             }else{
-              await setOptions(<div><text className='select__text'>Select your option</text>
+              await setOptions(<div><p className='select__text'>Select your option</p>
               <div className='mainmenu__item__container' style={{marginTop:"40px"}}>
-                <span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><div style={{width:"260px"}}><text className='mainmenu__item'>Software issues</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                <span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><div style={{width:"260px"}}><p className='mainmenu__item'>Software issues</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
               </div>
               <div className='mainmenu__item__container'>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> handlePitViewClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Requests Dashboard</text></div></span>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handlePitViewClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>Requests Dashboard</p></div></span>
               </div>
               <div className='mainmenu__item__container'>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> handleLibraryClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>CAD Library</text></div></span>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleLibraryClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>CAD Library</p></div></span>
               </div></div>)
             }
             /*
@@ -310,42 +310,42 @@ export default function MenuListPITList(props) {
       // Si selecciona Software Issues se muestra todos los softwares registrados en la empresa
       }else if(currentMenu === "software"){
         await setOptions(<div>
-        <div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>MAIN MENU</text></div></span></div>
-                <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
-                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("aveva_eng")}><div style={{width:"480px"}}><text className='mainmenu__item'>Aveva Engineering</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+        <div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><p className='back__text'>MAIN MENU</p></div></span></div>
+                <div className='mainmenu__item__container__soft' style={{marginTop:"10px"}}>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("aveva_eng")}><div style={{width:"480px"}}><p className='mainmenu__item'>Aveva Engineering</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div>
-                <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
-                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("aveva_e3d")}><div style={{width:"480px"}}><text className='mainmenu__item'>Aveva E3D Design</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                <div className='mainmenu__item__container__soft' style={{marginTop:"10px"}}>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("aveva_e3d")}><div style={{width:"480px"}}><p className='mainmenu__item'>Aveva E3D Design</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div>
-                <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
-                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("aveva_diag")}><div style={{width:"480px"}}><text className='mainmenu__item'>Aveva Diagrams</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                <div className='mainmenu__item__container__soft' style={{marginTop:"10px"}}>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("aveva_diag")}><div style={{width:"480px"}}><p className='mainmenu__item'>Aveva Diagrams</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div>
-                <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
-                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("int_smart_inst")}><div style={{width:"480px"}}><text className='mainmenu__item'>Intergraph Smart Instrumentation</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                <div className='mainmenu__item__container__soft' style={{marginTop:"10px"}}>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("int_smart_inst")}><div style={{width:"480px"}}><p className='mainmenu__item'>Intergraph Smart Instrumentation</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div>
-                <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
-                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("int_smart_3D")}><div style={{width:"480px"}}><text className='mainmenu__item'>Intergraph Smart 3D</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                <div className='mainmenu__item__container__soft' style={{marginTop:"10px"}}>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("int_smart_3D")}><div style={{width:"480px"}}><p className='mainmenu__item'>Intergraph Smart 3D</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div>
-                <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
-                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("auto_auto")}><div style={{width:"480px"}}><text className='mainmenu__item'>Autodesk Autocad Plant 3D</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                <div className='mainmenu__item__container__soft' style={{marginTop:"10px"}}>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("auto_auto")}><div style={{width:"480px"}}><p className='mainmenu__item'>Autodesk Autocad Plant 3D</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div>
-                <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
-                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("auto_revit")}><div style={{width:"480px"}}><text className='mainmenu__item'>Autodesk Revit</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                <div className='mainmenu__item__container__soft' style={{marginTop:"10px"}}>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("auto_revit")}><div style={{width:"480px"}}><p className='mainmenu__item'>Autodesk Revit</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div>
-                <div className='mainmenu__item__container__soft' style={{marginTop:"30px"}}>
-                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("iso")}><div style={{width:"480px"}}><text className='mainmenu__item'>IsoTracker</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+                <div className='mainmenu__item__container__soft' style={{marginTop:"10px"}}>
+                  <span style={{display:"flex"}} onClick={()=> setcurrentMenu("iso")}><div style={{width:"480px"}}><p className='mainmenu__item'>IsoTracker</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
                 </div></div>)
     // Si selecciona estos tres softwares su submenu mostrara ( Request Item, Issues, Piping Spec Materials)
     }else if(currentMenu === "aveva_eng" || currentMenu === "aveva_diag" || currentMenu === "aveva_e3d"){
-      await setOptions(<div><div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>SOFTWARE</text></div></span></div>
+      await setOptions(<div><div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><p className='back__text'>SOFTWARE</p></div></span></div>
       <div className='mainmenu__item__container' style={{marginTop:"40px"}}>
-        <span style={{display:"flex"}} onClick={()=> setcurrentMenu("request")}><div style={{width:"260px"}}><text className='mainmenu__item'>Request Item</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+        <span style={{display:"flex"}} onClick={()=> setcurrentMenu("request")}><div style={{width:"260px"}}><p className='mainmenu__item'>Request Item</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
       </div>
       <div className='mainmenu__item__container'>
-        <span style={{display:"flex"}} onClick={()=> setcurrentMenu("issues")}><div style={{width:"260px"}}><text className='mainmenu__item'>Issues</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+        <span style={{display:"flex"}} onClick={()=> setcurrentMenu("issues")}><div style={{width:"260px"}}><p className='mainmenu__item'>Issues</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
       </div>
       <div className='mainmenu__item__container'>
-        <span style={{display:"flex"}} onClick={()=> setcurrentMenu("piping")}><div style={{width:"260px"}}><text className='mainmenu__item'>Piping Spec Materials</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+        <span style={{display:"flex"}} onClick={()=> setcurrentMenu("piping")}><div style={{width:"260px"}}><p className='mainmenu__item'>Piping Spec Materials</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
       </div></div>)
       // Boleana que si es falso no muestra datos extras en el submenu de Request Item y Issues
       if(currentMenu === "aveva_eng"){
@@ -360,12 +360,12 @@ export default function MenuListPITList(props) {
       }
     // Si seleccionas estos software se mostrara ( Request Item, Issues )
     }else if(currentMenu === "int_smart_inst" || currentMenu === "int_smart_3D"){
-      await setOptions(<div><div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>SOFTWARE</text></div></span></div>
+      await setOptions(<div><div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><p className='back__text'>SOFTWARE</p></div></span></div>
       <div className='mainmenu__item__container' style={{marginTop:"40px"}}>
-        <span style={{display:"flex"}} onClick={()=> setcurrentMenu("request")}><div style={{width:"260px"}}><text className='mainmenu__item'>Request Item</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+        <span style={{display:"flex"}} onClick={()=> setcurrentMenu("request")}><div style={{width:"260px"}}><p className='mainmenu__item'>Request Item</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
       </div>
       <div className='mainmenu__item__container'>
-        <span style={{display:"flex"}} onClick={()=> setcurrentMenu("issues")}><div style={{width:"260px"}}><text className='mainmenu__item'>Issues</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+        <span style={{display:"flex"}} onClick={()=> setcurrentMenu("issues")}><div style={{width:"260px"}}><p className='mainmenu__item'>Issues</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
       </div></div>)
       if(currentMenu === "int_smart_inst"){
         setInSmart3d(false)
@@ -378,12 +378,12 @@ export default function MenuListPITList(props) {
       }    
     // Si seleccionas estos software se mostrara ( Issues, Piping Spec Materials )
     }else if(currentMenu === "auto_auto" || currentMenu === "auto_revit"){
-      await setOptions(<div><div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>SOFTWARE</text></div></span></div>
+      await setOptions(<div><div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><p className='back__text'>SOFTWARE</p></div></span></div>
       <div className='mainmenu__item__container'>
-        <span style={{display:"flex"}} onClick={()=> setcurrentMenu("issues")}><div style={{width:"260px"}}><text className='mainmenu__item'>Issues</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+        <span style={{display:"flex"}} onClick={()=> setcurrentMenu("issues")}><div style={{width:"260px"}}><p className='mainmenu__item'>Issues</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
       </div>
       <div className='mainmenu__item__container'>
-        <span style={{display:"flex"}} onClick={()=> setcurrentMenu("piping")}><div style={{width:"260px"}}><text className='mainmenu__item'>Piping Spec Materials</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+        <span style={{display:"flex"}} onClick={()=> setcurrentMenu("piping")}><div style={{width:"260px"}}><p className='mainmenu__item'>Piping Spec Materials</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
       </div></div>)
       if(currentMenu === "auto_auto"){
         setInSmart3d(false)
@@ -394,9 +394,9 @@ export default function MenuListPITList(props) {
       } 
     // Si seleccionas estos software se mostrara ( Issues )
     }else if(currentMenu === "iso"){
-      await setOptions(<div><div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>SOFTWARE</text></div></span></div>
+      await setOptions(<div><div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("software")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><p className='back__text'>SOFTWARE</p></div></span></div>
       <div className='mainmenu__item__container'>
-        <span style={{display:"flex"}} onClick={()=> setcurrentMenu("issues")}><div style={{width:"260px"}}><text className='mainmenu__item'>Issues</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+        <span style={{display:"flex"}} onClick={()=> setcurrentMenu("issues")}><div style={{width:"260px"}}><p className='mainmenu__item'>Issues</p></div><img src={Vector} alt="vector" className='vector__image'></img></span>
       </div></div>)
       if(currentMenu === "iso"){
         setInSmart3d(false)
@@ -406,7 +406,7 @@ export default function MenuListPITList(props) {
     }else if(currentMenu === "request"){
         // Si el software es smart3D se muestran mas componentes
         if(inSmart3d===true){
-          await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu) && setInSmart3d(false)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>REQUEST ITEM</text></div></span>
+          await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu) && setInSmart3d(false)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><p className='back__text'>REQUEST ITEM</p></div></span>
           <QtrackerRRPopUp success={success.bind(this)} margin={true}/>
           <QtrackerNRIDSPopUp success={success.bind(this)}/>
           <QtrackerISPopUp success={success.bind(this)}/>
@@ -415,7 +415,7 @@ export default function MenuListPITList(props) {
           <QtrackerPermissionsPopUp success={success.bind(this)}/></div>)
         // Si no esta en el software smart3D se muestran menos campos
         } else if (inSmart3d===false) {
-          await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>REQUEST ITEM</text></div></span>
+          await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><p className='back__text'>REQUEST ITEM</p></div></span>
           <QtrackerRRPopUp success={success.bind(this)} margin={true}/>
           <QtrackerNRIDSPopUp success={success.bind(this)}/>
           <QtrackerISPopUp success={success.bind(this)}/></div>)
@@ -424,7 +424,7 @@ export default function MenuListPITList(props) {
       }else if(currentMenu === "issues"){
         // Si el software es smart3D se muestran mas componentes
         if(inSmart3d===true){
-          await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu) && setInSmart3d(false)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>ISSUES</text></div></span>
+          await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu) && setInSmart3d(false)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><p className='back__text'>ISSUES</p ></div></span>
           <QtrackerNWCPopUp success={success.bind(this)}/>
           <QtrackerNVNPopUp success={success.bind(this)}/>
           <QtrackerNRIPopUp success={success.bind(this)}/>
@@ -435,7 +435,7 @@ export default function MenuListPITList(props) {
           <QtrackerCitrixPopUp success={success.bind(this)}/></div>)
         // Si no esta en el software smart3D se muestran menos campos
         }else if(inSmart3d===false){
-          await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>ISSUES</text></div></span>
+          await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><p className='back__text'>ISSUES</p ></div></span>
           <QtrackerNWCPopUp success={success.bind(this)}/>
           <QtrackerNVNPopUp success={success.bind(this)}/>
           <QtrackerNRIPopUp success={success.bind(this)}/></div>)
@@ -447,67 +447,67 @@ export default function MenuListPITList(props) {
           .then(async json => {
           // Si es administrador se muestran todos esto campos en el submenu
           if(json.isAdmin){
-            await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><text className='back__text'>PIPING SPEC MATERIALS</text></div></span>
+            await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><p className='back__text'>PIPING SPEC MATERIALS</p ></div></span>
               <div className='mainmenu__item__container'>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> handleCADpmcClick()}><div style={{width:"260px", marginTop:"5px"}}><text className='mainmenu__item'>CADPMC</text></div></span>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleCADpmcClick()}><div style={{width:"260px", marginTop:"5px"}}><p className='mainmenu__item'>CADPMC</p ></div></span>
               </div>
-              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>SPTracker</text></div></span>
+              <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>SPTracker</p ></div></span>
               </div>
-              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> setcurrentMenu("instruments")}><div style={{width:"260px"}}><text className='mainmenu__item'>Instruments</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+              <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> setcurrentMenu("instruments")}><div style={{width:"260px"}}><p className='mainmenu__item'>Instruments</p ></div><img src={Vector} alt="vector" className='vector__image'></img></span>
               </div>
-              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPExpansionJoinsClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Expansion Joins</text></div></span>
+              <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPExpansionJoinsClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>Expansion Joins</p ></div></span>
               </div>
-              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPKeyParamClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Manage Catalogue</text></div></span>
+              <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPKeyParamClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>Manage Catalogue</p ></div></span>
               </div>
             </div>)
           // Si no es admin se mostrara estos campos en el submenu
           } else {
-            await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><text className='back__text'>PIPING SPEC MATERIALS</text></div></span>
+            await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><p className='back__text'>PIPING SPEC MATERIALS</p ></div></span>
               <div className='mainmenu__item__container'>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> handleCADpmcClick()}><div style={{width:"260px", marginTop:"5px"}}><text className='mainmenu__item'>CADPMC</text></div></span>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleCADpmcClick()}><div style={{width:"260px", marginTop:"5px"}}><p className='mainmenu__item'>CADPMC</p ></div></span>
               </div>
-              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>SPTracker</text></div></span>
+              <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>SPTracker</p ></div></span>
               </div>
-              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> setcurrentMenu("instruments")}><div style={{width:"260px"}}><text className='mainmenu__item'>Instruments</text></div><img src={Vector} alt="vector" className='vector__image'></img></span>
+              <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> setcurrentMenu("instruments")}><div style={{width:"260px"}}><p className='mainmenu__item'>Instruments</p ></div><img src={Vector} alt="vector" className='vector__image'></img></span>
               </div>
-              <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
-                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPExpansionJoinsClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Expansion Joins</text></div></span>
+              <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+                <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPExpansionJoinsClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>Expansion Joins</p ></div></span>
               </div>
             </div>)
           }
         })
       // Si pulsa Instruments se mostrara ( General, PSV, Special )
       } else if(currentMenu === "instruments"){
-        await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><text className='back__text'>PIPING INSTRUMENT</text></div></span>
+        await setOptions(<div className='back__item__container__piping'><span style={{display:"flex"}} onClick={()=> setcurrentMenu(backMenu)}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"300px"}}><p className='back__text'>PIPING INSTRUMENT</p ></div></span>
           <div className='mainmenu__item__container'>
-            <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPGeneralClick()}><div style={{width:"260px", marginTop:"5px"}}><text className='mainmenu__item'>General</text></div></span>
+            <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPGeneralClick()}><div style={{width:"260px", marginTop:"5px"}}><p className='mainmenu__item'>General</p ></div></span>
           </div>
-          <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
-            <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPPSVClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>PSV</text></div></span>
+          <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+            <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPPSVClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>PSV</p ></div></span>
           </div>
-          <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
-            <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPSpecialClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Special</text></div></span>
+          <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+            <span style={{display:"flex", width:"260px"}} onClick={()=> handleSPSpecialClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>Special</p ></div></span>
           </div>
         </div>)
       // Si pulsa IT Plan se mostraran ( Tasks, Project Manager, Create Project(PopUp), Offer Manager, Create Offer(PopUp) )
       }else if(currentMenu === "itplan"){
-        await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><text className='back__text'>MAIN MENU</text></div></span>
+        await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><p className='back__text'>MAIN MENU</p></div></span>
 
         <div className='mainmenu__item__container'>
-          <span style={{display:"flex", width:"260px"}} onClick={()=> handleProjectsViewClick()}><div style={{width:"260px", marginTop:"5px"}}><text className='mainmenu__item'>Tasks</text></div></span>
+          <span style={{display:"flex", width:"260px"}} onClick={()=> handleProjectsViewClick()}><div style={{width:"260px", marginTop:"5px"}}><p className='mainmenu__item'>Tasks</p></div></span>
         </div>
         <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
-          <span style={{display:"flex", width:"260px"}} onClick={()=> handleManageProjectsViewClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Project Manager</text></div></span>
+          <span style={{display:"flex", width:"260px"}} onClick={()=> handleManageProjectsViewClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>Project Manager</p></div></span>
         </div>
         <ProjectPopUp successProject={successProject.bind(this)}/>
         <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
-          <span style={{display:"flex", width:"260px"}} onClick={()=> handleManageOffersViewClick()}><div style={{width:"260px"}}><text className='mainmenu__item'>Offer Manager</text></div></span>
+          <span style={{display:"flex", width:"260px"}} onClick={()=> handleManageOffersViewClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>Offer Manager</p></div></span>
         </div>
         <OfferPopUp successProject={successProject.bind(this)}/></div>)
       }

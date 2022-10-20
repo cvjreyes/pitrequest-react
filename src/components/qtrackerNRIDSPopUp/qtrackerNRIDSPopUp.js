@@ -192,7 +192,7 @@ export default class QtrackerNRIDSPopUp extends Component {
         return (
           <div>
             <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
-              <span style={{display:"flex"}} ><div style={{width:"280px"}}><text className='mainmenu__item' onClick={()=> this.openModal()}>Interface files (IFC/DGN)</text></div></span>
+              <span style={{display:"flex"}} ><div style={{width:"280px"}}><p className='mainmenu__item' onClick={()=> this.openModal()}>Interface files (IFC/DGN)</p></div></span>
             </div>
               <div>
                 <Modal visible={this.state.visible} width="670" height="350" effect="fadeInUp" onClickAway={() => this.closeModal()}>
@@ -215,13 +215,13 @@ export default class QtrackerNRIDSPopUp extends Component {
                         {/* Primer fila: Project - Carta - Priority */}
                         <tr>
                           <td style={{textAlign: "left"}}>
-                            <label className="priority__label" for="projectSelect" >Project</label>                            
+                            <label className="priority__label" htmlFor="projectSelect" >Project</label>                            
                           </td>
                           <td style={{textAlign: "left"}}>
-                            <label className="priority__label" for="carta">Carta</label>                            
+                            <label className="priority__label" htmlFor="carta">Carta</label>                            
                           </td>
                           <td style={{textAlign: "left"}}>
-                            <label className="priority__label" for="prioritySelect">Priority</label>
+                            <label className="priority__label" htmlFor="prioritySelect">Priority</label>
                           </td>
                         </tr>
                         <tr>
@@ -246,7 +246,7 @@ export default class QtrackerNRIDSPopUp extends Component {
                         {/* Segunda fila: Name */}
                         <tr>
                           <td style={{textAlign: "left"}}>
-                            <label className="priority__label" for="name">Name</label>
+                            <label className="priority__label" htmlFor="name">Name</label>
                           </td>
                         </tr>
                         <tr >
@@ -258,8 +258,8 @@ export default class QtrackerNRIDSPopUp extends Component {
                       </tbody>
                     </table>
                     {/* Tercera fila: Los dos botones */}
-                    <button class="btn__submit" onClick={() => this.request()} >Submit</button>
-                    <button class="btn__cancel" onClick={() => this.closeModal()} >Cancel</button>
+                    <button className="btn__submit" onClick={() => this.request()} >Submit</button>
+                    <button className="btn__cancel" onClick={() => this.closeModal()} >Cancel</button>
                     </div>
                 </Modal>
               </div>

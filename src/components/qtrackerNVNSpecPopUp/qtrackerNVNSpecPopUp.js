@@ -112,7 +112,7 @@ export default class QtrackerNVNSpecPopUp extends Component {
     render() {
         return (
             <div style={{marginRight:"5px", marginLeft:"5px", float:"left"}}>
-                <button class="btn btn-info" style={{color:"white", backgroundColor: "#17a2b8", fontSize:"16px", padding:"2px 5px 2px 5px"}} onClick={() => this.openModal()}>Details</button>
+                <button className="btn btn-info" style={{color:"white", backgroundColor: "#17a2b8", fontSize:"16px", padding:"2px 5px 2px 5px"}} onClick={() => this.openModal()}>Details</button>
                 <div>
                     <Modal visible={this.state.visible} width="700" height="800" effect="fadeInUp" >
                     
@@ -122,7 +122,7 @@ export default class QtrackerNVNSpecPopUp extends Component {
                                     <th colSpan={2}>
                                         <button
                                         type="button"
-                                        class="btn-close"
+                                        className="btn-close"
                                         data-mdb-dismiss="modal"
                                         aria-label="Close"
                                         onClick={() => this.closeModal()}
