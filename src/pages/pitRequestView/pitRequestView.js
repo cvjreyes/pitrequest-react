@@ -28,7 +28,7 @@ const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#FF3358', '#99C6F8'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 1.25;
+    const radius = innerRadius + (outerRadius - innerRadius) * 1.30;
     const x = cx + radius * Math.cos(-midAngle * RADIAN) + 1;
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
@@ -48,9 +48,9 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
         }
       
         return (
-          <p x={x} y={y} fill="black" textAnchor={'middle'} dominantBaseline="central">
+          <text x={x} y={y} fill="black" textAnchor={'middle'} dominantBaseline="central">
               {index}
-          </p>
+          </text>
         );
     }
     
