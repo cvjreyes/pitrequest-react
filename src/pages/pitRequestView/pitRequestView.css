@@ -253,3 +253,8 @@
     font-weight: 400;
     width: 70px;
 }
+
+.label__piechart{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+}

@@ -28,7 +28,7 @@ const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#FF3358', '#99C6F8'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 1.25;
+    const radius = innerRadius + (outerRadius - innerRadius) * 1.30;
     const x = cx + radius * Math.cos(-midAngle * RADIAN) + 1;
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
@@ -48,9 +48,9 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
         }
       
         return (
-          <p x={x} y={y} fill="black" textAnchor={'middle'} dominantBaseline="central">
+          <text className='label__piechart' x={x} y={y} fill="black" textAnchor={'middle'} dominantBaseline="central">
               {index}
-          </p>
+          </text>
         );
     }
     
@@ -223,6 +223,7 @@ const PitRequestView = () => {
             .then(async json => {
                 let counter = [{name: "Pending", value: json.pending}, {name: "In progress", value: json.progress}, {name: "Accepted", value: json.accepted}, {name: "Rejected", value: json.rejected},  {name: "Materials", value: json.materials}]
                 await setCounter(counter)
+                console.log("Counter: " + JSON.stringify(counter));
             })
             
 
@@ -293,7 +294,7 @@ const PitRequestView = () => {
                 setProjectsButton(null)
                 setContent(<ProjectsHoursDataTable/>)
                 setBackToMenuButton(<button className="navBar__button" onClick={()=> setCurrentTab("View")} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
-                setSaveBtn(null)
+                setSaveButton(null)
                 setAddUserButton(null)
                 setExportReport(null)
                 setUsersButton(null)
@@ -305,9 +306,10 @@ const PitRequestView = () => {
         }else{ //Si no es 3d admin se muestra la vista de incidencias normal
             setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={showAlertCount.bind(this)} currentUser= {currentUser}/>)
             setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
-            setSaveBtn(null)
+            setSaveButton(null)
             setAddUserButton(null)
             setExportReport(null)
+            setProjectsButton(null)
             setUsersButton(null)
             setExportUsersReport(null)
             setRequestAccessButton(null)
@@ -1195,12 +1197,12 @@ const PitRequestView = () => {
                     
                 </div>
                 <PieChart width={600} height={400}>
-                <Pie data={counter} dataKey="value" cx="50%" cy="60%"  outerRadius={120} fill="#8884d8" label={renderCustomizedLabel}>
-                {counter.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index]} />
-                    ))}
-                </Pie>
-                <Tooltip/>
+                    <Pie data={counter} dataKey="value" cx="50%" cy="60%"  outerRadius={120} fill="#8884d8" label={renderCustomizedLabel}>
+                    {counter.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                        ))}
+                    </Pie>
+                    <Tooltip/>
                 </PieChart>
             </div>
             <table className="isotracker__table__container">
