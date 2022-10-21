@@ -19,16 +19,17 @@ import AddUserPopUp from '../../components/addUserPopUp/addUserPopUp';
 import { PieChart, Pie, Tooltip, Cell } from 'recharts';
 import './pitRequestView.css'
 import ProjectsHoursDataTable from '../../components/projectsHoursDataTable/projectsHoursDataTable';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import AlertF from "../../components/alert/alert"
 import RequestAccessDataTable from '../../components/requestAccessDataTable/requestAccessDataTable'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#FF3358', '#99C6F8'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 1.30;
+    const radius = innerRadius + (outerRadius - innerRadius) * 1.45;
     const x = cx + radius * Math.cos(-midAngle * RADIAN) + 1;
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
@@ -95,7 +96,6 @@ const PitRequestView = () => {
     const [roles, setRoles] = useState();
     const [saveBtn, setSaveBtn] = useState()
     const [updatedRows, setUpdatedRows] = useState([])
-    const [observations, setObservations] = useState([])
     const [hours, setHours] = useState([])
     const [counter, setCounter] = useState([])
     const [content, setContent] = useState(null)
@@ -110,15 +110,14 @@ const PitRequestView = () => {
     const [projectsButton, setProjectsButton] = useState(null)
     const [requestAccessButton, setRequestAccessButton] = useState(null)
     const [projectFilter, setProjectFilter] = useState([])
+    const [usersProjectsFilters, setUsersProjectsFilters] = useState([])
     const [projectDropDown, setProjectDropDown] = useState(null)
     const [currentProject, setCurrentProject] = useState("All")
     const [showAll, setShowAll] = useState(false)
+    const [buscadorProyecto, setBuscadorProyecto] = useState(null)
 
-    const [alertCount, setAlertCount] = useState(0)
-    const [displayCount, setDisplayCount] = useState(false)
     const [alertComponentCount, setAlertComponentCount] = useState(null)
 
-    const [inputsUpdated, setInputsUpdated] = useState(false)
     const [notReadyWarning, setNotReadyWarning] = useState(false)
 
     const [success, setSuccess] = useState(false)
@@ -151,6 +150,18 @@ const PitRequestView = () => {
                 }
                 setProjectFilter(projects)
             })
+        
+        //Select los proyectos que tiene el usuario asignado
+        fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getProjectsByEmail/" + secureStorage.getItem("user"), options)
+            .then(response => response.json())
+            .then(async json => {
+                let projects = []
+                for(let i = 0; i < json.projects.length; i++){
+                    projects.push(json.projects[i].name)
+                }
+                setUsersProjectsFilters(projects)
+            })
+        
         //Comprobamos si el admin tiene incidencias abiertas de mas de dos semanas
         fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/urgent/" + secureStorage.getItem('user'), options)
         .then(response => response.json())
@@ -223,7 +234,7 @@ const PitRequestView = () => {
             .then(async json => {
                 let counter = [{name: "Pending", value: json.pending}, {name: "In progress", value: json.progress}, {name: "Accepted", value: json.accepted}, {name: "Rejected", value: json.rejected},  {name: "Materials", value: json.materials}]
                 await setCounter(counter)
-                console.log("Counter: " + JSON.stringify(counter));
+                // console.log("Counter: " + JSON.stringify(counter));
             })
             
 
@@ -248,14 +259,17 @@ const PitRequestView = () => {
                 setProjectsButton(<button className="navBar__button" style={{width:"130px"}} onClick={()=> setCurrentTab("Projects")}><img src={FolderIcon} alt="pro" className="navBar__icon"></img><p className="navBar__button__text">Projects</p></button>)
                 setBackToMenuButton(<button className="navBar__button" onClick={()=>back()} style={{width:"100px"}}><img src={BackIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Back</p></button>)
                 setRequestAccessButton(null)
-                setProjectDropDown(<div style={{display:"flex", float:"right", marginTop:"10px"}}><label for="projectFilter" className="project__label">Project: </label><select id="projectFilter" className="projectFilterSelect" onChange={(e) => setCurrentProject(e.target.value)}>
-                    {projectFilter.map(project =>(
-                        <option>{project}</option>
-                    ))}
-                </select></div>)
-
-                // console.log("Show all 1: " + showAll);
-
+                setBuscadorProyecto(<div><button style={{display:"flex", float:"right", width:"150px", marginRight:"-100px"}} className="navBar__button" onClick={()=> saveChanges()}><FontAwesomeIcon icon="fa-duotone fa-magnifying-glass" /><p className="navBar__button__text">Buscador</p></button></div>)
+                //Aqui tenemos un select con los proyectos que tiene el usuario
+                //Si queremos que aparazcan todos tenemos que cambiar el usersProjectsFilters => projectFilter
+                setProjectDropDown(<div style={{display:"flex", float:"right"}}><div style={{display: "inline-block"}}><label for="projectFilter" className="project__label" style={{marginLeft: "-280px", marginRight: "230px"}}>Project: </label><select style={{float:"right"}} id="projectFilter" className="projectFilterSelect" onChange={(e) => setCurrentProject(e.target.value)}>
+                        {usersProjectsFilters.map(project =>(
+                            <option>{project}</option>
+                        ))}
+                    </select>
+                <button className="navBar__button__buscador" onClick={()=> saveChanges()}><FontAwesomeIcon className="navBar__icon__buscador" icon={faMagnifyingGlass} /></button>
+                </div>
+                </div>)
                 setCompletedTable(<div style={{display:"flex", float:"right"}}>
                         <label className="showAllSwitchBtn">
                             <p className="showAll__text">Completed</p>
@@ -276,6 +290,7 @@ const PitRequestView = () => {
                 setRequestAccessButton(<button className="navBar__button" onClick={()=>setCurrentTab("Access")} style={{width:"170px"}}><img src={UsersIcon} alt="hold" className="navBar__icon" style={{marginRight:"0px"}}></img><p className="navBar__button__text">Access requests</p></button>)
                 setProjectDropDown(null)
                 setCompletedTable(null)
+                setBuscadorProyecto(null)
             }else if(currentTab === "Access"){ //Si es la tabla de gestion de peticiones de acceso
                 secureStorage.setItem("tab", "Access")
                 setExportUsersReport(null)
@@ -289,6 +304,7 @@ const PitRequestView = () => {
                 setRequestAccessButton(null)
                 setProjectDropDown(null)
                 setCompletedTable(null)
+                setBuscadorProyecto(null)
             }else if(currentTab === "Projects"){ //Si estamos en la vista de proyectos
                 secureStorage.setItem("tab", "Projects")
                 setProjectsButton(null)
@@ -302,6 +318,7 @@ const PitRequestView = () => {
                 setRequestAccessButton(null)
                 setProjectDropDown(null)
                 setCompletedTable(null)
+                setBuscadorProyecto(null)
             }
         }else{ //Si no es 3d admin se muestra la vista de incidencias normal
             setContent(<QTrackerViewDataTable updateObservations={updateObservations.bind(this)} updateHours={updateHours.bind(this)} updateData={updateData} updateStatus={updateStatus.bind(this)} updatePriority={updatePriority.bind(this)} changeAdmin={changeAdmin.bind(this)} currentProject={currentProject} showAll={showAll} alertCount={showAlertCount.bind(this)} currentUser= {currentUser}/>)
@@ -314,6 +331,7 @@ const PitRequestView = () => {
             setExportUsersReport(null)
             setRequestAccessButton(null)
             setProjectDropDown(null)
+            setBuscadorProyecto(null)
             // console.log("Show all 2: " + showAll);
             setCompletedTable(<div style={{display:"flex", float:"right"}}>
                 <label className="showAllSwitchBtn">

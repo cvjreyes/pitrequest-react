@@ -2070,11 +2070,12 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
 
                                 this.setState({data : rows, pendingData: pendingRows, displayData: pendingRows, alertCount: alertCount});
                                 this.props.alertCount(alertCount)
-                                //console.log("COntador " + );
                                 await this.setState({filters : filterRow})
                                 if(this.props.currentProject !== "All"){
                                   this.filter(1, this.props.currentProject)
                                 }
+                                // console.log("Filter Row: " + JSON.stringify(filterRow));
+                                // console.log("Filters: " + JSON.stringify(this.state.filters));
 
                             })
 
@@ -4230,7 +4231,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                   }
                                 }
                                 await this.setState({displayData: resultData})
-
+                                console.log("Result data: " + JSON.stringify(resultData));
+                                console.log("Display data: " + JSON.stringify(this.state.displayData));
                             })
 
                         })
