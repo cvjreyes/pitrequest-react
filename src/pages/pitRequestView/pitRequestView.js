@@ -1007,9 +1007,29 @@ const PitRequestView = () => {
     }
 
     async function updateHours(newhours){
-        let currentHours = hours
-        currentHours.push(newhours)
-        await setHours(currentHours)
+        let body = {
+            incidence_number: newhours[0],
+            hours: newhours[1],
+          }
+          let options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+          }
+          
+          //Post de las nuevas horas
+          await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateHours", options)
+          .then(response => response.json())
+          .then(async json => {
+            if(!json.success){
+                setError(true)
+            }else{
+                setSuccess(true)
+                setUpdateData(!updateData)
+            }
+          })
     }
 
     async function updatePriority(updatedRow){
@@ -1035,10 +1055,12 @@ const PitRequestView = () => {
                 body: JSON.stringify(body)
               }
 
+              console.log("Option Hours" + JSON.stringify(body));
               //Actualizamos las horas
               await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateHours", options)
               .then(response => response.json())
               .then(async json => {
+                console.log("Update Hours: " + JSON.stringify(json));
                 if(!json.success){
                     err = true
                 }

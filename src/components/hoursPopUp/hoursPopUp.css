@@ -1,0 +1,67 @@
+.input__hours__edit{
+    height: 50px;
+    width: 100px;
+    margin-bottom: 2%;
+    align-items: left;
+    display: block;
+    font-size: larger;
+    font-family: 'Montserrat', 'sans serif';
+    margin-top: -4%;
+}
+
+.popUp__container__hours{
+    margin-right: 40px;
+    position: relative;
+    text-align: center;
+}
+
+.title__popUp__hours {
+    text-align: center; 
+    font-family: Arial; 
+    font-size: 30px; 
+    color: #338DF1; 
+    margin-bottom: 10px;
+    margin-top: 10px;
+    display: block;
+}
+
+.label__hours{
+    text-align: left;
+    width: 130px;
+}
+.btn__assign__hours{
+    font-size: 18px;
+    align-items: center;
+    color: #FFFFFF;
+    width: 120px;
+    height: 43px;
+    border: 1px solid #338DF1;
+    background: #338DF1;
+    border-radius: 8px;
+    margin-left: 30%;
+}
+
+.selector__container__hours{
+    margin-top: 10%;
+    margin-left: 4%;
+    margin-bottom: 4%;
+    display: inline-flex;
+}
+
+.btn__hours__details{
+    padding: 2px 15px 2px 15px; 
+    font-size:16px;
+    border-radius: 5px;
+    border: 0px;
+    margin-left: 10%;
+}
+
+.hours__empty{
+    background-color:#C0C0C0;
+    color:white;
+}
+
+.hours__full{
+    background-color:#78B28A;
+    color:white;
+}
