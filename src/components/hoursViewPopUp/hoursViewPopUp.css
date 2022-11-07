@@ -1,0 +1,32 @@
+.textarea__hours{
+    height: 50px;
+    width: 380px;
+    text-align: center;
+    display: block;
+    border: 0px;
+    font-size: larger;
+    font-family: 'Montserrat', 'sans serif';
+}
+
+.selector__container__hours__view{
+    margin-top: 3%;
+    margin-left: 4%;
+}
+
+.btn__hours__details{
+    padding: 2px 15px 2px 15px; 
+    font-size:16px;
+    border-radius: 5px;
+    border: 0px;
+    margin-left: 20%;
+}
+
+.hours__empty{
+    background-color:#C0C0C0;
+    color:white;
+}
+
+.hours__full{
+    background-color:#78B28A;
+    color:white;
+}

@@ -123,6 +123,31 @@
     background-color:#99C6F8;
 }
 
+.navBar__button__buscador{
+    height: 50px;
+    width: 50px;
+    border: 0;
+    background-color: transparent;
+    margin-left: 0px;
+    border-radius: 1em 1em 1em 1em;
+    transition: 0.3s;
+    font-family: 'Montserrat', sans-serif;
+    margin-right: 150px;
+    float: right;
+}
+
+.navBar__icon__buscador{
+    height: 20px;
+    width: auto;
+    margin-right: 10px;
+    margin-top: 3px;
+    margin-left: 5px
+}
+
+.navBar__button__buscador:hover{
+    background-color:#99C6F8;
+}
+
 .navBar__button__text{
     font-size: 15px;
     margin-top: 11px;
@@ -222,15 +247,16 @@
 
 .projectFilterSelect{
     color: black;
-    margin-left: 15px;
+    margin-left: -80px;
     font-size: 18px;
     font-family: 'Montserrat', sans-serif;
+    margin-top: 10px;
 }
 
 .project__label{
     font-size: 15px;
-    margin-top: 3px;
-    margin-left: 30px;
+    margin-top: 12px;
+    margin-left: 0px;
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     float: right;
@@ -252,4 +278,9 @@
     font-family: 'Quicksand', sans-serif;
     font-weight: 400;
     width: 70px;
+}
+
+.label__piechart{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
 }
