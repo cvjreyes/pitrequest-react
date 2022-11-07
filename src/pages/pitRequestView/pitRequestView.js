@@ -29,11 +29,7 @@ const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#FF3358', '#99C6F8'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-<<<<<<< HEAD
-    const radius = innerRadius + (outerRadius - innerRadius) * 1.30;
-=======
     const radius = innerRadius + (outerRadius - innerRadius) * 1.45;
->>>>>>> update-hours-error
     const x = cx + radius * Math.cos(-midAngle * RADIAN) + 1;
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
@@ -53,11 +49,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
         }
       
         return (
-<<<<<<< HEAD
-          <text x={x} y={y} fill="black" textAnchor={'middle'} dominantBaseline="central">
-=======
           <text className='label__piechart' x={x} y={y} fill="black" textAnchor={'middle'} dominantBaseline="central">
->>>>>>> update-hours-error
               {index}
           </text>
         );
