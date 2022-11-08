@@ -2103,9 +2103,9 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
 
                                 let filterRow
                                 if(secureStorage.getItem("role") === "3D Admin"){
-                                  filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filter(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filter(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filter(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(4,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(6,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filter(9,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filter(10,e.target.value)}/></div>, priority: <div><input type="text" className="filter__input" placeholder="Priority" onChange={(e) => this.filter(12,e.target.value)}/></div>}]
+                                  filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filter(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filter(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filter(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(4,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(6,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filter(8,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filter(9,e.target.value)}/></div>, priority: <div><input type="text" className="filter__input" placeholder="Priority" onChange={(e) => this.filter(11,e.target.value)}/></div>}]
                                 }else{
-                                  filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filterD(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filterD(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filterD(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filterD(4,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filterD(6,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filterD(8,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filterD(10,e.target.value)}/></div>, priority: <div><input type="text" className="filter__input" placeholder="Priority" onChange={(e) => this.filterD(9,e.target.value)}/></div>}]                  
+                                  filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filterD(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filterD(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filterD(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filterD(4,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filterD(6,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filterD(8,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filterD(9,e.target.value)}/></div>, priority: <div><input type="text" className="filter__input" placeholder="Priority" onChange={(e) => this.filterD(11,e.target.value)}/></div>}]                  
                                 }
                                 //Una vez obtenidas todas las incidencias guardamos el estado
                                 pendingRows = pendingRows.sort((a, b) => (a.created_at < b.created_at) ? 1 : -1)
@@ -4211,9 +4211,9 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
 
                                 let filterRow
                                 if(secureStorage.getItem("role") === "3D Admin"){
-                                  filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filter(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filter(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filter(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(4,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(6,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filter(9,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filter(10,e.target.value)}/></div>, priority: <div><input type="text" className="filter__input" placeholder="Priority" onChange={(e) => this.filter(12,e.target.value)}/></div>}]
+                                  filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filter(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filter(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filter(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(4,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filter(6,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filter(8,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filter(9,e.target.value)}/></div>, priority: <div><input type="text" className="filter__input" placeholder="Priority" onChange={(e) => this.filter(11,e.target.value)}/></div>}]
                                 }else{
-                                  filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filterD(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filterD(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filterD(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filterD(4,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filterD(6,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filterD(8,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filterD(10,e.target.value)}/></div>, priority: <div><input type="text" className="filter__input" placeholder="Priority" onChange={(e) => this.filterD(9,e.target.value)}/></div>}]                  
+                                  filterRow = [{incidence_number: <div><input type="text" className="filter__input" placeholder="Reference" onChange={(e) => this.filterD(0, e.target.value)}/></div>, project: <div><input type="text" className="filter__input" placeholder="Project" onChange={(e) => this.filterD(1, e.target.value)}/></div>, user: <div><input type="text" className="filter__input" placeholder="User" onChange={(e) => this.filterD(2, e.target.value)}/></div>, created_at: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filterD(4,e.target.value)}/></div>, ar_date: <div><input type="text" className="filter__input" placeholder="Date" onChange={(e) => this.filterD(6,e.target.value)}/></div>, admin: <div><input type="text" className="filter__input" placeholder="Admin" onChange={(e) => this.filterD(8,e.target.value)}/></div>, status: <div><input type="text" className="filter__input" placeholder="Status" onChange={(e) => this.filterD(9,e.target.value)}/></div>, priority: <div><input type="text" className="filter__input" placeholder="Priority" onChange={(e) => this.filterD(11,e.target.value)}/></div>}]                  
                                 }             
                                 pendingRows = pendingRows.sort((a, b) => (a.created_at < b.created_at) ? 1 : -1)
 
@@ -4346,25 +4346,26 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
     let fd = this.state.filterData
     fd[column] = value
     await this.setState({filterData: fd})
-
+    
     let auxDisplayData
     if(this.props.showAll){
       auxDisplayData = this.state.data
     }else{
       auxDisplayData = this.state.pendingData
     }
-
+    
     let resultData = []
     let fil, exists = null
     
     for(let i = 0; i < auxDisplayData.length; i++){
       exists = true
       
-      for(let column = 0; column < Object.keys(auxDisplayData[i]).length-1; column ++){
+      for(let columna = 0; columna < Object.keys(auxDisplayData[i]).length-1; columna ++){
+        // console.log("State Filter 1: " + this.state.filterData[column]);
         
         fil = Object.keys(auxDisplayData[i])[column]
         if(secureStorage.getItem("role") !== "3D Admin" && column === 8){
-            column = 11
+          column = 11
         }
         if(fil === "specifications"){
           fil = "status"
@@ -4373,7 +4374,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
           if(auxDisplayData[i][fil].props){
             for(let p = 0; p < auxDisplayData[i][fil].props.children.length; p++){
               if(auxDisplayData[i][fil].props.children[p].props.selected){
-
+                
                 if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.children[p].props.children.toLowerCase().includes(this.state.filterData[column].toLowerCase())){
                   exists = false
                 }
@@ -4402,6 +4403,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
               exists = false
             }
           }else{
+            
             if(this.state.filterData[column] !== "" && this.state.filterData[column]){
               exists = false
             }
@@ -4409,6 +4411,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
         }else if(fil === "admin"){
           if(auxDisplayData[i][fil].props){
             if(auxDisplayData[i][fil].props.admin){
+              // console.log("Entra: " + this.state.filterData[column]);
               if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].props.admin.toLowerCase().includes(this.state.filterData[column].toLowerCase())){
                 exists = false
               }
@@ -4424,9 +4427,9 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
             }
           }
         }else{
-          
           if(this.state.filterData[column]){
             if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
+              // console.log("entra ultimo else: " + this.state.filterData[column]);
               exists = false
             }
           }
@@ -4434,13 +4437,17 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
         }
         
       }
+      // console.log("Fil: " + fil);
+      // console.log("Column: " + column);
+      // console.log("Fuera: " + this.state.filterData[column]);
+      // console.log("Array Filtros: " + JSON.stringify(auxDisplayData[i]["admin"].props.admin) + ", existe: " + exists);
       if(exists){
         resultData.push(auxDisplayData[i])
       }
     }
     await this.setState({displayData: resultData})
   }
-
+  
   async filterD(column, value){
     let fd = this.state.filterData
     fd[column] = value
@@ -4462,12 +4469,13 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
       for(let column = 0; column < Object.keys(auxDisplayData[i]).length-1; column ++){
         
         fil = Object.keys(auxDisplayData[i])[column]
-          if(this.state.filterData[column]){
-            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
-              exists = false
-            }
+        if(this.state.filterData[column]){
+          if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].toLowerCase().includes(this.state.filterData[column].toLowerCase())){
+            exists = false
           }
+        }
       }
+      
       if(exists){
         resultData.push(auxDisplayData[i])
       }
