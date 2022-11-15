@@ -71,7 +71,7 @@ const PITRequests = () =>{
         history("/" + process.env.REACT_APP_PROJECT)
     }
 
-    console.log(successProject)
+    // console.log(successProject)
 
     return(
         <div>

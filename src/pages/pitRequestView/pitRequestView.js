@@ -262,7 +262,8 @@ const PitRequestView = () => {
                 setBuscadorProyecto(<div><button style={{display:"flex", float:"right", width:"150px", marginRight:"-100px"}} className="navBar__button" onClick={()=> saveChanges()}><FontAwesomeIcon icon="fa-duotone fa-magnifying-glass" /><p className="navBar__button__text">Buscador</p></button></div>)
                 //Aqui tenemos un select con los proyectos que tiene el usuario
                 //Si queremos que aparazcan todos tenemos que cambiar el usersProjectsFilters => projectFilter
-                setProjectDropDown(<div style={{display:"flex", float:"right"}}><div style={{display: "inline-block"}}><label for="projectFilter" className="project__label" style={{marginLeft: "-280px", marginRight: "230px"}}>Project: </label><select style={{float:"right"}} id="projectFilter" className="projectFilterSelect" onChange={(e) => setCurrentProject(e.target.value)}>
+                setProjectDropDown(<div style={{display:"flex", float:"right"}}><div style={{display: "inline-block"}}><label for="projectFilter" className="project__label" style={{marginLeft: "-280px", marginRight: "230px"}}>Project: </label><select style={{float:"right"}} id="projectFilter" className="projectFilterSelect"  onChange={(e) => setCurrentProject(e.target.value)}>
+                        <option disabled selected value> -- select an option -- </option>
                         {usersProjectsFilters.map(project =>(
                             <option>{project}</option>
                         ))}

@@ -411,7 +411,7 @@ export default function MenuListPITList(props) {
           <QtrackerNRIDSPopUp success={success.bind(this)}/>
           <QtrackerISPopUp success={success.bind(this)}/>
           <QtrackerDrawingPopUp success={success.bind(this)}/>
-          <QtrackerNVNPopUp success={success.bind(this)}/>
+          <QtrackerNVNPopUp success={success.bind(this)} />
           <QtrackerPermissionsPopUp success={success.bind(this)}/></div>)
         // Si no esta en el software smart3D se muestran menos campos
         } else if (inSmart3d===false) {
@@ -498,11 +498,10 @@ export default function MenuListPITList(props) {
       // Si pulsa IT Plan se mostraran ( Tasks, Project Manager, Create Project(PopUp), Offer Manager, Create Offer(PopUp) )
       }else if(currentMenu === "itplan"){
         await setOptions(<div className='back__item__container'><span style={{display:"flex"}} onClick={()=> setcurrentMenu("main")}><img src={Vector} alt="vector" className='vector__image__reversed'></img><div style={{width:"260px"}}><p className='back__text'>MAIN MENU</p></div></span>
-
         <div className='mainmenu__item__container'>
           <span style={{display:"flex", width:"260px"}} onClick={()=> handleProjectsViewClick()}><div style={{width:"260px", marginTop:"5px"}}><p className='mainmenu__item'>Tasks</p></div></span>
         </div>
-        <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+        <div className='mainmenu__item__container' style={{marginTop:"-10px"}}>
           <span style={{display:"flex", width:"260px"}} onClick={()=> handleManageProjectsViewClick()}><div style={{width:"260px"}}><p className='mainmenu__item'>Project Manager</p></div></span>
         </div>
         <ProjectPopUp successProject={successProject.bind(this)}/>

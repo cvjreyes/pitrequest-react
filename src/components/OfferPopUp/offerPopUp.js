@@ -266,7 +266,7 @@ export default class OfferPopUp extends Component { //PopUp para crear una ofert
             <div>
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"></link>
 
-                    <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+                    <div className='mainmenu__item__container' style={{marginTop:"-10px"}}>
                       <span style={{display:"flex"}} ><div style={{width:"280px"}}><text className='mainmenu__item' onClick={()=> this.openModal()}>Create Offer</text></div></span>
                     </div>              
                     <div>
