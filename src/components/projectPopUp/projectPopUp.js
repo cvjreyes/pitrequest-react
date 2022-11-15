@@ -276,7 +276,7 @@ export default class ProjectPopUp extends Component { //PopUp para crear proyect
             <div>
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"></link>
 
-                    <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+                    <div className='mainmenu__item__container' style={{marginTop:"-10px"}}>
                       <span style={{display:"flex"}} ><div style={{width:"280px"}}><text className='mainmenu__item' onClick={()=> this.openModal()}>Create Project</text></div></span>
                     </div>               
                     <div>

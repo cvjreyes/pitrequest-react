@@ -220,7 +220,7 @@ export default class QtrackerPermissionsPopUp extends Component {
     render() {       
       return (
         <div>
-          <div className='mainmenu__item__container' style={{marginTop:"10px"}}>
+          <div className='mainmenu__item__container' style={{marginTop:"30px"}}>
             <span style={{display:"flex"}} ><div style={{width:"280px"}}><text className='mainmenu__item' onClick={()=> this.openModal()}>Permissions</text></div></span>
           </div>   
           <div>
