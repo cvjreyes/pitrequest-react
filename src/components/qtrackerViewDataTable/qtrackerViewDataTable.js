@@ -4748,11 +4748,11 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
     if (this.state.data.length === 0){
       totalElements = null;
     }else if(this.props.showAll){
-      totalElements = (<div style={{position: "absolute", bottom: 140, left:120}}>
+      totalElements = (<div style={{position: "static", margin:"-30px 2050px -20px -20px"}}>
       <b>Total elements: {this.state.data.length}</b>
      </div>);
     }else{
-      totalElements = (<div style={{position: "absolute", bottom: 140, left:120}}>
+      totalElements = (<div style={{position: "static", margin:"-30px 2050px -20px -20px"}}>
       <b>Total elements: {this.state.pendingData.length}</b>
      </div>);
     }

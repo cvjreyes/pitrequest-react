@@ -701,7 +701,7 @@ class CSPtrackerSpecialDataTable extends React.Component{
     if (this.state.data.length === 0){
       totalElements = null;
     }else{
-      totalElements = (<div style={{position: "absolute", bottom: 110, left:110}}>
+      totalElements = (<div style={{position: "absolute", margin:"-30px 2050px -20px -20px"}}>
       <p className='navBar__button__text__general'>Total elements: {this.state.data.length}</p>
      </div>);
     }

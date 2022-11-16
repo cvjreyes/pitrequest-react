@@ -407,7 +407,7 @@ class ProjectsViewDataTable extends React.Component { //Tabla de tareas de los p
     if (this.state.data.length === 0) {
       totalElements = null;
     } else {
-      totalElements = (<div style={{ position: "absolute", bottom: 140, left: 120 }}>
+      totalElements = (<div style={{ position: "absolute", margin:"-30px 2050px -20px -20px" }}>
         <b>Total elements: {this.state.data.length}</b>
       </div>);
     }

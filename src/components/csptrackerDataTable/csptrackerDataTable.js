@@ -1073,7 +1073,7 @@ class CSPTrackerdDataTable extends React.Component{ //Tabla principal de sptrack
     if (this.state.data.length === 0){
       totalElements = null;
     }else{
-      totalElements = (<div style={{position: "absolute", bottom: 170, left:110}}>
+      totalElements = (<div style={{position: "absolute", margin:"-30px 2050px -20px -20px"}}>
       <b>Total elements: {this.state.data.length}</b>
      </div>);
     }
