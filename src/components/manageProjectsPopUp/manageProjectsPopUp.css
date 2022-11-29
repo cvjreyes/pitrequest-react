@@ -182,24 +182,29 @@
     content: "";
     display: table;
     clear: both;
-  }
+}
 
-  .checkbox{
-      width: 150px;
-  }
+.checkbox{
+    width: 150px;
+}
 
-  .project__manager__container{
-      height:330px;
-      overflow-y: scroll;
-      width:450px;
-  }
+.project__manager__container{
+    height:370px;
+    overflow-y: scroll;
+    width:450px;
+}
 
-  .popUp__buttons__container__manage__projects2{
+.container__select__all{
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+.popUp__buttons__container__manage__projects2{
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 430px;
+    top: 530px;
     margin-left: 28px;
     width: 450px;
 }
@@ -225,6 +230,27 @@
     border-radius: 8px;
 }
 
+.btn__select__all{
+    align-items: center;
+    color: #FFFFFF;
+    width: 130px;
+    height: 43px;
+    border: 1px solid #338DF1;
+    background: #338DF1;
+    border-radius: 8px;
+}
+
+.btn__unselect__all{
+    align-items: center;
+    color: #0070ED;
+    width: 130px;
+    height: 43px;
+    border: 1px solid #0070ED;
+    margin-left: 30px;
+    background: #FFFFFF;
+    border-radius: 8px;
+}
+
 .title__popUp {
     text-align: center; 
     font-family: Arial; 
@@ -232,4 +258,12 @@
     COLOR: #338DF1; 
     margin-bottom: 10px;
     margin-top: 10px;
+}
+
+.title__popUp__all {
+    text-align: center; 
+    font-family: Arial; 
+    font-size: 25px; 
+    COLOR: #338DF1; 
+    margin-left: -40px;
 }
