@@ -5110,7 +5110,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
         dataIndex: 'ar_date',
         key: 'ar_date',
         ...this.getColumnSearchProps('ar_date'),
-        width: "190px",
+        width: "200px",
         sorter: {
           compare: (a, b) => { return a.ar_date.localeCompare(b.ar_date)},
         },
