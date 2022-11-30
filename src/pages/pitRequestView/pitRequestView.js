@@ -25,7 +25,7 @@ import AlertF from "../../components/alert/alert"
 import RequestAccessDataTable from '../../components/requestAccessDataTable/requestAccessDataTable'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
-const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#FF3358', '#99C6F8'];
+const COLORS = ['#D2D2D2', '#FFCA42', '#7BD36D', '#FF3358', '#99C6F8', '#FC9303'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -46,6 +46,8 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
             index = "Rejected"
         }else if(index === 4){
             index = "Materials"
+        }else if(index === 5){
+            index = "Ready to Load"
         }
       
         return (
@@ -232,7 +234,7 @@ const PitRequestView = () => {
         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/statusData", options)
             .then(response => response.json())
             .then(async json => {
-                let counter = [{name: "Pending", value: json.pending}, {name: "In progress", value: json.progress}, {name: "Accepted", value: json.accepted}, {name: "Rejected", value: json.rejected},  {name: "Materials", value: json.materials}]
+                let counter = [{name: "Pending", value: json.pending}, {name: "In progress", value: json.progress}, {name: "Accepted", value: json.accepted}, {name: "Rejected", value: json.rejected}, {name: "Materials", value: json.materials}, {name: "Ready to Load", value: json.readytoload}]
                 await setCounter(counter)
                 // console.log("Counter: " + JSON.stringify(counter));
             })
