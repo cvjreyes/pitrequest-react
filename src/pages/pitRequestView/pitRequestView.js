@@ -533,23 +533,25 @@ const PitRequestView = () => {
             for(let i = 0; i < json.rows.length; i++){
                 row = {incidence_number: json.rows[i].incidence_number, project:json.rows[i].project, carta: json.rows[i].carta, user: json.rows[i].user, created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), observations: json.rows[i].observations, spref: json.rows[i].spref, name: null, pipe: null, sending: null, items: null, scope: null, description: json.rows[i].description, hours: json.rows[i].hours, admin: json.rows[i].admin, ar_date: json.rows[i].accept_reject_date}
                   
-                  if(json.rows[i].status === 0){
+                if(json.rows[i].status === 0){
                     row.status = "Pending"
-                  }else if(json.rows[i].status === 1){
-                      row.status = "In progress"
-                  }else if(json.rows[i].status === 2){
-                      row.status = "Ready"
-                  }else if(json.rows[i].status === 3){
-                      row.status = "Rejected"
-                  }else if(json.rows[i].status === 4){
-                      row.status = "Materials"
-                  }
+                }else if(json.rows[i].status === 1){
+                    row.status = "In progress"
+                }else if(json.rows[i].status === 2){
+                    row.status = "Ready"
+                }else if(json.rows[i].status === 3){
+                    row.status = "Rejected"
+                }else if(json.rows[i].status === 4){
+                    row.status = "Materials"
+                }else if(json.rows[i].status === 5){
+                    row.status = "Ready to Load"
+                }
 
-                  if(json.rows[i].accept_reject_date){
-                   
-                    row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
-                  
-                  }
+                if(json.rows[i].accept_reject_date){
+                
+                row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
+                
+                }
                 
                 
                 rows.push(row)
@@ -563,17 +565,19 @@ const PitRequestView = () => {
                     
                     if(json.rows[i].status === 0){
                         row.status = "Pending"
-                      }else if(json.rows[i].status === 1){
-                          row.status = "In progress"
-                      }else if(json.rows[i].status === 2){
-                          row.status = "Ready"
-                      }else if(json.rows[i].status === 3){
-                          row.status = "Rejected"
-                      }else if(json.rows[i].status === 4){
-                          row.status = "Materials"
-                      }
-
-                      if(json.rows[i].accept_reject_date){
+                    }else if(json.rows[i].status === 1){
+                        row.status = "In progress"
+                    }else if(json.rows[i].status === 2){
+                        row.status = "Ready"
+                    }else if(json.rows[i].status === 3){
+                        row.status = "Rejected"
+                    }else if(json.rows[i].status === 4){
+                        row.status = "Materials"
+                    }else if(json.rows[i].status === 5){
+                        row.status = "Ready to Load"
+                    }
+                    
+                    if(json.rows[i].accept_reject_date){
                         row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
                     }
                       rows.push(row)
@@ -588,19 +592,21 @@ const PitRequestView = () => {
                                              
                         if(json.rows[i].status === 0){
                             row.status = "Pending"
-                          }else if(json.rows[i].status === 1){
-                              row.status = "In progress"
-                          }else if(json.rows[i].status === 2){
-                              row.status = "Ready"
-                          }else if(json.rows[i].status === 3){
-                              row.status = "Rejected"
-                          }else if(json.rows[i].status === 4){
-                              row.status = "Materials"
-                          }
+                        }else if(json.rows[i].status === 1){
+                            row.status = "In progress"
+                        }else if(json.rows[i].status === 2){
+                            row.status = "Ready"
+                        }else if(json.rows[i].status === 3){
+                            row.status = "Rejected"
+                        }else if(json.rows[i].status === 4){
+                            row.status = "Materials"
+                        }else if(json.rows[i].status === 5){
+                            row.status = "Ready to Load"
+                        }
 
                         if(json.rows[i].accept_reject_date){
-                    row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
-                  }
+                            row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
+                        }
                         
                         rows.push(row)
                     }
@@ -614,21 +620,22 @@ const PitRequestView = () => {
                             
                             if(json.rows[i].status === 0){
                                 row.status = "Pending"
-                              }else if(json.rows[i].status === 1){
-                                  row.status = "In progress"
-                              }else if(json.rows[i].status === 2){
-                                  row.status = "Ready"
-                              }else if(json.rows[i].status === 3){
-                                  row.status = "Rejected"
-                              }else if(json.rows[i].status === 4){
-                                  row.status = "Materials"
-                              }
-            
-                            
-                              if(json.rows[i].accept_reject_date){
+                            }else if(json.rows[i].status === 1){
+                                row.status = "In progress"
+                            }else if(json.rows[i].status === 2){
+                                row.status = "Ready"
+                            }else if(json.rows[i].status === 3){
+                                row.status = "Rejected"
+                            }else if(json.rows[i].status === 4){
+                                row.status = "Materials"
+                            }else if(json.rows[i].status === 5){
+                                row.status = "Ready to Load"
+                            }
+
+                            if(json.rows[i].accept_reject_date){
                                 row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
-                                }
-                              rows.push(row)
+                            }
+                            rows.push(row)
                         }
                         
                         await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNRIDS", options)
@@ -640,17 +647,19 @@ const PitRequestView = () => {
                                
                                 if(json.rows[i].status === 0){
                                     row.status = "Pending"
-                                  }else if(json.rows[i].status === 1){
-                                      row.status = "In progress"
-                                  }else if(json.rows[i].status === 2){
-                                      row.status = "Ready"
-                                  }else if(json.rows[i].status === 3){
-                                      row.status = "Rejected"
-                                  }else if(json.rows[i].status === 4){
-                                      row.status = "Materials"
-                                  }
+                                }else if(json.rows[i].status === 1){
+                                    row.status = "In progress"
+                                }else if(json.rows[i].status === 2){
+                                    row.status = "Ready"
+                                }else if(json.rows[i].status === 3){
+                                    row.status = "Rejected"
+                                }else if(json.rows[i].status === 4){
+                                    row.status = "Materials"
+                                }else if(json.rows[i].status === 5){
+                                    row.status = "Ready to Load"
+                                }
                                 
-                                  if(json.rows[i].accept_reject_date){
+                                if(json.rows[i].accept_reject_date){
                                     row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
                                 }
                                   rows.push(row)
@@ -665,19 +674,21 @@ const PitRequestView = () => {
                                     
                                     if(json.rows[i].status === 0){
                                         row.status = "Pending"
-                                      }else if(json.rows[i].status === 1){
-                                          row.status = "In progress"
-                                      }else if(json.rows[i].status === 2){
-                                          row.status = "Ready"
-                                      }else if(json.rows[i].status === 3){
-                                          row.status = "Rejected"
-                                      }else if(json.rows[i].status === 4){
-                                          row.status = "Materials"
-                                      }
+                                    }else if(json.rows[i].status === 1){
+                                        row.status = "In progress"
+                                    }else if(json.rows[i].status === 2){
+                                        row.status = "Ready"
+                                    }else if(json.rows[i].status === 3){
+                                        row.status = "Rejected"
+                                    }else if(json.rows[i].status === 4){
+                                        row.status = "Materials"
+                                    }else if(json.rows[i].status === 5){
+                                        row.status = "Ready to Load"
+                                    }
                                     
-                                      if(json.rows[i].accept_reject_date){
-                                        row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
-                                      }
+                                    if(json.rows[i].accept_reject_date){
+                                    row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
+                                    }
                                     rows.push(row)
                                 }
 
@@ -695,15 +706,17 @@ const PitRequestView = () => {
                                         
                                         if(json.rows[i].status === 0){
                                             row.status = "Pending"
-                                          }else if(json.rows[i].status === 1){
-                                              row.status = "In progress"
-                                          }else if(json.rows[i].status === 2){
-                                              row.status = "Ready"
-                                          }else if(json.rows[i].status === 3){
-                                              row.status = "Rejected"
-                                          }else if(json.rows[i].status === 4){
-                                              row.status = "Materials"
-                                          }
+                                        }else if(json.rows[i].status === 1){
+                                            row.status = "In progress"
+                                        }else if(json.rows[i].status === 2){
+                                            row.status = "Ready"
+                                        }else if(json.rows[i].status === 3){
+                                            row.status = "Rejected"
+                                        }else if(json.rows[i].status === 4){
+                                            row.status = "Materials"
+                                        }else if(json.rows[i].status === 5){
+                                            row.status = "Ready to Load"
+                                        }
                                         
                                         if(json.rows[i].accept_reject_date){
                                             row.ar_date = json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19)
@@ -729,8 +742,12 @@ const PitRequestView = () => {
                                                     row.status = "In progress"
                                                 }else if(json.rows[i].status === 2){
                                                     row.status = "Ready"
-                                                }else{
+                                                }else if(json.rows[i].status === 3){
                                                     row.status = "Rejected"
+                                                }else if(json.rows[i].status === 4){
+                                                    row.status = "Materials"
+                                                }else if(json.rows[i].status === 5){
+                                                    row.status = "Ready to Load"
                                                 }
                                                 
                                                 if(json.rows[i].accept_reject_date){
@@ -751,8 +768,12 @@ const PitRequestView = () => {
                                                         row.status = "In progress"
                                                     }else if(json.rows[i].status === 2){
                                                         row.status = "Ready"
-                                                    }else{
+                                                    }else if(json.rows[i].status === 3){
                                                         row.status = "Rejected"
+                                                    }else if(json.rows[i].status === 4){
+                                                        row.status = "Materials"
+                                                    }else if(json.rows[i].status === 5){
+                                                        row.status = "Ready to Load"
                                                     }
                                                     
                                                     if(json.rows[i].accept_reject_date){
@@ -774,8 +795,12 @@ const PitRequestView = () => {
                                                             row.status = "In progress"
                                                         }else if(json.rows[i].status === 2){
                                                             row.status = "Ready"
-                                                        }else{
+                                                        }else if(json.rows[i].status === 3){
                                                             row.status = "Rejected"
+                                                        }else if(json.rows[i].status === 4){
+                                                            row.status = "Materials"
+                                                        }else if(json.rows[i].status === 5){
+                                                            row.status = "Ready to Load"
                                                         }
                                                         
                                                         if(json.rows[i].accept_reject_date){
@@ -797,8 +822,12 @@ const PitRequestView = () => {
                                                             row.status = "In progress"
                                                         }else if(json.rows[i].status === 2){
                                                             row.status = "Ready"
-                                                        }else{
+                                                        }else if(json.rows[i].status === 3){
                                                             row.status = "Rejected"
+                                                        }else if(json.rows[i].status === 4){
+                                                            row.status = "Materials"
+                                                        }else if(json.rows[i].status === 5){
+                                                            row.status = "Ready to Load"
                                                         }
                                                         
                                                         if(json.rows[i].accept_reject_date){
@@ -820,8 +849,12 @@ const PitRequestView = () => {
                                                                 row.status = "In progress"
                                                             }else if(json.rows[i].status === 2){
                                                                 row.status = "Ready"
-                                                            }else{
+                                                            }else if(json.rows[i].status === 3){
                                                                 row.status = "Rejected"
+                                                            }else if(json.rows[i].status === 4){
+                                                                row.status = "Materials"
+                                                            }else if(json.rows[i].status === 5){
+                                                                row.status = "Ready to Load"
                                                             }
                                                             
                                                             if(json.rows[i].accept_reject_date){
@@ -843,8 +876,12 @@ const PitRequestView = () => {
                                                                     row.status = "In progress"
                                                                 }else if(json.rows[i].status === 2){
                                                                     row.status = "Ready"
-                                                                }else{
+                                                                }else if(json.rows[i].status === 3){
                                                                     row.status = "Rejected"
+                                                                }else if(json.rows[i].status === 4){
+                                                                    row.status = "Materials"
+                                                                }else if(json.rows[i].status === 5){
+                                                                    row.status = "Ready to Load"
                                                                 }
                                                                 
                                                                 if(json.rows[i].accept_reject_date){
@@ -980,7 +1017,8 @@ const PitRequestView = () => {
     async function updateStatus(updatedRow){
         let currentRows = updatedRows
         currentRows.push(updatedRow)
-        await setUpdatedRows(currentRows)
+        setUpdatedRows(currentRows)
+        console.log("Current rows: " + currentRows, typeof currentRows);
     }
 
     async function updateObservations(newObservations){
@@ -1045,33 +1083,8 @@ const PitRequestView = () => {
         let err = false
         let notReady = false
 
-        for(let i = 0; i < hours.length; i++){ //Por cada cambio en las horas
-            let body = {
-                incidence_number: hours[i][0],
-                hours: hours[i][1],
-              }
-              let options = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(body)
-              }
-
-              console.log("Option Hours" + JSON.stringify(body));
-              //Actualizamos las horas
-              await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateHours", options)
-              .then(response => response.json())
-              .then(async json => {
-                console.log("Update Hours: " + JSON.stringify(json));
-                if(!json.success){
-                    err = true
-                }
-                
-              })
-        }
-
         for(let i = 0; i < updatedRows.length; i++){ //Por cada cambio en el status
+            console.log(i, updatedRows[i]);
             let body = {
                 incidence_number: updatedRows[i][0],
                 status_id: updatedRows[i][1],
@@ -1091,6 +1104,7 @@ const PitRequestView = () => {
               await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/updateStatus", options)
               .then(response => response.json())
               .then(async json => {
+                console.log("Json data: ", json);
                 if(!json.success){
                     err = true
                 }else if(json.notReady){
