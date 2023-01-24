@@ -1,18 +1,17 @@
-import React from 'react';
-import 'antd/dist/antd.css';
-import { Table } from 'antd';
-import Highlighter from 'react-highlight-words';
-import './usersDataTable.css'
-import { Link } from 'react-router-dom';
-import ManageRolesPopUp from '../manageRolesPopUp/manageRolesPopUp';
-import ManageProjectsPopUp from '../manageProjectsPopUp/manageProjectsPopUp';
-import DeleteUserConfPopUp from '../deleteUserConfPopUp/deleteUserConfPopUp';
+import React from "react";
+import "antd/dist/antd.css";
+import { Table } from "antd";
+import Highlighter from "react-highlight-words";
+import "./usersDataTable.css";
+import { Link } from "react-router-dom";
+import ManageRolesPopUp from "../manageRolesPopUp/manageRolesPopUp";
+import ManageProjectsPopUp from "../manageProjectsPopUp/manageProjectsPopUp";
+import DeleteUserConfPopUp from "../deleteUserConfPopUp/deleteUserConfPopUp";
 
-
-class UsersDataTable extends React.Component{
+class UsersDataTable extends React.Component {
   state = {
-    searchText: '',
-    searchedColumn: '',
+    searchText: "",
+    searchedColumn: "",
     data: [],
     displayData: [],
     filterData: ["", "", "", "", "", "", ""],
@@ -20,352 +19,952 @@ class UsersDataTable extends React.Component{
     role: this.props.role,
     selectedRows: [],
     selectedRowsKeys: [],
-    dataAux : [],
+    dataAux: [],
     update: this.props.updateData,
     users: [],
     mounted: false,
-    filters: []
+    filters: [],
   };
 
-  deleteUser(id){
-    this.props.deleteUser(id)
+  deleteUser(id) {
+    this.props.deleteUser(id);
   }
-  
-  
 
-  async componentDidMount(){
+  async componentDidMount() {
     const options = {
       method: "GET",
       headers: {
-          "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
+    };
 
+    const rolesBtnsDict = {
+      Design: (
+        <button
+          className="btn"
+          disabled
+          style={{
+            fontSize: "12px",
+            padding: "2px 5px 2px 5px",
+            marginRight: "5px",
+            backgroundColor: "#00FF7F",
+          }}
+        >
+          DES
+        </button>
+      ),
+      DesignLead: (
+        <button
+          className="btn"
+          disabled
+          style={{
+            fontSize: "12px",
+            padding: "2px 5px 2px 5px",
+            marginRight: "5px",
+            backgroundColor: "lightgreen",
+          }}
+        >
+          LDE
+        </button>
+      ),
+      Stress: (
+        <button
+          className="btn"
+          disabled
+          style={{
+            fontSize: "12px",
+            padding: "2px 5px 2px 5px",
+            marginRight: "5px",
+            backgroundColor: "#00BFFF",
+          }}
+        >
+          STR
+        </button>
+      ),
+      StressLead: (
+        <button
+          className="btn"
+          disabled
+          style={{
+            fontSize: "12px",
+            padding: "2px 5px 2px 5px",
+            marginRight: "5px",
+            backgroundColor: "#87CEEB",
+          }}
+        >
+          LST
+        </button>
+      ),
+      Supports: (
+        <button
+          className="btn"
+          disabled
+          style={{
+            color: "white",
+            fontSize: "12px",
+            padding: "2px 5px 2px 5px",
+            marginRight: "5px",
+            backgroundColor: "#1E90FF",
+          }}
+        >
+          SUP
+        </button>
+      ),
+      SupportsLead: (
+        <button
+          className="btn"
+          disabled
+          style={{
+            color: "white",
+            fontSize: "12px",
+            padding: "2px 5px 2px 5px",
+            marginRight: "5px",
+            backgroundColor: "#6495ED",
+          }}
+        >
+          LSP
+        </button>
+      ),
+      Materials: (
+        <button
+          className="btn"
+          disabled
+          style={{
+            color: "white",
+            fontSize: "12px",
+            padding: "2px 5px 2px 5px",
+            marginRight: "5px",
+            backgroundColor: "#6A5ACD",
+          }}
+        >
+          MAT
+        </button>
+      ),
+      Issuer: (
+        <button
+          className="btn"
+          disabled
+          style={{
+            fontSize: "12px",
+            padding: "2px 5px 2px 5px",
+            marginRight: "5px",
+            backgroundColor: "#FFC0CB",
+          }}
+        >
+          ISS
+        </button>
+      ),
+      SpecialityLead: (
+        <button
+          className="btn"
+          disabled
+          style={{
+            fontSize: "12px",
+            padding: "2px 5px 2px 5px",
+            marginRight: "5px",
+            backgroundColor: "	#FFA500",
+          }}
+        >
+          LOS
+        </button>
+      ),
+      Process: (
+        <button
+          className="btn"
+          disabled
+          style={{
+            color: "white",
+            fontSize: "12px",
+            padding: "2px 5px 2px 5px",
+            marginRight: "5px",
+            backgroundColor: "#FF4500",
+          }}
+        >
+          PRO
+        </button>
+      ),
+      Instrument: (
+        <button
+          className="btn"
+          disabled
+          style={{
+            fontSize: "12px",
+            padding: "2px 5px 2px 5px",
+            marginRight: "5px",
+            backgroundColor: "#FFD700",
+          }}
+        >
+          INS
+        </button>
+      ),
+      Review: (
+        <button
+          className="btn"
+          disabled
+          style={{
+            fontSize: "12px",
+            padding: "2px 5px 2px 5px",
+            marginRight: "5px",
+            backgroundColor: "white",
+          }}
+        >
+          REV
+        </button>
+      ),
+      Project: (
+        <button
+          className="btn"
+          disabled
+          style={{
+            fontSize: "12px",
+            color: "white",
+            padding: "2px 5px 2px 5px",
+            marginRight: "5px",
+            backgroundColor: "#F033FF",
+          }}
+        >
+          PRJ
+        </button>
+      ),
+      "3D Admin": (
+        <button
+          className="btn"
+          disabled
+          style={{
+            width: "32px",
+            color: "white",
+            fontSize: "12px",
+            padding: "2px 5px 2px 5px",
+            marginRight: "5px",
+            backgroundColor: "#CD853F",
+          }}
+        >
+          3D
+        </button>
+      ),
+    };
+
+    await fetch(
+      "http://" +
+        process.env.REACT_APP_SERVER +
+        ":" +
+        process.env.REACT_APP_NODE_PORT +
+        "/getUsersFull",
+      options
+    )
+      .then((response) => response.json())
+      .then(async (json) => {
+        let currentData = this.state.dataAux;
+        // Crea una variable donde es equivalente al state de users (Saldra vacio al principio)
+        let users = this.state.users;
+        // Recorre el resultado del fetch, que son todos los usuarios que hay en la base de datos
+        for (let i = 0; i < json.rows.length; i++) {
+          // Crea una variable donde guarda la row de cada usuario dejando vacio solo roles, el project y las actions
+          let row = {
+            user_id: json.rows[i].id,
+            username: json.rows[i].name,
+            email: json.rows[i].email,
+            roles: null,
+            projects: null,
+            actions: null,
+          };
+          // En el state guarda todos los emails de todos los users
+          users.push(json.rows[i].email);
+          // Crea dos variable de array vacias
+          let roles = [];
+          let rolesList = [];
+          // si en este fetch el role de esta row esta vacio o su resultado es diferente de nulo entra
+          if (json.rows[i].roles === "" || json.rows[i].roles !== null) {
+            // En esta variable separa por comas todos los roles que tiene esta row. Lo guarda como array
+            rolesList = json.rows[i].roles.split(",");
+            // Dependiendo del role que tiene lo guarda como un div que esta diseñado antes.
+            // Si tiene dos roles se crearan dos div.
+            for (let j = 0; j < rolesList.length; j++) {
+              roles.push(rolesBtnsDict[rolesList[j]]);
+            }
+            // esos divs se guardaran dentro de otro div
+            row["roles"] = <div> {roles} </div>;
+          }
+          // Si resultado del row es par o inpar tiene un color u otro
+          if (i % 2 === 0) {
+            row["color"] = "#fff";
+          } else {
+            row["color"] = "#eee";
+          }
+          // si en este fetch el project de esta row es diferente de vacio o su resultado es diferente de nulo entra
+          if (json.rows[i].projects !== "" && json.rows[i].projects !== null) {
+            // Crea una variable que separa todos los projects por comas dentro de una array
+            const projects = json.rows[i].codes.split(",");
+            const projectsBtns = [];
+            // Recorre la cantidad de proyectos que tiene cada usuario y crea botones en disabled por cada proyecto
+            for (let i = 0; i < projects.length; i++) {
+              projectsBtns.push(
+                <button
+                  className="btn"
+                  disabled
+                  style={{
+                    fontSize: "12px",
+                    padding: "2px 5px 2px 5px",
+                    marginRight: "5px",
+                    backgroundColor: "white",
+                    border: "1px solid black",
+                  }}
+                >
+                  {projects[i]}
+                </button>
+              );
+            }
+            // El campo de esta row que se llama projects guarda la cantidad de boton que haya recogido el fetch
+            row["projects"] = projectsBtns;
+          }
+          // En el row guarda en el actions los tres componentes dentro de tres div diferentes
+          // En cada uno pasa sus respectivos parametros para poder completar y hacer funcionar cada funcion
+          row["actions"] = (
+            <div style={{ display: "flex" }}>
+              <DeleteUserConfPopUp
+                deleteUser={this.deleteUser.bind(this)}
+                id={row.user_id}
+                username={row.username}
+              />
+              <ManageRolesPopUp
+                roles={rolesList}
+                id={row.user_id}
+                email={json.email}
+                submitRoles={this.submitRoles.bind(this)}
+              />
+              <ManageProjectsPopUp
+                id={row.user_id}
+                submitProjects={this.submitProjects.bind(this)}
+              />
+            </div>
+          );
+          currentData.push(row);
+        }
+        await this.setState({ users: users, dataAux: currentData });
+      });
+    const filterRow = [
+      {
+        key: 0,
+        username: (
+          <div>
+            <input
+              type="text"
+              className="filter__input"
+              placeholder="Username"
+              onChange={(e) => this.filter(0, e.target.value)}
+            />
+          </div>
+        ),
+        email: (
+          <div>
+            <input
+              type="text"
+              className="filter__input"
+              placeholder="Email"
+              onChange={(e) => this.filter(1, e.target.value)}
+            />
+          </div>
+        ),
+        roles: (
+          <div>
+            <input
+              type="text"
+              className="filter__input"
+              placeholder="Roles"
+              onChange={(e) => this.filter(2, e.target.value)}
+            />
+          </div>
+        ),
+        projects: (
+          <div>
+            <input
+              type="text"
+              className="filter__input"
+              placeholder="Projects"
+              onChange={(e) => this.filter(3, e.target.value)}
+            />
+          </div>
+        ),
+      },
+    ];
+
+    await this.setState({
+      data: this.state.dataAux,
+      selectedRows: [],
+      displayData: this.state.dataAux,
+    });
+    await this.setState({ filters: filterRow });
+    await this.setState({ mounted: true });
   }
 
-
-    const rolesBtnsDict = {"Design": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#00FF7F"}}>DES</button>, 
-    "DesignLead": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"lightgreen"}}>LDE</button>, 
-    "Stress": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#00BFFF"}}>STR</button>, 
-    "StressLead": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#87CEEB"}}>LST</button>, 
-    "Supports": <button className="btn"  disabled style={{color: "white",fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#1E90FF"}}>SUP</button>, 
-    "SupportsLead": <button className="btn"  disabled style={{color: "white",fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#6495ED"}}>LSP</button>, 
-    "Materials": <button className="btn"  disabled style={{color:"white", fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#6A5ACD"}}>MAT</button>, 
-    "Issuer": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#FFC0CB"}}>ISS</button>, 
-    "SpecialityLead": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"	#FFA500"}}>LOS</button>, 
-    "Process": <button className="btn"  disabled style={{color: "white",fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#FF4500"}}>PRO</button>, 
-    "Instrument": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#FFD700"}}>INS</button>, 
-    "Review": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"white"}}>REV</button>,
-    "Project": <button className="btn"  disabled style={{fontSize:"12px", color:"white", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#F033FF"}}>PRJ</button>,
-    "3D Admin": <button className="btn"  disabled style={{width:"32px", color:"white", fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#CD853F"}}>3D</button>}
-    
-
-    await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getUsersFull", options)
-        .then(response => response.json())
-        .then(async json => {
-          
-          for(let i = 0; i < json.rows.length; i++){
-              let row = {user_id: json.rows[i].id, username: json.rows[i].name, email: json.rows[i].email, roles: null, projects: null, actions: null}
-              let users = this.state.users
-              users.push(json.rows[i].email)
-              this.setState({
-                users: users
-              })
-              let roles = []
-              let rolesList = []
-              if(json.rows[i].roles === "" || json.rows[i].roles !== null){
-                rolesList = json.rows[i].roles.split(",")
-                for(let j = 0; j < rolesList.length; j++){
-                    roles.push(rolesBtnsDict[rolesList[j]])
-                }
-                row["roles"] = <div> {roles} </div>
-              }
-              
-              if(i % 2 === 0){
-                  row["color"] = "#fff"
-              }else{
-                  row["color"] = "#eee"
-              }
-              if(json.rows[i].projects !== "" && json.rows[i].projects !== null){
-                const projects = json.rows[i].codes.split(",")
-                const projectsBtns = []
-                for(let i = 0; i < projects.length; i++){
-                  projectsBtns.push(<button className="btn" disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"white",  border: "1px solid black"}}>{projects[i]}</button>)
-                }
-                row["projects"] = projectsBtns
-              }
-              row["actions"] = <div style={{display:"flex"}}><DeleteUserConfPopUp  deleteUser={this.deleteUser.bind(this)} id={row.user_id} username={row.username}/><ManageRolesPopUp roles={rolesList} id={row.user_id} email={json.email} submitRoles={this.submitRoles.bind(this)}/><ManageProjectsPopUp id={row.user_id} submitProjects={this.submitProjects.bind(this)}/></div>                  
-
-                let currentData = this.state.dataAux
-                currentData.push(row)
-            
-                await this.setState({dataAux: currentData})
-            }
-              
-          
-      })
-      const filterRow = [{key:0, username: <div><input type="text" className="filter__input" placeholder="Username" onChange={(e) => this.filter(0, e.target.value)}/></div>, email: <div><input type="text" className="filter__input" placeholder="Email" onChange={(e) => this.filter(1,e.target.value)}/></div>, roles: <div><input type="text" className="filter__input" placeholder="Roles" onChange={(e) => this.filter(2,e.target.value)}/></div>, projects: <div><input type="text" className="filter__input" placeholder="Projects" onChange={(e) => this.filter(3,e.target.value)}/></div>}]
-      
-      await this.setState({data : this.state.dataAux, selectedRows: [], displayData: this.state.dataAux});
-      await this.setState({filters : filterRow})
-      await this.setState({mounted: true})
-}
-  
-
-
-  async componentDidUpdate(prevProps, prevState){
-    if(prevProps !== this.props){
+  async componentDidUpdate(prevProps, prevState) {
+    if (prevProps !== this.props) {
       const options = {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-  
-    }
-  
-  
-      const rolesBtnsDict = {"Design": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#00FF7F"}}>DES</button>, 
-      "DesignLead": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"lightgreen"}}>LDE</button>, 
-      "Stress": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#00BFFF"}}>STR</button>, 
-      "StressLead": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#87CEEB"}}>LST</button>, 
-      "Supports": <button className="btn"  disabled style={{color: "white",fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#1E90FF"}}>SUP</button>, 
-      "SupportsLead": <button className="btn"  disabled style={{color: "white",fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#6495ED"}}>LSP</button>, 
-      "Materials": <button className="btn"  disabled style={{color:"white", fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#6A5ACD"}}>MAT</button>, 
-      "Issuer": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#FFC0CB"}}>ISS</button>, 
-      "SpecialityLead": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"	#FFA500"}}>LOS</button>, 
-      "Process": <button className="btn"  disabled style={{color: "white",fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#FF4500"}}>PRO</button>, 
-      "Instrument": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#FFD700"}}>INS</button>, 
-      "Review": <button className="btn"  disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"white"}}>REV</button>,
-      "Project": <button className="btn"  disabled style={{fontSize:"12px", color:"white", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#F033FF"}}>PRJ</button>,
-      "3D Admin": <button className="btn"  disabled style={{width:"32px", color:"white", fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"#CD853F"}}>3D</button>}
-      
-      await this.setState({dataAux: []})
+      };
 
-      await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/getUsersFull", options)
-        .then(response => response.json())
-        .then(async json => {
-          
-          for(let i = 0; i < json.rows.length; i++){
-              let row = {user_id: json.rows[i].id, username: json.rows[i].name, email: json.rows[i].email, roles: null, projects: null, actions: null}
-              let users = this.state.users
-              users.push(json.rows[i].email)
-              this.setState({
-                users: users
-              })
-              let roles = []
-              let rolesList = []
-              if(json.rows[i].roles === "" || json.rows[i].roles !== null){
-                rolesList = json.rows[i].roles.split(",")
-                for(let j = 0; j < rolesList.length; j++){
-                    roles.push(rolesBtnsDict[rolesList[j]])
-                }
-                row["roles"] = <div> {roles} </div>
-              }
-              
-              if(i % 2 === 0){
-                  row["color"] = "#fff"
-              }else{
-                  row["color"] = "#eee"
-              }
-              if(json.rows[i].projects !== "" && json.rows[i].projects !== null){
-                const projects = json.rows[i].codes.split(",")
-                const projectsBtns = []
-                for(let i = 0; i < projects.length; i++){
-                  projectsBtns.push(<button className="btn" disabled style={{fontSize:"12px", padding:"2px 5px 2px 5px", marginRight: "5px", backgroundColor:"white",  border: "1px solid black"}}>{projects[i]}</button>)
-                }
-                row["projects"] = projectsBtns
-              }
-              row["actions"] = <div style={{display:"flex"}}><DeleteUserConfPopUp  deleteUser={this.deleteUser.bind(this)} id={row.user_id} username={row.username}/><ManageRolesPopUp roles={rolesList} id={row.user_id} email={json.email} submitRoles={this.submitRoles.bind(this)}/><ManageProjectsPopUp id={row.user_id} submitProjects={this.submitProjects.bind(this)}/></div>                  
+      const rolesBtnsDict = {
+        Design: (
+          <button
+            className="btn"
+            disabled
+            style={{
+              fontSize: "12px",
+              padding: "2px 5px 2px 5px",
+              marginRight: "5px",
+              backgroundColor: "#00FF7F",
+            }}
+          >
+            DES
+          </button>
+        ),
+        DesignLead: (
+          <button
+            className="btn"
+            disabled
+            style={{
+              fontSize: "12px",
+              padding: "2px 5px 2px 5px",
+              marginRight: "5px",
+              backgroundColor: "lightgreen",
+            }}
+          >
+            LDE
+          </button>
+        ),
+        Stress: (
+          <button
+            className="btn"
+            disabled
+            style={{
+              fontSize: "12px",
+              padding: "2px 5px 2px 5px",
+              marginRight: "5px",
+              backgroundColor: "#00BFFF",
+            }}
+          >
+            STR
+          </button>
+        ),
+        StressLead: (
+          <button
+            className="btn"
+            disabled
+            style={{
+              fontSize: "12px",
+              padding: "2px 5px 2px 5px",
+              marginRight: "5px",
+              backgroundColor: "#87CEEB",
+            }}
+          >
+            LST
+          </button>
+        ),
+        Supports: (
+          <button
+            className="btn"
+            disabled
+            style={{
+              color: "white",
+              fontSize: "12px",
+              padding: "2px 5px 2px 5px",
+              marginRight: "5px",
+              backgroundColor: "#1E90FF",
+            }}
+          >
+            SUP
+          </button>
+        ),
+        SupportsLead: (
+          <button
+            className="btn"
+            disabled
+            style={{
+              color: "white",
+              fontSize: "12px",
+              padding: "2px 5px 2px 5px",
+              marginRight: "5px",
+              backgroundColor: "#6495ED",
+            }}
+          >
+            LSP
+          </button>
+        ),
+        Materials: (
+          <button
+            className="btn"
+            disabled
+            style={{
+              color: "white",
+              fontSize: "12px",
+              padding: "2px 5px 2px 5px",
+              marginRight: "5px",
+              backgroundColor: "#6A5ACD",
+            }}
+          >
+            MAT
+          </button>
+        ),
+        Issuer: (
+          <button
+            className="btn"
+            disabled
+            style={{
+              fontSize: "12px",
+              padding: "2px 5px 2px 5px",
+              marginRight: "5px",
+              backgroundColor: "#FFC0CB",
+            }}
+          >
+            ISS
+          </button>
+        ),
+        SpecialityLead: (
+          <button
+            className="btn"
+            disabled
+            style={{
+              fontSize: "12px",
+              padding: "2px 5px 2px 5px",
+              marginRight: "5px",
+              backgroundColor: "	#FFA500",
+            }}
+          >
+            LOS
+          </button>
+        ),
+        Process: (
+          <button
+            className="btn"
+            disabled
+            style={{
+              color: "white",
+              fontSize: "12px",
+              padding: "2px 5px 2px 5px",
+              marginRight: "5px",
+              backgroundColor: "#FF4500",
+            }}
+          >
+            PRO
+          </button>
+        ),
+        Instrument: (
+          <button
+            className="btn"
+            disabled
+            style={{
+              fontSize: "12px",
+              padding: "2px 5px 2px 5px",
+              marginRight: "5px",
+              backgroundColor: "#FFD700",
+            }}
+          >
+            INS
+          </button>
+        ),
+        Review: (
+          <button
+            className="btn"
+            disabled
+            style={{
+              fontSize: "12px",
+              padding: "2px 5px 2px 5px",
+              marginRight: "5px",
+              backgroundColor: "white",
+            }}
+          >
+            REV
+          </button>
+        ),
+        Project: (
+          <button
+            className="btn"
+            disabled
+            style={{
+              fontSize: "12px",
+              color: "white",
+              padding: "2px 5px 2px 5px",
+              marginRight: "5px",
+              backgroundColor: "#F033FF",
+            }}
+          >
+            PRJ
+          </button>
+        ),
+        "3D Admin": (
+          <button
+            className="btn"
+            disabled
+            style={{
+              width: "32px",
+              color: "white",
+              fontSize: "12px",
+              padding: "2px 5px 2px 5px",
+              marginRight: "5px",
+              backgroundColor: "#CD853F",
+            }}
+          >
+            3D
+          </button>
+        ),
+      };
 
-                let currentData = this.state.dataAux
-                currentData.push(row)
-            
-                await this.setState({dataAux: currentData})
+      await this.setState({ dataAux: [] });
+
+      await fetch(
+        "http://" +
+          process.env.REACT_APP_SERVER +
+          ":" +
+          process.env.REACT_APP_NODE_PORT +
+          "/getUsersFull",
+        options
+      )
+        .then((response) => response.json())
+        .then(async (json) => {
+          let currentData = this.state.dataAux;
+          let users = this.state.users;
+          for (let i = 0; i < json.rows.length; i++) {
+            let row = {
+              user_id: json.rows[i].id,
+              username: json.rows[i].name,
+              email: json.rows[i].email,
+              roles: null,
+              projects: null,
+              actions: null,
+            };
+            users.push(json.rows[i].email);
+            let roles = [];
+            let rolesList = [];
+            if (json.rows[i].roles === "" || json.rows[i].roles !== null) {
+              rolesList = json.rows[i].roles.split(",");
+              for (let j = 0; j < rolesList.length; j++) {
+                roles.push(rolesBtnsDict[rolesList[j]]);
+              }
+              row["roles"] = <div> {roles} </div>;
             }
-              
-          
-      })
-        const filterRow = [{key:0, username: <div><input type="text" className="filter__input" placeholder="Username" onChange={(e) => this.filter(0, e.target.value)}/></div>, email: <div><input type="text" className="filter__input" placeholder="Email" onChange={(e) => this.filter(1,e.target.value)}/></div>, roles: <div><input type="text" className="filter__input" placeholder="Roles" onChange={(e) => this.filter(2,e.target.value)}/></div>, projects: <div><input type="text" className="filter__input" placeholder="Projects" onChange={(e) => this.filter(3,e.target.value)}/></div>}]
-        
-        await this.setState({data : this.state.dataAux, selectedRows: [], displayData: this.state.dataAux});
-        await this.setState({filters : filterRow})
-        await this.setState({mounted: true})
 
+            if (i % 2 === 0) {
+              row["color"] = "#fff";
+            } else {
+              row["color"] = "#eee";
+            }
+            if (
+              json.rows[i].projects !== "" &&
+              json.rows[i].projects !== null
+            ) {
+              const projects = json.rows[i].codes.split(",");
+              const projectsBtns = [];
+              for (let i = 0; i < projects.length; i++) {
+                projectsBtns.push(
+                  <button
+                    className="btn"
+                    disabled
+                    style={{
+                      fontSize: "12px",
+                      padding: "2px 5px 2px 5px",
+                      marginRight: "5px",
+                      backgroundColor: "white",
+                      border: "1px solid black",
+                    }}
+                  >
+                    {projects[i]}
+                  </button>
+                );
+              }
+              row["projects"] = projectsBtns;
+            }
+            row["actions"] = (
+              <div style={{ display: "flex" }}>
+                <DeleteUserConfPopUp
+                  deleteUser={this.deleteUser.bind(this)}
+                  id={row.user_id}
+                  username={row.username}
+                />
+                <ManageRolesPopUp
+                  roles={rolesList}
+                  id={row.user_id}
+                  email={json.email}
+                  submitRoles={this.submitRoles.bind(this)}
+                />
+                <ManageProjectsPopUp
+                  id={row.user_id}
+                  submitProjects={this.submitProjects.bind(this)}
+                />
+              </div>
+            );
+            currentData.push(row);
+          }
+          await this.setState({ users: users, dataAux: currentData });
+        });
+      const filterRow = [
+        {
+          key: 0,
+          username: (
+            <div>
+              <input
+                type="text"
+                className="filter__input"
+                placeholder="Username"
+                onChange={(e) => this.filter(0, e.target.value)}
+              />
+            </div>
+          ),
+          email: (
+            <div>
+              <input
+                type="text"
+                className="filter__input"
+                placeholder="Email"
+                onChange={(e) => this.filter(1, e.target.value)}
+              />
+            </div>
+          ),
+          roles: (
+            <div>
+              <input
+                type="text"
+                className="filter__input"
+                placeholder="Roles"
+                onChange={(e) => this.filter(2, e.target.value)}
+              />
+            </div>
+          ),
+          projects: (
+            <div>
+              <input
+                type="text"
+                className="filter__input"
+                placeholder="Projects"
+                onChange={(e) => this.filter(3, e.target.value)}
+              />
+            </div>
+          ),
+        },
+      ];
+
+      await this.setState({
+        data: this.state.dataAux,
+        selectedRows: [],
+        displayData: this.state.dataAux,
+      });
+      await this.setState({ filters: filterRow });
+      await this.setState({ mounted: true });
     }
   }
 
-  async filter(column, value){
-    let fd = this.state.filterData
-    fd[column] = value
-    await this.setState({filterData: fd})
+  async filter(column, value) {
+    let fd = this.state.filterData;
+    fd[column] = value;
+    await this.setState({ filterData: fd });
 
-    let auxDisplayData = this.state.data
-    let resultData = []
-    let fil, exists = null
-    for(let i = 0; i < auxDisplayData.length; i++){
-      exists = true
-      for(let column = 0; column < Object.keys(auxDisplayData[i]).length-2; column ++){
-        fil = Object.keys(auxDisplayData[i])[column+1]
-        if(fil === "roles"){
-          if(this.state.filterData[column] !== "" && this.state.filterData[column]){
-            let filter_roles = this.state.filterData[column].split(" ")
-            for(let r1 = 0; r1 < filter_roles.length; r1++){
-              let exist_role = false
-              for(let r2 = 0; r2 <  auxDisplayData[i][fil].props.children[1].length; r2++){
-                if(auxDisplayData[i][fil].props.children[1][r2].props.children.includes(filter_roles[r1])){
-                  exist_role = true
-                }    
-              }
-              if(!exist_role){
-                exists = false
-              }
-              
-            }
-            
-          }
-        }else if(fil === "projects"){
-          if(this.state.filterData[column] !== "" && this.state.filterData[column]){
-            let filter_projects = this.state.filterData[column].split(" ")
-            for(let p1 = 0; p1 < filter_projects.length; p1++){
-              let exist_pro = false
-              if (auxDisplayData[i][fil]){
-                for(let p2 = 0; p2 < auxDisplayData[i][fil].length; p2++){
-                  console.log( auxDisplayData[i][fil][p2])
-                  if(auxDisplayData[i][fil][p2].props.children.includes(filter_projects[p1])){
-                    exist_pro = true
-                  }    
+    let auxDisplayData = this.state.data;
+    let resultData = [];
+    let fil,
+      exists = null;
+    for (let i = 0; i < auxDisplayData.length; i++) {
+      exists = true;
+      for (
+        let column = 0;
+        column < Object.keys(auxDisplayData[i]).length - 2;
+        column++
+      ) {
+        fil = Object.keys(auxDisplayData[i])[column + 1];
+        if (fil === "roles") {
+          if (
+            this.state.filterData[column] !== "" &&
+            this.state.filterData[column]
+          ) {
+            let filter_roles = this.state.filterData[column].split(" ");
+            for (let r1 = 0; r1 < filter_roles.length; r1++) {
+              let exist_role = false;
+              for (
+                let r2 = 0;
+                r2 < auxDisplayData[i][fil].props.children[1].length;
+                r2++
+              ) {
+                if (
+                  auxDisplayData[i][fil].props.children[1][
+                    r2
+                  ].props.children.includes(filter_roles[r1])
+                ) {
+                  exist_role = true;
                 }
               }
-              if(!exist_pro){
-                exists = false
+              if (!exist_role) {
+                exists = false;
               }
-              
             }
-            
           }
-        
-        }else{
-          if(auxDisplayData[i][fil]){
-            if(this.state.filterData[column] !== "" && this.state.filterData[column] && !auxDisplayData[i][fil].includes(this.state.filterData[column])){
-              exists = false
+        } else if (fil === "projects") {
+          if (
+            this.state.filterData[column] !== "" &&
+            this.state.filterData[column]
+          ) {
+            let filter_projects = this.state.filterData[column].split(" ");
+            for (let p1 = 0; p1 < filter_projects.length; p1++) {
+              let exist_pro = false;
+              if (auxDisplayData[i][fil]) {
+                for (let p2 = 0; p2 < auxDisplayData[i][fil].length; p2++) {
+                  if (
+                    auxDisplayData[i][fil][p2].props.children.includes(
+                      filter_projects[p1]
+                    )
+                  ) {
+                    exist_pro = true;
+                  }
+                }
+              }
+              if (!exist_pro) {
+                exists = false;
+              }
             }
-          }else{
-            exists = false
+          }
+        } else {
+          if (auxDisplayData[i][fil]) {
+            if (
+              this.state.filterData[column] !== "" &&
+              this.state.filterData[column] &&
+              !auxDisplayData[i][fil].includes(this.state.filterData[column])
+            ) {
+              exists = false;
+            }
+          } else {
+            exists = false;
           }
         }
-        
       }
-      if(exists){
-        resultData.push(auxDisplayData[i])
+      if (exists) {
+        resultData.push(auxDisplayData[i]);
       }
     }
-    await this.setState({displayData: resultData})
+    await this.setState({ displayData: resultData });
   }
 
-  submitRoles(id, roles){
-    this.props.submitRoles(id, roles)
+  submitRoles(id, roles) {
+    this.props.submitRoles(id, roles);
   }
 
-  submitProjects(id, projects){
-    this.props.submitProjects(id, projects)
+  submitProjects(id, projects) {
+    this.props.submitProjects(id, projects);
   }
 
-  
-  getColumnSearchProps = dataIndex => ({
-    render: text =>
-    text != null ? (
-    text.props && text.type !== "div" ? (
-      <Link onClick={() => this.getMaster(text.props.children)}>{text.props.children}</Link>
-    ) : this.state.searchedColumn === dataIndex ? (
-      <Highlighter
-        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-        searchWords={[this.state.searchText]}
-        autoEscape
-        textToHighlight={text ? text : ''}
-      />
-    ) : (
-      text
-    )
-    ) : (
-      text
-    )
+  getColumnSearchProps = (dataIndex) => ({
+    render: (text) =>
+      text != null ? (
+        text.props && text.type !== "div" ? (
+          <Link onClick={() => this.getMaster(text.props.children)}>
+            {text.props.children}
+          </Link>
+        ) : this.state.searchedColumn === dataIndex ? (
+          <Highlighter
+            highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+            searchWords={[this.state.searchText]}
+            autoEscape
+            textToHighlight={text ? text : ""}
+          />
+        ) : (
+          text
+        )
+      ) : (
+        text
+      ),
   });
 
-  handleReset = clearFilters => {
+  handleReset = (clearFilters) => {
     clearFilters();
-    this.setState({ searchText: '' });
+    this.setState({ searchText: "" });
   };
 
   onSelectChange = (selectedRowKeys, selectedRows) => {
-    let ids = []
-    for(let i = 0; i < selectedRows.length; i++){
-      ids.push(selectedRows[i].id.props.children)
+    let ids = [];
+    for (let i = 0; i < selectedRows.length; i++) {
+      ids.push(selectedRows[i].id.props.children);
     }
     this.setState({
       selectedRowsKeys: selectedRowKeys,
-      selectedRows: selectedRows
-    })
+      selectedRows: selectedRows,
+    });
     this.props.onChange(ids);
   };
 
-
   render() {
-
     const columns = [
-        {
-            title: <div className="dataTable__header__text">Username</div>,
-            dataIndex: 'username',
-            key: 'username',
-            ...this.getColumnSearchProps('username'),
-            sorter: {
-                compare: (a, b) => { return a.username.localeCompare(b.username)},
-            },
-            width: "350px",
+      {
+        title: <div className="dataTable__header__text">Username</div>,
+        dataIndex: "username",
+        key: "username",
+        ...this.getColumnSearchProps("username"),
+        sorter: {
+          compare: (a, b) => {
+            return a.username.localeCompare(b.username);
+          },
         },
-          
+        width: "350px",
+      },
+
       {
         title: <center className="dataTable__header__text">Email</center>,
-        dataIndex: 'email',
-        key: 'email',
-        ...this.getColumnSearchProps('email'),
-        sorter:{
+        dataIndex: "email",
+        key: "email",
+        ...this.getColumnSearchProps("email"),
+        sorter: {
           compare: (a, b) => a.email.localeCompare(b.email),
         },
       },
       {
         title: <div className="dataTable__header__text">Roles</div>,
-        dataIndex: 'roles',
-        key: 'roles',
-        ...this.getColumnSearchProps('roles'),
+        dataIndex: "roles",
+        key: "roles",
+        ...this.getColumnSearchProps("roles"),
       },
       {
         title: <div className="dataTable__header__text">Projects</div>,
-        dataIndex: 'projects',
-        key: 'projects',
+        dataIndex: "projects",
+        key: "projects",
         width: "350px",
-        ...this.getColumnSearchProps('projects'),
+        ...this.getColumnSearchProps("projects"),
       },
       {
         title: <div className="dataTable__header__text">Actions</div>,
-        dataIndex: 'actions',
-        key: 'actions',
-        width: '270px',
-        ...this.getColumnSearchProps('actions'),
-      }
+        dataIndex: "actions",
+        key: "actions",
+        width: "270px",
+        ...this.getColumnSearchProps("actions"),
+      },
     ];
-
-
 
     return (
       <div>
         {this.state.update}
         <div className="dataTable__container">
-        <Table className="customTable" bordered = {true} columns={columns} style={{ height: '540px' }} dataSource={this.state.displayData} scroll={{y:454}} pagination={{disabled:true, defaultPageSize:5000}} size="small" rowClassName= {(record) => record.color.replace('#', '')}/>
-        <Table className="filter__table" pagination={{disabled:true}} scroll={{y:437}} showHeader = {false} bordered = {true} columns={columns} dataSource={this.state.filters} size="small"/>
-          <div style={{position: "absolute", bottom:25, left:0}}>
+          <Table
+            className="customTable"
+            bordered={true}
+            columns={columns}
+            style={{ height: "540px" }}
+            dataSource={this.state.displayData}
+            scroll={{ y: 454 }}
+            pagination={{ disabled: true, defaultPageSize: 5000 }}
+            size="small"
+            rowClassName={(record) => record.color.replace("#", "")}
+          />
+          <Table
+            className="filter__table"
+            pagination={{ disabled: true }}
+            scroll={{ y: 437 }}
+            showHeader={false}
+            bordered={true}
+            columns={columns}
+            dataSource={this.state.filters}
+            size="small"
+          />
+          <div style={{ position: "absolute", bottom: 25, left: 0 }}>
             <b>Total elements: {this.state.data.length}</b>
           </div>
         </div>
-        
       </div>
     );
   }
