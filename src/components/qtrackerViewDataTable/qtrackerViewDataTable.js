@@ -2339,8 +2339,532 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                   }
                                               }
                                               
-                                              /* */
+                                              /* Access Issues */
+                                              await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getAISByProjects/"+secureStorage.getItem("user"), options)
+                                              .then(response => response.json())
+                                              .then(async json => {
+                                              var row = null
+                                                if(json.rows){
+                                                  for(let i = 0; i < json.rows.length; i++){
+                                                    
+                                                    let carta = ""
+                                                    if(json.rows[i].carta){
+                                                      carta = " - " + json.rows[i].carta
+                                                    }
+                                                    if(json.rows[i].attach === 1){
+                                                      if(json.rows[i].accept_reject_date != null){
+                                                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10), key: json.rows[i].incidence_number}
+                                                      }else{
+                                                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: "", key: json.rows[i].incidence_number}
+                                                      }
+                                                    }else{
+                                                      if(json.rows[i].accept_reject_date != null){
+                                                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19), key: json.rows[i].incidence_number}
+                                                      }else{
+                                                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: "", key: json.rows[i].incidence_number}
+                                                      }
+                                                    }
+                                                      if(secureStorage.getItem("role") === "3D Admin"){
+                                                        //row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                                        row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="AIS" changeAdmin = {this.changeAdmin.bind(this)}/>
+                                                        if(json.rows[i].status === 0){
+                                                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")} >
+                                                            <option value="pending" selected>Pending</option>
+                                                            <option value="progress">In progress</option>
+                                                            <option value="materials">Materials</option>
+                                                            <option value="readytoload">Ready to Load</option>
+                                                            <option value="ready">Ready</option>
+                                                            <option value="rejected">Rejected</option>
+                                                          </select>
+                                                            row.color = "#www"
+                                                        }else if(json.rows[i].status === 1){
+                                                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")}>
+                                                          <option value="pending">Pending</option>
+                                                          <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                                          <option value="materials">Materials</option>
+                                                          <option value="readytoload">Ready to Load</option>
+                                                          <option value="ready">Ready</option>
+                                                          <option value="rejected">Rejected</option>
+                                                        </select>
+                                                            row.color = "#yyy"
+                                                        }else if(json.rows[i].status === 2){
+                                                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")}>
+                                                          <option value="pending">Pending</option>
+                                                          <option value="progress">In progress</option>
+                                                          <option value="materials">Materials</option>
+                                                          <option value="readytoload">Ready to Load</option>
+                                                          <option value="ready" selected>Ready</option>
+                                                          <option value="rejected">Rejected</option>
+                                                          </select>
+                                                            row.color = "#ggg"
+                                                        }else if(json.rows[i].status === 3){
+                                                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")}>
+                                                          <option value="pending">Pending</option>
+                                                          <option value="progress">In progress</option>
+                                                          <option value="materials">Materials</option>
+                                                          <option value="readytoload">Ready to Load</option>
+                                                          <option value="ready">Ready</option>
+                                                          <option value="rejected" selected>Rejected</option>
+                                                        </select>
+                                                            row.color = "#rrr"
+                                                        }else if(json.rows[i].status === 4){
+                                                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")}>
+                                                          <option value="pending">Pending</option>
+                                                          <option value="progress">In progress</option>
+                                                          <option value="materials" selected>Materials</option>
+                                                          <option value="readytoload">Ready to Load</option>
+                                                          <option value="ready">Ready</option>
+                                                          <option value="rejected">Rejected</option>
+                                                        </select>
+                                                            row.color = "#bbb"
+                                                        }
+                                                        else if(json.rows[i].status === 5){
+                                                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")}>
+                                                        <option value="pending">Pending</option>
+                                                        <option value="progress">In progress</option>
+                                                        <option value="materials">Materials</option>
+                                                        <option value="readytoload" selected>Ready to Load</option>
+                                                        <option value="ready">Ready</option>
+                                                        <option value="rejected">Rejected</option>
+                                                      </select>
+                                                          row.color = "#ooo"
+                                                        }
+
+                                                        if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                                                          row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")} >
+                                                          <option value="low" selected>Low</option>
+                                                          <option value="medium">Medium</option>
+                                                          <option value="high">High</option>
+                                                        </select>
+                                                        }else if(json.rows[i].priority === 1){
+                                                          row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")}>
+                                                          <option value="low">Low</option>
+                                                          <option value="medium" selected>Medium</option>
+                                                          <option value="high">High</option>
+                                                        </select>
+                                                        }else if(json.rows[i].priority === 2){
+                                                          row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")}>
+                                                          <option value="low">Low</option>
+                                                          <option value="medium">Medium</option>
+                                                          <option value="high" selected>High</option>
+                                                          </select>
+                                                        }
+                                                        if(secureStorage.getItem("user") === json.rows[i].email){
+                                                          row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                          row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
+                                                        } else {
+                                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                          row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
+                                                        }
+                                                      }else{
+                                                        row["admin"] = json.rows[i].admin
+
+                                                        if(json.rows[i].priority === 0){
+                                                          row.priority = "Low"
+                                                        }else if(json.rows[i].priority === 1){
+                                                            row.priority = "Medium"
+                                                        }else if(json.rows[i].priority === 2){
+                                                            row.priority = "High"
+                                                        }
+
+                                                        if(json.rows[i].status === 0){
+                                                          row.status = "Pending"
+                                                          row.color = "#www"
+                                                        }else if(json.rows[i].status === 1){
+                                                            row.status = "In progress"
+                                                            row.color = "#yyy"
+                                                        }else if(json.rows[i].status === 2){
+                                                            row.status = "Ready"
+                                                            row.color = "#ggg"
+                                                        }else if(json.rows[i].status === 3){
+                                                          row.status = "Rejected"
+                                                          row.color = "#rrr"
+                                                        }else if(json.rows[i].status === 4){
+                                                          row.status = "Materials"
+                                                          row.color = "#bbb"
+                                                        }else if(json.rows[i].status === 5){
+                                                          row.status = "Ready to Load"
+                                                          row.color = "#ooo"
+                                                        }
+
+                                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                        row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
+                                                      }
+
+                                                      const today = moment()
+                                                      const createdDate = moment(row.created_at)
+
+                                                      if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                                        row.color = "#ppp" 
+                                                        if(this.props.currentUser === json.rows[i].email){
+                                                          alertCount++
+                                                        }
+                                                      }
+                                      
+                                                      if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4 || json.rows[i].status === 5){
+                                                        pendingRows.push(row)
+                                                      }
+                                                    
+                                                      if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4 || json.rows[i].status === 5 || json.rows[i].status === 2 || json.rows[i].status === 3){
+                                                        rows.push(row)
+                                                      }
+                                                    }
+                                                }
+                                                
+                                                /* Change Application */
+                                                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getCHAByProjects/"+secureStorage.getItem("user"), options)
+                                                .then(response => response.json())
+                                                .then(async json => {
+                                                var row = null
+                                                  if(json.rows){
+                                                    for(let i = 0; i < json.rows.length; i++){
+                                                      
+                                                      let carta = ""
+                                                      if(json.rows[i].carta){
+                                                        carta = " - " + json.rows[i].carta
+                                                      }
+                                                      if(json.rows[i].attach === 1){
+                                                        if(json.rows[i].accept_reject_date != null){
+                                                          row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10), key: json.rows[i].incidence_number}
+                                                        }else{
+                                                          row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: "", key: json.rows[i].incidence_number}
+                                                        }
+                                                      }else{
+                                                        if(json.rows[i].accept_reject_date != null){
+                                                          row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19), key: json.rows[i].incidence_number}
+                                                        }else{
+                                                          row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: "", key: json.rows[i].incidence_number}
+                                                        }
+                                                      }
+                                                        if(secureStorage.getItem("role") === "3D Admin"){
+                                                          //row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                                          row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="CHA" changeAdmin = {this.changeAdmin.bind(this)}/>
+                                                          if(json.rows[i].status === 0){
+                                                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")} >
+                                                              <option value="pending" selected>Pending</option>
+                                                              <option value="progress">In progress</option>
+                                                              <option value="materials">Materials</option>
+                                                              <option value="readytoload">Ready to Load</option>
+                                                              <option value="ready">Ready</option>
+                                                              <option value="rejected">Rejected</option>
+                                                            </select>
+                                                              row.color = "#www"
+                                                          }else if(json.rows[i].status === 1){
+                                                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")}>
+                                                            <option value="pending">Pending</option>
+                                                            <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                                            <option value="materials">Materials</option>
+                                                            <option value="readytoload">Ready to Load</option>
+                                                            <option value="ready">Ready</option>
+                                                            <option value="rejected">Rejected</option>
+                                                          </select>
+                                                              row.color = "#yyy"
+                                                          }else if(json.rows[i].status === 2){
+                                                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")}>
+                                                            <option value="pending">Pending</option>
+                                                            <option value="progress">In progress</option>
+                                                            <option value="materials">Materials</option>
+                                                            <option value="readytoload">Ready to Load</option>
+                                                            <option value="ready" selected>Ready</option>
+                                                            <option value="rejected">Rejected</option>
+                                                            </select>
+                                                              row.color = "#ggg"
+                                                          }else if(json.rows[i].status === 3){
+                                                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")}>
+                                                            <option value="pending">Pending</option>
+                                                            <option value="progress">In progress</option>
+                                                            <option value="materials">Materials</option>
+                                                            <option value="readytoload">Ready to Load</option>
+                                                            <option value="ready">Ready</option>
+                                                            <option value="rejected" selected>Rejected</option>
+                                                          </select>
+                                                              row.color = "#rrr"
+                                                          }else if(json.rows[i].status === 4){
+                                                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")}>
+                                                            <option value="pending">Pending</option>
+                                                            <option value="progress">In progress</option>
+                                                            <option value="materials" selected>Materials</option>
+                                                            <option value="readytoload">Ready to Load</option>
+                                                            <option value="ready">Ready</option>
+                                                            <option value="rejected">Rejected</option>
+                                                          </select>
+                                                              row.color = "#bbb"
+                                                          }
+                                                          else if(json.rows[i].status === 5){
+                                                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")}>
+                                                          <option value="pending">Pending</option>
+                                                          <option value="progress">In progress</option>
+                                                          <option value="materials">Materials</option>
+                                                          <option value="readytoload" selected>Ready to Load</option>
+                                                          <option value="ready">Ready</option>
+                                                          <option value="rejected">Rejected</option>
+                                                        </select>
+                                                            row.color = "#ooo"
+                                                          }
+
+                                                          if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                                                            row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")} >
+                                                            <option value="low" selected>Low</option>
+                                                            <option value="medium">Medium</option>
+                                                            <option value="high">High</option>
+                                                          </select>
+                                                          }else if(json.rows[i].priority === 1){
+                                                            row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")}>
+                                                            <option value="low">Low</option>
+                                                            <option value="medium" selected>Medium</option>
+                                                            <option value="high">High</option>
+                                                          </select>
+                                                          }else if(json.rows[i].priority === 2){
+                                                            row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")}>
+                                                            <option value="low">Low</option>
+                                                            <option value="medium">Medium</option>
+                                                            <option value="high" selected>High</option>
+                                                            </select>
+                                                          }
+                                                          if(secureStorage.getItem("user") === json.rows[i].email){
+                                                            row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                            row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
+                                                          } else {
+                                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                            row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
+                                                          }
+                                                        }else{
+                                                          row["admin"] = json.rows[i].admin
+
+                                                          if(json.rows[i].priority === 0){
+                                                            row.priority = "Low"
+                                                          }else if(json.rows[i].priority === 1){
+                                                              row.priority = "Medium"
+                                                          }else if(json.rows[i].priority === 2){
+                                                              row.priority = "High"
+                                                          }
+
+                                                          if(json.rows[i].status === 0){
+                                                            row.status = "Pending"
+                                                            row.color = "#www"
+                                                          }else if(json.rows[i].status === 1){
+                                                              row.status = "In progress"
+                                                              row.color = "#yyy"
+                                                          }else if(json.rows[i].status === 2){
+                                                              row.status = "Ready"
+                                                              row.color = "#ggg"
+                                                          }else if(json.rows[i].status === 3){
+                                                            row.status = "Rejected"
+                                                            row.color = "#rrr"
+                                                          }else if(json.rows[i].status === 4){
+                                                            row.status = "Materials"
+                                                            row.color = "#bbb"
+                                                          }else if(json.rows[i].status === 5){
+                                                            row.status = "Ready to Load"
+                                                            row.color = "#ooo"
+                                                          }
+
+                                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                          row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
+                                                        }
+
+                                                        const today = moment()
+                                                        const createdDate = moment(row.created_at)
+
+                                                        if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                                          row.color = "#ppp" 
+                                                          if(this.props.currentUser === json.rows[i].email){
+                                                            alertCount++
+                                                          }
+                                                        }
+                                        
+                                                        if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4 || json.rows[i].status === 5){
+                                                          pendingRows.push(row)
+                                                        }
+                                                      
+                                                        if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4 || json.rows[i].status === 5 || json.rows[i].status === 2 || json.rows[i].status === 3){
+                                                          rows.push(row)
+                                                        }
+                                                      }
+                                                  }
+                                                  
+                                                  /* OTHER */
+                                                  await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getOTHByProjects/"+secureStorage.getItem("user"), options)
+                                                  .then(response => response.json())
+                                                  .then(async json => {
+                                                  var row = null
+                                                    if(json.rows){
+                                                      for(let i = 0; i < json.rows.length; i++){
+                                                        
+                                                        let carta = ""
+                                                        if(json.rows[i].carta){
+                                                          carta = " - " + json.rows[i].carta
+                                                        }
+                                                        if(json.rows[i].attach === 1){
+                                                          if(json.rows[i].accept_reject_date != null){
+                                                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10), key: json.rows[i].incidence_number}
+                                                          }else{
+                                                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: "", key: json.rows[i].incidence_number}
+                                                          }
+                                                        }else{
+                                                          if(json.rows[i].accept_reject_date != null){
+                                                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19), key: json.rows[i].incidence_number}
+                                                          }else{
+                                                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: "", key: json.rows[i].incidence_number}
+                                                          }
+                                                        }
+                                                          if(secureStorage.getItem("role") === "3D Admin"){
+                                                            //row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                                            row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="OTH" changeAdmin = {this.changeAdmin.bind(this)}/>
+                                                            if(json.rows[i].status === 0){
+                                                                row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")} >
+                                                                <option value="pending" selected>Pending</option>
+                                                                <option value="progress">In progress</option>
+                                                                <option value="materials">Materials</option>
+                                                                <option value="readytoload">Ready to Load</option>
+                                                                <option value="ready">Ready</option>
+                                                                <option value="rejected">Rejected</option>
+                                                              </select>
+                                                                row.color = "#www"
+                                                            }else if(json.rows[i].status === 1){
+                                                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")}>
+                                                              <option value="pending">Pending</option>
+                                                              <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                                              <option value="materials">Materials</option>
+                                                              <option value="readytoload">Ready to Load</option>
+                                                              <option value="ready">Ready</option>
+                                                              <option value="rejected">Rejected</option>
+                                                            </select>
+                                                                row.color = "#yyy"
+                                                            }else if(json.rows[i].status === 2){
+                                                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")}>
+                                                              <option value="pending">Pending</option>
+                                                              <option value="progress">In progress</option>
+                                                              <option value="materials">Materials</option>
+                                                              <option value="readytoload">Ready to Load</option>
+                                                              <option value="ready" selected>Ready</option>
+                                                              <option value="rejected">Rejected</option>
+                                                              </select>
+                                                                row.color = "#ggg"
+                                                            }else if(json.rows[i].status === 3){
+                                                                row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")}>
+                                                              <option value="pending">Pending</option>
+                                                              <option value="progress">In progress</option>
+                                                              <option value="materials">Materials</option>
+                                                              <option value="readytoload">Ready to Load</option>
+                                                              <option value="ready">Ready</option>
+                                                              <option value="rejected" selected>Rejected</option>
+                                                            </select>
+                                                                row.color = "#rrr"
+                                                            }else if(json.rows[i].status === 4){
+                                                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")}>
+                                                              <option value="pending">Pending</option>
+                                                              <option value="progress">In progress</option>
+                                                              <option value="materials" selected>Materials</option>
+                                                              <option value="readytoload">Ready to Load</option>
+                                                              <option value="ready">Ready</option>
+                                                              <option value="rejected">Rejected</option>
+                                                            </select>
+                                                                row.color = "#bbb"
+                                                            }
+                                                            else if(json.rows[i].status === 5){
+                                                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")}>
+                                                            <option value="pending">Pending</option>
+                                                            <option value="progress">In progress</option>
+                                                            <option value="materials">Materials</option>
+                                                            <option value="readytoload" selected>Ready to Load</option>
+                                                            <option value="ready">Ready</option>
+                                                            <option value="rejected">Rejected</option>
+                                                          </select>
+                                                              row.color = "#ooo"
+                                                            }
+
+                                                            if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                                                              row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")} >
+                                                              <option value="low" selected>Low</option>
+                                                              <option value="medium">Medium</option>
+                                                              <option value="high">High</option>
+                                                            </select>
+                                                            }else if(json.rows[i].priority === 1){
+                                                              row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")}>
+                                                              <option value="low">Low</option>
+                                                              <option value="medium" selected>Medium</option>
+                                                              <option value="high">High</option>
+                                                            </select>
+                                                            }else if(json.rows[i].priority === 2){
+                                                              row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")}>
+                                                              <option value="low">Low</option>
+                                                              <option value="medium">Medium</option>
+                                                              <option value="high" selected>High</option>
+                                                              </select>
+                                                            }
+                                                            if(secureStorage.getItem("user") === json.rows[i].email){
+                                                              row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                              row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
+                                                            } else {
+                                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                              row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
+                                                            }
+                                                          }else{
+                                                            row["admin"] = json.rows[i].admin
+
+                                                            if(json.rows[i].priority === 0){
+                                                              row.priority = "Low"
+                                                            }else if(json.rows[i].priority === 1){
+                                                                row.priority = "Medium"
+                                                            }else if(json.rows[i].priority === 2){
+                                                                row.priority = "High"
+                                                            }
+
+                                                            if(json.rows[i].status === 0){
+                                                              row.status = "Pending"
+                                                              row.color = "#www"
+                                                            }else if(json.rows[i].status === 1){
+                                                                row.status = "In progress"
+                                                                row.color = "#yyy"
+                                                            }else if(json.rows[i].status === 2){
+                                                                row.status = "Ready"
+                                                                row.color = "#ggg"
+                                                            }else if(json.rows[i].status === 3){
+                                                              row.status = "Rejected"
+                                                              row.color = "#rrr"
+                                                            }else if(json.rows[i].status === 4){
+                                                              row.status = "Materials"
+                                                              row.color = "#bbb"
+                                                            }else if(json.rows[i].status === 5){
+                                                              row.status = "Ready to Load"
+                                                              row.color = "#ooo"
+                                                            }
+
+                                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                            row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
+                                                          }
+
+                                                          const today = moment()
+                                                          const createdDate = moment(row.created_at)
+
+                                                          if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                                            row.color = "#ppp" 
+                                                            if(this.props.currentUser === json.rows[i].email){
+                                                              alertCount++
+                                                            }
+                                                          }
+                                          
+                                                          if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4 || json.rows[i].status === 5){
+                                                            pendingRows.push(row)
+                                                          }
+                                                        
+                                                          if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4 || json.rows[i].status === 5 || json.rows[i].status === 2 || json.rows[i].status === 3){
+                                                            rows.push(row)
+                                                          }
+                                                        }
+                                                    }
+                                                    
+                                                    /* */
+                                                    
+                                                  })
+                                                  // Copiar hasta aqui
+                                                })
+
+                                              })
+
                                             })
+
                                           })
                                           
                                         })
@@ -2536,8 +3060,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                     </select>
                   }
 
-                  //console.log("secure storage: " + secureStorage.getItem("user"));
-                  //console.log("josn email: " + json.rows[i].email);
+                  
+                  
                   if(secureStorage.getItem("user") === json.rows[i].email){
                     row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                     row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
@@ -2576,8 +3100,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                     row.color = "#ooo"
                   }
 
-                  //console.log("secure storage: " + secureStorage.getItem("user"));
-                  //console.log("josn email: " + json.rows[i].email);
+                  
+                  
                   row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
                   row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                 }
@@ -2600,8 +3124,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                   rows.push(row)
                 }
 
-                //console.log("secure storage: " + secureStorage.getItem("user"));
-                //console.log("josn email: " + json.rows[i].email);
+                
+                
             }
           }
             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVNByProjects/"+secureStorage.getItem("user"), options)
@@ -2714,8 +3238,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                         </select>
                       }
 
-                      //console.log("secure storage: " + secureStorage.getItem("user"));
-                      //console.log("json email: " + json.rows[i].email);
+                      
+                      
 
                       if(secureStorage.getItem("user") === json.rows[i].email){
                         row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
@@ -2889,8 +3413,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                             </select>
                           }
                           
-                          //console.log("secure storage: " + secureStorage.getItem("user"));
-                          //console.log("json email: " + json.rows[i].email);
+                          
+                          
                           if(secureStorage.getItem("user") === json.rows[i].email){
                             row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                             row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
@@ -3062,8 +3586,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                 </select>
                               }
 
-                              //console.log("secure storage: " + secureStorage.getItem("user"));
-                              //console.log("json email: " + json.rows[i].email);
+                              
+                              
 
                               if(secureStorage.getItem("user") === json.rows[i].email){
                                 row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
@@ -3230,8 +3754,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                     </select>
                                   }
 
-                                  //console.log("secure storage: " + secureStorage.getItem("user"));
-                              //console.log("json email: " + json.rows[i].email);
+                                  
+                              
 
                                   if(secureStorage.getItem("user") === json.rows[i].email){
                                     row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
@@ -3397,8 +3921,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                         </select>
                                       }
 
-                                      //console.log("secure storage: " + secureStorage.getItem("user"));
-                              //console.log("json email: " + json.rows[i].email);
+                                      
+                              
 
                                       if(secureStorage.getItem("user") === json.rows[i].email){
                                         row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
@@ -3565,8 +4089,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                         </select>
                                       }
 
-                                      //console.log("secure storage: " + secureStorage.getItem("user"));
-                                      //console.log("json email: " + json.rows[i].email);
+                                      
+                                      
 
                                       if(secureStorage.getItem("user") === json.rows[i].email){
                                         row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
@@ -3742,8 +4266,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                           </select>
                                         }
 
-                                        //console.log("secure storage: " + secureStorage.getItem("user"));
-                              //console.log("json email: " + json.rows[i].email);
+                                        
+                              
 
                                         if(secureStorage.getItem("user") === json.rows[i].email){
                                           row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
@@ -3920,8 +4444,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                               </select>
                                             }
 
-                                            //console.log("secure storage: " + secureStorage.getItem("user"));
-                              //console.log("json email: " + json.rows[i].email);
+                                            
+                              
 
                                             if(secureStorage.getItem("user") === json.rows[i].email){
                                               row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
@@ -4098,8 +4622,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                 </select>
                                               }
                                               
-                                              //console.log("secure storage: " + secureStorage.getItem("user"));
-                              //console.log("json email: " + json.rows[i].email);
+                                              
+                              
 
                                               if(secureStorage.getItem("user") === json.rows[i].email){
                                                 row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
@@ -4276,8 +4800,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                   </select>
                                                 }
 
-                                                //console.log("secure storage: " + secureStorage.getItem("user"));
-                              //console.log("json email: " + json.rows[i].email);
+                                                
+                              
 
                                                 if(secureStorage.getItem("user") === json.rows[i].email){
                                                   row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
@@ -4454,8 +4978,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                       </select>
                                                     }
 
-                                                    //console.log("secure storage: " + secureStorage.getItem("user"));
-                              //console.log("json email: " + json.rows[i].email);
+                                                    
+                              
 
                                                     if(secureStorage.getItem("user") === json.rows[i].email){
                                                       row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
@@ -4632,8 +5156,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                         </select>
                                                       }
 
-                                                      //console.log("secure storage: " + secureStorage.getItem("user"));
-                              //console.log("json email: " + json.rows[i].email);
+                                                      
+                              
 
                                                       if(secureStorage.getItem("user") === json.rows[i].email){
                                                         row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
@@ -4699,7 +5223,548 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                 }
                                               }
 
-                                              /* */
+                                              /* Access Issues */
+                                              await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getAISByProjects/"+secureStorage.getItem("user"), options)
+                                              .then(response => response.json())
+                                              .then(async json => {
+                                              var row = null
+                                                if(json.rows){
+                                                  for(let i = 0; i < json.rows.length; i++){
+                                                    
+                                                    let carta = ""
+                                                    if(json.rows[i].carta){
+                                                      carta = " - " + json.rows[i].carta
+                                                    }
+                                                    if(json.rows[i].attach === 1){
+                                                      if(json.rows[i].accept_reject_date != null){
+                                                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10), key: json.rows[i].incidence_number}
+                                                      }else{
+                                                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: "", key: json.rows[i].incidence_number}
+                                                      }
+                                                    }else{
+                                                      if(json.rows[i].accept_reject_date != null){
+                                                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19), key: json.rows[i].incidence_number}
+                                                      }else{
+                                                        row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: "", key: json.rows[i].incidence_number}
+                                                      }
+                                                    }
+                                                      if(secureStorage.getItem("role") === "3D Admin"){
+                                                        //row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                                        row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="AIS" changeAdmin = {this.changeAdmin.bind(this)}/>
+                                                        if(json.rows[i].status === 0){
+                                                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")} >
+                                                            <option value="pending" selected>Pending</option>
+                                                            <option value="progress">In progress</option>
+                                                            <option value="materials">Materials</option>
+                                                            <option value="readytoload">Ready to Load</option>
+                                                            <option value="ready">Ready</option>
+                                                            <option value="rejected">Rejected</option>
+                                                          </select>
+                                                            row.color = "#www"
+                                                        }else if(json.rows[i].status === 1){
+                                                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")}>
+                                                          <option value="pending">Pending</option>
+                                                          <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                                          <option value="materials">Materials</option>
+                                                          <option value="readytoload">Ready to Load</option>
+                                                          <option value="ready">Ready</option>
+                                                          <option value="rejected">Rejected</option>
+                                                        </select>
+                                                            row.color = "#yyy"
+                                                        }else if(json.rows[i].status === 2){
+                                                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")}>
+                                                          <option value="pending">Pending</option>
+                                                          <option value="progress">In progress</option>
+                                                          <option value="materials">Materials</option>
+                                                          <option value="readytoload">Ready to Load</option>
+                                                          <option value="ready" selected>Ready</option>
+                                                          <option value="rejected">Rejected</option>
+                                                          </select>
+                                                            row.color = "#ggg"
+                                                        }else if(json.rows[i].status === 3){
+                                                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")}>
+                                                          <option value="pending">Pending</option>
+                                                          <option value="progress">In progress</option>
+                                                          <option value="materials">Materials</option>
+                                                          <option value="readytoload">Ready to Load</option>
+                                                          <option value="ready">Ready</option>
+                                                          <option value="rejected" selected>Rejected</option>
+                                                        </select>
+                                                            row.color = "#rrr"
+                                                        }else if(json.rows[i].status === 4){
+                                                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")}>
+                                                          <option value="pending">Pending</option>
+                                                          <option value="progress">In progress</option>
+                                                          <option value="materials" selected>Materials</option>
+                                                          <option value="readytoload">Ready to Load</option>
+                                                          <option value="ready">Ready</option>
+                                                          <option value="rejected">Rejected</option>
+                                                        </select>
+                                                            row.color = "#bbb"
+                                                        }
+                                                        else if(json.rows[i].status === 5){
+                                                          row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")}>
+                                                        <option value="pending">Pending</option>
+                                                        <option value="progress">In progress</option>
+                                                        <option value="materials">Materials</option>
+                                                        <option value="readytoload" selected>Ready to Load</option>
+                                                        <option value="ready">Ready</option>
+                                                        <option value="rejected">Rejected</option>
+                                                      </select>
+                                                          row.color = "#ooo"
+                                                        }
+
+                                                        if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                                                          row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")} >
+                                                          <option value="low" selected>Low</option>
+                                                          <option value="medium">Medium</option>
+                                                          <option value="high">High</option>
+                                                        </select>
+                                                        }else if(json.rows[i].priority === 1){
+                                                          row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")}>
+                                                          <option value="low">Low</option>
+                                                          <option value="medium" selected>Medium</option>
+                                                          <option value="high">High</option>
+                                                        </select>
+                                                        }else if(json.rows[i].priority === 2){
+                                                          row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")}>
+                                                          <option value="low">Low</option>
+                                                          <option value="medium">Medium</option>
+                                                          <option value="high" selected>High</option>
+                                                          </select>
+                                                        }
+
+                                                        
+                                
+
+                                                        if(secureStorage.getItem("user") === json.rows[i].email){
+                                                          row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                          row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
+                                                        } else {
+                                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                          row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
+                                                        }
+                                                        
+                                                      }else{
+                                                        row["admin"] = json.rows[i].admin
+
+                                                        if(json.rows[i].priority === 0){
+                                                          row.priority = "Low"
+                                                        }else if(json.rows[i].priority === 1){
+                                                            row.priority = "Medium"
+                                                        }else if(json.rows[i].priority === 2){
+                                                            row.priority = "High"
+                                                        }
+
+                                                        if(json.rows[i].status === 0){
+                                                          row.status = "Pending"
+                                                          row.color = "#www"
+                                                        }else if(json.rows[i].status === 1){
+                                                            row.status = "In progress"
+                                                            row.color = "#yyy"
+                                                        }else if(json.rows[i].status === 2){
+                                                            row.status = "Ready"
+                                                            row.color = "#ggg"
+                                                        }else if(json.rows[i].status === 3){
+                                                          row.status = "Rejected"
+                                                          row.color = "#rrr"
+                                                        }else if(json.rows[i].status === 4){
+                                                          row.status = "Materials"
+                                                          row.color = "#bbb"
+                                                        }else if(json.rows[i].status === 5){
+                                                          row.status = "Ready to Load"
+                                                          row.color = "#ooo"
+                                                        }
+
+                                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                        row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
+                                                      }
+
+                                                      const today = moment()
+                                                      const createdDate = moment(row.created_at)
+
+                                                      if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                                        row.color = "#ppp" 
+                                                        if(this.props.currentUser === json.rows[i].email){
+                                                          alertCount++
+                                                        }
+                                                      }
+                                      
+                                                      if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4 || json.rows[i].status === 5){
+                                                        pendingRows.push(row)
+                                                      }
+                          
+                                                      if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4 || json.rows[i].status === 5 || json.rows[i].status === 2 || json.rows[i].status === 3){
+                                                        rows.push(row)
+                                                      }
+
+                                                  }
+                                                }
+
+                                                /* Change Application */
+                                                await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getCHAByProjects/"+secureStorage.getItem("user"), options)
+                                                .then(response => response.json())
+                                                .then(async json => {
+                                                var row = null
+                                                  if(json.rows){
+                                                    for(let i = 0; i < json.rows.length; i++){
+                                                      
+                                                      let carta = ""
+                                                      if(json.rows[i].carta){
+                                                        carta = " - " + json.rows[i].carta
+                                                      }
+                                                      if(json.rows[i].attach === 1){
+                                                        if(json.rows[i].accept_reject_date != null){
+                                                          row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10), key: json.rows[i].incidence_number}
+                                                        }else{
+                                                          row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: "", key: json.rows[i].incidence_number}
+                                                        }
+                                                      }else{
+                                                        if(json.rows[i].accept_reject_date != null){
+                                                          row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19), key: json.rows[i].incidence_number}
+                                                        }else{
+                                                          row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: "", key: json.rows[i].incidence_number}
+                                                        }
+                                                      }
+                                                        if(secureStorage.getItem("role") === "3D Admin"){
+                                                          //row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                                          row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="CHA" changeAdmin = {this.changeAdmin.bind(this)}/>
+                                                          if(json.rows[i].status === 0){
+                                                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")} >
+                                                              <option value="pending" selected>Pending</option>
+                                                              <option value="progress">In progress</option>
+                                                              <option value="materials">Materials</option>
+                                                              <option value="readytoload">Ready to Load</option>
+                                                              <option value="ready">Ready</option>
+                                                              <option value="rejected">Rejected</option>
+                                                            </select>
+                                                              row.color = "#www"
+                                                          }else if(json.rows[i].status === 1){
+                                                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")}>
+                                                            <option value="pending">Pending</option>
+                                                            <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                                            <option value="materials">Materials</option>
+                                                            <option value="readytoload">Ready to Load</option>
+                                                            <option value="ready">Ready</option>
+                                                            <option value="rejected">Rejected</option>
+                                                          </select>
+                                                              row.color = "#yyy"
+                                                          }else if(json.rows[i].status === 2){
+                                                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")}>
+                                                            <option value="pending">Pending</option>
+                                                            <option value="progress">In progress</option>
+                                                            <option value="materials">Materials</option>
+                                                            <option value="readytoload">Ready to Load</option>
+                                                            <option value="ready" selected>Ready</option>
+                                                            <option value="rejected">Rejected</option>
+                                                            </select>
+                                                              row.color = "#ggg"
+                                                          }else if(json.rows[i].status === 3){
+                                                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")}>
+                                                            <option value="pending">Pending</option>
+                                                            <option value="progress">In progress</option>
+                                                            <option value="materials">Materials</option>
+                                                            <option value="readytoload">Ready to Load</option>
+                                                            <option value="ready">Ready</option>
+                                                            <option value="rejected" selected>Rejected</option>
+                                                          </select>
+                                                              row.color = "#rrr"
+                                                          }else if(json.rows[i].status === 4){
+                                                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")}>
+                                                            <option value="pending">Pending</option>
+                                                            <option value="progress">In progress</option>
+                                                            <option value="materials" selected>Materials</option>
+                                                            <option value="readytoload">Ready to Load</option>
+                                                            <option value="ready">Ready</option>
+                                                            <option value="rejected">Rejected</option>
+                                                          </select>
+                                                              row.color = "#bbb"
+                                                          }
+                                                          else if(json.rows[i].status === 5){
+                                                            row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")}>
+                                                          <option value="pending">Pending</option>
+                                                          <option value="progress">In progress</option>
+                                                          <option value="materials">Materials</option>
+                                                          <option value="readytoload" selected>Ready to Load</option>
+                                                          <option value="ready">Ready</option>
+                                                          <option value="rejected">Rejected</option>
+                                                        </select>
+                                                            row.color = "#ooo"
+                                                          }
+
+                                                          if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                                                            row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")} >
+                                                            <option value="low" selected>Low</option>
+                                                            <option value="medium">Medium</option>
+                                                            <option value="high">High</option>
+                                                          </select>
+                                                          }else if(json.rows[i].priority === 1){
+                                                            row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")}>
+                                                            <option value="low">Low</option>
+                                                            <option value="medium" selected>Medium</option>
+                                                            <option value="high">High</option>
+                                                          </select>
+                                                          }else if(json.rows[i].priority === 2){
+                                                            row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "CHA")}>
+                                                            <option value="low">Low</option>
+                                                            <option value="medium">Medium</option>
+                                                            <option value="high" selected>High</option>
+                                                            </select>
+                                                          }
+
+                                                          
+                                  
+
+                                                          if(secureStorage.getItem("user") === json.rows[i].email){
+                                                            row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                            row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
+                                                          } else {
+                                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                            row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
+                                                          }
+                                                          
+                                                        }else{
+                                                          row["admin"] = json.rows[i].admin
+
+                                                          if(json.rows[i].priority === 0){
+                                                            row.priority = "Low"
+                                                          }else if(json.rows[i].priority === 1){
+                                                              row.priority = "Medium"
+                                                          }else if(json.rows[i].priority === 2){
+                                                              row.priority = "High"
+                                                          }
+
+                                                          if(json.rows[i].status === 0){
+                                                            row.status = "Pending"
+                                                            row.color = "#www"
+                                                          }else if(json.rows[i].status === 1){
+                                                              row.status = "In progress"
+                                                              row.color = "#yyy"
+                                                          }else if(json.rows[i].status === 2){
+                                                              row.status = "Ready"
+                                                              row.color = "#ggg"
+                                                          }else if(json.rows[i].status === 3){
+                                                            row.status = "Rejected"
+                                                            row.color = "#rrr"
+                                                          }else if(json.rows[i].status === 4){
+                                                            row.status = "Materials"
+                                                            row.color = "#bbb"
+                                                          }else if(json.rows[i].status === 5){
+                                                            row.status = "Ready to Load"
+                                                            row.color = "#ooo"
+                                                          }
+
+                                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                          row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
+                                                        }
+
+                                                        const today = moment()
+                                                        const createdDate = moment(row.created_at)
+
+                                                        if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                                          row.color = "#ppp" 
+                                                          if(this.props.currentUser === json.rows[i].email){
+                                                            alertCount++
+                                                          }
+                                                        }
+                                        
+                                                        if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4 || json.rows[i].status === 5){
+                                                          pendingRows.push(row)
+                                                        }
+                            
+                                                        if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4 || json.rows[i].status === 5 || json.rows[i].status === 2 || json.rows[i].status === 3){
+                                                          rows.push(row)
+                                                        }
+
+                                                    }
+                                                  }
+
+                                                  /* OTHER */
+                                                  await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getOTHByProjects/"+secureStorage.getItem("user"), options)
+                                                  .then(response => response.json())
+                                                  .then(async json => {
+                                                  var row = null
+                                                    if(json.rows){
+                                                      for(let i = 0; i < json.rows.length; i++){
+                                                        
+                                                        let carta = ""
+                                                        if(json.rows[i].carta){
+                                                          carta = " - " + json.rows[i].carta
+                                                        }
+                                                        if(json.rows[i].attach === 1){
+                                                          if(json.rows[i].accept_reject_date != null){
+                                                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19).toString().substring(0,10), key: json.rows[i].incidence_number}
+                                                          }else{
+                                                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <div><QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/><img src={AttachIcon} alt="att" className="attach__icon" style={{marginRight:"0px"}}></img></div>, ar_date: "", key: json.rows[i].incidence_number}
+                                                          }
+                                                        }else{
+                                                          if(json.rows[i].accept_reject_date != null){
+                                                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: json.rows[i].accept_reject_date.toString().substring(0,10) + " "+ json.rows[i].accept_reject_date.toString().substring(11,19), key: json.rows[i].incidence_number}
+                                                          }else{
+                                                            row = {incidence_number: json.rows[i].incidence_number, project: json.rows[i].project + carta + " (" + json.rows[i].code + ")", user: json.rows[i].user, description: json.rows[i].description.substring(0,20) + "...", created_at: json.rows[i].created_at.toString().substring(0,10) + " "+ json.rows[i].created_at.toString().substring(11,19), specifications: <QtrackerNVNSpecPopUp name={json.rows[i].name} incidence_number={json.rows[i].incidence_number} spref={json.rows[i].spref} description={json.rows[i].description}/>, ar_date: "", key: json.rows[i].incidence_number}
+                                                          }
+                                                        }
+                                                          if(secureStorage.getItem("role") === "3D Admin"){
+                                                            //row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                                            row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="OTH" changeAdmin = {this.changeAdmin.bind(this)}/>
+                                                            if(json.rows[i].status === 0){
+                                                                row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")} >
+                                                                <option value="pending" selected>Pending</option>
+                                                                <option value="progress">In progress</option>
+                                                                <option value="materials">Materials</option>
+                                                                <option value="readytoload">Ready to Load</option>
+                                                                <option value="ready">Ready</option>
+                                                                <option value="rejected">Rejected</option>
+                                                              </select>
+                                                                row.color = "#www"
+                                                            }else if(json.rows[i].status === 1){
+                                                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")}>
+                                                              <option value="pending">Pending</option>
+                                                              <option value="progress" selected style={{backgroundColor:"#yyy"}}>In progress</option>
+                                                              <option value="materials">Materials</option>
+                                                              <option value="readytoload">Ready to Load</option>
+                                                              <option value="ready">Ready</option>
+                                                              <option value="rejected">Rejected</option>
+                                                            </select>
+                                                                row.color = "#yyy"
+                                                            }else if(json.rows[i].status === 2){
+                                                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")}>
+                                                              <option value="pending">Pending</option>
+                                                              <option value="progress">In progress</option>
+                                                              <option value="materials">Materials</option>
+                                                              <option value="readytoload">Ready to Load</option>
+                                                              <option value="ready" selected>Ready</option>
+                                                              <option value="rejected">Rejected</option>
+                                                              </select>
+                                                                row.color = "#ggg"
+                                                            }else if(json.rows[i].status === 3){
+                                                                row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")}>
+                                                              <option value="pending">Pending</option>
+                                                              <option value="progress">In progress</option>
+                                                              <option value="materials">Materials</option>
+                                                              <option value="readytoload">Ready to Load</option>
+                                                              <option value="ready">Ready</option>
+                                                              <option value="rejected" selected>Rejected</option>
+                                                            </select>
+                                                                row.color = "#rrr"
+                                                            }else if(json.rows[i].status === 4){
+                                                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")}>
+                                                              <option value="pending">Pending</option>
+                                                              <option value="progress">In progress</option>
+                                                              <option value="materials" selected>Materials</option>
+                                                              <option value="readytoload">Ready to Load</option>
+                                                              <option value="ready">Ready</option>
+                                                              <option value="rejected">Rejected</option>
+                                                            </select>
+                                                                row.color = "#bbb"
+                                                            }
+                                                            else if(json.rows[i].status === 5){
+                                                              row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")}>
+                                                            <option value="pending">Pending</option>
+                                                            <option value="progress">In progress</option>
+                                                            <option value="materials">Materials</option>
+                                                            <option value="readytoload" selected>Ready to Load</option>
+                                                            <option value="ready">Ready</option>
+                                                            <option value="rejected">Rejected</option>
+                                                          </select>
+                                                              row.color = "#ooo"
+                                                            }
+
+                                                            if(json.rows[i].priority === 0 || !json.rows[i].priority){
+                                                              row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")} >
+                                                              <option value="low" selected>Low</option>
+                                                              <option value="medium">Medium</option>
+                                                              <option value="high">High</option>
+                                                            </select>
+                                                            }else if(json.rows[i].priority === 1){
+                                                              row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")}>
+                                                              <option value="low">Low</option>
+                                                              <option value="medium" selected>Medium</option>
+                                                              <option value="high">High</option>
+                                                            </select>
+                                                            }else if(json.rows[i].priority === 2){
+                                                              row.priority = <select name="priority" id="priority" onChange={(event)=> this.priorityChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "OTH")}>
+                                                              <option value="low">Low</option>
+                                                              <option value="medium">Medium</option>
+                                                              <option value="high" selected>High</option>
+                                                              </select>
+                                                            }
+
+                                                            
+                                    
+
+                                                            if(secureStorage.getItem("user") === json.rows[i].email){
+                                                              row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                              row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
+                                                            } else {
+                                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                              row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
+                                                            }
+                                                            
+                                                          }else{
+                                                            row["admin"] = json.rows[i].admin
+
+                                                            if(json.rows[i].priority === 0){
+                                                              row.priority = "Low"
+                                                            }else if(json.rows[i].priority === 1){
+                                                                row.priority = "Medium"
+                                                            }else if(json.rows[i].priority === 2){
+                                                                row.priority = "High"
+                                                            }
+
+                                                            if(json.rows[i].status === 0){
+                                                              row.status = "Pending"
+                                                              row.color = "#www"
+                                                            }else if(json.rows[i].status === 1){
+                                                                row.status = "In progress"
+                                                                row.color = "#yyy"
+                                                            }else if(json.rows[i].status === 2){
+                                                                row.status = "Ready"
+                                                                row.color = "#ggg"
+                                                            }else if(json.rows[i].status === 3){
+                                                              row.status = "Rejected"
+                                                              row.color = "#rrr"
+                                                            }else if(json.rows[i].status === 4){
+                                                              row.status = "Materials"
+                                                              row.color = "#bbb"
+                                                            }else if(json.rows[i].status === 5){
+                                                              row.status = "Ready to Load"
+                                                              row.color = "#ooo"
+                                                            }
+
+                                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                            row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
+                                                          }
+
+                                                          const today = moment()
+                                                          const createdDate = moment(row.created_at)
+
+                                                          if (!createdDate.add(2, 'weeks').isSameOrAfter(today) && !(json.rows[i].status === 2 || json.rows[i].status === 3)) {
+                                                            row.color = "#ppp" 
+                                                            if(this.props.currentUser === json.rows[i].email){
+                                                              alertCount++
+                                                            }
+                                                          }
+                                          
+                                                          if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4 || json.rows[i].status === 5){
+                                                            pendingRows.push(row)
+                                                          }
+                              
+                                                          if(json.rows[i].status === 0 || json.rows[i].status === 1 || json.rows[i].status === 4 || json.rows[i].status === 5 || json.rows[i].status === 2 || json.rows[i].status === 3){
+                                                            rows.push(row)
+                                                          }
+
+                                                      }
+                                                    }
+
+                                                    /* */
+
+                                                  })  
+                                                  // Copiar hasta aqui
+                                                })    
+
+
+                                              })    
 
                                             })    
 
