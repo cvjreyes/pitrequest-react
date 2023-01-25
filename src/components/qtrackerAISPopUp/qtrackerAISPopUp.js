@@ -296,7 +296,7 @@ export default class QtrackerAISPopUp extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* Primer fila: Project - Carta - Priority */}
+                  {/* Primer fila: Project - Priority */}
                   <tr>
                     <td style={{ textAlign: "left" }}>
                       <label className="priority__label" for="projectSelect">

@@ -2366,6 +2366,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                     }
                                                       if(secureStorage.getItem("role") === "3D Admin"){
                                                         //row["hours"] = <input style={{width: "55px"}} type="text" value={json.rows[i].hours} onChange={(event)=>this.updateHours(json.rows[i].incidence_number, event.target.value)}/>
+                                                        // console.log(json.rows[i].admin);
                                                         row["admin"] = <ChangeAdminPopUp updateData={this.state.updateData} admin = {json.rows[i].admin} incidence_number={json.rows[i].incidence_number} type="AIS" changeAdmin = {this.changeAdmin.bind(this)}/>
                                                         if(json.rows[i].status === 0){
                                                             row.status = <select name="status" id="status" onChange={(event)=> this.statusChange(json.rows[i].incidence_number, event.target.value, json.rows[i].project, "AIS")} >
