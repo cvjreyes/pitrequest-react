@@ -69,7 +69,6 @@ export default class HoursPopUp extends Component { //PopUp que muestra las hora
 
     handleChange = async(e) =>{
         await this.setState({hours: e.target.value})
-        console.log("Handlechange: " + e.target.value);
     }
 
     componentDidMount(){

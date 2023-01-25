@@ -47,8 +47,6 @@ export default class ObservationsPopUp extends Component { //PopUp que muestra l
             visible : true,
             observations: this.props.observations
         });
-        console.log("Open Modal: " + this.props.observations);
-        console.log("Open Modal state: " + this.state.observations);
 
     }
 
@@ -66,7 +64,6 @@ export default class ObservationsPopUp extends Component { //PopUp que muestra l
 
     handleChange = async(e) =>{
         await this.setState({observations: e.target.value})
-        console.log("Handlechange: " + e.target.value);
     }
 
     componentDidMount(){
