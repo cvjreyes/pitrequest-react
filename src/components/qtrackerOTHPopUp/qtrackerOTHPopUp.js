@@ -123,6 +123,7 @@ export default class QtrackerOTHPopUp extends Component {
       projects: [],
       carta: null,
       projectName: "",
+      hasProject: true,
     };
   }
 
@@ -146,20 +147,39 @@ export default class QtrackerOTHPopUp extends Component {
       .then((response) => response.json())
       .then(async (json) => {
         let projects = [];
+        let hasProject = true;
         for (let i = 0; i < json.projects.length; i++) {
-          projects.push(json.projects[i].name);
+          if (json.projects[i].name.includes("990000-SPI")) {
+            projects.push(json.projects[i].name);            
+          }
         }
-        this.setState({ projects: projects, projectName: projects[0] });
+        if (!projects.includes("990000-SPI")) {
+          hasProject = false;
+        }
+        this.setState({
+          projects: projects,
+          projectName: projects[0],
+          hasProject: hasProject,
+        });
       });
   }
 
   async openModal() {
-    await this.setState({
-      visible: true,
-      name: null,
-      description: null,
-      attach: null,
-    });
+    if (this.state.hasProject) {
+      await this.setState({
+        visible: true,
+        name: null,
+        description: null,
+        attach: null,
+      });
+    } else {
+      await this.setState({
+        visible: false,
+        name: null,
+        description: null,
+        attach: null,
+      });
+    }
   }
 
   async closeModal() {
@@ -335,7 +355,7 @@ export default class QtrackerOTHPopUp extends Component {
                   <tr>
                     <td style={{ textAlign: "left" }}>
                       <label className="priority__label" for="name">
-                        Name
+                        Name of project
                       </label>
                     </td>
                   </tr>
@@ -393,7 +413,7 @@ export default class QtrackerOTHPopUp extends Component {
                         className="priority__label"
                         style={{ marginRight: "10px" }}
                       >
-                        Attach{" "}
+                        Attach screenshot{" "}
                       </label>
                       <input
                         type="file"

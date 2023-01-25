@@ -85,7 +85,12 @@ export default class ChangeAdminPopUp extends Component {
       this.props.incidence_number,
       this.props.type
     );
-    console.log("change admin: ", this.state.currentAdmin, this.props.incidence_number, this.props.type);
+    console.log(
+      "change admin: ",
+      this.state.currentAdmin,
+      this.props.incidence_number,
+      this.props.type
+    );
     this.closeModal();
   }
 
