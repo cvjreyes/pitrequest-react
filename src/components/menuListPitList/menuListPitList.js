@@ -27,6 +27,7 @@ import QtrackerISPopUp from "../qtrackerISPopUp/qtrackerISPopUp";
 import QtrackerCHAPopUp from "../qtrackerCHAPopUp/qtrackerCHAPopUp";
 import QtrackerOTHPopUp from "../qtrackerOTHPopUp/qtrackerOTHPopUp";
 import QtrackerINMGeneralPopUp from "../qtrackerINMGeneralPopUp/qtrackerINMGeneralPopUp";
+import QtrackerINMIssuePopUp from "../qtrackerINMIssuePopUp/qtrackerINMIssuePopUp";
 
 const CryptoJS = require("crypto-js");
 const SecureStorage = require("secure-web-storage");
@@ -825,7 +826,7 @@ export default function MenuListPITList(props) {
             </div>
           </span>
           <QtrackerINMGeneralPopUp success={success.bind(this)} />
-          <QtrackerCHAPopUp success={success.bind(this)} />
+          <QtrackerINMIssuePopUp success={success.bind(this)} />
         </div>
       );
       // Si seleccionas pulsas el boton request aparecera un submenu que mostrara estos componentes
