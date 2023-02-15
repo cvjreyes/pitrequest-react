@@ -46,8 +46,6 @@ export default class HoursPopUp extends Component { //PopUp que muestra las hora
             visible : true,
             hours: this.props.hours
         });
-        console.log("Open Modal: " + this.props.hours);
-        console.log("Open Modal state: " + this.state.hours);
 
     }
 

@@ -164,7 +164,6 @@ export default class QtrackerINMIssuePopUp extends Component {
   }
 
   async openModal() {
-    console.log(this.state.hasProject)
     if (this.state.hasProject) {
       await this.setState({
         visible: true,
@@ -214,7 +213,6 @@ export default class QtrackerINMIssuePopUp extends Component {
         priority: document.getElementById("prioritySelect").value,
         carta: this.state.carta,
       };
-      console.log(body.project);
       let options = {
         method: "POST",
         headers: {

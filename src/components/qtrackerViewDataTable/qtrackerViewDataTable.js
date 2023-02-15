@@ -65,7 +65,6 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
   };
 
   async statusChange(incidence_number, status, project, type){ //Cambio de status de una incidencia
-    console.log("seguro?");
     let status_id 
     if(status === "pending"){
       status_id = 0

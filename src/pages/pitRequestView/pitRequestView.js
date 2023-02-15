@@ -2149,7 +2149,6 @@ const PitRequestView = () => {
     let currentRows = updatedRows;
     currentRows.push(updatedRow);
     setUpdatedRows(currentRows);
-    console.log("Current rows: " + currentRows, typeof currentRows);
   }
 
   async function updateObservations(newObservations) {
@@ -2230,7 +2229,6 @@ const PitRequestView = () => {
 
     for (let i = 0; i < updatedRows.length; i++) {
       //Por cada cambio en el status
-      console.log(i, updatedRows[i]);
       let body = {
         incidence_number: updatedRows[i][0],
         status_id: updatedRows[i][1],
@@ -2257,7 +2255,6 @@ const PitRequestView = () => {
       )
         .then((response) => response.json())
         .then(async (json) => {
-          console.log("Json data: ", json);
           if (!json.success) {
             err = true;
           } else if (json.notReady) {
