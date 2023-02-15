@@ -152,8 +152,6 @@ export default class QtrackerINMIssuePopUp extends Component {
                 projects.push(json.projects[i].name);            
             }
         }
-        console.log(projects)
-        console.log(projects)
         if (!projects.includes("IM_")) {
           hasProject = true;
         }
