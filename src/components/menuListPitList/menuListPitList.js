@@ -20,12 +20,14 @@ import QtrackerPermissionsPopUp from "../qtrackerPermissionsPopUp/qtrackerPermis
 import QtrackerNRIDSPopUp from "../qtrackerNRIDSPopUp/qtrackerNRIDSPopUp";
 import SvgIcon from "@mui/material/SvgIcon";
 import ProjectPopUp from "../projectPopUp/projectPopUp";
-import { fade, makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import OfferPopUp from "../OfferPopUp/offerPopUp";
 import Vector from "../../assets/images/Vector.png";
 import QtrackerISPopUp from "../qtrackerISPopUp/qtrackerISPopUp";
 import QtrackerCHAPopUp from "../qtrackerCHAPopUp/qtrackerCHAPopUp";
 import QtrackerOTHPopUp from "../qtrackerOTHPopUp/qtrackerOTHPopUp";
+import QtrackerINMGeneralPopUp from "../qtrackerINMGeneralPopUp/qtrackerINMGeneralPopUp";
+import QtrackerINMIssuePopUp from "../qtrackerINMIssuePopUp/qtrackerINMIssuePopUp";
 
 const CryptoJS = require("crypto-js");
 const SecureStorage = require("secure-web-storage");
@@ -494,6 +496,20 @@ export default function MenuListPITList(props) {
           >
             <span
               style={{ display: "flex" }}
+              onClick={() => setcurrentMenu("inf_manag")}
+            >
+              <div style={{ width: "480px" }}>
+                <p className="mainmenu__item">Information Management</p>
+              </div>
+              <img src={Vector} alt="vector" className="vector__image"></img>
+            </span>
+          </div>
+          <div
+            className="mainmenu__item__container__soft"
+            style={{ marginTop: "10px" }}
+          >
+            <span
+              style={{ display: "flex" }}
               onClick={() => setcurrentMenu("int_smart_inst")}
             >
               <div style={{ width: "480px" }}>
@@ -789,6 +805,28 @@ export default function MenuListPITList(props) {
           <QtrackerAISPopUp success={success.bind(this)} />
           <QtrackerCHAPopUp success={success.bind(this)} />
           <QtrackerOTHPopUp success={success.bind(this)} />
+        </div>
+      );
+      // Si seleccionas pulsas el boton request aparecera un submenu que mostrara estos componentes
+    } else if (currentMenu === "inf_manag") {
+      // Si el software es Information Management se muestran estos componentes
+      await setOptions(
+        <div className="back__item__container">
+          <span
+            style={{ display: "flex" }}
+            onClick={() => setcurrentMenu("software")}
+          >
+            <img
+              src={Vector}
+              alt="vector"
+              className="vector__image__reversed"
+            ></img>
+            <div style={{ width: "260px" }}>
+              <p className="back__text">SOFTWARE</p>
+            </div>
+          </span>
+          <QtrackerINMGeneralPopUp success={success.bind(this)} />
+          <QtrackerINMIssuePopUp success={success.bind(this)} />
         </div>
       );
       // Si seleccionas pulsas el boton request aparecera un submenu que mostrara estos componentes
