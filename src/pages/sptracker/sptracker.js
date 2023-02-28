@@ -346,7 +346,7 @@ const CSPTracker = () => {
 
     async function addRow(){ //Añade una fila
         let rows = editData
-        rows.push({tag:"", quantity: "", description: "", description_plan_code: "", drawing_filename: "", description_iso: "", ident: "", p1diameter_dn: "", p1diameter_nps: "", p2diameter_dn: "", p2diameter_nps: "", p3diameter_dn: "", p3diameter_nps: "", rating: "", spec: "", type: "", end_preparation: "", description_drawing: "", face_to_face: "", bolt_type: "", ready_load: "", ready_e3d: "", comments: "", pid: "", line_id: "", requisition: "", equipnozz: "", utility_station: ""})
+        rows.push({tag:" ", quantity: "", description: "", description_plan_code: "", drawing_filename: "", description_iso: "", ident: "", p1diameter_dn: "", p1diameter_nps: "", p2diameter_dn: "", p2diameter_nps: "", p3diameter_dn: "", p3diameter_nps: "", rating: "", spec: "", type: "", end_preparation: "", description_drawing: "", face_to_face: "", bolt_type: "", ready_load: "", ready_e3d: "", comments: "", pid: "", line_id: "", requisition: "", equipnozz: "", utility_station: ""})
         await setEditData(rows)
         await setUpdateData(!updateData)
       }
@@ -355,7 +355,8 @@ const CSPTracker = () => {
 
         const body = {
             rows: editData,
-            email: currentUser
+            email: currentUser,
+            user: secureStorage.getItem("user")
         }
         let options = {
             method: "GET",
@@ -535,7 +536,7 @@ const CSPTracker = () => {
                 '---------',
                 'filter_action_bar',
               ]}
-            columns= {[{ data: "tag", type:'text'}, {data: "project", readOnly: "true"}, {data: "spec", type:"dropdown", strict:"true", source: specData}, {data: p1bore, type:"dropdown", strict:"true", source: diametersData}, {data: p2bore, type:"dropdown", strict:"true", source: diametersData}, {data: p3bore, type:"dropdown", strict:"true", source: diametersData}, {data: "rating", type:"dropdown", strict:"true", source: ratingData}, {data: "end_preparation", type:"dropdown", strict:"true", source: endPreparationData}, {data: "line_id", type:"text"}, {data: "pid", type:"dropdown", strict:"true", source: pidData}, {data: "type", type:"text"}, {data: "description_plan_code", type:"dropdown", allowInvalid:true, source: descriptionPlaneData}, {data:"quantity", type:"numeric"}, { data: "requisition", type:'text'}, { data: "description", type:'text'}, {data: "description_iso", type:"text"},{data: "ident", type:"text"}, {data: "face_to_face", type:"text"}, {data: "bolt_type", type:"dropdown", strict:"true", source: boltTypesData}, {data:"equipnozz", type:"text"}, {data:"utility_station", type:"text"}, {data:"comments", type:"text"}]}
+            columns= {[{ data: "tag", type:'text'}, {data: "project", type:"dropdown", strict:"true", source: projectsData}, {data: "spec", type:"dropdown", strict:"true", source: specData}, {data: p1bore, type:"dropdown", strict:"true", source: diametersData}, {data: p2bore, type:"dropdown", strict:"true", source: diametersData}, {data: p3bore, type:"dropdown", strict:"true", source: diametersData}, {data: "rating", type:"dropdown", strict:"true", source: ratingData}, {data: "end_preparation", type:"dropdown", strict:"true", source: endPreparationData}, {data: "line_id", type:"text"}, {data: "pid", type:"dropdown", strict:"true", source: pidData}, {data: "type", type:"text"}, {data: "description_plan_code", type:"dropdown", allowInvalid:true, source: descriptionPlaneData}, {data:"quantity", type:"numeric"}, { data: "requisition", type:'text'}, { data: "description", type:'text'}, {data: "description_iso", type:"text"},{data: "ident", type:"text"}, {data: "face_to_face", type:"text"}, {data: "bolt_type", type:"dropdown", strict:"true", source: boltTypesData}, {data:"equipnozz", type:"text"}, {data:"utility_station", type:"text"}, {data:"comments", type:"text"}]}
             />
           
             dataTableHeight= "700px"
