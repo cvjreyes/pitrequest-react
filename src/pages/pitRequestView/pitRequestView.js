@@ -353,7 +353,7 @@ const PitRequestView = () => {
         setSaveButton(
           <button className="navBar__button" onClick={() => saveChanges()}>
             <img src={SaveIcon} alt="save" className="navBar__icon"></img>
-            <p className="navBar__button__text">Save</p>
+            <p className="navBar__button__text">Saves</p>
           </button>
         );
         setAddUserButton(null);
@@ -2155,6 +2155,8 @@ const PitRequestView = () => {
     let body = {
       incidence_number: newObservations[0],
       observation: newObservations[1],
+      email: newObservations[2],
+      username: newObservations[3],
     };
     let options = {
       method: "POST",
@@ -2227,6 +2229,7 @@ const PitRequestView = () => {
     let err = false;
     let notReady = false;
 
+    console.log("Updated rows: ", updatedRows);
     for (let i = 0; i < updatedRows.length; i++) {
       //Por cada cambio en el status
       let body = {
@@ -2273,6 +2276,7 @@ const PitRequestView = () => {
     setUpdatedRows([]);
     for (let i = 0; i < updatedRowsPrio.length; i++) {
       //Por cada cambio en la prioridad
+      console.log("updated prio: ", updatedRowsPrio[i]);
 
       let body = {
         incidence_number: updatedRowsPrio[i][0],

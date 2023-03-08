@@ -224,18 +224,12 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                     <option value="high" selected>High</option>
                     </select>
                   }
-                  
-                  
-                  //console.log("secure: " + secureStorage.getItem("user"));
-                  //console.log("rows: " + json.rows[i].email);
-                  //console.log("Condicion: " + secureStorage.getItem("user") === json.rows[i].email);
+
                   if(secureStorage.getItem("user") === json.rows[i].email){
-                    //console.log("if");
-                    row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                    row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                     row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                   } else {
-                    //console.log("else");
-                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} />
                     row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                   }
                   
@@ -270,7 +264,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                   }
                   
                   //console.log("entra else");
-                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                   row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                 }
                 
@@ -293,7 +287,6 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                 }
               }
             }
-            // console.log("IF JSON ROWS desc: " + JSON.stringify(rows));
 
             //Repetimos lo mismo para todas las incidencias
             await fetch("http://"+process.env.REACT_APP_SERVER+":"+process.env.REACT_APP_NODE_PORT+"/qtracker/getNVNByProjects/"+secureStorage.getItem("user"), options)
@@ -406,10 +399,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                       }
                       
                       if(secureStorage.getItem("user") === json.rows[i].email){
-                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                         row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                       } else {
-                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                         row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                       }
     
@@ -444,7 +437,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                         row.color = "#ooo"
                       }
 
-                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                       row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                     }
 
@@ -576,10 +569,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                             </select>
                           }
                           if(secureStorage.getItem("user") === json.rows[i].email){
-                            row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                            row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                             row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                           } else {
-                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                             row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                           }
 
@@ -615,7 +608,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                             row.color = "#ooo"
                           }
 
-                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                           row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                         }
 
@@ -748,10 +741,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                               }
 
                               if(secureStorage.getItem("user") === json.rows[i].email){
-                                row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                 row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                               } else {
-                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                 row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                               }
                             
@@ -786,7 +779,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                 row.color = "#ooo"
                               }
 
-                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                               row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                             }
 
@@ -911,10 +904,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                     </select>
                                   }
                                   if(secureStorage.getItem("user") === json.rows[i].email){
-                                    row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                    row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                     row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                   } else {
-                                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                     row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                   }
 
@@ -949,7 +942,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                     row.color = "#ooo"
                                   }
 
-                                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                   row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                 }
 
@@ -1074,10 +1067,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                         </select>
                                       }
                                       if(secureStorage.getItem("user") === json.rows[i].email){
-                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                         row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                       } else {
-                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                           row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                       }
 
@@ -1112,7 +1105,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                           row.color = "#ooo"
                                       }
                                       
-                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                       row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                     }
 
@@ -1236,10 +1229,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                         </select>
                                       }
                                       if(secureStorage.getItem("user") === json.rows[i].email){
-                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                         row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                       } else {
-                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                         row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                       }
 
@@ -1275,7 +1268,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                         row.color = "#ooo"
                                       }
 
-                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                       row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                     }
 
@@ -1411,10 +1404,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                           </select>
                                         }
                                         if(secureStorage.getItem("user") === json.rows[i].email){
-                                          row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                          row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                           row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                         } else {
-                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                           row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                         }
 
@@ -1450,7 +1443,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                           row.color = "#ooo"
                                         }
 
-                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                         row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                       }
 
@@ -1585,10 +1578,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                             </select>
                                           }
                                           if(secureStorage.getItem("user") === json.rows[i].email){
-                                            row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                            row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                             row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                           } else {
-                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                             row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                           }
                                         }else{
@@ -1622,7 +1615,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                             row.color = "#ooo"
                                           }
 
-                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                           row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                         }
 
@@ -1757,10 +1750,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                               </select>
                                             }
                                             if(secureStorage.getItem("user") === json.rows[i].email){
-                                              row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                              row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                               row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                             } else {
-                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                               row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                             }
 
@@ -1795,7 +1788,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                               row.color = "#ooo"
                                             }
 
-                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                             row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                           }
 
@@ -1931,10 +1924,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                 </select>
                                               }
                                               if(secureStorage.getItem("user") === json.rows[i].email){
-                                                row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                 row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                               } else {
-                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                 row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                               }
                                             }else{
@@ -1968,7 +1961,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                 row.color = "#ooo"
                                               }
 
-                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                               row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                             }
 
@@ -2103,10 +2096,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                     </select>
                                                   }
                                                   if(secureStorage.getItem("user") === json.rows[i].email){
-                                                    row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                    row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                     row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                                   } else {
-                                                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                     row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                   }
 
@@ -2141,7 +2134,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                     row.color = "#ooo"
                                                   }
 
-                                                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                   row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                 }
                                                 
@@ -2277,10 +2270,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                         </select>
                                                       }
                                                       if(secureStorage.getItem("user") === json.rows[i].email){
-                                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                         row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                                       } else {
-                                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                         row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                       }
                                                     }else{
@@ -2314,7 +2307,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                         row.color = "#ooo"
                                                       }
 
-                                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                       row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                     }
 
@@ -2450,10 +2443,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                           </select>
                                                         }
                                                         if(secureStorage.getItem("user") === json.rows[i].email){
-                                                          row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                          row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                           row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                                         } else {
-                                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                           row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                         }
                                                       }else{
@@ -2487,7 +2480,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                           row.color = "#ooo"
                                                         }
 
-                                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                         row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                       }
 
@@ -2622,10 +2615,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                             </select>
                                                           }
                                                           if(secureStorage.getItem("user") === json.rows[i].email){
-                                                            row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                            row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                             row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                                           } else {
-                                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                             row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                           }
                                                         }else{
@@ -2659,7 +2652,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                             row.color = "#ooo"
                                                           }
 
-                                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                           row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                         }
 
@@ -2794,10 +2787,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                               </select>
                                                             }
                                                             if(secureStorage.getItem("user") === json.rows[i].email){
-                                                              row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                              row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                               row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                                             } else {
-                                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                               row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                             }
                                                           }else{
@@ -2831,7 +2824,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                               row.color = "#ooo"
                                                             }
 
-                                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                             row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                           }
 
@@ -2966,10 +2959,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                                 </select>
                                                               }
                                                               if(secureStorage.getItem("user") === json.rows[i].email){
-                                                                row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                                row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                                 row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                                               } else {
-                                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                                 row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                               }
                                                             }else{
@@ -3003,7 +2996,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                                 row.color = "#ooo"
                                                               }
 
-                                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                               row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                             }
 
@@ -3138,10 +3131,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                                   </select>
                                                                 }
                                                                 if(secureStorage.getItem("user") === json.rows[i].email){
-                                                                  row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                                  row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                                   row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                                                 } else {
-                                                                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                                   row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                                 }
                                                               }else{
@@ -3175,7 +3168,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                                   row.color = "#ooo"
                                                                 }
 
-                                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                                 row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                               }
 
@@ -3399,10 +3392,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                   
                   
                   if(secureStorage.getItem("user") === json.rows[i].email){
-                    row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                    row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                     row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                   } else {
-                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                     row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                   }
 
@@ -3438,7 +3431,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
 
                   
                   
-                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                   row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                 }
                 
@@ -3578,10 +3571,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                       
 
                       if(secureStorage.getItem("user") === json.rows[i].email){
-                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                         row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                       } else {
-                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                         row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                       }
                     }else{
@@ -3615,7 +3608,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                         row.color = "#ooo"
                       }
 
-                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                       row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                     }
 
@@ -3752,10 +3745,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                           
                           
                           if(secureStorage.getItem("user") === json.rows[i].email){
-                            row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                            row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                             row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                           } else {
-                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                             row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                           }
                         }else{
@@ -3789,7 +3782,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                             row.color = "#ooo"
                           }
 
-                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                           row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                         }
 
@@ -3926,10 +3919,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                               
 
                               if(secureStorage.getItem("user") === json.rows[i].email){
-                                row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                 row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                               } else {
-                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                 row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                               }
 
@@ -3964,7 +3957,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                 row.color = "#ooo"
                               }
 
-                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                               row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                             }
 
@@ -4094,10 +4087,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                               
 
                                   if(secureStorage.getItem("user") === json.rows[i].email){
-                                    row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                    row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                     row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                   } else {
-                                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                     row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                   }
 
@@ -4132,7 +4125,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                     row.color = "#ooo"
                                   }
                                   
-                                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                   row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                 }
 
@@ -4261,10 +4254,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                               
 
                                       if(secureStorage.getItem("user") === json.rows[i].email){
-                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                         row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                       } else {
-                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                         row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                       }
 
@@ -4299,7 +4292,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                         row.color = "#ooo"
                                       }
 
-                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                       row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                     }
 
@@ -4429,10 +4422,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                       
 
                                       if(secureStorage.getItem("user") === json.rows[i].email){
-                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                         row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                       } else {
-                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                         row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                       }
 
@@ -4467,7 +4460,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                         row.color = "#ooo"
                                       }
 
-                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                       row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                     }
 
@@ -4606,10 +4599,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                               
 
                                         if(secureStorage.getItem("user") === json.rows[i].email){
-                                          row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                          row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                           row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                         } else {
-                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                           row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                         }
 
@@ -4644,7 +4637,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                           row.color = "#ooo"
                                         }
 
-                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                         row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                       }
 
@@ -4784,10 +4777,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                               
 
                                             if(secureStorage.getItem("user") === json.rows[i].email){
-                                              row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                              row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                               row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                             } else {
-                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                               row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                             }
 
@@ -4822,7 +4815,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                               row.color = "#ooo"
                                             }
 
-                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                             row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                           }
 
@@ -4962,10 +4955,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                               
 
                                               if(secureStorage.getItem("user") === json.rows[i].email){
-                                                row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                 row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                               } else {
-                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                 row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                               }
 
@@ -5000,7 +4993,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                 row.color = "#ooo"
                                               }
 
-                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                               row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                             }
 
@@ -5140,10 +5133,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                               
 
                                                 if(secureStorage.getItem("user") === json.rows[i].email){
-                                                  row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                  row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                   row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                                 } else {
-                                                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                   row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                 }
 
@@ -5178,7 +5171,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                   row.color = "#ooo"
                                                 }
 
-                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                 row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                               }
 
@@ -5318,10 +5311,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                               
 
                                                     if(secureStorage.getItem("user") === json.rows[i].email){
-                                                      row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                      row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                       row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                                     } else {
-                                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                       row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                     }
 
@@ -5356,7 +5349,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                       row.color = "#ooo"
                                                     }
 
-                                                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                    row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                     row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                   }
 
@@ -5496,10 +5489,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                               
 
                                                       if(secureStorage.getItem("user") === json.rows[i].email){
-                                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                        row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                         row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                                       } else {
-                                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                         row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                       }
                                                       
@@ -5534,7 +5527,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                         row.color = "#ooo"
                                                       }
 
-                                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                      row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                       row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                     }
 
@@ -5674,10 +5667,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                 
 
                                                         if(secureStorage.getItem("user") === json.rows[i].email){
-                                                          row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                          row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                           row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                                         } else {
-                                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                           row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                         }
                                                         
@@ -5712,7 +5705,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                           row.color = "#ooo"
                                                         }
 
-                                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                        row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                         row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                       }
 
@@ -5852,10 +5845,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                   
 
                                                           if(secureStorage.getItem("user") === json.rows[i].email){
-                                                            row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                            row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                             row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                                           } else {
-                                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                             row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                           }
                                                           
@@ -5890,7 +5883,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                             row.color = "#ooo"
                                                           }
 
-                                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                          row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                           row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                         }
 
@@ -6030,10 +6023,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                     
 
                                                             if(secureStorage.getItem("user") === json.rows[i].email){
-                                                              row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                              row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                               row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                                             } else {
-                                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                               row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                             }
                                                             
@@ -6068,7 +6061,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                               row.color = "#ooo"
                                                             }
 
-                                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                            row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                             row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                           }
 
@@ -6208,10 +6201,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                       
 
                                                               if(secureStorage.getItem("user") === json.rows[i].email){
-                                                                row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                                row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                                 row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                                               } else {
-                                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                                 row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                               }
                                                               
@@ -6246,7 +6239,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                                 row.color = "#ooo"
                                                               }
 
-                                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                              row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                               row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                             }
 
@@ -6386,10 +6379,10 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                         
 
                                                                 if(secureStorage.getItem("user") === json.rows[i].email){
-                                                                  row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
+                                                                  row.observations = <ObservationsPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user} updateData={this.props.updateData} updateObservations={this.updateObservations.bind(this)}/>
                                                                   row.hours = <HoursPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours} updateData={this.props.updateData} updateHours={this.updateHours.bind(this)}/>
                                                                 } else {
-                                                                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                                  row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                                   row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                                 }
                                                                 
@@ -6424,7 +6417,7 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
                                                                   row.color = "#ooo"
                                                                 }
 
-                                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations}/>
+                                                                row.observations = <ObservationsViewPopUp incidence_number={json.rows[i].incidence_number} observations={json.rows[i].observations} email={json.rows[i].email} username={json.rows[i].user}/>
                                                                 row.hours = <HoursViewPopUp incidence_number={json.rows[i].incidence_number} hours={json.rows[i].hours}/>
                                                               }
 
@@ -6755,8 +6748,8 @@ class QTrackerViewDataTable extends React.Component{ //Tabla de incidencias
   }
 
 
-  async updateObservations(incidence_number, observations){
-    this.props.updateObservations([incidence_number, observations])
+  async updateObservations(incidence_number, observations, email, username){
+    this.props.updateObservations([incidence_number, observations, email, username])
   }
 
   async updateHours(incidence_number, hours){

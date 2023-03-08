@@ -35,6 +35,8 @@ export default class ObservationsPopUp extends Component { //PopUp que muestra l
         this.state = {
             visible : false,
             observations: this.props.observations,
+            email: this.props.email,
+            username: this.props.username,
             obsFull: false,
             updateData: this.props.updateData
         }
@@ -58,7 +60,7 @@ export default class ObservationsPopUp extends Component { //PopUp que muestra l
     }
 
     updateObservations(){
-        this.props.updateObservations(this.props.incidence_number, this.state.observations)
+        this.props.updateObservations(this.props.incidence_number, this.state.observations, this.state.email, this.state.username)
         this.closeModal()
     }
 
