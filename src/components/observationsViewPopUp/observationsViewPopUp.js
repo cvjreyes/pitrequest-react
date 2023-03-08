@@ -34,6 +34,8 @@ export default class ObservationsViewPopUp extends Component { //PopUp que muest
         this.state = {
             visible : false,
             observations: this.props.observations,
+            email: this.props.email,
+            username: this.props.username,
             obsFull: false,
             updateData: this.props.updateData
         }
